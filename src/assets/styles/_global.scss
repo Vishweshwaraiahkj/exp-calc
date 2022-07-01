@@ -1,34 +1,34 @@
 :root {
-  --blue: #007bff;
-  --indigo: #6610f2;
-  --purple: #6f42c1;
-  --pink: #e83e8c;
-  --red: #dc3545;
-  --orange: #fd7e14;
-  --yellow: #ffc107;
-  --green: #28a745;
-  --teal: #20c997;
-  --cyan: #17a2b8;
-  --white: #fff;
-  --gray: #6c757d;
-  --gray-dark: #343a40;
-  --primary: #007bff;
-  --secondary: #6c757d;
-  --success: #28a745;
-  --info: #17a2b8;
-  --warning: #ffc107;
-  --danger: #dc3545;
-  --light: #f8f9fa;
-  --dark: #343a40;
-  --breakpoint-xs: 0;
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
+  --blue                  : #007bff;
+  --indigo                : #6610f2;
+  --purple                : #6f42c1;
+  --pink                  : #e83e8c;
+  --red                   : #dc3545;
+  --orange                : #fd7e14;
+  --yellow                : #ffc107;
+  --green                 : #28a745;
+  --teal                  : #20c997;
+  --cyan                  : #17a2b8;
+  --white                 : #fff;
+  --gray                  : #6c757d;
+  --gray-dark             : #343a40;
+  --primary               : #007bff;
+  --secondary             : #6c757d;
+  --success               : #28a745;
+  --info                  : #17a2b8;
+  --warning               : #ffc107;
+  --danger                : #dc3545;
+  --light                 : #f8f9fa;
+  --dark                  : #343a40;
+  --breakpoint-xs         : 0;
+  --breakpoint-sm         : 576px;
+  --breakpoint-md         : 768px;
+  --breakpoint-lg         : 992px;
+  --breakpoint-xl         : 1200px;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  --global-font-family: "Trebuchet MS", sans-serif;
+  --font-family-monospace : SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --box-shadow            : 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --global-font-family    : "Trebuchet MS", sans-serif;
 }
 
 
@@ -39,27 +39,27 @@
 }
 
 html {
-  font-family: var(--global-font-family);
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
+  font-family                : var(--global-font-family);
+  line-height                : 1.15;
+  -webkit-text-size-adjust   : 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 // mixins
 
 @mixin formControl {
-  display: block;
-  height: calc(1.5em + 0.75rem + 2px);
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
+  display         : block;
+  height          : calc(1.5em + 0.75rem + 2px);
+  padding         : 0.375rem 0.75rem;
+  font-size       : 1rem;
+  font-weight     : 400;
+  line-height     : 1.5;
+  color           : #495057;
   background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-clip : padding-box;
+  border          : 1px solid #ced4da;
+  border-radius   : 0;
+  transition      : border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 
@@ -77,13 +77,13 @@ section {
 }
 
 body {
-  margin: 0;
-  font-family: var(--global-font-family);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  text-align: left;
+  margin          : 0;
+  font-family     : var(--global-font-family);
+  font-size       : 1rem;
+  font-weight     : 400;
+  line-height     : 1.5;
+  color           : #212529;
+  text-align      : left;
   background-color: #fff;
 }
 
@@ -93,8 +93,8 @@ body {
 
 hr {
   box-sizing: content-box;
-  height: 0;
-  overflow: visible;
+  height    : 0;
+  overflow  : visible;
 }
 
 h1,
@@ -103,36 +103,36 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0;
+  margin-top   : 0;
   margin-bottom: 0.5rem;
 }
 
 p {
-  margin-top: 0;
+  margin-top   : 0;
   margin-bottom: 1rem;
 }
 
 abbr[title],
 abbr[data-original-title] {
-  text-decoration: underline;
-  -webkit-text-decoration: underline dotted;
-  text-decoration: underline dotted;
-  cursor: help;
-  border-bottom: 0;
+  text-decoration                 : underline;
+  -webkit-text-decoration         : underline dotted;
+  text-decoration                 : underline dotted;
+  cursor                          : help;
+  border-bottom                   : 0;
   -webkit-text-decoration-skip-ink: none;
-  text-decoration-skip-ink: none;
+  text-decoration-skip-ink        : none;
 }
 
 address {
   margin-bottom: 1rem;
-  font-style: normal;
-  line-height: inherit;
+  font-style   : normal;
+  line-height  : inherit;
 }
 
 ol,
 ul,
 dl {
-  margin-top: 0;
+  margin-top   : 0;
   margin-bottom: 1rem;
 }
 
@@ -149,7 +149,7 @@ dt {
 
 dd {
   margin-bottom: .5rem;
-  margin-left: 0;
+  margin-left  : 0;
 }
 
 blockquote {
@@ -167,9 +167,9 @@ small {
 
 sub,
 sup {
-  position: relative;
-  font-size: 75%;
-  line-height: 0;
+  position      : relative;
+  font-size     : 75%;
+  line-height   : 0;
   vertical-align: baseline;
 }
 
@@ -182,24 +182,24 @@ sup {
 }
 
 a {
-  color: #007bff;
-  text-decoration: none;
+  color           : #007bff;
+  text-decoration : none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #0056b3;
+  color          : #0056b3;
   text-decoration: underline;
 }
 
 a:not([href]):not([tabindex]) {
-  color: inherit;
+  color          : inherit;
   text-decoration: none;
 }
 
 a:not([href]):not([tabindex]):hover,
 a:not([href]):not([tabindex]):focus {
-  color: inherit;
+  color          : inherit;
   text-decoration: none;
 }
 
@@ -208,18 +208,18 @@ a:not([href]):not([tabindex]):focus {
 }
 
 pre {
-  margin-top: 0;
+  margin-top   : 0;
   margin-bottom: 1rem;
-  overflow: auto;
+  overflow     : auto;
 }
 
 img {
   vertical-align: middle;
-  border-style: none;
+  border-style  : none;
 }
 
 svg {
-  overflow: hidden;
+  overflow      : hidden;
   vertical-align: middle;
 }
 
@@ -228,11 +228,11 @@ table {
 }
 
 caption {
-  padding-top: 0.75rem;
+  padding-top   : 0.75rem;
   padding-bottom: 0.75rem;
-  color: #6c757d;
-  text-align: left;
-  caption-side: bottom;
+  color         : #6c757d;
+  text-align    : left;
+  caption-side  : bottom;
 }
 
 th {
@@ -240,7 +240,7 @@ th {
 }
 
 label {
-  display: inline-block;
+  display      : inline-block;
   margin-bottom: 0.5rem;
 }
 
@@ -251,7 +251,7 @@ button {
 button,
 input {
   overflow: visible;
-  padding: 2px 10px;
+  padding : 2px 10px;
 }
 
 button:focus,
@@ -265,9 +265,9 @@ select,
 optgroup,
 textarea {
   display: block;
-  border: none;
-  height: 100%;
-  width: 100%;
+  border : none;
+  height : 100%;
+  width  : 100%;
 }
 
 button,
@@ -297,7 +297,7 @@ button::-moz-focus-inner,
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
 [type="submit"]::-moz-focus-inner {
-  padding: 0;
+  padding     : 0;
   border-style: none;
 }
 
@@ -305,9 +305,9 @@ input {
 
   &[type="checkbox"],
   &[type="radio"] {
-    width: auto;
+    width     : auto;
     box-sizing: border-box;
-    padding: 0;
+    padding   : 0;
   }
 
   &[type="date"],
@@ -320,26 +320,26 @@ input {
 
 textarea {
   overflow: auto;
-  resize: vertical;
+  resize  : vertical;
 }
 
 fieldset {
   min-width: 0;
-  padding: 0;
-  margin: 0;
-  border: 0;
+  padding  : 0;
+  margin   : 0;
+  border   : 0;
 }
 
 legend {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
+  display      : block;
+  width        : 100%;
+  max-width    : 100%;
+  padding      : 0;
   margin-bottom: .5rem;
-  font-size: 1.5rem;
-  line-height: inherit;
-  color: inherit;
-  white-space: normal;
+  font-size    : 1.5rem;
+  line-height  : inherit;
+  color        : inherit;
+  white-space  : normal;
 }
 
 progress {
@@ -352,7 +352,7 @@ progress {
 }
 
 [type="search"] {
-  outline-offset: -2px;
+  outline-offset    : -2px;
   -webkit-appearance: none;
 }
 
@@ -361,7 +361,7 @@ progress {
 }
 
 ::-webkit-file-upload-button {
-  font: inherit;
+  font              : inherit;
   -webkit-appearance: button;
 }
 
@@ -371,7 +371,7 @@ output {
 
 summary {
   display: list-item;
-  cursor: pointer;
+  cursor : pointer;
 }
 
 template {
@@ -395,8 +395,8 @@ h6,
 .h5,
 .h6 {
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  line-height: 1.2;
+  font-weight  : 500;
+  line-height  : 1.2;
 }
 
 h1,
@@ -430,35 +430,35 @@ h6,
 }
 
 hr {
-  margin-top: 1rem;
+  margin-top   : 1rem;
   margin-bottom: 1rem;
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border       : 0;
+  border-top   : 1px solid rgba(0, 0, 0, 0.1);
 }
 
 small,
 .small {
-  font-size: 80%;
+  font-size  : 80%;
   font-weight: 400;
 }
 
 .img-fluid {
   max-width: 100%;
-  height: auto;
+  height   : auto;
 }
 
 .img-thumbnail {
-  padding: 0.25rem;
+  padding         : 0.25rem;
   background-color: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 0.25rem;
-  max-width: 100%;
-  height: auto;
+  border          : 1px solid #dee2e6;
+  border-radius   : 0.25rem;
+  max-width       : 100%;
+  height          : auto;
 }
 
 code {
-  font-size: 87.5%;
-  color: #e83e8c;
+  font-size : 87.5%;
+  color     : #e83e8c;
   word-break: break-word;
 }
 
@@ -467,23 +467,23 @@ a>code {
 }
 
 pre {
-  display: block;
+  display  : block;
   font-size: 87.5%;
-  color: #212529;
+  color    : #212529;
 }
 
 pre code {
-  font-size: inherit;
-  color: inherit;
+  font-size : inherit;
+  color     : inherit;
   word-break: normal;
 }
 
 .container {
-  width: 100%;
+  width        : 100%;
   padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  padding-left : 15px;
+  margin-right : auto;
+  margin-left  : auto;
 }
 
 @media (min-width: 576px) {
@@ -511,31 +511,31 @@ pre code {
 }
 
 .container-fluid {
-  width: 100%;
+  width        : 100%;
   padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  padding-left : 15px;
+  margin-right : auto;
+  margin-left  : auto;
 }
 
 .row {
-  display: -ms-flexbox;
-  display: flex;
+  display      : -ms-flexbox;
+  display      : flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  flex-wrap    : wrap;
+  margin-right : -15px;
+  margin-left  : -15px;
 }
 
 .no-gutters {
   margin-right: 0;
-  margin-left: 0;
+  margin-left : 0;
 }
 
 .no-gutters>.col,
 .no-gutters>[class*="col-"] {
   padding-right: 0;
-  padding-left: 0;
+  padding-left : 0;
 }
 
 .col-1,
@@ -552,184 +552,184 @@ pre code {
 .col-12,
 .col,
 .col-auto {
-  position: relative;
-  width: 100%;
+  position     : relative;
+  width        : 100%;
   padding-right: 15px;
-  padding-left: 15px;
+  padding-left : 15px;
 }
 
 .col {
   -ms-flex-preferred-size: 0;
-  flex-basis: 0;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  max-width: 100%;
+  flex-basis             : 0;
+  -ms-flex-positive      : 1;
+  flex-grow              : 1;
+  max-width              : 100%;
 }
 
 .col-auto {
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-  width: auto;
+  -ms-flex : 0 0 auto;
+  flex     : 0 0 auto;
+  width    : auto;
   max-width: 100%;
 }
 
 .col-1 {
-  -ms-flex: 0 0 8.333333%;
-  flex: 0 0 8.333333%;
+  -ms-flex : 0 0 8.333333%;
+  flex     : 0 0 8.333333%;
   max-width: 8.333333%;
 }
 
 .col-2 {
-  -ms-flex: 0 0 16.666667%;
-  flex: 0 0 16.666667%;
+  -ms-flex : 0 0 16.666667%;
+  flex     : 0 0 16.666667%;
   max-width: 16.666667%;
 }
 
 .col-3 {
-  -ms-flex: 0 0 25%;
-  flex: 0 0 25%;
+  -ms-flex : 0 0 25%;
+  flex     : 0 0 25%;
   max-width: 25%;
 }
 
 .col-4 {
-  -ms-flex: 0 0 33.333333%;
-  flex: 0 0 33.333333%;
+  -ms-flex : 0 0 33.333333%;
+  flex     : 0 0 33.333333%;
   max-width: 33.333333%;
 }
 
 .col-5 {
-  -ms-flex: 0 0 41.666667%;
-  flex: 0 0 41.666667%;
+  -ms-flex : 0 0 41.666667%;
+  flex     : 0 0 41.666667%;
   max-width: 41.666667%;
 }
 
 .col-6 {
-  -ms-flex: 0 0 50%;
-  flex: 0 0 50%;
+  -ms-flex : 0 0 50%;
+  flex     : 0 0 50%;
   max-width: 50%;
 }
 
 .col-7 {
-  -ms-flex: 0 0 58.333333%;
-  flex: 0 0 58.333333%;
+  -ms-flex : 0 0 58.333333%;
+  flex     : 0 0 58.333333%;
   max-width: 58.333333%;
 }
 
 .col-8 {
-  -ms-flex: 0 0 66.666667%;
-  flex: 0 0 66.666667%;
+  -ms-flex : 0 0 66.666667%;
+  flex     : 0 0 66.666667%;
   max-width: 66.666667%;
 }
 
 .col-9 {
-  -ms-flex: 0 0 75%;
-  flex: 0 0 75%;
+  -ms-flex : 0 0 75%;
+  flex     : 0 0 75%;
   max-width: 75%;
 }
 
 .col-10 {
-  -ms-flex: 0 0 83.333333%;
-  flex: 0 0 83.333333%;
+  -ms-flex : 0 0 83.333333%;
+  flex     : 0 0 83.333333%;
   max-width: 83.333333%;
 }
 
 .col-11 {
-  -ms-flex: 0 0 91.666667%;
-  flex: 0 0 91.666667%;
+  -ms-flex : 0 0 91.666667%;
+  flex     : 0 0 91.666667%;
   max-width: 91.666667%;
 }
 
 .col-12 {
-  -ms-flex: 0 0 100%;
-  flex: 0 0 100%;
+  -ms-flex : 0 0 100%;
+  flex     : 0 0 100%;
   max-width: 100%;
 }
 
 @media (min-width: 576px) {
   .col {
     -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
+    flex-basis             : 0;
+    -ms-flex-positive      : 1;
+    flex-grow              : 1;
+    max-width              : 100%;
   }
 
   .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
+    -ms-flex : 0 0 auto;
+    flex     : 0 0 auto;
+    width    : auto;
     max-width: 100%;
   }
 
   .col-1 {
-    -ms-flex: 0 0 8.333333%;
-    flex: 0 0 8.333333%;
+    -ms-flex : 0 0 8.333333%;
+    flex     : 0 0 8.333333%;
     max-width: 8.333333%;
   }
 
   .col-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
+    -ms-flex : 0 0 16.666667%;
+    flex     : 0 0 16.666667%;
     max-width: 16.666667%;
   }
 
   .col-3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
+    -ms-flex : 0 0 25%;
+    flex     : 0 0 25%;
     max-width: 25%;
   }
 
   .col-4 {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
+    -ms-flex : 0 0 33.333333%;
+    flex     : 0 0 33.333333%;
     max-width: 33.333333%;
   }
 
   .col-5 {
-    -ms-flex: 0 0 41.666667%;
-    flex: 0 0 41.666667%;
+    -ms-flex : 0 0 41.666667%;
+    flex     : 0 0 41.666667%;
     max-width: 41.666667%;
   }
 
   .col-6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
+    -ms-flex : 0 0 50%;
+    flex     : 0 0 50%;
     max-width: 50%;
   }
 
   .col-7 {
-    -ms-flex: 0 0 58.333333%;
-    flex: 0 0 58.333333%;
+    -ms-flex : 0 0 58.333333%;
+    flex     : 0 0 58.333333%;
     max-width: 58.333333%;
   }
 
   .col-8 {
-    -ms-flex: 0 0 66.666667%;
-    flex: 0 0 66.666667%;
+    -ms-flex : 0 0 66.666667%;
+    flex     : 0 0 66.666667%;
     max-width: 66.666667%;
   }
 
   .col-9 {
-    -ms-flex: 0 0 75%;
-    flex: 0 0 75%;
+    -ms-flex : 0 0 75%;
+    flex     : 0 0 75%;
     max-width: 75%;
   }
 
   .col-10 {
-    -ms-flex: 0 0 83.333333%;
-    flex: 0 0 83.333333%;
+    -ms-flex : 0 0 83.333333%;
+    flex     : 0 0 83.333333%;
     max-width: 83.333333%;
   }
 
   .col-11 {
-    -ms-flex: 0 0 91.666667%;
-    flex: 0 0 91.666667%;
+    -ms-flex : 0 0 91.666667%;
+    flex     : 0 0 91.666667%;
     max-width: 91.666667%;
   }
 
   .col-12 {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
+    -ms-flex : 0 0 100%;
+    flex     : 0 0 100%;
     max-width: 100%;
   }
 }
@@ -737,88 +737,88 @@ pre code {
 @media (min-width: 768px) {
   .col {
     -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
+    flex-basis             : 0;
+    -ms-flex-positive      : 1;
+    flex-grow              : 1;
+    max-width              : 100%;
   }
 
   .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
+    -ms-flex : 0 0 auto;
+    flex     : 0 0 auto;
+    width    : auto;
     max-width: 100%;
   }
 
   .col-1 {
-    -ms-flex: 0 0 8.333333%;
-    flex: 0 0 8.333333%;
+    -ms-flex : 0 0 8.333333%;
+    flex     : 0 0 8.333333%;
     max-width: 8.333333%;
   }
 
   .col-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
+    -ms-flex : 0 0 16.666667%;
+    flex     : 0 0 16.666667%;
     max-width: 16.666667%;
   }
 
   .col-3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
+    -ms-flex : 0 0 25%;
+    flex     : 0 0 25%;
     max-width: 25%;
   }
 
   .col-4 {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
+    -ms-flex : 0 0 33.333333%;
+    flex     : 0 0 33.333333%;
     max-width: 33.333333%;
   }
 
   .col-5 {
-    -ms-flex: 0 0 41.666667%;
-    flex: 0 0 41.666667%;
+    -ms-flex : 0 0 41.666667%;
+    flex     : 0 0 41.666667%;
     max-width: 41.666667%;
   }
 
   .col-6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
+    -ms-flex : 0 0 50%;
+    flex     : 0 0 50%;
     max-width: 50%;
   }
 
   .col-7 {
-    -ms-flex: 0 0 58.333333%;
-    flex: 0 0 58.333333%;
+    -ms-flex : 0 0 58.333333%;
+    flex     : 0 0 58.333333%;
     max-width: 58.333333%;
   }
 
   .col-8 {
-    -ms-flex: 0 0 66.666667%;
-    flex: 0 0 66.666667%;
+    -ms-flex : 0 0 66.666667%;
+    flex     : 0 0 66.666667%;
     max-width: 66.666667%;
   }
 
   .col-9 {
-    -ms-flex: 0 0 75%;
-    flex: 0 0 75%;
+    -ms-flex : 0 0 75%;
+    flex     : 0 0 75%;
     max-width: 75%;
   }
 
   .col-10 {
-    -ms-flex: 0 0 83.333333%;
-    flex: 0 0 83.333333%;
+    -ms-flex : 0 0 83.333333%;
+    flex     : 0 0 83.333333%;
     max-width: 83.333333%;
   }
 
   .col-11 {
-    -ms-flex: 0 0 91.666667%;
-    flex: 0 0 91.666667%;
+    -ms-flex : 0 0 91.666667%;
+    flex     : 0 0 91.666667%;
     max-width: 91.666667%;
   }
 
   .col-12 {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
+    -ms-flex : 0 0 100%;
+    flex     : 0 0 100%;
     max-width: 100%;
   }
 }
@@ -826,88 +826,88 @@ pre code {
 @media (min-width: 992px) {
   .col {
     -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
+    flex-basis             : 0;
+    -ms-flex-positive      : 1;
+    flex-grow              : 1;
+    max-width              : 100%;
   }
 
   .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
+    -ms-flex : 0 0 auto;
+    flex     : 0 0 auto;
+    width    : auto;
     max-width: 100%;
   }
 
   .col-1 {
-    -ms-flex: 0 0 8.333333%;
-    flex: 0 0 8.333333%;
+    -ms-flex : 0 0 8.333333%;
+    flex     : 0 0 8.333333%;
     max-width: 8.333333%;
   }
 
   .col-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
+    -ms-flex : 0 0 16.666667%;
+    flex     : 0 0 16.666667%;
     max-width: 16.666667%;
   }
 
   .col-3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
+    -ms-flex : 0 0 25%;
+    flex     : 0 0 25%;
     max-width: 25%;
   }
 
   .col-4 {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
+    -ms-flex : 0 0 33.333333%;
+    flex     : 0 0 33.333333%;
     max-width: 33.333333%;
   }
 
   .col-5 {
-    -ms-flex: 0 0 41.666667%;
-    flex: 0 0 41.666667%;
+    -ms-flex : 0 0 41.666667%;
+    flex     : 0 0 41.666667%;
     max-width: 41.666667%;
   }
 
   .col-6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
+    -ms-flex : 0 0 50%;
+    flex     : 0 0 50%;
     max-width: 50%;
   }
 
   .col-7 {
-    -ms-flex: 0 0 58.333333%;
-    flex: 0 0 58.333333%;
+    -ms-flex : 0 0 58.333333%;
+    flex     : 0 0 58.333333%;
     max-width: 58.333333%;
   }
 
   .col-8 {
-    -ms-flex: 0 0 66.666667%;
-    flex: 0 0 66.666667%;
+    -ms-flex : 0 0 66.666667%;
+    flex     : 0 0 66.666667%;
     max-width: 66.666667%;
   }
 
   .col-9 {
-    -ms-flex: 0 0 75%;
-    flex: 0 0 75%;
+    -ms-flex : 0 0 75%;
+    flex     : 0 0 75%;
     max-width: 75%;
   }
 
   .col-10 {
-    -ms-flex: 0 0 83.333333%;
-    flex: 0 0 83.333333%;
+    -ms-flex : 0 0 83.333333%;
+    flex     : 0 0 83.333333%;
     max-width: 83.333333%;
   }
 
   .col-11 {
-    -ms-flex: 0 0 91.666667%;
-    flex: 0 0 91.666667%;
+    -ms-flex : 0 0 91.666667%;
+    flex     : 0 0 91.666667%;
     max-width: 91.666667%;
   }
 
   .col-12 {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
+    -ms-flex : 0 0 100%;
+    flex     : 0 0 100%;
     max-width: 100%;
   }
 }
@@ -915,88 +915,88 @@ pre code {
 @media (min-width: 1200px) {
   .col {
     -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
+    flex-basis             : 0;
+    -ms-flex-positive      : 1;
+    flex-grow              : 1;
+    max-width              : 100%;
   }
 
   .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
+    -ms-flex : 0 0 auto;
+    flex     : 0 0 auto;
+    width    : auto;
     max-width: 100%;
   }
 
   .col-1 {
-    -ms-flex: 0 0 8.333333%;
-    flex: 0 0 8.333333%;
+    -ms-flex : 0 0 8.333333%;
+    flex     : 0 0 8.333333%;
     max-width: 8.333333%;
   }
 
   .col-2 {
-    -ms-flex: 0 0 16.666667%;
-    flex: 0 0 16.666667%;
+    -ms-flex : 0 0 16.666667%;
+    flex     : 0 0 16.666667%;
     max-width: 16.666667%;
   }
 
   .col-3 {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25%;
+    -ms-flex : 0 0 25%;
+    flex     : 0 0 25%;
     max-width: 25%;
   }
 
   .col-4 {
-    -ms-flex: 0 0 33.333333%;
-    flex: 0 0 33.333333%;
+    -ms-flex : 0 0 33.333333%;
+    flex     : 0 0 33.333333%;
     max-width: 33.333333%;
   }
 
   .col-5 {
-    -ms-flex: 0 0 41.666667%;
-    flex: 0 0 41.666667%;
+    -ms-flex : 0 0 41.666667%;
+    flex     : 0 0 41.666667%;
     max-width: 41.666667%;
   }
 
   .col-6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
+    -ms-flex : 0 0 50%;
+    flex     : 0 0 50%;
     max-width: 50%;
   }
 
   .col-7 {
-    -ms-flex: 0 0 58.333333%;
-    flex: 0 0 58.333333%;
+    -ms-flex : 0 0 58.333333%;
+    flex     : 0 0 58.333333%;
     max-width: 58.333333%;
   }
 
   .col-8 {
-    -ms-flex: 0 0 66.666667%;
-    flex: 0 0 66.666667%;
+    -ms-flex : 0 0 66.666667%;
+    flex     : 0 0 66.666667%;
     max-width: 66.666667%;
   }
 
   .col-9 {
-    -ms-flex: 0 0 75%;
-    flex: 0 0 75%;
+    -ms-flex : 0 0 75%;
+    flex     : 0 0 75%;
     max-width: 75%;
   }
 
   .col-10 {
-    -ms-flex: 0 0 83.333333%;
-    flex: 0 0 83.333333%;
+    -ms-flex : 0 0 83.333333%;
+    flex     : 0 0 83.333333%;
     max-width: 83.333333%;
   }
 
   .col-11 {
-    -ms-flex: 0 0 91.666667%;
-    flex: 0 0 91.666667%;
+    -ms-flex : 0 0 91.666667%;
+    flex     : 0 0 91.666667%;
     max-width: 91.666667%;
   }
 
   .col-12 {
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
+    -ms-flex : 0 0 100%;
+    flex     : 0 0 100%;
     max-width: 100%;
   }
 }
@@ -1021,64 +1021,64 @@ pre code {
 
 .form-control::-ms-expand {
   background-color: transparent;
-  border: 0;
+  border          : 0;
 }
 
 .form-control:focus {
-  color: #495057;
+  color           : #495057;
   background-color: #fff;
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color    : #80bdff;
+  outline         : 0;
+  box-shadow      : 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #6c757d;
+  color  : #6c757d;
   opacity: 1;
 }
 
 .form-control::-moz-placeholder {
-  color: #6c757d;
+  color  : #6c757d;
   opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-  color: #6c757d;
+  color  : #6c757d;
   opacity: 1;
 }
 
 .form-control::-ms-input-placeholder {
-  color: #6c757d;
+  color  : #6c757d;
   opacity: 1;
 }
 
 .form-control::placeholder {
-  color: #6c757d;
+  color  : #6c757d;
   opacity: 1;
 }
 
 .form-control:disabled,
 .form-control[readonly] {
   background-color: #e9ecef;
-  opacity: 1;
+  opacity         : 1;
 }
 
 .btn {
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  vertical-align: middle;
+  display            : inline-block;
+  font-weight        : 400;
+  text-align         : center;
+  vertical-align     : middle;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 0;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -moz-user-select   : none;
+  -ms-user-select    : none;
+  user-select        : none;
+  background-color   : transparent;
+  border             : 1px solid transparent;
+  padding            : 0.375rem 0.75rem;
+  font-size          : 1rem;
+  line-height        : 1.5;
+  border-radius      : 0;
+  transition         : color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1088,13 +1088,13 @@ pre code {
 }
 
 .btn:hover {
-  color: #212529;
+  color          : #212529;
   text-decoration: none;
 }
 
 .btn:focus,
 .btn.focus {
-  outline: 0;
+  outline   : 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
@@ -1109,15 +1109,15 @@ fieldset:disabled a.btn {
 }
 
 .btn-primary {
-  color: #fff;
+  color           : #fff;
   background-color: #007bff;
-  border-color: #007bff;
+  border-color    : #007bff;
 }
 
 .btn-primary:hover {
-  color: #fff;
+  color           : #fff;
   background-color: #0069d9;
-  border-color: #0062cc;
+  border-color    : #0062cc;
 }
 
 .btn-primary:focus,
@@ -1127,21 +1127,21 @@ fieldset:disabled a.btn {
 
 .btn-primary.disabled,
 .btn-primary:disabled {
-  color: #fff;
+  color           : #fff;
   background-color: #007bff;
-  border-color: #007bff;
+  border-color    : #007bff;
 }
 
 .btn-secondary {
-  color: #fff;
+  color           : #fff;
   background-color: #6c757d;
-  border-color: #6c757d;
+  border-color    : #6c757d;
 }
 
 .btn-secondary:hover {
-  color: #fff;
+  color           : #fff;
   background-color: #5a6268;
-  border-color: #545b62;
+  border-color    : #545b62;
 }
 
 .btn-secondary:focus,
@@ -1151,21 +1151,21 @@ fieldset:disabled a.btn {
 
 .btn-secondary.disabled,
 .btn-secondary:disabled {
-  color: #fff;
+  color           : #fff;
   background-color: #6c757d;
-  border-color: #6c757d;
+  border-color    : #6c757d;
 }
 
 .btn-success {
-  color: #fff;
+  color           : #fff;
   background-color: #28a745;
-  border-color: #28a745;
+  border-color    : #28a745;
 }
 
 .btn-success:hover {
-  color: #fff;
+  color           : #fff;
   background-color: #218838;
-  border-color: #1e7e34;
+  border-color    : #1e7e34;
 }
 
 .btn-success:focus,
@@ -1175,21 +1175,21 @@ fieldset:disabled a.btn {
 
 .btn-success.disabled,
 .btn-success:disabled {
-  color: #fff;
+  color           : #fff;
   background-color: #28a745;
-  border-color: #28a745;
+  border-color    : #28a745;
 }
 
 .btn-info {
-  color: #fff;
+  color           : #fff;
   background-color: #17a2b8;
-  border-color: #17a2b8;
+  border-color    : #17a2b8;
 }
 
 .btn-info:hover {
-  color: #fff;
+  color           : #fff;
   background-color: #138496;
-  border-color: #117a8b;
+  border-color    : #117a8b;
 }
 
 .btn-info:focus,
@@ -1199,21 +1199,21 @@ fieldset:disabled a.btn {
 
 .btn-info.disabled,
 .btn-info:disabled {
-  color: #fff;
+  color           : #fff;
   background-color: #17a2b8;
-  border-color: #17a2b8;
+  border-color    : #17a2b8;
 }
 
 .btn-warning {
-  color: #212529;
+  color           : #212529;
   background-color: #ffc107;
-  border-color: #ffc107;
+  border-color    : #ffc107;
 }
 
 .btn-warning:hover {
-  color: #212529;
+  color           : #212529;
   background-color: #e0a800;
-  border-color: #d39e00;
+  border-color    : #d39e00;
 }
 
 .btn-warning:focus,
@@ -1223,21 +1223,21 @@ fieldset:disabled a.btn {
 
 .btn-warning.disabled,
 .btn-warning:disabled {
-  color: #212529;
+  color           : #212529;
   background-color: #ffc107;
-  border-color: #ffc107;
+  border-color    : #ffc107;
 }
 
 .btn-danger {
-  color: #fff;
+  color           : #fff;
   background-color: #dc3545;
-  border-color: #dc3545;
+  border-color    : #dc3545;
 }
 
 .btn-danger:hover {
-  color: #fff;
+  color           : #fff;
   background-color: #c82333;
-  border-color: #bd2130;
+  border-color    : #bd2130;
 }
 
 .btn-danger:focus,
@@ -1247,17 +1247,17 @@ fieldset:disabled a.btn {
 
 .btn-danger.disabled,
 .btn-danger:disabled {
-  color: #fff;
+  color           : #fff;
   background-color: #dc3545;
-  border-color: #dc3545;
+  border-color    : #dc3545;
 }
 
 #app {
-  font-family: var(--global-font-family);
-  -webkit-font-smoothing: antialiased;
+  font-family            : var(--global-font-family);
+  -webkit-font-smoothing : antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  text-align             : center;
+  color                  : #2c3e50;
 }
 
 nav {
@@ -1265,7 +1265,7 @@ nav {
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color      : #2c3e50;
 
     &.router-link-exact-active {
       color: #42b983;
@@ -1275,46 +1275,46 @@ nav {
 
 header,
 .header {
-  padding: 2%;
+  padding         : 2%;
   background-color: $background-color;
-  font-size: 50px;
-  text-align: center;
-  width: auto;
-  color: white;
+  font-size       : 50px;
+  text-align      : center;
+  width           : auto;
+  color           : white;
 }
 
 footer,
 .footer {
-  padding: 2%;
+  padding         : 2%;
   background-color: $red-color;
-  font-size: 50px;
-  text-align: center;
-  width: auto;
+  font-size       : 50px;
+  text-align      : center;
+  width           : auto;
 }
 
 .card {
-  position: relative;
-  display: -ms-flexbox;
-  display: flex;
+  position          : relative;
+  display           : -ms-flexbox;
+  display           : flex;
   -ms-flex-direction: column;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: #fff;
-  background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  flex-direction    : column;
+  min-width         : 0;
+  word-wrap         : break-word;
+  background-color  : #fff;
+  background-clip   : border-box;
+  border            : 1px solid rgba(0, 0, 0, 0.125);
+  border-radius     : 0.25rem;
 }
 
 .card>hr {
   margin-right: 0;
-  margin-left: 0;
+  margin-left : 0;
 }
 
 .card-body {
   -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  padding: 1.25rem;
+  flex    : 1 1 auto;
+  padding : 1.25rem;
 }
 
 .card-title {
@@ -1322,7 +1322,7 @@ footer,
 }
 
 .card-subtitle {
-  margin-top: -0.375rem;
+  margin-top   : -0.375rem;
   margin-bottom: 0;
 }
 
@@ -1339,10 +1339,10 @@ footer,
 }
 
 .card-header {
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 0;
+  padding         : 0.75rem 1.25rem;
+  margin-bottom   : 0;
   background-color: rgba(0, 0, 0, 0.03);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom   : 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-header:first-child {
@@ -1354,9 +1354,9 @@ footer,
 }
 
 .card-footer {
-  padding: 0.75rem 1.25rem;
+  padding         : 0.75rem 1.25rem;
   background-color: rgba(0, 0, 0, 0.03);
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-top      : 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-footer:last-child {
@@ -1365,26 +1365,26 @@ footer,
 
 .fixed-top {
   position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1030;
+  top     : 0;
+  right   : 0;
+  left    : 0;
+  z-index : 1030;
 }
 
 .fixed-bottom {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1030;
+  right   : 0;
+  bottom  : 0;
+  left    : 0;
+  z-index : 1030;
 }
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
     position: -webkit-sticky;
     position: sticky;
-    top: 0;
-    z-index: 1020;
+    top     : 0;
+    z-index : 1020;
   }
 }
 
@@ -1427,29 +1427,29 @@ footer,
 }
 
 .grid-container {
-  display: grid;
-  gap: 1%;
+  display              : grid;
+  gap                  : 1%;
   grid-template-columns: repeat(auto-fit, minmax(32.33333%, 2fr));
-  background-color: #2196F3;
-  padding: 1rem;
+  background-color     : #2196F3;
+  padding              : 1rem;
 }
 
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 1rem;
-  font-size: 30px;
-  text-align: center;
-  grid-column: span 1;
+  border          : 1px solid rgba(0, 0, 0, 0.8);
+  padding         : 1rem;
+  font-size       : 30px;
+  text-align      : center;
+  grid-column     : span 1;
 }
 
 #bodyOverlay {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
+  top     : 0px;
+  left    : 0px;
+  width   : 100%;
+  height  : 100%;
+  z-index : 100;
 
   &.dark {
     background-color: #0000003f;
@@ -1462,17 +1462,17 @@ footer,
 
 .exp-container {
   background-color: #fff;
-  box-shadow: var(--box-shadow);
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px auto;
+  box-shadow      : var(--box-shadow);
+  padding         : 20px;
+  display         : flex;
+  justify-content : space-between;
+  margin          : 20px auto;
 }
 
 .exp-container>div {
-  flex: 1;
+  flex      : 1;
   text-align: center;
-  padding: 1rem;
+  padding   : 1rem;
 }
 
 .exp-container>div:first-of-type {
@@ -1480,10 +1480,10 @@ footer,
 }
 
 .money {
-  font-size: 20px;
+  font-size     : 20px;
   letter-spacing: 1px;
-  margin: 5px 0;
-  white-space: nowrap;
+  margin        : 5px 0;
+  white-space   : nowrap;
 }
 
 .money.plus {
@@ -1496,19 +1496,19 @@ footer,
 
 .list {
   list-style-type: none;
-  padding: 0;
-  margin-bottom: 40px;
+  padding        : 0;
+  margin-bottom  : 40px;
 }
 
 .list li {
   background-color: #fff;
-  box-shadow: var(--box-shadow);
-  color: #333;
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  padding: 10px;
-  margin: 10px 0;
+  box-shadow      : var(--box-shadow);
+  color           : #333;
+  display         : flex;
+  justify-content : space-between;
+  position        : relative;
+  padding         : 10px;
+  margin          : 10px 0;
 }
 
 .list li.plus {
@@ -1520,14 +1520,14 @@ footer,
 }
 
 .flex-center {
-  display: flex;
-  align-items: center;
+  display      : flex;
+  align-items  : center;
   align-content: center;
-  align-self: center;
+  align-self   : center;
 }
 
 .input-label {
-  width: 100%;
+  width     : 100%;
   text-align: left;
 }
 
@@ -1564,5 +1564,156 @@ footer,
 
   &4 {
     padding-top: 4rem;
+  }
+}
+
+// Table styles
+.table {
+  width           : 100%;
+  max-width       : 100%;
+  margin-bottom   : 2rem;
+  background-color: $table-bg;
+
+  >thead,
+  >tbody,
+  >tfoot {
+    >tr {
+
+      >th,
+      >td {
+        text-align    : left;
+        padding       : $table-cell-padding;
+        vertical-align: top;
+        border-top    : 0;
+      }
+    }
+  }
+
+  >thead>tr>th {
+    font-weight   : $table-header-font-weight;
+    color         : $table-header-font-color;
+    vertical-align: bottom;
+    border-bottom : 1px solid rgba(0, 0, 0, .12);
+  }
+
+  >caption+thead,
+  >colgroup+thead,
+  >thead:first-child {
+    >tr:first-child {
+
+      >th,
+      >td {
+        border-top: 0;
+      }
+    }
+  }
+
+  >tbody+tbody {
+    border-top: 1px solid rgba(0, 0, 0, .12);
+  }
+
+  // Nesting
+  .table {
+    background-color: $table-bg;
+  }
+
+  // Remove border
+  .no-border {
+    border: 0;
+  }
+}
+
+// Zebra-striping
+// Default zebra-stripe styles (alternating gray and transparent backgrounds)
+.table-striped {
+  >tbody>tr:nth-child(odd) {
+
+    >td,
+    >th {
+      background-color: $table-bg-accent;
+    }
+  }
+}
+
+// Hover effect
+.table-hover {
+  >tbody>tr:hover {
+
+    >td,
+    >th {
+      background-color: $table-bg-hover;
+      border          : 0;
+      border-bottom   : 1px solid $table-border-color;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  // Tighten up spacing
+  >.table {
+    margin-bottom   : 0;
+    background-color: transparent;
+
+    >thead,
+    >tfoot {
+      display: none;
+    }
+
+    >tbody {
+      display: block;
+
+      >tr {
+        display      : block;
+        border       : 1px solid $table-border-color;
+        border-radius: 2px;
+        margin-bottom: $table-cell-padding;
+
+        >td {
+          background-color: $table-bg;
+          display         : inline-block;
+          vertical-align  : middle;
+          text-align      : right;
+        }
+
+        >td[data-title]:before {
+          content    : attr(data-title);
+          float      : left;
+          font-size  : inherit;
+          font-weight: $table-header-font-weight;
+          color      : $table-header-font-color;
+        }
+      }
+    }
+  }
+
+  // Special overrides for the striped tables
+  >.table-striped {
+
+    >tbody>tr>td,
+    >tbody>tr:nth-child(odd) {
+      background-color: $table-bg;
+    }
+
+    >tbody>tr>td:nth-child(odd) {
+      border          : 0;
+      border-bottom   : 1px solid $table-border-color;
+      background-color: $table-bg-accent;
+    }
+  }
+
+  // Special overrides for hover tables
+  >.table-hover {
+    >tbody {
+
+      >tr:hover>td,
+      >tr:hover {
+        background-color: $table-bg;
+      }
+
+      >tr>td:hover {
+        background-color: $table-bg-hover;
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="display-board pt-3">
+  <div class="col-4 pt-3">
     <h4 class="balance-box">Your Balance</h4>
     <h1 id="balance" class="balance-amount">Rs. {{ balanceMoney }}</h1>
     <div class="exp-container">
@@ -21,7 +21,7 @@
 <script>
 import { ref } from 'vue'
 export default {
-  name: 'DisplayBoard',
+  name: 'BriefBoard',
   props: {
     balanceAmount: {
       default: 0,

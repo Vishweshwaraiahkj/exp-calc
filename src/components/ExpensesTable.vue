@@ -1,7 +1,7 @@
 <template>
-  <div class="row">
+  <div class="col-12">
     <h2>ExpensesTable</h2>
-    <table class="table table-bordered">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Type</th>
@@ -11,11 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in filteredUsers" :key="item.id">
-          <td>{{ `type` }}</td>
-          <td>{{ `amount` }}</td>
-          <td>{{ `date` }}</td>
-          <td>{{ `category` }}</td>
+        <tr v-for="item in filteredData()" :key="item.id">
+          <td>{{ item.type }}</td>
+          <td>{{ item.amount }}</td>
+          <td>{{ item.category }}</td>
+          <td>{{ item.date }}</td>
         </tr>
       </tbody>
     </table>
@@ -25,12 +25,21 @@
 <script>
 export default {
   name: 'ExpensesTable',
-  props: ['users'],
-  computed: {
-    filteredUsers () {
-      return this.users?.filter(
-        (u) => u.id && (u.firstName || u.lastName || u.email)
+  props: {
+    expensesObject: {
+      type: Array,
+      default: () => { },
+      required: true
+    }
+  },
+  setup (props) {
+    const filteredData = () => {
+      return props.expensesObject?.filter(
+        (u) => u.type && u.category && u.amount && u.date
       )
+    }
+    return {
+      filteredData
     }
   }
 }
