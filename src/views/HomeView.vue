@@ -1,18 +1,53 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/icons/wink-emoji-svgrepo-com.svg" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="dashboard">
+    <AppHeader />
+    <h1>{{ $store.getters["user/fullName"] }}</h1>
+    <div class="container grid-container">
+      <div
+        v-for="airport in airports"
+        :key="airport.abbreviation"
+        class="grid-item"
+      >
+        <airport-card
+          :airport="airport"
+          @click="$store.dispatch('airports/addToFavourites', airport)"
+        />
+      </div>
+    </div>
+    <h2 v-if="$store.state?.airports?.favourites?.length">Favourites</h2>
+    <div class="container grid-container">
+      <div
+        v-for="airport in $store.state.airports.favourites"
+        :key="airport.abbreviation"
+        class="grid-item"
+      >
+        <airport-card
+          :airport="airport"
+          @click="$store.dispatch('airports/removeFromFavourites', airport)"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { ref } from 'vue'
+import AppHeader from '@/components/AppHeader.vue'
+import allAirports from '@/data/airports.js'
+import AirportCard from '@/components/AirportCard.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    AppHeader,
+    AirportCard
+  },
+  setup () {
+    const airports = ref(allAirports)
+    return { airports }
+  },
+  mounted () {
+    document.title = 'Expenses Calculator'
   }
 }
 </script>
