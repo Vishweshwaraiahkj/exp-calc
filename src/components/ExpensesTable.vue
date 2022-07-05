@@ -1,18 +1,18 @@
 <template>
   <div class="col-12">
-    <h2>ExpensesTable</h2>
+    <h2 class="m-2">Expenses Table</h2>
     <table class="table table-striped table-hover">
-      <thead>
+      <thead class="dark">
         <tr>
           <th>Type</th>
-          <th>Amount</th>
-          <th>Date</th>
+          <th>Amount(Rs)</th>
           <th>Category</th>
+          <th>Date(yyyy-mm-dd)</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in filteredData()" :key="item.id">
-          <td>{{ item.type }}</td>
+          <td><span :class="item.type">{{ item.type }}</span></td>
           <td>{{ item.amount }}</td>
           <td>{{ item.category }}</td>
           <td>{{ item.date }}</td>
@@ -26,15 +26,15 @@
 export default {
   name: 'ExpensesTable',
   props: {
-    expensesObject: {
+    dataArray: {
       type: Array,
-      default: () => { },
+      default: () => [],
       required: true
     }
   },
   setup (props) {
     const filteredData = () => {
-      return props.expensesObject?.filter(
+      return props.dataArray?.value?.filter(
         (u) => u.type && u.category && u.amount && u.date
       )
     }

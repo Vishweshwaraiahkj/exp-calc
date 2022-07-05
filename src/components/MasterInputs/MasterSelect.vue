@@ -1,4 +1,5 @@
 <template>
+<div class="">
   <label class="input-label">
     {{ selectLabel }}
   </label>
@@ -7,7 +8,8 @@
     :style="{ width: selectBoxWidth }"
   >
     <button class="menu-btn" type="button" @click="dropDown">
-      {{ selectPlaceholder }} &#9013;
+      {{ checkedValues?.length ? selectedCountText : selectPlaceholder }}
+      <span class="arrow-down dropdown-arrow">&#9013;</span>
     </button>
     <div class="d-none shadow-medium optionsBox">
       <span
@@ -20,6 +22,7 @@
           type="checkbox"
           class="select-input"
           :value="opt.optionValue"
+          v-model="checkedValues"
         />
         <label :for="opt.optionValue">
           {{ opt.optionDname }}
@@ -27,13 +30,15 @@
       </span>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { addBodyOverlay } from '@/utils/globals.js'
 export default {
   name: 'MasterSelect',
+  emits: ['selectedValues'],
   props: {
     selectWidth: {
       default: '',
@@ -46,55 +51,44 @@ export default {
     selectPlaceholder: {
       default: '',
       type: String
+    },
+    selectOptions: {
+      default: () => [],
+      type: Array
     }
   },
-  setup (props) {
-    const options = ref([])
+  setup (props, { emit }) {
+    const checkedValues = ref([])
     const selectBoxWidth = ref(props.selectWidth ?? undefined)
-    options.value = [
-      {
-        optionId: 1,
-        optionValue: 'houseconstruction',
-        optionDname: 'House Construction',
-        checked: false
-      },
-      {
-        optionId: 2,
-        optionValue: 'self',
-        optionDname: 'Self',
-        checked: false
-      },
-      {
-        optionId: 3,
-        optionValue: 'creditcard',
-        optionDname: 'Credit Card',
-        checked: false
-      },
-      {
-        optionId: 4,
-        optionValue: 'bankloan',
-        optionDname: 'Bank Loan',
-        checked: false
-      },
-      {
-        optionId: 5,
-        optionValue: 'travelfare',
-        optionDname: 'Travel Fare',
-        checked: false
-      }
-    ]
-
+    const options = computed(() => {
+      return props.selectOptions
+    })
     const dropDown = (event) => {
       event.target.parentElement
         .querySelector('.optionsBox')
         .classList.remove('d-none')
+      const collection = document.querySelectorAll('.multiselect-dropdown')
+      for (const elm of collection) {
+        elm.classList.remove('active')
+      }
+      event.target.parentElement.classList.add('active')
       addBodyOverlay(event, 'optionsBox', 'dark')
     }
+
+    watch(() => [...checkedValues.value], () => {
+      emit('selectedValues', checkedValues)
+    })
+
+    const selectedCountText = computed(() => {
+      return `${checkedValues.value.length} item(s) are selected.`
+    })
 
     return {
       options,
       dropDown,
-      selectBoxWidth
+      selectBoxWidth,
+      checkedValues,
+      selectedCountText
     }
   }
 }
@@ -102,7 +96,9 @@ export default {
 
 <style lang="scss" scoped>
 .multiselect-dropdown {
-  z-index: 200;
+  &.active {
+    z-index: 200;
+  }
 
   .menu-btn {
     font: 300 13.3333px var(--global-font-family);

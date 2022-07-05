@@ -24,7 +24,7 @@ export default [
     state: 'LA'
   },
   {
-    name: "Chicago O'hare International Airport",
+    name: 'Chicago O\'hare International Airport',
     abbreviation: 'ORD',
     city: 'Chicago',
     state: 'IL'

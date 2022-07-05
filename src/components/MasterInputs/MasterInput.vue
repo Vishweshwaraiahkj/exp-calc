@@ -9,6 +9,7 @@
         :type="inputType"
         :name="inputName"
         class="master-input"
+        @input="updateInput"
         :value="inputValue"
         :placeholder="inputPlaceholder"
       />
@@ -17,8 +18,10 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+export default defineComponent({
   name: 'MasterInput',
+  emits: ['update:inputValue'],
   props: {
     inputWidth: {
       default: 'auto',
@@ -37,8 +40,8 @@ export default {
       type: String
     },
     inputValue: {
-      default: '',
-      type: String
+      type: [String, Date],
+      default: ''
     },
     inputName: {
       default: '',
@@ -48,6 +51,15 @@ export default {
       default: 'Add something',
       type: String
     }
+  },
+  setup (props, { emit }) {
+    const updateInput = (event) => {
+      emit('update:inputValue', event.target.value)
+    }
+
+    return {
+      updateInput
+    }
   }
-}
+})
 </script>
