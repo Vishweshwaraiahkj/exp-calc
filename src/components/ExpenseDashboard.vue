@@ -1,22 +1,27 @@
 <template>
   <div class="dashboard">
-    <div class="container mt-3 card shadow-dark">
+    <div class="container mt-3 pb-3 card shadow-dark">
       <div class="row">
         <AddExpenses @addToExpIncList="addToList"/>
         <BriefBoard :balance-amount="200" />
       </div>
       <div class="row">
-        <ExpensesTable v-if="dataArray.length" :dataArray="dataArray" />
+        <ExpensesTable
+          v-if="dataArray.length"
+          :dataArray="dataArray"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import AddExpenses from './AddExpenses.vue'
-import BriefBoard from './BriefBoard.vue'
-import ExpensesTable from './ExpensesTable.vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import AddExpenses from '@/components/AddExpenses.vue'
+import BriefBoard from '@/components/BriefBoard.vue'
+import ExpensesTable from '@/components/ExpensesTable.vue'
+import { pushUniqueObjects } from '@/utils/globals'
 
 export default {
   name: 'ExpenseDashboard',
@@ -26,20 +31,25 @@ export default {
     ExpensesTable
   },
   setup () {
+    const store = useStore()
     const dataArray = ref([])
 
     const addToList = (dataList) => {
-      dataArray.value.push({
+      const newObj = {
+        uid: dataList.uid,
         description: dataList.description,
         type: dataList.typeList,
         amount: dataList.amount,
         date: dataList.addeddate,
-        category: dataList.selectedArray
-      })
+        category: dataList.categoryList
+      }
+
+      dataArray.value = pushUniqueObjects(dataArray.value, newObj)
+      store.dispatch('expenses/addToExpensesList', dataArray.value)
     }
 
     return {
-      dataArray,
+      dataArray: computed(() => store.state.expenses.list),
       addToList
     }
   }

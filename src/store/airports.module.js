@@ -11,7 +11,7 @@ export default {
   actions: {
     addToFavourites (context, payload) {
       let favourites = context.state.favourites
-      favourites = favourites.pushunique('abbreviation', payload)
+      favourites = favourites.pushUnique('abbreviation', payload)
       context.commit('UPDATE_FAVOURITES', favourites)
     },
     removeFromFavourites (context, payload) {

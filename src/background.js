@@ -13,16 +13,19 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    show: false,
     webPreferences: {
-
       // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      // nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      devTools: !app.isPackaged
     }
   })
+  win.webContents.openDevTools({ mode: 'detach', activate: false })
+  win.webContents.closeDevTools()
+  win.maximize()
+  win.show()
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

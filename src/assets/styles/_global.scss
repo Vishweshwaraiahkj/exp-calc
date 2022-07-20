@@ -1808,12 +1808,12 @@ footer,
 
 .expense {
   @include AmountType();
-  background: red;
+  background: #c0392b;
 }
 
 .income {
   @include AmountType();
-  background: green;
+  background: #2ecc71;
 }
 
 .arrow-down {
@@ -1822,4 +1822,12 @@ footer,
 
 .dropdown-arrow {
   float: right;
+}
+
+.category {
+  color: white;
+  background-color: #1e7e34;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 0 3px;
 }

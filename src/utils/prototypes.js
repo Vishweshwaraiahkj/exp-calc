@@ -5,12 +5,17 @@ Array.prototype.remove = function (key, value) {
     : this
 }
 
-Array.prototype.pushunique = function (key, object) {
-  const payload = JSON.parse(JSON.stringify(object))
-  const fullArray = JSON.parse(JSON.stringify(this))
+Array.prototype.pushUnique = function (key, object) {
+  const payload = object
+  const fullArray = this
   const index = fullArray.findIndex((obj) => obj[key] === payload[key])
   if (index < 0 || fullArray.length === 0) {
     fullArray.push(payload)
   }
   return fullArray
+}
+
+String.prototype.Capitalize = function () {
+  const payload = JSON.parse(JSON.stringify(this))
+  return payload.charAt(0).toUpperCase() + payload.slice(1)
 }

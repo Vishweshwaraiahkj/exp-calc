@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <AppHeader />
-    <h1>{{ $store.getters["user/fullName"] }}</h1>
+    <h1 class="p-3">{{ $store.getters["user/fullName"] }}</h1>
     <div class="container grid-container">
       <div
         v-for="airport in airports"
@@ -45,9 +45,6 @@ export default {
   setup () {
     const airports = ref(allAirports)
     return { airports }
-  },
-  mounted () {
-    document.title = 'Expenses Calculator'
   }
 }
 </script>

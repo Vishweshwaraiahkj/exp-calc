@@ -1,40 +1,47 @@
 <template>
-<div class="">
-  <label class="input-label">
-    {{ selectLabel }}
-  </label>
-  <div
-    class="d-flex form-control multiselect-dropdown"
-    :style="{ width: selectBoxWidth }"
-  >
-    <button class="menu-btn" type="button" @click="dropDown">
-      {{ checkedValues?.length ? selectedCountText : selectPlaceholder }}
-      <span class="arrow-down dropdown-arrow">&#9013;</span>
-    </button>
-    <div class="d-none shadow-medium optionsBox">
-      <span
-        v-for="opt in options"
-        :key="opt.optionId"
-        class="d-flex form-control menu-option"
-      >
-        <input
-          :id="opt.optionValue"
-          type="checkbox"
-          class="select-input"
-          :value="opt.optionValue"
-          v-model="checkedValues"
-        />
-        <label :for="opt.optionValue">
-          {{ opt.optionDname }}
-        </label>
-      </span>
+  <div class="">
+    <label class="input-label">
+      {{ selectLabel }}
+    </label>
+    <div
+      class="d-flex form-control multiselect-dropdown"
+      :style="{ width: selectBoxWidth }"
+    >
+      <button class="menu-btn" type="button" @click="dropDown">
+        {{ selectedCountText || selectPlaceholder }}
+        <span class="arrow-down dropdown-arrow">&#9013;</span>
+      </button>
+      <div class="d-none shadow-medium optionsBox">
+        <span
+          v-for="opt in options"
+          :key="opt.optionId"
+          class="d-flex form-control menu-option"
+        >
+          <input
+            :id="opt.optionValue"
+            type="checkbox"
+            class="select-input"
+            :value="opt.optionValue"
+            v-model="checkedValues"
+            @click="filterData"
+          />
+          <label :for="opt.optionValue">
+            {{ opt.optionDname }}
+          </label>
+        </span>
+      </div>
     </div>
-  </div>
+    <span
+      class="err"
+      v-if="!validInput && isRequired"
+    >
+      {{ errMessage }}
+    </span>
   </div>
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, watchEffect } from 'vue'
 import { addBodyOverlay } from '@/utils/globals.js'
 export default {
   name: 'MasterSelect',
@@ -55,18 +62,46 @@ export default {
     selectOptions: {
       default: () => [],
       type: Array
+    },
+    singleSelect: {
+      default: false,
+      type: Boolean
+    },
+    inputRequired: {
+      default: false,
+      type: Boolean
+    },
+    inputErrMessage: {
+      default: 'This is a required field',
+      type: String
+    },
+    resetTrue: {
+      default: false,
+      type: Boolean
     }
   },
   setup (props, { emit }) {
     const checkedValues = ref([])
     const selectBoxWidth = ref(props.selectWidth ?? undefined)
+    const isSingleSelect = ref(props.singleSelect)
+    const errMessage = ref(props.inputErrMessage)
+    const validInput = ref(true)
+    const isRequired = ref(props.inputRequired)
+
+    watchEffect(() => {
+      if (props.resetTrue) {
+        isRequired.value = false
+        checkedValues.value = []
+      }
+    })
+
     const options = computed(() => {
       return props.selectOptions
     })
     const dropDown = (event) => {
-      event.target.parentElement
+      const optBox = event.target.parentElement
         .querySelector('.optionsBox')
-        .classList.remove('d-none')
+      optBox?.classList.remove('d-none')
       const collection = document.querySelectorAll('.multiselect-dropdown')
       for (const elm of collection) {
         elm.classList.remove('active')
@@ -75,12 +110,30 @@ export default {
       addBodyOverlay(event, 'optionsBox', 'dark')
     }
 
-    watch(() => [...checkedValues.value], () => {
-      emit('selectedValues', checkedValues)
+    const filterData = (e) => {
+      if (isSingleSelect.value) {
+        checkedValues.value = [e?.target?.value]
+      }
+    }
+
+    watch(() => [...checkedValues.value], (newData, oldData) => {
+      validInput.value = checkedValues.value && checkedValues.value.length
+      if (!validInput.value) return false
+      if (isSingleSelect.value) {
+        emit('selectedValues', checkedValues.value[0])
+      } else {
+        emit('selectedValues', checkedValues.value)
+      }
     })
 
     const selectedCountText = computed(() => {
-      return `${checkedValues.value.length} item(s) are selected.`
+      if (isSingleSelect.value && checkedValues.value.length) {
+        return `${checkedValues.value[0].Capitalize()} is selected.`
+      } else if (checkedValues.value.length) {
+        return `${checkedValues.value.length} item(s) are selected.`
+      } else {
+        return false
+      }
     })
 
     return {
@@ -88,7 +141,12 @@ export default {
       dropDown,
       selectBoxWidth,
       checkedValues,
-      selectedCountText
+      selectedCountText,
+      isSingleSelect,
+      errMessage,
+      validInput,
+      filterData,
+      isRequired
     }
   }
 }
