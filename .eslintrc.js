@@ -18,6 +18,7 @@ module.exports = {
     quotes: [
       'error',
       'single'
-    ]
+    ],
+    'import/extensions': 'off'
   }
 }

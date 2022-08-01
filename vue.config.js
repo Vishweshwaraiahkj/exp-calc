@@ -25,5 +25,11 @@ module.exports = defineConfig({
         os: false
       }
     }
+  },
+  pluginOptions: {
+    electronBuilder: {
+      nodeIntegration: true,
+      preload: 'src/preload.js'
+    }
   }
 })

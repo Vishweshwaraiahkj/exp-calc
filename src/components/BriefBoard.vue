@@ -1,38 +1,58 @@
 <template>
-  <div class="col-4 pt-3">
-    <h4 class="balance-box">Your Balance</h4>
-    <h1 id="balance" class="balance-amount">Rs. {{ balanceMoney }}</h1>
+  <div v-if="expList" class="col-12">
     <div class="exp-container">
-      <div>
-        <h4>Income</h4>
-        <p id="money-plus" class="money plus">Rs. +0.00</p>
+      <div class="balance-box">
+        <h4>Your Balance</h4>
+        <h1 id="balance" class="balance-amount">Rs. {{ balanceMoney }}</h1>
       </div>
-      <div>
-        <h4>Expense</h4>
-        <p id="money-minus" class="money minus">Rs. -0.00</p>
+      <div class="income-count">
+        <h4 class="money plus">Income</h4>
+        <p id="money-plus" class="money plus">Rs. +{{ incomeValue }}</p>
       </div>
-    </div>
-    <div class="btn">
-      <button type="button" class="btn btn-primary">Show All Expenses</button>
+      <div class="expense-count">
+        <h4 class="money minus">Expense</h4>
+        <p id="money-minus" class="money minus">Rs. -{{ expenseValue }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
   name: 'BriefBoard',
-  props: {
-    balanceAmount: {
-      default: 0,
-      type: Number
-    }
-  },
-  setup (props) {
-    const balanceMoney = ref(props.balanceAmount)
+  setup () {
+    const store = useStore()
+    const balanceMoney = ref(0)
+    const expenseValue = ref(0)
+    const incomeValue = ref(0)
+    const expList = ref(store.state.expenses.list)
+
+    const filteredExpenses = expList.value?.filter((i) => {
+      return i.type === 'expense'
+    })
+
+    const filteredIncomes = expList.value?.filter((i) => {
+      return i.type === 'income'
+    })
+
+    expenseValue.value = filteredExpenses?.reduce((acc, item) => {
+      return Number(acc) + Number(item.amount)
+    }, 0)
+
+    incomeValue.value = filteredIncomes?.reduce((acc, item) => {
+      return Number(acc) + Number(item.amount)
+    }, 0)
+
+    balanceMoney.value = incomeValue.value - expenseValue.value
 
     return {
-      balanceMoney
+      balanceMoney,
+      expenseValue,
+      incomeValue,
+      expList
     }
   }
 }

@@ -1,18 +1,20 @@
 const hideBodyOverlay = (event, itemsClass) => {
-  event.preventDefault()
-  const items = document.getElementsByClassName(itemsClass)
-  for (let i = 0; i < items.length; i++) {
-    items[i].classList.add('d-none')
+  event?.preventDefault()
+  if (itemsClass) {
+    const items = document.getElementsByClassName(itemsClass)
+    for (let i = 0; i < items.length; i++) {
+      items[i].classList.add('d-none')
+    }
   }
   document.getElementById('bodyOverlay').remove()
 }
 
 const addBodyOverlay = (event, itemsClass, backdropColor) => {
-  event.preventDefault()
+  event?.preventDefault()
   document.getElementById('bodyOverlay')?.remove()
   const elem = document.createElement('div')
   elem.setAttribute('id', 'bodyOverlay')
-  elem.setAttribute('class', backdropColor)
+  elem.setAttribute('class', backdropColor || 'dark')
   elem.onclick = () => hideBodyOverlay(event, itemsClass)
   document.body.appendChild(elem)
 }
@@ -27,7 +29,7 @@ const isObjectSimilar = (oldObject, newObject) => {
   Object.keys(oldObject).forEach((key) => {
     const checkKey = Object.prototype.hasOwnProperty.call(newObject, key)
     const noSameKey = newObject[key] !== oldObject[key]
-    if ((!checkKey || noSameKey) && key !== 'uid') {
+    if ((!checkKey || noSameKey) && key !== 'id') {
       count++
     }
   })
@@ -55,4 +57,18 @@ const pushUniqueObjects = (dataArray, newObj) => {
   return dataArray
 }
 
-export { addBodyOverlay, hideBodyOverlay, pushUniqueObjects }
+const ParseObject = (objectData) => {
+  return JSON.parse(JSON.stringify(objectData))
+}
+
+const StringifyObject = (objectData) => {
+  return JSON.stringify(objectData)
+}
+
+export {
+  addBodyOverlay,
+  hideBodyOverlay,
+  pushUniqueObjects,
+  ParseObject,
+  StringifyObject
+}

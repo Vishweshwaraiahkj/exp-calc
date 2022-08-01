@@ -1,15 +1,16 @@
 <template>
   <div class="dashboard">
     <div class="container mt-3 pb-3 card shadow-dark">
-      <div class="row">
+      <div class="row details-box relative">
         <AddExpenses @addToExpIncList="addToList"/>
-        <BriefBoard :balance-amount="200" />
+        <BriefBoard v-if="dataArray.length" />
       </div>
-      <div class="row">
+      <div class="row list-box">
         <ExpensesTable
           v-if="dataArray.length"
           :dataArray="dataArray"
         />
+        <h3 v-else class="no-data-text">No data added yet! Add some now.</h3>
       </div>
     </div>
   </div>
@@ -36,7 +37,7 @@ export default {
 
     const addToList = (dataList) => {
       const newObj = {
-        uid: dataList.uid,
+        id: dataList.id,
         description: dataList.description,
         type: dataList.typeList,
         amount: dataList.amount,
@@ -52,6 +53,9 @@ export default {
       dataArray: computed(() => store.state.expenses.list),
       addToList
     }
+  },
+  mounted () {
+    useStore().dispatch('expenses/fetchExistingExpenses')
   }
 }
 </script>

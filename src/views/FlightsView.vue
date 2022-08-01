@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard">
-    <AppHeader />
     <h1 class="p-3">{{ $store.getters["user/fullName"] }}</h1>
     <div class="container grid-container">
       <div
@@ -32,14 +31,12 @@
 
 <script>
 import { ref } from 'vue'
-import AppHeader from '@/components/AppHeader.vue'
-import allAirports from '@/data/airports.js'
+import allAirports from '@/data/airports'
 import AirportCard from '@/components/AirportCard.vue'
 
 export default {
-  name: 'HomeView',
+  name: 'FlightsView',
   components: {
-    AppHeader,
     AirportCard
   },
   setup () {

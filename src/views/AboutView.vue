@@ -1,13 +1,10 @@
 <template>
-  <div class="about">
-    <AppHeader />
+  <div class="about pt-3">
     <h1>This is an about page</h1>
   </div>
 </template>
 <script>
-import AppHeader from '@/components/AppHeader.vue'
 export default {
-  name: 'AboutView',
-  components: { AppHeader }
+  name: 'AboutView'
 }
 </script>
