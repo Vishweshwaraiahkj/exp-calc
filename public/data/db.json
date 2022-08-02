@@ -15,6 +15,16 @@
       "category": [
         "salary"
       ]
+    },
+    {
+      "id": "4c5effe2-6953-499e-adf1-ec3043f25911",
+      "description": "Spent for Iron for home construction",
+      "type": "expense",
+      "amount": "100000",
+      "date": "2022-08-02",
+      "category": [
+        "houseexpense"
+      ]
     }
   ]
 }

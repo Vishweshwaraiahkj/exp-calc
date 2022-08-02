@@ -16,46 +16,33 @@
   </div>
 </template>
 
-<script>
-import { ref, computed } from 'vue'
+<script setup>
+import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import AddExpenses from '@/components/AddExpenses.vue'
 import BriefBoard from '@/components/BriefBoard.vue'
 import ExpensesTable from '@/components/ExpensesTable.vue'
 import { pushUniqueObjects } from '@/utils/globals'
 
-export default {
-  name: 'ExpenseDashboard',
-  components: {
-    AddExpenses,
-    BriefBoard,
-    ExpensesTable
-  },
-  setup () {
-    const store = useStore()
-    const dataArray = ref([])
+const store = useStore()
+const dataArray = computed(() => store.state.expenses.list)
 
-    const addToList = (dataList) => {
-      const newObj = {
-        id: dataList.id,
-        description: dataList.description,
-        type: dataList.typeList,
-        amount: dataList.amount,
-        date: dataList.addeddate,
-        category: dataList.categoryList
-      }
-
-      dataArray.value = pushUniqueObjects(dataArray.value, newObj)
-      store.dispatch('expenses/addToExpensesList', dataArray.value)
-    }
-
-    return {
-      dataArray: computed(() => store.state.expenses.list),
-      addToList
-    }
-  },
-  mounted () {
-    useStore().dispatch('expenses/fetchExistingExpenses')
+const addToList = (dataList) => {
+  const newObj = {
+    id: dataList.id,
+    description: dataList.description,
+    type: dataList.typeList,
+    amount: dataList.amount,
+    date: dataList.addeddate,
+    category: dataList.categoryList
   }
+
+  dataArray.value = pushUniqueObjects(dataArray.value, newObj)
+  store.dispatch('expenses/addToExpensesList', newObj)
 }
+
+onMounted(() => {
+  store.dispatch('expenses/fetchExistingExpenses')
+})
+
 </script>

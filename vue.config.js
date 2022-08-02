@@ -16,20 +16,5 @@ module.exports = defineConfig({
           `
       }
     }
-  },
-  configureWebpack: {
-    resolve: {
-      fallback: {
-        fs: false,
-        path: false,
-        os: false
-      }
-    }
-  },
-  pluginOptions: {
-    electronBuilder: {
-      nodeIntegration: true,
-      preload: 'src/preload.js'
-    }
   }
 })

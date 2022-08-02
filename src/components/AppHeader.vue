@@ -6,10 +6,6 @@
   </div>
 </template>
 
-<script>
-import MasterIcon from './MasterIcon.vue'
-export default {
-  name: 'AppHeader',
-  components: { MasterIcon }
-}
+<script setup>
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 </script>

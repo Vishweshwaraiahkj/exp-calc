@@ -6,15 +6,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    airport: {
-      type: Object,
-      required: true
-    }
+<script setup>
+defineProps({
+  airport: {
+    type: Object,
+    required: true
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

@@ -39,70 +39,60 @@
     </div>
   </div>
 </template>
-<script>
-import { computed, ref } from 'vue'
+<script setup>
+import { computed, ref, useSlots } from 'vue'
 
-export default {
-  name: 'MasterModal',
-  props: {
-    triggerId: {
-      default: 'myBtn',
-      type: String
-    },
-    modalSize: {
-      default: 'medium',
-      type: String
-    },
-    btnClasses: {
-      default: '',
-      type: String
-    }
+const props = defineProps({
+  triggerId: {
+    default: 'myBtn',
+    type: String
   },
-  emits: ['footerConfirm', 'footerCancel'],
-  setup (props, context) {
-    const isShow = ref(false)
-    const size = ref(props.modalSize)
+  modalSize: {
+    default: 'medium',
+    type: String
+  },
+  btnClasses: {
+    default: '',
+    type: String
+  }
+})
 
-    const toggleModal = (e) => {
-      isShow.value = !isShow.value
-    }
+const emits = defineEmits(['footerConfirm', 'footerCancel'])
 
-    const headerSlot = computed(() => {
-      return !!context.slots.header
-    })
+const slots = useSlots()
 
-    const defaultSlot = computed(() => {
-      return !!context.slots.default
-    })
+const isShow = ref(false)
+const size = ref(props.modalSize)
 
-    const footerSlot = computed(() => {
-      return !!context.slots.footer
-    })
+const toggleModal = (e) => {
+  isShow.value = !isShow.value
+}
 
-    const confirmAction = () => {
-      const res = context.emit('footerConfirm')
-      if (res) {
-        toggleModal()
-      }
-    }
-    const cancelAction = () => {
-      context.emit('footerCancel')
-      toggleModal()
-    }
+const headerSlot = computed(() => {
+  return !!slots.header
+})
 
-    return {
-      isShow,
-      size,
-      toggleModal,
-      headerSlot,
-      defaultSlot,
-      footerSlot,
-      confirmAction,
-      cancelAction
-    }
+const defaultSlot = computed(() => {
+  return !!slots.default
+})
+
+const footerSlot = computed(() => {
+  return !!slots.footer
+})
+
+const confirmAction = () => {
+  const res = emits('footerConfirm')
+  if (res) {
+    toggleModal()
   }
 }
+const cancelAction = () => {
+  emits('footerCancel')
+  toggleModal()
+}
+
 </script>
+
 <style lang="scss" scoped>
 // Modal popup styles
 

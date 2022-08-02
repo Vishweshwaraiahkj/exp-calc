@@ -2084,3 +2084,18 @@ button#addExp {
   align-items: center;
   width: 100%;
 }
+
+span.err {
+  color: white;
+  background: darkred;
+  padding: 0.25rem;
+  width: 100%;
+  display: block;
+  margin-top: 3px;
+}
+
+.err.form-control {
+  border: 1px solid var(--red);
+  background-color: transparent;
+  margin: auto;
+}

@@ -86,92 +86,87 @@
   </MasterModal>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { onMounted, ref } from 'vue'
 import { v4 as uuids4 } from 'uuid'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
-import MasterModal from '@/components/MasterModal.vue'
-import MasterIcon from './MasterIcon.vue'
+import MasterModal from '@/components/MasterUtils/MasterModal.vue'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import allCategories from '@/data/categories'
 import allTypes from '@/data/types'
-export default {
-  name: 'AddExpenses',
-  components: {
-    MasterSelect,
-    MasterInput,
-    MasterModal,
-    MasterIcon
-  },
-  emits: ['addToExpIncList'],
-  setup (props, context) {
-    const listOfCategories = ref(allCategories)
-    const listOfTypes = ref(allTypes)
-    const description = ref(null)
-    const amount = ref(null)
-    const typeList = ref([])
-    const addeddate = ref(null)
-    const categoryList = ref([])
-    const resetInput = ref(false)
-    const checkedCategories = (data) => {
-      categoryList.value = data
-    }
-    const checkedTypes = (data) => {
-      typeList.value = data
-    }
-    const addExpenseOrIncome = (e) => {
-      const allInputs = [
-        categoryList.value?.length,
-        description.value,
-        typeList.value?.length,
-        amount.value,
-        addeddate.value
-      ]
 
-      if (!allInputs.every(i => i)) {
-        alert('You need to enter correct details!')
-        return false
-      }
-
-      const detailsObj = {
-        id: uuids4(),
-        categoryList: categoryList.value,
-        description: description.value,
-        typeList: typeList.value,
-        amount: amount.value,
-        addeddate: addeddate.value
-      }
-      description.value = undefined
-      typeList.value = undefined
-      categoryList.value = undefined
-      amount.value = undefined
-      addeddate.value = undefined
-      resetInput.value = true
-      context.emit('addToExpIncList', detailsObj)
-      return true
-    }
-
-    const addItem = () => {
-      const res = addExpenseOrIncome()
-      return res
-    }
-
-    const addCancel = () => {}
-
-    return {
-      description,
-      amount,
-      typeList,
-      checkedTypes,
-      addeddate,
-      checkedCategories,
-      categoryList,
-      listOfCategories,
-      listOfTypes,
-      resetInput,
-      addItem,
-      addCancel
-    }
+const props = defineProps({
+  defaultsObject: {
+    default: () => {},
+    type: Object
   }
+})
+
+const emits = defineEmits(['addToExpIncList'])
+
+const listOfCategories = ref(allCategories)
+const listOfTypes = ref(allTypes)
+const description = ref(null)
+const amount = ref(null)
+const typeList = ref([])
+const addeddate = ref(null)
+const categoryList = ref([])
+const resetInput = ref(false)
+const checkedCategories = (data) => {
+  categoryList.value = data
 }
+const checkedTypes = (data) => {
+  typeList.value = data
+}
+
+onMounted(() => {
+  if (props.defaultsObject) {
+    description.value = props.defaultsObject.description
+    amount.value = props.defaultsObject.amount
+    addeddate.value = props.defaultsObject.addeddate
+    categoryList.value = props.defaultsObject.categoryList
+    typeList.value = props.defaultsObject.typeList
+  }
+})
+
+const addExpenseOrIncome = (e) => {
+  const allInputs = [
+    categoryList.value?.length,
+    description.value,
+    typeList.value?.length,
+    amount.value,
+    addeddate.value
+  ]
+
+  if (!allInputs.every(i => i)) {
+    alert('You need to enter correct details!')
+    return false
+  }
+
+  const detailsObj = {
+    id: uuids4(),
+    categoryList: categoryList.value,
+    description: description.value,
+    typeList: typeList.value,
+    amount: amount.value,
+    addeddate: addeddate.value
+  }
+  description.value = undefined
+  typeList.value = undefined
+  categoryList.value = undefined
+  amount.value = undefined
+  addeddate.value = undefined
+  resetInput.value = true
+  emits('addToExpIncList', detailsObj)
+  return true
+}
+
+const addItem = () => {
+  const res = addExpenseOrIncome()
+  return res
+}
+
+const addCancel = () => {}
+
 </script>

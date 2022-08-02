@@ -3,7 +3,10 @@
     {{ inputLabel }}
   </label>
   <div :style="{ width: inputWidth }">
-    <span class="d-flex form-control">
+    <span
+      class="d-flex form-control"
+      :class="!validInput && inputRequired ? 'err' : ''"
+    >
       <input
         :id="inputId"
         :type="inputType"
@@ -24,63 +27,55 @@
   </div>
 </template>
 
-<script>
-import { ref, defineComponent } from 'vue'
-export default defineComponent({
-  name: 'MasterInput',
-  emits: ['update:inputValue'],
-  props: {
-    inputWidth: {
-      default: 'auto',
-      type: String
-    },
-    inputId: {
-      default: '',
-      type: String
-    },
-    inputLabel: {
-      default: '',
-      type: String
-    },
-    inputType: {
-      default: 'text',
-      type: String
-    },
-    inputValue: {
-      type: [String, Date],
-      default: ''
-    },
-    inputName: {
-      default: '',
-      type: String
-    },
-    inputPlaceholder: {
-      default: 'Add something',
-      type: String
-    },
-    inputRequired: {
-      default: false,
-      type: Boolean
-    },
-    inputErrMessage: {
-      default: 'This is a required field',
-      type: String
-    }
-  },
-  setup (props, { emit }) {
-    const errMessage = ref(props.inputErrMessage)
-    const validInput = ref(true)
-    const updateInput = (event) => {
-      const inputData = event.target.value
-      validInput.value = inputData
-      emit('update:inputValue', inputData)
-    }
+<script setup>
+import { ref } from 'vue'
 
-    return {
-      updateInput,
-      errMessage,
-      validInput
-    }
+const emits = defineEmits(['update:inputValue'])
+
+const props = defineProps({
+  inputWidth: {
+    default: 'auto',
+    type: String
+  },
+  inputId: {
+    default: '',
+    type: String
+  },
+  inputLabel: {
+    default: '',
+    type: String
+  },
+  inputType: {
+    default: 'text',
+    type: String
+  },
+  inputValue: {
+    type: [String, Date],
+    default: ''
+  },
+  inputName: {
+    default: '',
+    type: String
+  },
+  inputPlaceholder: {
+    default: 'Add something',
+    type: String
+  },
+  inputRequired: {
+    default: false,
+    type: Boolean
+  },
+  inputErrMessage: {
+    default: 'This is a required field',
+    type: String
   }
 })
+
+const errMessage = ref(props.inputErrMessage)
+const validInput = ref(true)
+const updateInput = (event) => {
+  const inputData = event.target.value
+  validInput.value = inputData
+  emits('update:inputValue', inputData)
+}
 </script>

@@ -13,7 +13,7 @@ export default {
   actions: {
     async addToExpensesList (context, payload) {
       const res = await axios.post(
-        process.env.VUE_APP_API_ENDPOINT + '/expenses', payload[0]
+        process.env.VUE_APP_API_ENDPOINT + '/expenses', payload
       )
       const fullList = [...context.state.list, ...res.data]
       context.commit('UPDATE_EXPENSES', fullList)

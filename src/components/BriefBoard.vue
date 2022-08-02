@@ -17,43 +17,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 
-export default {
-  name: 'BriefBoard',
-  setup () {
-    const store = useStore()
-    const balanceMoney = ref(0)
-    const expenseValue = ref(0)
-    const incomeValue = ref(0)
-    const expList = ref(store.state.expenses.list)
+const store = useStore()
+const balanceMoney = ref(0)
+const expenseValue = ref(0)
+const incomeValue = ref(0)
+const expList = ref(store.state.expenses.list)
 
-    const filteredExpenses = expList.value?.filter((i) => {
-      return i.type === 'expense'
-    })
+const filteredExpenses = expList.value?.filter((i) => {
+  return i.type === 'expense'
+})
 
-    const filteredIncomes = expList.value?.filter((i) => {
-      return i.type === 'income'
-    })
+const filteredIncomes = expList.value?.filter((i) => {
+  return i.type === 'income'
+})
 
-    expenseValue.value = filteredExpenses?.reduce((acc, item) => {
-      return Number(acc) + Number(item.amount)
-    }, 0)
+expenseValue.value = filteredExpenses?.reduce((acc, item) => {
+  return Number(acc) + Number(item.amount)
+}, 0)
 
-    incomeValue.value = filteredIncomes?.reduce((acc, item) => {
-      return Number(acc) + Number(item.amount)
-    }, 0)
+incomeValue.value = filteredIncomes?.reduce((acc, item) => {
+  return Number(acc) + Number(item.amount)
+}, 0)
 
-    balanceMoney.value = incomeValue.value - expenseValue.value
+balanceMoney.value = incomeValue.value - expenseValue.value
 
-    return {
-      balanceMoney,
-      expenseValue,
-      incomeValue,
-      expList
-    }
-  }
-}
 </script>

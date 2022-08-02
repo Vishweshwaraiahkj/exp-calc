@@ -5,6 +5,7 @@
     </label>
     <div
       class="d-flex form-control multiselect-dropdown"
+      :class="!validInput && isRequired ? 'err' : ''"
       :style="{ width: selectBoxWidth }"
     >
       <button class="menu-btn" type="button" @click="dropDown">
@@ -42,122 +43,105 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, watch, computed, watchEffect } from 'vue'
 
-export default {
-  name: 'MasterSelect',
-  emits: ['selectedValues'],
-  props: {
-    selectWidth: {
-      default: '',
-      type: String
-    },
-    selectLabel: {
-      default: '',
-      type: String
-    },
-    selectPlaceholder: {
-      default: '',
-      type: String
-    },
-    selectOptions: {
-      default: () => [],
-      type: Array
-    },
-    singleSelect: {
-      default: false,
-      type: Boolean
-    },
-    inputRequired: {
-      default: false,
-      type: Boolean
-    },
-    inputErrMessage: {
-      default: 'This is a required field',
-      type: String
-    },
-    resetTrue: {
-      default: false,
-      type: Boolean
-    }
+const emits = defineEmits(['selectedValues'])
+
+const props = defineProps({
+  selectWidth: {
+    default: '',
+    type: String
   },
-  setup (props, { emit }) {
-    const checkedValues = ref([])
-    const selectBoxWidth = ref(props.selectWidth ?? undefined)
-    const isSingleSelect = ref(props.singleSelect)
-    const errMessage = ref(props.inputErrMessage)
-    const validInput = ref(true)
-    const isRequired = ref(props.inputRequired)
-    const isVisible = ref(false)
+  selectLabel: {
+    default: '',
+    type: String
+  },
+  selectPlaceholder: {
+    default: '',
+    type: String
+  },
+  selectOptions: {
+    default: () => [],
+    type: Array
+  },
+  singleSelect: {
+    default: false,
+    type: Boolean
+  },
+  inputRequired: {
+    default: false,
+    type: Boolean
+  },
+  inputErrMessage: {
+    default: 'This is a required field',
+    type: String
+  },
+  resetTrue: {
+    default: false,
+    type: Boolean
+  }
+})
 
-    const toggleVisibility = (e) => {
-      isVisible.value = !isVisible.value
-    }
+const checkedValues = ref([])
+const selectBoxWidth = ref(props.selectWidth ?? undefined)
+const isSingleSelect = ref(props.singleSelect)
+const errMessage = ref(props.inputErrMessage)
+const validInput = ref(true)
+const isRequired = ref(props.inputRequired)
+const isVisible = ref(false)
 
-    watchEffect(() => {
-      if (props.resetTrue) {
-        isRequired.value = false
-        checkedValues.value = []
-      }
-    })
+const toggleVisibility = (e) => {
+  isVisible.value = !isVisible.value
+}
 
-    const options = computed(() => {
-      return props.selectOptions
-    })
+watchEffect(() => {
+  if (props.resetTrue) {
+    isRequired.value = false
+    checkedValues.value = []
+  }
+})
 
-    const dropDown = (e) => {
-      toggleVisibility()
-      const collection = document.querySelectorAll('.multiselect-dropdown')
-      for (const elm of collection) {
-        elm.classList.remove('active')
-      }
-      if (isVisible.value) {
-        e.target.parentElement.classList.add('active')
-      }
-    }
+const options = computed(() => {
+  return props.selectOptions
+})
 
-    const filterData = (e) => {
-      if (isSingleSelect.value) {
-        checkedValues.value = [e?.target?.value]
-      }
-    }
-
-    watch(() => [...checkedValues.value], (newData, oldData) => {
-      validInput.value = checkedValues.value && checkedValues.value.length
-      if (!validInput.value) return false
-      if (isSingleSelect.value) {
-        emit('selectedValues', checkedValues.value[0])
-      } else {
-        emit('selectedValues', checkedValues.value)
-      }
-    })
-
-    const selectedCountText = computed(() => {
-      if (isSingleSelect.value && checkedValues.value.length) {
-        return `${checkedValues.value[0].Capitalize()} is selected.`
-      } else if (checkedValues.value.length) {
-        return `${checkedValues.value.length} item(s) are selected.`
-      } else {
-        return false
-      }
-    })
-
-    return {
-      options,
-      dropDown,
-      selectBoxWidth,
-      checkedValues,
-      selectedCountText,
-      isSingleSelect,
-      errMessage,
-      validInput,
-      filterData,
-      isRequired,
-      isVisible
-    }
+const dropDown = (e) => {
+  toggleVisibility()
+  const collection = document.querySelectorAll('.multiselect-dropdown')
+  for (const elm of collection) {
+    elm.classList.remove('active')
+  }
+  if (isVisible.value) {
+    e.target.parentElement.classList.add('active')
   }
 }
+
+const filterData = (e) => {
+  if (isSingleSelect.value) {
+    checkedValues.value = [e?.target?.value]
+  }
+}
+
+watch(() => [...checkedValues.value], (newData, oldData) => {
+  validInput.value = checkedValues.value && checkedValues.value.length
+  if (!validInput.value) return false
+  if (isSingleSelect.value) {
+    emits('selectedValues', checkedValues.value[0])
+  } else {
+    emits('selectedValues', checkedValues.value)
+  }
+})
+
+const selectedCountText = computed(() => {
+  if (isSingleSelect.value && checkedValues.value.length) {
+    return `${checkedValues.value[0].Capitalize()} is selected.`
+  } else if (checkedValues.value.length) {
+    return `${checkedValues.value.length} item(s) are selected.`
+  } else {
+    return false
+  }
+})
 </script>
 
 <style lang="scss" scoped>
