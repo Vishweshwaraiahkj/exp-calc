@@ -14,7 +14,9 @@
     @click="toggleModal"
   >
     <div class="modal-content shadow-dark" @click.stop="">
-      <span class="close" @click="toggleModal">&times;</span>
+      <span class="close medium" @click="toggleModal">
+        <MasterIcon size="x-small" svgName="close-cross"/>
+      </span>
       <header v-if="headerSlot" class="modal-header">
         <slot name="header"></slot>
       </header>
@@ -41,6 +43,8 @@
 </template>
 <script setup>
 import { computed, ref, useSlots } from 'vue'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import { useStore } from 'vuex'
 
 const props = defineProps({
   triggerId: {
@@ -57,12 +61,15 @@ const props = defineProps({
   }
 })
 
+const store = useStore()
+
 const emits = defineEmits(['footerConfirm', 'footerCancel'])
 
 const slots = useSlots()
 
 const isShow = ref(false)
 const size = ref(props.modalSize)
+const modalState = computed(() => store.getters['utils/getModalStatus'])
 
 const toggleModal = (e) => {
   isShow.value = !isShow.value
@@ -81,11 +88,13 @@ const footerSlot = computed(() => {
 })
 
 const confirmAction = () => {
-  const res = emits('footerConfirm')
-  if (res) {
+  emits('footerConfirm')
+  if (modalState.value === 'close') {
     toggleModal()
+    store.dispatch('utils/changeModalStatus', '')
   }
 }
+
 const cancelAction = () => {
   emits('footerCancel')
   toggleModal()
@@ -175,26 +184,5 @@ const cancelAction = () => {
     top    : 0;
     opacity: 1
   }
-}
-
-/* The Close Button */
-.close {
-  color: var(--dark);
-  right: 0;
-  top: 0;
-  font-size: 28px;
-  font-weight: bold;
-  position: absolute;
-  z-index: 99;
-  width: 2rem;
-  height: 2rem;
-  display: block;
-}
-
-.close:hover,
-.close:focus {
-  color          : #000;
-  text-decoration: none;
-  cursor         : pointer;
 }
 </style>

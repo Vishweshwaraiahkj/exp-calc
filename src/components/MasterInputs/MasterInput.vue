@@ -1,5 +1,5 @@
 <template>
-  <label :for="inputId" class="input-label">
+  <label v-if="inputLabel" :for="inputId" class="input-label">
     {{ inputLabel }}
   </label>
   <div :style="{ width: inputWidth }">

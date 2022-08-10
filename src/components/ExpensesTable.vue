@@ -1,6 +1,17 @@
 <template>
   <div class="col-12">
     <h2 class="m-2">Expenses Table</h2>
+    <div class="filter-box">
+      <MasterInput
+        input-id="searchId"
+        input-name="search"
+        input-placeholder="Search the table!"
+        input-type="text"
+        v-model:input-value="searchKey"
+        input-width="50%"
+      />
+      <MasterIcon size="x-small" svgName="filter" />
+    </div>
     <table class="table table-striped table-hover shadow-dark">
       <thead class="dark">
         <tr>
@@ -35,31 +46,16 @@
           <td>{{ item.date }}</td>
           <td>
             <div class="actions">
-              <span class="action update" @click=" setCurrentItem( item ) ">
-                <MasterModal
-                  triggerId="updateItem"
-                  modalSize="small"
-                  btnClasses="update-btn"
-                  @footerConfirm="editItem"
-                  @footerCancel="editCancel"
-                >
-                  <template #trigger>
-                    <MasterIcon size="small" svgName="edit" />
-                  </template>
-                  <template #header>
-                    Update Item
-                  </template>
-                  <template #default>
-                    <AddExpenses
-                      @addToExpIncList="addToList"
-                      :defaultsObject="currentItem"
-                    />
-                  </template>
-                  <template #footer>
-                  </template>
-                </MasterModal>
+              <span class="action update" @click="setCurrentItem(item)">
+                <AddExpenses
+                  @emitChangeList="updateList"
+                  :defaultsObject="currentItem"
+                  triggerIcon="edit"
+                  triggerIconSize="x-small"
+                  triggerId="triggerEdit"
+                />
               </span>
-              <span class="action delete" @click=" setCurrentItem( item ) ">
+              <span class="action delete" @click="setCurrentItem(item)">
                 <MasterModal
                   triggerId="deleteItem"
                   modalSize="small"
@@ -68,13 +64,13 @@
                   @footerCancel="deleteCancel"
                 >
                   <template #trigger>
-                    <MasterIcon size="small" svgName="delete" />
+                    <MasterIcon size="x-small" svgName="delete" />
                   </template>
                   <template #header>
                     <h3 class="py-2">Delete this item!</h3>
                   </template>
                   <template #default>
-                    <p class="py-3">
+                    <p class="py-2">
                       Hey, Do you really want to delete this item?
                     </p>
                   </template>
@@ -87,24 +83,24 @@
         </tr>
       </tbody>
     </table>
-    <MasterPagination
+    <MasterPaginate
       :totalPages="totalPages"
       :perPage="perPage"
       :currentPage="pageNumber"
-      :maxVisibleBtns="visibleBtns"
+      :numBtnsCount="visibleBtns"
       @pageChanged="onPageChange"
     />
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
-import MasterPagination from '@/components/MasterUtils/MasterPagination.vue'
+import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
 import AddExpenses from '@/components/AddExpenses.vue'
-import { pushUniqueObjects } from '@/utils/globals'
+import MasterInput from './MasterInputs/MasterInput.vue'
 
 const props = defineProps({
   dataArray: {
@@ -119,21 +115,23 @@ const pageNumber = ref(1)
 const perPage = ref(4)
 const sortBy = ref('date')
 const sortType = ref('desc')
-const visibleBtns = 3
+const visibleBtns = ref(3)
 const currentItem = ref({})
+const searchKey = ref('')
+const finalData = ref([])
 
 const tdClass = (type) => {
   return type === 'income' ? 'plus' : 'minus'
 }
 
-const filteredData = () => {
+const validData = () => {
   return props.dataArray?.filter((i) => {
     return i.id && i.type && i.category && i.amount && i.date
   })
 }
 
 const sortedData = computed(() => {
-  return filteredData().sort((a, b) => {
+  return validData().sort((a, b) => {
     let modifier = 1
     if (sortType.value === 'desc') modifier = -1
     if (a[sortBy.value] < b[sortBy.value]) return -1 * modifier
@@ -142,10 +140,61 @@ const sortedData = computed(() => {
   })
 })
 
+const trimString = (s) => {
+  let l = 0; let r = s.length - 1
+  while (l < s.length && s[l] === ' ') l++
+  while (r > l && s[r] === ' ') r -= 1
+  return s.substring(l, r + 1)
+}
+
+const compareObjects = (o1, o2) => {
+  let k = ''
+  for (k in o1) {
+    if (o1[k] !== o2[k]) return false
+  }
+  for (k in o2) {
+    if (o1[k] !== o2[k]) return false
+  }
+  return true
+}
+
+const itemExists = (haystack, needle) => {
+  for (let i = 0; i < haystack.length; i++) {
+    if (compareObjects(haystack[i], needle)) return true
+  }
+  return false
+}
+
+const searchedData = computed(() => {
+  const results = []
+  const toSearch = trimString(searchKey.value).toLowerCase() // trim it
+  for (let i = 0; i < sortedData.value.length; i++) {
+    for (const key in sortedData.value[i]) {
+      let searchItem = sortedData.value[i][key]
+      if (typeof searchItem === 'string') {
+        searchItem = searchItem.toLowerCase()
+      }
+      if (searchItem.indexOf(toSearch) !== -1) {
+        if (!itemExists(results, sortedData.value[i])) {
+          results.push(sortedData.value[i])
+        }
+      }
+    }
+  }
+  return results
+})
+
+watchEffect(() => {
+  finalData.value = sortedData.value
+  if (searchKey.value) {
+    finalData.value = searchedData.value
+  }
+})
+
 const visibleData = computed(() => {
   const start = (pageNumber.value - 1) * perPage.value || 0
   const end = pageNumber.value * perPage.value || perPage.value
-  return sortedData.value?.slice(start, end)
+  return finalData.value?.slice(start, end)
 })
 
 const toggleSort = () => {
@@ -158,7 +207,7 @@ const headerActions = (value) => {
 }
 
 const totalPages = computed(() => {
-  return Math.round(sortedData.value?.length / perPage.value)
+  return Math.ceil(finalData.value?.length / perPage.value)
 })
 
 const onPageChange = (currentPage) => {
@@ -169,10 +218,6 @@ const setCurrentItem = (item) => {
   currentItem.value = item
 }
 
-const editItem = () => true
-
-const editCancel = () => true
-
 const deleteItem = () => {
   store.dispatch('expenses/deleteById', currentItem.value?.id)
   return false
@@ -180,8 +225,9 @@ const deleteItem = () => {
 
 const deleteCancel = () => true
 
-const addToList = (dataList) => {
-  const newObj = {
+const updateList = (dataList, type) => {
+  if (type !== 'update') return false
+  const updatedObj = {
     id: dataList.id,
     description: dataList.description,
     type: dataList.typeList,
@@ -190,11 +236,21 @@ const addToList = (dataList) => {
     category: dataList.categoryList
   }
 
-  const newDataArray = pushUniqueObjects(props.dataArray.value, newObj)
-  store.dispatch('expenses/addToExpensesList', newDataArray)
+  store.dispatch('expenses/updateToExpensesList', updatedObj)
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+  .filter-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 0.625rem;
+
+    .svg-holder {
+      cursor: pointer;
+    }
+  }
+
   table {
     thead tr th {
       min-width: 20%;

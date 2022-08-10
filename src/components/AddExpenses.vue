@@ -1,19 +1,19 @@
 <template>
   <MasterModal
-    triggerId="addExp"
+    :triggerId="triggerId"
     modalSize="medium"
     btnClasses="add-btn"
     @footerConfirm="addItem"
     @footerCancel="addCancel"
   >
     <template #trigger>
-      <MasterIcon size="medium" svgName="add"/>
+      <MasterIcon :size="triggerIconSize" :svgName="triggerIcon"/>
     </template>
       <template #header>
       <h2>Add Expense/Income</h2>
     </template>
     <template #default>
-      <form class="col-12" id="addExpIncForm">
+      <form class="col-12" id="addExpIncForm" >
         <div class="row">
           <div class="form-group col-6">
             <MasterInput
@@ -29,13 +29,14 @@
           </div>
           <div class="form-group col-6">
             <MasterSelect
-              @selectedValues="checkedCategories"
+              @emitSelected="getCheckedCats"
               select-width="100%"
               select-label="Categories"
               select-placeholder="Select a category"
               :selectOptions="listOfCategories"
               :input-required="true"
               :resetTrue="resetInput"
+              :defaultSelects="defaultCats"
             />
           </div>
         </div>
@@ -54,7 +55,7 @@
           </div>
           <div class="form-group col-6">
             <MasterSelect
-              @selectedValues="checkedTypes"
+              @emitSelected="getCheckedTypes"
               select-width="100%"
               select-label="Type"
               select-placeholder="Select a type"
@@ -62,6 +63,7 @@
               :single-select="true"
               :input-required="true"
               :resetTrue="resetInput"
+              :defaultSelects="defaultTypes"
             />
           </div>
         </div>
@@ -72,7 +74,7 @@
               input-label="Date"
               input-name="addeddate"
               input-placeholder="Date of expense/income"
-              input-type="date"
+              input-type="datetime-local"
               v-model:input-value="addeddate"
               input-width="100%"
               :input-required="true"
@@ -87,50 +89,77 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref, watchEffect, computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 import { v4 as uuids4 } from 'uuid'
+import { isValidObject } from '@/utils/globals.js'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
-import allCategories from '@/data/categories'
-import allTypes from '@/data/types'
 
 const props = defineProps({
   defaultsObject: {
     default: () => {},
     type: Object
+  },
+  triggerIcon: {
+    default: 'add',
+    type: String
+  },
+  triggerId: {
+    default: '',
+    type: String
+  },
+  triggerIconSize: {
+    default: 'medium',
+    type: String
   }
 })
 
-const emits = defineEmits(['addToExpIncList'])
+const emits = defineEmits(['emitChangeList'])
+const store = useStore()
 
-const listOfCategories = ref(allCategories)
-const listOfTypes = ref(allTypes)
+const listOfCategories = computed(() => store.getters['utils/getAllCategories'])
+const listOfTypes = computed(() => store.getters['utils/getAllTypes'])
 const description = ref(null)
 const amount = ref(null)
 const typeList = ref([])
 const addeddate = ref(null)
 const categoryList = ref([])
 const resetInput = ref(false)
-const checkedCategories = (data) => {
+const getCheckedCats = (data) => {
   categoryList.value = data
 }
-const checkedTypes = (data) => {
+const getCheckedTypes = (data) => {
   typeList.value = data
 }
 
-onMounted(() => {
-  if (props.defaultsObject) {
+const defaultCats = ref([])
+const defaultTypes = ref([])
+
+watchEffect(() => {
+  if (isValidObject(props.defaultsObject)) {
     description.value = props.defaultsObject.description
     amount.value = props.defaultsObject.amount
-    addeddate.value = props.defaultsObject.addeddate
-    categoryList.value = props.defaultsObject.categoryList
-    typeList.value = props.defaultsObject.typeList
+    addeddate.value = props.defaultsObject.date
+    defaultCats.value = props.defaultsObject.category
+    const typeSelected = props.defaultsObject.type
+    defaultTypes.value = typeSelected ? [typeSelected] : undefined
   }
 })
 
-const addExpenseOrIncome = (e) => {
+const clearForm = () => {
+  // clear inputs after final object is constructed on submit
+  description.value = undefined
+  typeList.value = undefined
+  categoryList.value = undefined
+  amount.value = undefined
+  addeddate.value = undefined
+  resetInput.value = true
+}
+
+const changeTheList = (type) => {
   const allInputs = [
     categoryList.value?.length,
     description.value,
@@ -144,29 +173,32 @@ const addExpenseOrIncome = (e) => {
     return false
   }
 
-  const detailsObj = {
-    id: uuids4(),
+  const changeDetailsObj = {
+    id: type === 'update' ? props.defaultsObject.id : uuids4(),
     categoryList: categoryList.value,
     description: description.value,
     typeList: typeList.value,
     amount: amount.value,
     addeddate: addeddate.value
   }
-  description.value = undefined
-  typeList.value = undefined
-  categoryList.value = undefined
-  amount.value = undefined
-  addeddate.value = undefined
-  resetInput.value = true
-  emits('addToExpIncList', detailsObj)
+  emits('emitChangeList', changeDetailsObj, type)
   return true
 }
 
 const addItem = () => {
-  const res = addExpenseOrIncome()
+  const res = isValidObject(props.defaultsObject)
+    ? changeTheList('update')
+    : changeTheList('add')
   return res
 }
 
-const addCancel = () => {}
+const addCancel = () => {
+  clearForm()
+}
+
+onMounted(() => {
+  store.dispatch('utils/fetchAllCategories')
+  store.dispatch('utils/fetchAllTypes')
+})
 
 </script>

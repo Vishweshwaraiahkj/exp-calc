@@ -1,6 +1,6 @@
 <template>
   <div v-if="expList" class="col-12">
-    <div class="exp-container">
+    <div class="exp-container shadow-dark">
       <div class="balance-box">
         <h4>Your Balance</h4>
         <h1 id="balance" class="balance-amount">Rs. {{ balanceMoney }}</h1>

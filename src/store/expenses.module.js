@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { pushUniqueObjects, isValidObject } from '@/utils/globals'
 
 export default {
   namespaced: true,
@@ -11,12 +12,35 @@ export default {
     }
   },
   actions: {
+    async updateToExpensesList (context, payload) {
+      if (!isValidObject(payload)) return false
+      try {
+        const res = await axios.patch(
+          process.env.VUE_APP_API_ENDPOINT + `/expenses/${payload.id}`, payload
+        )
+        const fullList = context.state.list?.map((i) => {
+          if (i.id === res.data?.id) {
+            return res.data
+          }
+          return i
+        })
+        context.commit('UPDATE_EXPENSES', fullList)
+        context.dispatch('utils/changeModalStatus', 'close', { root: true })
+      } catch (error) {
+        alert('Error updating item!')
+      }
+    },
     async addToExpensesList (context, payload) {
-      const res = await axios.post(
-        process.env.VUE_APP_API_ENDPOINT + '/expenses', payload
-      )
-      const fullList = [...context.state.list, ...res.data]
-      context.commit('UPDATE_EXPENSES', fullList)
+      try {
+        const res = await axios.post(
+          process.env.VUE_APP_API_ENDPOINT + '/expenses', payload
+        )
+        const fullList = pushUniqueObjects(context.state.list, res.data)
+        context.commit('UPDATE_EXPENSES', fullList)
+        context.dispatch('utils/changeModalStatus', 'close', { root: true })
+      } catch (error) {
+        alert('Error adding item to the list!')
+      }
     },
     removeFromExpensesList (context, payload) {
       const list = context.state.list
@@ -27,26 +51,30 @@ export default {
       context.commit('UPDATE_EXPENSES', updatedExpenses)
     },
     async fetchExistingExpenses (context) {
-      if (!context.state.list?.length) {
+      if (context.state.list?.length) return false
+      try {
         await axios
-          .get(process.env.VUE_APP_API_ENDPOINT + '/expenses', {
-            headers: {}
-          })
+          .get(process.env.VUE_APP_API_ENDPOINT + '/expenses')
           .then(response => response.data)
           .then(items => {
             context.commit('UPDATE_EXPENSES', items)
           })
+      } catch (error) {
+        alert('Error getting existing data!')
       }
     },
-    deleteById (context, payload) {
-      if (context.state.list?.length && payload) {
-        axios.delete(process.env.VUE_APP_API_ENDPOINT + `/expenses/${payload}`)
-        const listOnFilter = context
+    async deleteById (context, payload) {
+      if (!payload) return false
+      try {
+        await axios.delete(
+          process.env.VUE_APP_API_ENDPOINT + `/expenses/${payload}`
+        )
+        const filteredList = context
           .state
           .list
           ?.filter(item => item.id !== payload)
-        context.commit('UPDATE_EXPENSES', listOnFilter)
-      } else {
+        context.commit('UPDATE_EXPENSES', filteredList)
+      } catch (error) {
         alert('Error Deleting Item!')
       }
     }

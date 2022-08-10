@@ -25,11 +25,12 @@
               type="checkbox"
               class="select-input"
               :value="opt.optionValue"
+              :checked="opt.checked"
               v-model="checkedValues"
               @click="filterData"
             />
             <label :for="opt.optionValue">
-              {{ opt.optionDname }}
+              {{ opt.optionName }}
             </label>
           </span>
         </div>
@@ -46,7 +47,7 @@
 <script setup>
 import { ref, watch, computed, watchEffect } from 'vue'
 
-const emits = defineEmits(['selectedValues'])
+const emits = defineEmits(['emitSelected'])
 
 const props = defineProps({
   selectWidth: {
@@ -80,6 +81,10 @@ const props = defineProps({
   resetTrue: {
     default: false,
     type: Boolean
+  },
+  defaultSelects: {
+    default: () => [],
+    type: Array
   }
 })
 
@@ -90,12 +95,16 @@ const errMessage = ref(props.inputErrMessage)
 const validInput = ref(true)
 const isRequired = ref(props.inputRequired)
 const isVisible = ref(false)
+const propOptions = ref(props.selectOptions)
 
 const toggleVisibility = (e) => {
   isVisible.value = !isVisible.value
 }
 
 watchEffect(() => {
+  if (props.defaultSelects.length) {
+    checkedValues.value = props.defaultSelects
+  }
   if (props.resetTrue) {
     isRequired.value = false
     checkedValues.value = []
@@ -103,7 +112,7 @@ watchEffect(() => {
 })
 
 const options = computed(() => {
-  return props.selectOptions
+  return propOptions.value
 })
 
 const dropDown = (e) => {
@@ -127,9 +136,9 @@ watch(() => [...checkedValues.value], (newData, oldData) => {
   validInput.value = checkedValues.value && checkedValues.value.length
   if (!validInput.value) return false
   if (isSingleSelect.value) {
-    emits('selectedValues', checkedValues.value[0])
+    emits('emitSelected', checkedValues.value[0])
   } else {
-    emits('selectedValues', checkedValues.value)
+    emits('emitSelected', checkedValues.value)
   }
 })
 

@@ -11,20 +11,384 @@
       "description": "Salary of the month July 2022",
       "type": "income",
       "amount": "145392",
-      "date": "2022-07-29",
+      "date": "2022-07-29T15:58",
       "category": [
         "salary"
       ]
     },
     {
-      "id": "4c5effe2-6953-499e-adf1-ec3043f25911",
+      "id": "1b2479f0-d12a-4316-8913-1dcfa8484306",
       "description": "Spent for Iron for home construction",
       "type": "expense",
       "amount": "100000",
-      "date": "2022-08-02",
+      "date": "2022-08-02T15:57",
       "category": [
         "houseexpense"
       ]
+    },
+    {
+      "id": "9b8bef0d-d118-4dfb-9f9c-e8651a149aa0",
+      "description": "House construction - Steel and Iron",
+      "type": "expense",
+      "amount": "50000",
+      "date": "2022-08-04T15:57",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "7cab785d-6d3c-4bc6-96c9-a4ff7b6c7729",
+      "description": "Drawdown from Bajaj OD",
+      "type": "income",
+      "amount": "200000",
+      "date": "2022-08-04T15:57",
+      "category": [
+        "overdraft"
+      ]
+    },
+    {
+      "id": "dc99bcb5-209b-43d8-aabf-8567b6b42b84",
+      "description": "Car Loan EMI Paid",
+      "type": "expense",
+      "amount": "44000",
+      "date": "2022-08-04T15:57",
+      "category": [
+        "carexpense",
+        "emi"
+      ]
+    },
+    {
+      "id": "036084be-c63c-448b-876f-fd3821b4c4a3",
+      "description": "House construction expense",
+      "type": "expense",
+      "amount": "70000",
+      "date": "2022-08-04T15:56",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "416074f8-93db-40f7-b097-7aea528daecd",
+      "description": "ATM Withdrawal",
+      "type": "expense",
+      "amount": "4000",
+      "date": "2022-08-04T16:00",
+      "category": [
+        "houseexpense",
+        "others"
+      ]
+    },
+    {
+      "id": "3b424ba7-02cb-4d58-a0f3-140cdc27d0b3",
+      "description": "Spent on drinks",
+      "type": "expense",
+      "amount": "440",
+      "date": "2022-08-03T20:00",
+      "category": [
+        "self"
+      ]
+    },
+    {
+      "id": "2f526ba8-a702-4da0-a508-31741f4d806f",
+      "description": "Spent on floor mill",
+      "type": "expense",
+      "amount": "125",
+      "date": "2022-08-03T19:51",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "786b5a03-76d1-4365-a798-c1ff4a6408a8",
+      "description": "Purchased a jacket from Myntra",
+      "type": "expense",
+      "amount": "799",
+      "date": "2022-08-01T23:02",
+      "category": [
+        "self"
+      ]
+    },
+    {
+      "id": "64217f79-00c9-4ee4-933a-b50d8fad5d45",
+      "description": "Spent for drinks",
+      "type": "expense",
+      "amount": "490",
+      "date": "2022-07-31T22:44",
+      "category": [
+        "self"
+      ]
+    },
+    {
+      "id": "1d5dbe7b-8644-4b97-bde1-89db11e34323",
+      "description": "Purchased Sary for Varamahalaxmi fest",
+      "type": "expense",
+      "amount": "3585",
+      "date": "2022-07-31T20:13",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "db1f24c7-477d-4819-9b39-04888861c5f1",
+      "description": "Jio Recharge - 7353333573",
+      "type": "expense",
+      "amount": "395",
+      "date": "2022-07-31T19:20",
+      "category": [
+        "self"
+      ]
+    },
+    {
+      "id": "f67ea6f9-348f-48d5-b4a4-11253a108fb4",
+      "description": "Credit card paid for July",
+      "type": "expense",
+      "amount": "31353",
+      "date": "2022-07-30T12:45",
+      "category": [
+        "creditcard",
+        "emi"
+      ]
+    },
+    {
+      "id": "ec67d0cb-a969-4afc-8ab9-e47f84b9fa61",
+      "description": "Spent for Varamahalaxmi fest",
+      "type": "expense",
+      "amount": "5000",
+      "date": "2022-08-03T23:00",
+      "category": [
+        "houseexpense",
+        "others"
+      ]
+    },
+    {
+      "id": "b09ddab3-d96f-49df-9822-217192782145",
+      "description": "Sold Gixxer bike",
+      "type": "income",
+      "amount": "50000",
+      "date": "2022-07-20T17:00",
+      "category": [
+        "others"
+      ]
+    },
+    {
+      "id": "d8507202-054f-4e6e-a67a-1330d6427af5",
+      "description": "Sent to brother for light fitting items",
+      "type": "expense",
+      "amount": "5000",
+      "date": "2022-08-06T17:40",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "31502e3b-0f66-4c9b-adaa-8e0ada1adb9e",
+      "description": "Security fees monthly",
+      "type": "expense",
+      "amount": "1000",
+      "date": "2022-08-06T12:00",
+      "category": [
+        "houserent"
+      ]
+    },
+    {
+      "id": "d140620b-0951-4f3d-be24-e4c15cf960af",
+      "description": "Spent on sarees and others",
+      "type": "expense",
+      "amount": "1000",
+      "date": "2022-08-06T17:00",
+      "category": [
+        "others"
+      ]
+    },
+    {
+      "id": "909a9fba-7c4a-4470-b91c-a70939a2a7a1",
+      "description": "Sugar tablets, pampers",
+      "type": "expense",
+      "amount": "235",
+      "date": "2022-08-06T16:01",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "17d3fa14-6ed3-4c72-9042-472e1de46c6b",
+      "description": "Personal Loan EMI paid",
+      "type": "expense",
+      "amount": "23188",
+      "date": "2022-08-07T14:18",
+      "category": [
+        "emi"
+      ]
+    },
+    {
+      "id": "d2529333-9bcb-40ac-a2f7-e6a97102bb84",
+      "description": "Spent on sides - India sweets house",
+      "type": "expense",
+      "amount": "410",
+      "date": "2022-08-06T18:45",
+      "category": [
+        "self"
+      ]
+    },
+    {
+      "id": "3b050f61-a5d1-4c04-a3c0-ad6fe1ef5c38",
+      "description": "Bought t-shirts for me and hema",
+      "type": "expense",
+      "amount": "1500",
+      "date": "2022-08-07T14:09",
+      "category": [
+        "self"
+      ]
+    },
+    {
+      "id": "0aff47e0-438b-4101-867a-f0a8884cc9b1",
+      "description": "Diesel for Tata Harrier",
+      "type": "expense",
+      "amount": "2000",
+      "date": "2022-08-07T14:20",
+      "category": [
+        "carexpense"
+      ]
+    },
+    {
+      "id": "e4008501-e17a-45ba-8146-cc6f7dfd447f",
+      "description": "Spent for housewarming function",
+      "type": "expense",
+      "amount": "750",
+      "date": "2022-08-07T20:00",
+      "category": [
+        "others"
+      ]
+    },
+    {
+      "id": "245dc7f7-9ed3-4004-ba81-f58ba9ff4d82",
+      "description": "Given to brother for house construction expenses",
+      "type": "expense",
+      "amount": "50000",
+      "date": "2022-08-08T10:24",
+      "category": [
+        "houseexpense"
+      ]
+    },
+    {
+      "id": "63eb47da-446c-44d5-ac78-d865f903e7d8",
+      "description": "Given to Mestri for construction",
+      "type": "expense",
+      "amount": "10000",
+      "date": "2022-08-10T12:14",
+      "category": [
+        "houseexpense"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "optionId": 1,
+      "optionValue": "houseexpense",
+      "optionName": "House Expense"
+    },
+    {
+      "optionId": 2,
+      "optionValue": "self",
+      "optionName": "Self"
+    },
+    {
+      "optionId": 3,
+      "optionValue": "creditcard",
+      "optionName": "Credit Card"
+    },
+    {
+      "optionId": 4,
+      "optionValue": "emi",
+      "optionName": "Emi"
+    },
+    {
+      "optionId": 5,
+      "optionValue": "travel",
+      "optionName": "Travel"
+    },
+    {
+      "optionId": 6,
+      "optionValue": "salary",
+      "optionName": "Salary"
+    },
+    {
+      "optionId": 7,
+      "optionValue": "houserent",
+      "optionName": "House Rent"
+    },
+    {
+      "optionId": 8,
+      "optionValue": "carexpense",
+      "optionName": "Car Expense"
+    },
+    {
+      "optionId": 9,
+      "optionValue": "overdraft",
+      "optionName": "Over Draft"
+    },
+    {
+      "optionId": 10,
+      "optionValue": "others",
+      "optionName": "Others"
+    }
+  ],
+  "types": [
+    {
+      "optionId": 11,
+      "optionValue": "expense",
+      "optionName": "Expense",
+      "checked": false
+    },
+    {
+      "optionId": 12,
+      "optionValue": "income",
+      "optionName": "Income",
+      "checked": false
+    }
+  ],
+  "airports": [
+    {
+      "name": "Cincinnati/Northern Kentucky International Airport",
+      "abbreviation": "CVG",
+      "city": "Hebron",
+      "state": "KY",
+      "favorite": false
+    },
+    {
+      "name": "Seattle-Tacoma International Airport",
+      "abbreviation": "SEA",
+      "city": "Seattle",
+      "state": "WA",
+      "favorite": false
+    },
+    {
+      "name": "Minneapolis-Saint Paul International Airport",
+      "abbreviation": "MSP",
+      "city": "Bloomington",
+      "state": "MN",
+      "favorite": false
+    },
+    {
+      "name": "Louis Armstrong New Orleans International Airport",
+      "abbreviation": "MSY",
+      "city": "New Orleans",
+      "state": "LA",
+      "favorite": false
+    },
+    {
+      "name": "Chicago O/'hare International Airport",
+      "abbreviation": "ORD",
+      "city": "Chicago",
+      "state": "IL",
+      "favorite": false
+    },
+    {
+      "name": "Miami International Airport",
+      "abbreviation": "MIA",
+      "city": "Miami",
+      "state": "FL",
+      "favorite": false
     }
   ]
 }

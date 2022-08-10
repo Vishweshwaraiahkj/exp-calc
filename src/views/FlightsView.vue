@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <h1 class="p-3">{{ $store.getters["user/fullName"] }}</h1>
-    <div class="container grid-container">
+    <div v-if="airports.length" class="container grid-container">
       <div
         v-for="airport in airports"
         :key="airport.abbreviation"
@@ -9,39 +9,39 @@
       >
         <airport-card
           :airport="airport"
-          @click="$store.dispatch('airports/addToFavourites', airport)"
-        />
-      </div>
-    </div>
-    <h2 v-if="$store.state?.airports?.favourites?.length">Favourites</h2>
-    <div class="container grid-container">
-      <div
-        v-for="airport in $store.state.airports.favourites"
-        :key="airport.abbreviation"
-        class="grid-item"
-      >
-        <airport-card
-          :airport="airport"
-          @click="$store.dispatch('airports/removeFromFavourites', airport)"
+          @toggleFavorite="changeFavorite"
         />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { ref } from 'vue'
-import allAirports from '@/data/airports'
+<script setup>
+import { onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
 import AirportCard from '@/components/AirportCard.vue'
 
-export default {
-  name: 'FlightsView',
-  components: {
-    AirportCard
-  },
-  setup () {
-    const airports = ref(allAirports)
-    return { airports }
+const airports = computed(() => store.getters['airports/getAirports'])
+const store = useStore()
+
+const changeFavorite = (airport) => {
+  if (airport?.favorite) {
+    store.dispatch(
+      'airports/removeFavorite',
+      airport.abbreviation
+    )
+  } else {
+    store.dispatch(
+      'airports/addFavorite',
+      airport.abbreviation
+    )
   }
 }
+
+onMounted(() => {
+  if (!airports.value?.length) {
+    store.dispatch('airports/fetchAirports')
+  }
+})
+
 </script>

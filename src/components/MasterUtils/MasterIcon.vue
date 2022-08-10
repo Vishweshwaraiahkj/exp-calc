@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="svg-holder">
+    <div class="svg-holder" :class="classes">
         <svg :width="iconSize" :height="iconSize">
             <use :href="`${iconsPath}#${iconName}`" />
         </svg>
@@ -16,19 +16,27 @@ const props = defineProps({
   svgName: {
     default: '',
     type: String
+  },
+  classes: {
+    default: '',
+    type: String
   }
 })
 
-const iconName = ref(props.svgName)
+const iconName = ref(props.svgName || 'edit')
 const iconSize = ref(null)
 
 const iconsPath = computed(() => {
   return require(`@/assets/icons/${iconName.value}.svg`)
 })
 
-if (props.size === 'large') {
-  iconSize.value = '64'
+if (props.size === 'x-large') {
+  iconSize.value = '54'
+} else if (props.size === 'large') {
+  iconSize.value = '40'
 } else if (props.size === 'small') {
+  iconSize.value = '20'
+} else if (props.size === 'x-small') {
   iconSize.value = '16'
 } else {
   iconSize.value = '32'

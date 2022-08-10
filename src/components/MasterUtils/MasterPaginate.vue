@@ -63,7 +63,7 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  maxVisibleBtns: {
+  numBtnsCount: {
     type: Number,
     required: false,
     default: 3
@@ -82,6 +82,12 @@ const props = defineProps({
   }
 })
 
+const maxBtns = computed(() => {
+  return props.totalPages < props.numBtnsCount
+    ? props.totalPages
+    : props.numBtnsCount
+})
+
 const startPage = computed(() => {
   // When on the first page
   if (props.currentPage === 1) {
@@ -90,7 +96,7 @@ const startPage = computed(() => {
 
   // When on the last page, if 0 then default to 1
   if (props.currentPage === props.totalPages) {
-    return props.totalPages - props.maxVisibleBtns || 1
+    return props.totalPages - maxBtns.value || 1
   }
 
   // When in-between
@@ -102,7 +108,7 @@ const pages = computed(() => {
 
   for (
     let i = startPage.value;
-    i <= Math.min(startPage.value + props.maxVisibleBtns - 1, props.totalPages);
+    i <= Math.min(startPage.value + maxBtns.value - 1, props.totalPages);
     i++
   ) {
     range.push({

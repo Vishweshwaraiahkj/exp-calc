@@ -1,4 +1,4 @@
-const hideBodyOverlay = (event, itemsClass) => {
+export const hideBodyOverlay = (event, itemsClass) => {
   event?.preventDefault()
   if (itemsClass) {
     const items = document.getElementsByClassName(itemsClass)
@@ -9,7 +9,7 @@ const hideBodyOverlay = (event, itemsClass) => {
   document.getElementById('bodyOverlay').remove()
 }
 
-const addBodyOverlay = (event, itemsClass, backdropColor) => {
+export const addBodyOverlay = (event, itemsClass, backdropColor) => {
   event?.preventDefault()
   document.getElementById('bodyOverlay')?.remove()
   const elem = document.createElement('div')
@@ -19,16 +19,18 @@ const addBodyOverlay = (event, itemsClass, backdropColor) => {
   document.body.appendChild(elem)
 }
 
-const isObjectSimilar = (oldObject, newObject) => {
-  const ObjOld = oldObject?.constructor?.name
-  const ObjNew = newObject?.constructor?.name
+export const isSimilarObject = (oldObject, newObject) => {
+  const xObject = ParseObject(oldObject)
+  const yObject = ParseObject(newObject)
+  const ObjOld = xObject?.constructor?.name
+  const ObjNew = yObject?.constructor?.name
   if (ObjOld !== 'Object' || ObjNew !== 'Object') {
     return false
   }
   let count = 0
-  Object.keys(oldObject).forEach((key) => {
-    const checkKey = Object.prototype.hasOwnProperty.call(newObject, key)
-    const noSameKey = newObject[key] !== oldObject[key]
+  Object.keys(xObject).forEach((key) => {
+    const checkKey = Object.prototype.hasOwnProperty.call(yObject, key)
+    const noSameKey = yObject[key] !== xObject[key]
     if ((!checkKey || noSameKey) && key !== 'id') {
       count++
     }
@@ -40,13 +42,19 @@ const isObjectSimilar = (oldObject, newObject) => {
   return true
 }
 
-const pushUniqueObjects = (dataArray, newObj) => {
+export const pushUniqueObjects = (dataArray, newObj) => {
   if (newObj?.constructor.name !== 'Object') {
     alert('Please provide valid object!')
     return false
   }
+
+  if (!dataArray?.length) {
+    alert('Please provide valid data array!')
+    return false
+  }
+
   const res = dataArray.map((item) => {
-    return isObjectSimilar(item, newObj)
+    return isSimilarObject(item, newObj)
   })
   const checkIt = res.some(i => i === true)
   if (dataArray.length && checkIt) {
@@ -57,18 +65,17 @@ const pushUniqueObjects = (dataArray, newObj) => {
   return dataArray
 }
 
-const ParseObject = (objectData) => {
+export const ParseObject = (objectData) => {
   return JSON.parse(JSON.stringify(objectData))
 }
 
-const StringifyObject = (objectData) => {
+export const StringifyObject = (objectData) => {
   return JSON.stringify(objectData)
 }
 
-export {
-  addBodyOverlay,
-  hideBodyOverlay,
-  pushUniqueObjects,
-  ParseObject,
-  StringifyObject
+export const isValidObject = (obj) => {
+  return typeof obj === 'object' &&
+    Object.keys(obj).length !== 0 &&
+    !Array.isArray(obj) &&
+    obj !== null
 }
