@@ -1,6 +1,5 @@
 <template>
-  <div class="col-12">
-    <h2 class="m-2">Expenses Table</h2>
+  <div class="col-12 mt-3">
     <div class="filter-box">
       <MasterInput
         input-id="searchId"
@@ -25,7 +24,7 @@
             {{ item.name }}
             <MasterIcon
               v-if="item.sort && sortBy === item.actionType"
-              size="medium"
+              size="small"
               :svgName="sortType === 'asc' ? 'chevron-up' : 'chevron-down'"
               :key="sortType"
               classes="sort-icon"
@@ -66,6 +65,7 @@
                 <AddExpenses
                   @emitChangeList="updateList"
                   :defaultsObject="currentItem"
+                  actionType="update"
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
@@ -90,7 +90,7 @@
                       Hey, Do you really want to delete this item?
                     </p>
                   </template>
-                  <template #footer> </template>
+                  <template #footer></template>
                 </MasterModal>
               </span>
             </div>
@@ -184,27 +184,49 @@ const validData = () => {
   })
 }
 
+const sortArrayObjects = (a, b) => {
+  if (a.constructor.name !== 'Array' || b.constructor.name !== 'Array') {
+    return false
+  }
+  let modifier = 1
+  if (sortType.value === 'desc') {
+    modifier = -1
+  }
+  if (a[0].optionName < b[0].optionName) {
+    return -1 * modifier
+  }
+  if (a[0].optionName > b[0].optionName) {
+    return 1 * modifier
+  }
+  return 0
+}
+
+const sortPrimitives = (a, b) => {
+  let modifier = 1
+  if (sortType.value === 'desc') {
+    modifier = -1
+  }
+  if (a < b) {
+    return -1 * modifier
+  }
+  if (a > b) {
+    return 1 * modifier
+  }
+  return 0
+}
+
 const sortedData = computed(() => {
   return validData().sort((a, b) => {
     let itemA = a[sortBy.value]
     const itemB = b[sortBy.value]
-    if (!isNaN(itemA)) {
-      itemA = Number(itemA)
+
+    if (!isNaN(itemA)) itemA = Number(itemA)
+    if (!isNaN(itemA)) itemA = Number(itemA)
+
+    if (itemA.constructor.name === 'Array') {
+      return sortArrayObjects(itemA, itemB)
     }
-    if (!isNaN(itemA)) {
-      itemA = Number(itemA)
-    }
-    let modifier = 1
-    if (sortType.value === 'desc') {
-      modifier = -1
-    }
-    if (itemA < itemB) {
-      return -1 * modifier
-    }
-    if (itemA > itemB) {
-      return 1 * modifier
-    }
-    return 0
+    return sortPrimitives(itemA, itemB)
   })
 })
 

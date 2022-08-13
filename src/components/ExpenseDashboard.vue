@@ -5,14 +5,12 @@
         <AddExpenses
           @emitChangeList="addToList"
           triggerId="addExp"
+          actionType="add"
         />
         <BriefBoard v-if="dataArray.length" />
       </div>
       <div class="row list-box">
-        <ExpensesTable
-          v-if="dataArray.length"
-          :dataArray="dataArray"
-        />
+        <ExpensesTable v-if="dataArray.length" :dataArray="dataArray" />
         <h3 v-else class="no-data-text">No data added yet! Add some now.</h3>
       </div>
     </div>
@@ -51,5 +49,4 @@ const addToList = (dataList) => {
   dataArray.value = pushUniqueObjects(dataArray.value, newObj)
   store.dispatch('expenses/addToExpensesList', newObj)
 }
-
 </script>

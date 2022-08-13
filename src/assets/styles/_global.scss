@@ -10,6 +10,7 @@
   --teal: #20c997;
   --cyan: #17a2b8;
   --white: #fff;
+  --black: #000;
   --gray: #6c757d;
   --gray-dark: #343a40;
   --primary: #007bff;
@@ -1334,10 +1335,11 @@ nav {
 
   &.menu {
     a {
+      color: #2c3e50;
       background-color: $menu-color;
+      box-shadow: 3px 3px 5px var(--black);
       padding: 1rem;
       font-weight: bold;
-      color: #2c3e50;
 
       &.router-link-exact-active {
         color: $white-color;

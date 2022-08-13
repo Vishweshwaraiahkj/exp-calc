@@ -7,13 +7,14 @@
     @footerCancel="addCancel"
   >
     <template #trigger>
-      <MasterIcon :size="triggerIconSize" :svgName="triggerIcon"/>
+      <MasterIcon :size="triggerIconSize" :svgName="triggerIcon" />
     </template>
-      <template #header>
-      <h2>Add Expense/Income</h2>
+    <template #header>
+      <h3 v-if="actionType === 'add'" class="py-2">Add Expense/Income</h3>
+      <h3 v-if="actionType === 'update'" class="py-2">Update Expense/Income</h3>
     </template>
     <template #default>
-      <form class="col-12" id="addExpIncForm" >
+      <form class="col-12" id="addExpIncForm">
         <div class="row">
           <div class="form-group col-6">
             <MasterInput
@@ -25,7 +26,7 @@
               v-model:input-value="description"
               input-width="100%"
               :input-required="true"
-              />
+            />
           </div>
           <div class="form-group col-6">
             <MasterSelect
@@ -83,8 +84,7 @@
         </div>
       </form>
     </template>
-    <template #footer>
-    </template>
+    <template #footer> </template>
   </MasterModal>
 </template>
 
@@ -113,6 +113,10 @@ const props = defineProps({
   },
   triggerIconSize: {
     default: 'medium',
+    type: String
+  },
+  actionType: {
+    default: 'add',
     type: String
   }
 })
@@ -145,7 +149,7 @@ watchEffect(() => {
     addeddate.value = props.defaultsObject.date
     defaultCats.value = props.defaultsObject.category
     const typeSelected = props.defaultsObject.type
-    defaultTypes.value = typeSelected ? [typeSelected] : undefined
+    defaultTypes.value = typeSelected
   }
 })
 
@@ -160,7 +164,6 @@ const clearForm = () => {
 }
 
 const changeTheList = (type) => {
-  debugger
   const allInputs = [
     categoryList.value?.length,
     description.value,
@@ -169,7 +172,7 @@ const changeTheList = (type) => {
     addeddate.value
   ]
 
-  if (!allInputs.every(i => i)) {
+  if (!allInputs.every((i) => i)) {
     alert('You need to enter correct details!')
     return false
   }
@@ -187,19 +190,17 @@ const changeTheList = (type) => {
 }
 
 const addItem = () => {
-  const res = isValidObject(props.defaultsObject)
-    ? changeTheList('update')
-    : changeTheList('add')
-  return res
+  return changeTheList(props.actionType)
 }
 
 const addCancel = () => {
-  clearForm()
+  if (props.actionType === 'add') {
+    clearForm()
+  }
 }
 
 onMounted(() => {
   store.dispatch('utils/fetchAllCategories')
   store.dispatch('utils/fetchAllTypes')
 })
-
 </script>

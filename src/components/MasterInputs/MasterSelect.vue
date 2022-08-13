@@ -12,33 +12,29 @@
         {{ selectedCountText || selectPlaceholder }}
         <span class="arrow-down dropdown-arrow">&#9013;</span>
       </button>
-      <div v-if="isVisible" class="backDrop" @click="dropDown">
-      </div>
+      <div v-if="isVisible" class="backDrop" @click="dropDown"></div>
       <div v-if="isVisible" class="shadow-default optionsBox">
-          <span
-            v-for="opt in options"
-            :key="opt.optionId"
-            class="d-flex form-control menu-option"
-          >
-            <input
-              :id="opt.optionValue"
-              type="checkbox"
-              class="select-input"
-              :value="opt.optionValue"
-              :checked="opt.checked"
-              v-model="checkedValues"
-              @click="filterData"
-            />
-            <label :for="opt.optionValue">
-              {{ opt.optionName }}
-            </label>
-          </span>
-        </div>
+        <span
+          v-for="opt in options"
+          :key="opt.optionId"
+          class="d-flex form-control menu-option"
+        >
+          <input
+            :id="opt.optionValue"
+            type="checkbox"
+            class="select-input"
+            :value="opt.optionValue"
+            :checked="opt.checked"
+            v-model="checkedValues"
+            @click="filterData"
+          />
+          <label :for="opt.optionValue">
+            {{ opt.optionName }}
+          </label>
+        </span>
+      </div>
     </div>
-    <span
-      class="err"
-      v-if="!validInput && isRequired"
-    >
+    <span class="err" v-if="!validInput && isRequired">
       {{ errMessage }}
     </span>
   </div>
@@ -103,7 +99,7 @@ const toggleVisibility = (e) => {
 
 watchEffect(() => {
   if (props.defaultSelects.length) {
-    checkedValues.value = props.defaultSelects
+    checkedValues.value = props.defaultSelects.map((i) => i.optionValue)
   }
   if (props.resetTrue) {
     isRequired.value = false
@@ -142,21 +138,21 @@ const getFullObject = (key, values) => {
   return returnObject
 }
 
-watch(() => [...checkedValues.value], (newData, oldData) => {
-  validInput.value = checkedValues.value && checkedValues.value.length
-  if (!validInput.value) return false
-  if (isSingleSelect.value) {
-    emits('emitSelected', getFullObject('optionValue', checkedValues))
-  } else {
+watch(
+  () => [...checkedValues.value],
+  (newData, oldData) => {
+    validInput.value = checkedValues.value && checkedValues.value.length
+    if (!validInput.value) return false
     emits('emitSelected', getFullObject('optionValue', checkedValues))
   }
-})
+)
 
 const selectedCountText = computed(() => {
+  const optionsObj = getFullObject('optionValue', checkedValues)
   if (isSingleSelect.value && checkedValues.value.length) {
-    return `${checkedValues.value[0].Capitalize()} is selected.`
+    return `${optionsObj[0]?.optionName} is selected.`
   } else if (checkedValues.value.length) {
-    return `${checkedValues.value.length} item(s) are selected.`
+    return `${optionsObj.length} item(s) are selected.`
   } else {
     return false
   }
@@ -181,43 +177,43 @@ const selectedCountText = computed(() => {
   }
 
   .backDrop {
-    display         : block;
-    position        : fixed;
-    z-index         : 200;
-    padding-top     : 100px;
-    left            : 0;
-    top             : 0;
-    width           : 100%;
-    height          : 100%;
-    overflow        : auto;
+    display: block;
+    position: fixed;
+    z-index: 200;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
     background-color: rgb(0 0 0 / 25%);
   }
 
   .optionsBox {
-      width: 100%;
-      padding-top: 0;
-      left: 0;
-      top: calc(1.5rem + 0.75rem);
-      z-index: 200;
-      margin-top: 4px;
-      background-color: white;
-      position: absolute;
+    width: 100%;
+    padding-top: 0;
+    left: 0;
+    top: calc(1.5rem + 0.75rem);
+    z-index: 200;
+    margin-top: 4px;
+    background-color: white;
+    position: absolute;
 
-      .menu-option {
-        align-items: center;
-        margin: 5px;
+    .menu-option {
+      align-items: center;
+      margin: 5px;
 
-        label {
-          width: 100%;
-          text-align: left;
-        }
-      }
-
-      .select-input {
-        display: inline-block;
-        margin-bottom: 0.5rem;
-        margin-right: 1rem;
+      label {
+        width: 100%;
+        text-align: left;
       }
     }
+
+    .select-input {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      margin-right: 1rem;
+    }
+  }
 }
 </style>

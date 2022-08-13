@@ -634,6 +634,90 @@
           "optionName": "Over Draft"
         }
       ]
+    },
+    {
+      "id": "ac2a63bd-ed5f-4a59-b411-866643a1f65b",
+      "description": "Spirit Palace drinks ",
+      "type": [
+        {
+          "optionId": 11,
+          "optionValue": "expense",
+          "optionName": "Expense",
+          "checked": false
+        }
+      ],
+      "amount": "415",
+      "date": "2022-08-11T22:03",
+      "category": [
+        {
+          "optionId": 2,
+          "optionValue": "self",
+          "optionName": "Self"
+        }
+      ]
+    },
+    {
+      "id": "177333dd-4817-4172-9c42-6acb765837fd",
+      "description": "ATM Withdrawal",
+      "type": [
+        {
+          "optionId": 11,
+          "optionValue": "expense",
+          "optionName": "Expense",
+          "checked": false
+        }
+      ],
+      "amount": "7000",
+      "date": "2022-08-12T20:47",
+      "category": [
+        {
+          "optionId": 10,
+          "optionValue": "others",
+          "optionName": "Others"
+        }
+      ]
+    },
+    {
+      "id": "2dc4428d-cfb3-4847-8100-c5d50a7526f9",
+      "description": "Spent on house items - rice, etc",
+      "type": [
+        {
+          "optionId": 11,
+          "optionValue": "expense",
+          "optionName": "Expense",
+          "checked": false
+        }
+      ],
+      "amount": "2792",
+      "date": "2022-08-13T19:43",
+      "category": [
+        {
+          "optionId": 1,
+          "optionValue": "houseexpense",
+          "optionName": "House Expense"
+        }
+      ]
+    },
+    {
+      "id": "f4cee4b2-dd6b-497a-8b76-ccaa30c5297c",
+      "description": "House rent - Kalyannagar",
+      "type": [
+        {
+          "optionId": 11,
+          "optionValue": "expense",
+          "optionName": "Expense",
+          "checked": false
+        }
+      ],
+      "amount": "18000",
+      "date": "2022-08-11T22:07",
+      "category": [
+        {
+          "optionId": 7,
+          "optionValue": "houserent",
+          "optionName": "House Rent"
+        }
+      ]
     }
   ],
   "categories": [
