@@ -33,10 +33,10 @@
               select-width="100%"
               select-label="Categories"
               select-placeholder="Select a category"
-              :selectOptions="listOfCategories"
+              :select-options="listOfCategories"
               :input-required="true"
-              :resetTrue="resetInput"
-              :defaultSelects="defaultCats"
+              :reset-true="resetInput"
+              :default-selects="defaultCats"
             />
           </div>
         </div>
@@ -62,8 +62,8 @@
               :select-options="listOfTypes"
               :single-select="true"
               :input-required="true"
-              :resetTrue="resetInput"
-              :defaultSelects="defaultTypes"
+              :reset-true="resetInput"
+              :default-selects="defaultTypes"
             />
           </div>
         </div>
@@ -160,6 +160,7 @@ const clearForm = () => {
 }
 
 const changeTheList = (type) => {
+  debugger
   const allInputs = [
     categoryList.value?.length,
     description.value,

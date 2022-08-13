@@ -132,13 +132,23 @@ const filterData = (e) => {
   }
 }
 
+const getFullObject = (key, values) => {
+  const returnObject = values.value?.map((value) => {
+    const x = options.value?.find((i) => {
+      return i[key] === value
+    })
+    return x
+  })
+  return returnObject
+}
+
 watch(() => [...checkedValues.value], (newData, oldData) => {
   validInput.value = checkedValues.value && checkedValues.value.length
   if (!validInput.value) return false
   if (isSingleSelect.value) {
-    emits('emitSelected', checkedValues.value[0])
+    emits('emitSelected', getFullObject('optionValue', checkedValues))
   } else {
-    emits('emitSelected', checkedValues.value)
+    emits('emitSelected', getFullObject('optionValue', checkedValues))
   }
 })
 

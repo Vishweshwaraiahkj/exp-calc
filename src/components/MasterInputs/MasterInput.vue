@@ -7,6 +7,12 @@
       class="d-flex form-control"
       :class="!validInput && inputRequired ? 'err' : ''"
     >
+      <MasterIcon
+        v-if="hasIcon"
+        size="small"
+        :svgName="hasIcon"
+        classes="input-icon"
+      />
       <input
         :id="inputId"
         :type="inputType"
@@ -16,6 +22,13 @@
         :value="inputValue"
         :placeholder="inputPlaceholder"
         :required="inputRequired"
+      />
+      <MasterIcon
+        @click="clearInput"
+        v-if="inputValue"
+        size="small"
+        svgName="close-filled"
+        classes="clear-icon"
       />
     </span>
     <span
@@ -29,6 +42,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
 const emits = defineEmits(['update:inputValue'])
 
@@ -50,15 +64,15 @@ const props = defineProps({
     type: String
   },
   inputValue: {
-    type: [String, Date],
-    default: ''
+    type: [String, Date, Number],
+    default: null
   },
   inputName: {
     default: '',
     type: String
   },
   inputPlaceholder: {
-    default: 'Add something',
+    default: 'Type something',
     type: String
   },
   inputRequired: {
@@ -67,6 +81,10 @@ const props = defineProps({
   },
   inputErrMessage: {
     default: 'This is a required field',
+    type: String
+  },
+  hasIcon: {
+    default: '',
     type: String
   }
 })
@@ -78,4 +96,16 @@ const updateInput = (event) => {
   validInput.value = inputData
   emits('update:inputValue', inputData)
 }
+
+const clearInput = () => {
+  emits('update:inputValue', '')
+}
 </script>
+<style lang="scss" scoped>
+  .input-icon,
+  .clear-icon {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+</style>

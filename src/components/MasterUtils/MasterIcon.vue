@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="svg-holder" :class="classes">
         <svg :width="iconSize" :height="iconSize">
-            <use :href="`${iconsPath}#${iconName}`" />
+            <use :href="fullPath" />
         </svg>
     </div>
 </template>
@@ -14,7 +14,7 @@ const props = defineProps({
     type: String
   },
   svgName: {
-    default: '',
+    default: 'smiling',
     type: String
   },
   classes: {
@@ -41,6 +41,10 @@ if (props.size === 'x-large') {
 } else {
   iconSize.value = '32'
 }
+
+const fullPath = computed(() => {
+  return iconsPath.value + '#' + iconName.value
+})
 </script>
 <style lang="scss">
     .svg-holder {

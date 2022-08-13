@@ -8,38 +8,54 @@
         input-placeholder="Search the table!"
         input-type="text"
         v-model:input-value="searchKey"
-        input-width="50%"
+        input-width="25%"
+        hasIcon="search"
       />
-      <MasterIcon size="x-small" svgName="filter" />
+      <MasterIcon size="medium" svgName="filter" />
     </div>
     <table class="table table-striped table-hover shadow-dark">
-      <thead class="dark">
+      <thead class="dark" v-if="tableHeaders.length">
         <tr>
-          <th @click=" headerActions( 'type' ) ">Type</th>
-          <th @click=" headerActions( 'amount' ) ">Amount(Rs)</th>
-          <th @click=" headerActions( 'category' ) ">Category</th>
-          <th @click=" headerActions( 'description' ) ">Description</th>
-          <th @click=" headerActions( 'date' ) ">Date(YYYY-MM-DD)</th>
-          <th>Actions</th>
+          <th
+            v-for="item in tableHeaders"
+            :key="item.name"
+            @click="headerActions(item.actionType)"
+            :class="sortBy === item.actionType ? 'header-sort' : ''"
+          >
+            {{ item.name }}
+            <MasterIcon
+              v-if="item.sort && sortBy === item.actionType"
+              size="medium"
+              :svgName="sortType === 'asc' ? 'chevron-up' : 'chevron-down'"
+              :key="sortType"
+              classes="sort-icon"
+            />
+          </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="visibleData.length">
         <tr
-          v-for="( item ) in visibleData"
+          v-for="item in visibleData"
           :key="item.id"
-          :class="tdClass( item.type )"
+          :class="tdClass(item.type)"
         >
           <td>
-            <span :class=" item.type ">{{ item.type.Capitalize() }}</span>
+            <span
+              v-for="type in item.type"
+              :class="type.optionValue"
+              :key="type.optionId"
+            >
+              {{ type.optionName }}
+            </span>
           </td>
           <td>{{ item.amount }}</td>
           <td>
             <span
               class="category"
-              v-for="( cat, i ) in item.category"
-              :key="i"
+              v-for="cat in item.category"
+              :key="cat.optionId"
             >
-              {{ cat }}
+              {{ cat.optionName }}
             </span>
           </td>
           <td>{{ item.description }}</td>
@@ -74,16 +90,21 @@
                       Hey, Do you really want to delete this item?
                     </p>
                   </template>
-                  <template #footer>
-                  </template>
+                  <template #footer> </template>
                 </MasterModal>
               </span>
             </div>
           </td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <tr>
+          <td colspan="6">No Data!</td>
+        </tr>
+      </tbody>
     </table>
     <MasterPaginate
+      v-if="visibleData.length"
       :totalPages="totalPages"
       :perPage="perPage"
       :currentPage="pageNumber"
@@ -115,10 +136,43 @@ const pageNumber = ref(1)
 const perPage = ref(4)
 const sortBy = ref('date')
 const sortType = ref('desc')
-const visibleBtns = ref(3)
+const visibleBtns = ref(5)
 const currentItem = ref({})
 const searchKey = ref('')
 const finalData = ref([])
+
+const tableHeaders = [
+  {
+    name: 'Type',
+    actionType: 'type',
+    sort: true
+  },
+  {
+    name: 'Amount(Rs)',
+    actionType: 'amount',
+    sort: true
+  },
+  {
+    name: 'Category',
+    actionType: 'category',
+    sort: true
+  },
+  {
+    name: 'Description',
+    actionType: 'description',
+    sort: true
+  },
+  {
+    name: 'Date(YYYY-MM-DD)',
+    actionType: 'date',
+    sort: true
+  },
+  {
+    name: 'Actions',
+    actionType: '',
+    sort: false
+  }
+]
 
 const tdClass = (type) => {
   return type === 'income' ? 'plus' : 'minus'
@@ -132,16 +186,31 @@ const validData = () => {
 
 const sortedData = computed(() => {
   return validData().sort((a, b) => {
+    let itemA = a[sortBy.value]
+    const itemB = b[sortBy.value]
+    if (!isNaN(itemA)) {
+      itemA = Number(itemA)
+    }
+    if (!isNaN(itemA)) {
+      itemA = Number(itemA)
+    }
     let modifier = 1
-    if (sortType.value === 'desc') modifier = -1
-    if (a[sortBy.value] < b[sortBy.value]) return -1 * modifier
-    if (a[sortBy.value] > b[sortBy.value]) return 1 * modifier
+    if (sortType.value === 'desc') {
+      modifier = -1
+    }
+    if (itemA < itemB) {
+      return -1 * modifier
+    }
+    if (itemA > itemB) {
+      return 1 * modifier
+    }
     return 0
   })
 })
 
 const trimString = (s) => {
-  let l = 0; let r = s.length - 1
+  let l = 0
+  let r = s.length - 1
   while (l < s.length && s[l] === ' ') l++
   while (r > l && s[r] === ' ') r -= 1
   return s.substring(l, r + 1)
@@ -184,31 +253,41 @@ const searchedData = computed(() => {
   return results
 })
 
+const totalPages = computed(() => {
+  return Math.ceil(finalData.value?.length / perPage.value)
+})
+
 watchEffect(() => {
   finalData.value = sortedData.value
   if (searchKey.value) {
     finalData.value = searchedData.value
+  }
+  // passing page number as 1 if the data is less than current page number
+  // This happens while filtering table with search
+  if (pageNumber.value > totalPages.value) {
+    pageNumber.value = 1
   }
 })
 
 const visibleData = computed(() => {
   const start = (pageNumber.value - 1) * perPage.value || 0
   const end = pageNumber.value * perPage.value || perPage.value
-  return finalData.value?.slice(start, end)
+  if (finalData.value?.length > start) {
+    return finalData.value?.slice(start, end)
+  } else {
+    return finalData.value?.slice(0, perPage.value)
+  }
 })
 
 const toggleSort = () => {
-  sortType.value = (sortType.value === 'desc') ? 'asc' : 'desc'
+  sortType.value = sortType.value === 'desc' ? 'asc' : 'desc'
 }
 
 const headerActions = (value) => {
+  if (!value) return
   toggleSort()
   sortBy.value = value
 }
-
-const totalPages = computed(() => {
-  return Math.ceil(finalData.value?.length / perPage.value)
-})
 
 const onPageChange = (currentPage) => {
   pageNumber.value = currentPage
@@ -240,45 +319,59 @@ const updateList = (dataList, type) => {
 }
 </script>
 <style lang="scss">
-  .filter-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding-bottom: 0.625rem;
+.filter-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 0.625rem;
 
-    .svg-holder {
-      cursor: pointer;
+  .svg-holder {
+    cursor: pointer;
+  }
+
+  input {
+    box-shadow: var(--default-shadow);
+  }
+}
+
+table {
+  thead tr th {
+    min-width: 20%;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &.header-sort {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sort-icon {
+      fill: var(--white);
     }
   }
 
-  table {
-    thead tr th {
-      min-width: 20%;
-      white-space: nowrap;
-      cursor: pointer;
+  tbody tr td {
+    min-width: 20%;
+    max-width: 20%;
+  }
+}
+
+.actions {
+  display: inline-flex;
+
+  .action {
+    padding: 0.5rem;
+    margin-right: 5px;
+    border-radius: 3px;
+
+    &.delete {
+      background-color: red;
     }
 
-    tbody tr td {
-      min-width: 20%;
-      max-width: 20%;
+    &.update {
+      background-color: green;
     }
   }
-
-  .actions {
-    display: inline-flex;
-
-    .action {
-      padding: 0.5rem;
-      margin-right: 5px;
-      border-radius: 3px;
-
-      &.delete {
-        background-color: red;
-      }
-
-      &.update {
-        background-color: green;
-      }
-    }
-  }
+}
 </style>

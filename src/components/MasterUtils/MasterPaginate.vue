@@ -88,36 +88,29 @@ const maxBtns = computed(() => {
     : props.numBtnsCount
 })
 
-const startPage = computed(() => {
-  // When on the first page
-  if (props.currentPage === 1) {
-    return 1
-  }
-
-  // When on the last page, if 0 then default to 1
-  if (props.currentPage === props.totalPages) {
-    return props.totalPages - maxBtns.value || 1
-  }
-
-  // When in-between
-  return props.currentPage - 1
-})
-
 const pages = computed(() => {
-  const range = []
+  const half = Math.floor(maxBtns.value / 2)
+  let to = maxBtns.value
 
-  for (
-    let i = startPage.value;
-    i <= Math.min(startPage.value + maxBtns.value - 1, props.totalPages);
-    i++
-  ) {
-    range.push({
-      name: i,
-      isDisabled: i === props.currentPage
-    })
+  if (props.currentPage + half >= props.totalPages) {
+    to = props.totalPages
+  } else if (props.currentPage > half) {
+    to = props.currentPage + half
   }
 
-  return range
+  const from = to - maxBtns.value
+
+  const pagesArray = Array.from(
+    { length: maxBtns.value },
+    (_, i) => {
+      const pageName = (i + 1) + from
+      return {
+        name: pageName,
+        isDisabled: pageName === props.currentPage
+      }
+    }
+  )
+  return pagesArray
 })
 
 const isInFirstPage = computed(() => {

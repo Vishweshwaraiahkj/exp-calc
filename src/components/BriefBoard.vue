@@ -28,11 +28,11 @@ const incomeValue = ref(0)
 const expList = ref(store.state.expenses.list)
 
 const filteredExpenses = expList.value?.filter((i) => {
-  return i.type === 'expense'
+  return i.type[0]?.optionValue === 'expense'
 })
 
 const filteredIncomes = expList.value?.filter((i) => {
-  return i.type === 'income'
+  return i.type[0]?.optionValue === 'income'
 })
 
 expenseValue.value = filteredExpenses?.reduce((acc, item) => {
