@@ -10,11 +10,15 @@ module.exports = {
   rules: {
     indent: ['error', 2],
     'comma-dangle': ['error', 'never'],
+    'object-curly-spacing': [0, 'never'],
+    'array-bracket-spacing': [0, 'never'],
+    'computed-property-spacing': [0, 'never'],
+    'space-before-function-paren': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-extend-native': 'off',
     'max-len': ['error', { code: 80 }],
-    quotes: ['error', 'single'],
+    quotes: [1, 'single', { allowTemplateLiterals: true }],
     'import/extensions': 'off'
   }
 }

@@ -1,9 +1,14 @@
 <template lang="html">
-    <div class="svg-holder" :class="classes">
-        <svg :width="iconSize" :height="iconSize">
-            <use :href="fullPath" />
-        </svg>
-    </div>
+  <div class="svg-holder" :class="classes">
+    <svg
+      class="svg-shadow"
+      :fill="fillColor"
+      :width="iconSize"
+      :height="iconSize"
+    >
+      <use :href="fullPath" />
+    </svg>
+  </div>
 </template>
 <script setup>
 import { ref, computed } from 'vue'
@@ -18,6 +23,10 @@ const props = defineProps({
     type: String
   },
   classes: {
+    default: '',
+    type: String
+  },
+  fillColor: {
     default: '',
     type: String
   }
@@ -47,7 +56,7 @@ const fullPath = computed(() => {
 })
 </script>
 <style lang="scss">
-    .svg-holder {
-        display: inline-flex;
-    }
+.svg-holder {
+  display: inline-flex;
+}
 </style>

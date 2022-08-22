@@ -13,6 +13,7 @@ module.exports = defineConfig({
         },
         additionalData: `
             @import "src/assets/styles/_variables.scss";
+            @import "src/assets/styles/_mixins.scss";
           `
       }
     }

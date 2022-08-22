@@ -31,10 +31,7 @@
         classes="clear-icon"
       />
     </span>
-    <span
-      class="err"
-      v-if="!validInput && inputRequired"
-    >
+    <span class="err" v-if="!validInput && inputRequired">
       {{ errMessage }}
     </span>
   </div>
@@ -102,10 +99,10 @@ const clearInput = () => {
 }
 </script>
 <style lang="scss" scoped>
-  .input-icon,
-  .clear-icon {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
+.input-icon,
+.clear-icon {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
 }
 </style>

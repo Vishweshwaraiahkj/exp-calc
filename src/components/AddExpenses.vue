@@ -5,6 +5,7 @@
     btnClasses="add-btn"
     @footerConfirm="addItem"
     @footerCancel="addCancel"
+    :footerBtns="['confirm', 'cancel']"
   >
     <template #trigger>
       <MasterIcon :size="triggerIconSize" :svgName="triggerIcon" />
@@ -92,7 +93,7 @@
 import { ref, watchEffect, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { v4 as uuids4 } from 'uuid'
-import { isValidObject } from '@/utils/globals.js'
+import { isValidObject, customSort } from '@/utils/globals.js'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
@@ -124,8 +125,14 @@ const props = defineProps({
 const emits = defineEmits(['emitChangeList'])
 const store = useStore()
 
-const listOfCategories = computed(() => store.getters['utils/getAllCategories'])
-const listOfTypes = computed(() => store.getters['utils/getAllTypes'])
+const listOfCategories = computed(() => {
+  const unsortedCategories = store.getters['utils/getAllCategories']
+  return customSort(unsortedCategories, 'sortKey', 'asc')
+})
+const listOfTypes = computed(() => {
+  const unsortedTypes = store.getters['utils/getAllTypes']
+  return customSort(unsortedTypes, 'sortKey', 'asc')
+})
 const description = ref(null)
 const amount = ref(null)
 const typeList = ref([])

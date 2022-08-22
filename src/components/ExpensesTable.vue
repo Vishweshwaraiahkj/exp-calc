@@ -1,3 +1,75 @@
+<style lang="scss">
+.filter-box {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 0.625rem;
+
+  .svg-holder {
+    cursor: pointer;
+  }
+
+  input {
+    box-shadow: var(--default-shadow);
+  }
+}
+
+.match-space {
+  padding: 1rem 1.5rem;
+  box-shadow: var(--default-shadow);
+  background-color: var(--white);
+}
+
+table {
+  thead tr th {
+    min-width: 20%;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:last-child {
+      text-align: center;
+    }
+
+    &.header-sort {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sort-icon {
+      fill: var(--white);
+    }
+  }
+
+  tbody tr td {
+    min-width: 20%;
+    max-width: 20%;
+
+    &:last-child {
+      text-align: center;
+    }
+  }
+}
+
+.actions {
+  display: inline-flex;
+
+  .action {
+    padding: 0.5rem;
+    margin: 0 3px;
+    border-radius: 3px;
+
+    &.delete {
+      background-color: red;
+    }
+
+    &.update {
+      background-color: green;
+    }
+  }
+}
+</style>
 <template>
   <div class="col-12 mt-3">
     <div class="filter-box">
@@ -10,7 +82,7 @@
         input-width="25%"
         hasIcon="search"
       />
-      <MasterIcon size="medium" svgName="filter" />
+      <FiltersModal />
     </div>
     <table class="table table-striped table-hover shadow-dark">
       <thead class="dark" v-if="tableHeaders.length">
@@ -21,7 +93,7 @@
             @click="headerActions(item.actionType)"
             :class="sortBy === item.actionType ? 'header-sort' : ''"
           >
-            {{ item.name }}
+            <span>{{ item.name }}</span>
             <MasterIcon
               v-if="item.sort && sortBy === item.actionType"
               size="small"
@@ -39,23 +111,15 @@
           :class="tdClass(item.type)"
         >
           <td>
-            <span
-              v-for="type in item.type"
-              :class="type.optionValue"
-              :key="type.optionId"
-            >
-              {{ type.optionName }}
-            </span>
+            <template v-for="type in item.type" :key="type.id">
+              <LoopsRender :item="type" />
+            </template>
           </td>
           <td>{{ item.amount }}</td>
           <td>
-            <span
-              class="category"
-              v-for="cat in item.category"
-              :key="cat.optionId"
-            >
-              {{ cat.optionName }}
-            </span>
+            <template v-for="cat in item.category" :key="cat.id">
+              <LoopsRender :item="cat" />
+            </template>
           </td>
           <td>{{ item.description }}</td>
           <td>{{ item.date }}</td>
@@ -78,6 +142,7 @@
                   btnClasses="delete-btn"
                   @footerConfirm="deleteItem"
                   @footerCancel="deleteCancel"
+                  :footerBtns="['confirm', 'cancel']"
                 >
                   <template #trigger>
                     <MasterIcon size="x-small" svgName="delete" />
@@ -110,6 +175,7 @@
       :currentPage="pageNumber"
       :numBtnsCount="visibleBtns"
       @pageChanged="onPageChange"
+      classes="match-space"
     />
   </div>
 </template>
@@ -117,11 +183,14 @@
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
+import { customSort } from '@/utils/globals'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
 import AddExpenses from '@/components/AddExpenses.vue'
-import MasterInput from './MasterInputs/MasterInput.vue'
+import MasterInput from '@/components/MasterInputs/MasterInput.vue'
+import FiltersModal from '@/components/FiltersModal.vue'
+import LoopsRender from './MasterUtils/LoopsRender.vue'
 
 const props = defineProps({
   dataArray: {
@@ -184,51 +253,9 @@ const validData = () => {
   })
 }
 
-const sortArrayObjects = (a, b) => {
-  if (a.constructor.name !== 'Array' || b.constructor.name !== 'Array') {
-    return false
-  }
-  let modifier = 1
-  if (sortType.value === 'desc') {
-    modifier = -1
-  }
-  if (a[0].optionName < b[0].optionName) {
-    return -1 * modifier
-  }
-  if (a[0].optionName > b[0].optionName) {
-    return 1 * modifier
-  }
-  return 0
-}
-
-const sortPrimitives = (a, b) => {
-  let modifier = 1
-  if (sortType.value === 'desc') {
-    modifier = -1
-  }
-  if (a < b) {
-    return -1 * modifier
-  }
-  if (a > b) {
-    return 1 * modifier
-  }
-  return 0
-}
-
-const sortedData = computed(() => {
-  return validData().sort((a, b) => {
-    let itemA = a[sortBy.value]
-    const itemB = b[sortBy.value]
-
-    if (!isNaN(itemA)) itemA = Number(itemA)
-    if (!isNaN(itemA)) itemA = Number(itemA)
-
-    if (itemA.constructor.name === 'Array') {
-      return sortArrayObjects(itemA, itemB)
-    }
-    return sortPrimitives(itemA, itemB)
-  })
-})
+const sortedData = computed(() =>
+  customSort(validData(), sortBy.value, sortType.value)
+)
 
 const trimString = (s) => {
   let l = 0
@@ -340,60 +367,3 @@ const updateList = (dataList, type) => {
   store.dispatch('expenses/updateToExpensesList', updatedObj)
 }
 </script>
-<style lang="scss">
-.filter-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-bottom: 0.625rem;
-
-  .svg-holder {
-    cursor: pointer;
-  }
-
-  input {
-    box-shadow: var(--default-shadow);
-  }
-}
-
-table {
-  thead tr th {
-    min-width: 20%;
-    white-space: nowrap;
-    cursor: pointer;
-
-    &.header-sort {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sort-icon {
-      fill: var(--white);
-    }
-  }
-
-  tbody tr td {
-    min-width: 20%;
-    max-width: 20%;
-  }
-}
-
-.actions {
-  display: inline-flex;
-
-  .action {
-    padding: 0.5rem;
-    margin-right: 5px;
-    border-radius: 3px;
-
-    &.delete {
-      background-color: red;
-    }
-
-    &.update {
-      background-color: green;
-    }
-  }
-}
-</style>

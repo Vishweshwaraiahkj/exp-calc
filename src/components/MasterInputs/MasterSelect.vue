@@ -16,7 +16,7 @@
       <div v-if="isVisible" class="shadow-default optionsBox">
         <span
           v-for="opt in options"
-          :key="opt.optionId"
+          :key="opt.id"
           class="d-flex form-control menu-option"
         >
           <input

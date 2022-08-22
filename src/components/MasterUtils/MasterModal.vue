@@ -1,92 +1,12 @@
-<template>
-  <button class="btn" :class="btnClasses" :id="triggerId" @click="toggleModal">
-    <slot name="trigger"></slot>
-  </button>
-  <div id="myModal" :class="`modal ${size}`" v-if="isShow" @click="toggleModal">
-    <div class="modal-content shadow-dark" @click.stop="">
-      <span class="close medium" @click="toggleModal">
-        <MasterIcon size="x-small" svgName="close-cross" />
-      </span>
-      <header v-if="headerSlot" class="modal-header">
-        <slot name="header"></slot>
-      </header>
-      <main v-if="defaultSlot" class="modal-body">
-        <slot></slot>
-      </main>
-      <footer v-if="footerSlot" class="modal-footer">
-        <slot name="footer"></slot>
-        <button class="btn btn-primary my-2 mr-2" @click="confirmAction">
-          Confirm
-        </button>
-        <button class="btn btn-danger my-2" @click="cancelAction">
-          Cancel
-        </button>
-      </footer>
-    </div>
-  </div>
-</template>
-<script setup>
-import { computed, ref, useSlots } from 'vue'
-import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
-import { useStore } from 'vuex'
-
-const props = defineProps({
-  triggerId: {
-    default: 'myBtn',
-    type: String
-  },
-  modalSize: {
-    default: 'medium',
-    type: String
-  },
-  btnClasses: {
-    default: '',
-    type: String
-  }
-})
-
-const store = useStore()
-
-const emits = defineEmits(['footerConfirm', 'footerCancel'])
-
-const slots = useSlots()
-
-const isShow = ref(false)
-const size = ref(props.modalSize)
-const modalState = computed(() => store.getters['utils/getModalStatus'])
-
-const toggleModal = () => {
-  isShow.value = !isShow.value
-}
-
-const headerSlot = computed(() => {
-  return !!slots.header
-})
-
-const defaultSlot = computed(() => {
-  return !!slots.default
-})
-
-const footerSlot = computed(() => {
-  return !!slots.footer
-})
-
-const confirmAction = () => {
-  emits('footerConfirm')
-  if (modalState.value === 'close') {
-    toggleModal()
-    store.dispatch('utils/changeModalStatus', '')
-  }
-}
-
-const cancelAction = () => {
-  emits('footerCancel')
-  toggleModal()
-}
-</script>
-
 <style lang="scss" scoped>
 // Modal popup styles
+
+.btn {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
 
 /* The Modal (background) */
 .modal {
@@ -169,3 +89,96 @@ const cancelAction = () => {
   }
 }
 </style>
+<template>
+  <button class="btn" :class="btnClasses" :id="triggerId" @click="toggleModal">
+    <slot name="trigger"></slot>
+  </button>
+  <div id="myModal" :class="`modal ${size}`" v-if="isShow" @click="toggleModal">
+    <div class="modal-content shadow-dark" @click.stop="">
+      <span class="close medium" @click="toggleModal">
+        <MasterIcon fill-color="green" size="x-small" svg-name="close-cross" />
+      </span>
+      <header v-if="headerSlot" class="modal-header">
+        <slot name="header"></slot>
+      </header>
+      <main v-if="defaultSlot" class="modal-body">
+        <slot></slot>
+      </main>
+      <footer v-if="footerSlot" class="modal-footer">
+        <slot name="footer"></slot>
+        <button
+          v-if="showAction('confirm')"
+          class="btn btn-primary my-2 mr-2"
+          @click="confirmAction"
+        >
+          Confirm
+        </button>
+        <button
+          v-if="showAction('cancel')"
+          class="btn btn-danger my-2"
+          @click="cancelAction"
+        >
+          Cancel
+        </button>
+      </footer>
+    </div>
+  </div>
+</template>
+<script setup>
+import { computed, ref, useSlots } from 'vue'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+
+const props = defineProps({
+  triggerId: {
+    default: 'myBtn',
+    type: String
+  },
+  modalSize: {
+    default: 'medium',
+    type: String
+  },
+  btnClasses: {
+    default: '',
+    type: String
+  },
+  footerBtns: {
+    default: () => [],
+    type: Array
+  }
+})
+
+const showAction = (btnName) => props.footerBtns.includes(btnName)
+
+const emits = defineEmits(['footerConfirm', 'footerCancel'])
+
+const slots = useSlots()
+
+const isShow = ref(false)
+const size = ref(props.modalSize)
+
+const toggleModal = () => {
+  isShow.value = !isShow.value
+}
+
+const headerSlot = computed(() => {
+  return !!slots.header
+})
+
+const defaultSlot = computed(() => {
+  return !!slots.default
+})
+
+const footerSlot = computed(() => {
+  return !!slots.footer
+})
+
+const confirmAction = () => {
+  emits('footerConfirm')
+  toggleModal()
+}
+
+const cancelAction = () => {
+  emits('footerCancel')
+  toggleModal()
+}
+</script>

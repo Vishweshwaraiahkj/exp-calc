@@ -1,15 +1,15 @@
 <template lang="html">
-    <div v-if="isVisible" :class="`notification ${type} ${position}`">
-        <header>
-            <h6>{{ type.Capitalize() }}</h6>
-            <span class="close small" @click="hideNotifier">
-                <MasterIcon size="x-small" svgName="close-filled"/>
-            </span>
-        </header>
-        <main>
-            <p class="message">{{ message }}</p>
-        </main>
-    </div>
+  <div v-if="isVisible" :class="`notification ${type} ${position}`">
+    <header>
+      <h6>{{ type.Capitalize() }}</h6>
+      <span class="close small" @click="hideNotifier">
+        <MasterIcon size="x-small" svgName="close-filled" />
+      </span>
+    </header>
+    <main>
+      <p class="message">{{ message }}</p>
+    </main>
+  </div>
 </template>
 <script setup>
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
@@ -41,5 +41,4 @@ onMounted(() => {
     isVisible.value = false
   }, 5000)
 })
-
 </script>
