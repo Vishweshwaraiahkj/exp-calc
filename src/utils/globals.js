@@ -134,3 +134,51 @@ const sortPrimitives = (a, b, type) => {
   }
   return 0
 }
+
+const trimString = (s) => {
+  let l = 0
+  let r = s.length - 1
+  while (l < s.length && s[l] === ' ') l++
+  while (r > l && s[r] === ' ') r -= 1
+  return s.substring(l, r + 1)
+}
+
+const compareObjects = (o1, o2) => {
+  let k = ''
+  for (k in o1) {
+    if (o1[k] !== o2[k]) return false
+  }
+  for (k in o2) {
+    if (o1[k] !== o2[k]) return false
+  }
+  return true
+}
+
+const itemExists = (haystack, needle) => {
+  for (let i = 0; i < haystack.length; i++) {
+    if (compareObjects(haystack[i], needle)) return true
+  }
+  return false
+}
+
+export const searchData = (searchData, searchKey) => {
+  if (!searchData.length || !searchKey) return false
+  const results = []
+  const toSearch = trimString(searchKey).toLowerCase() // trim it
+  for (let i = 0; i < searchData.length; i++) {
+    for (const key in searchData[i]) {
+      let searchItem = searchData[i][key]
+      if (typeof searchItem === 'string') {
+        searchItem = searchItem.toLowerCase()
+      } else {
+        searchItem = searchItem[0]?.sortKey?.toLowerCase()
+      }
+      if (searchItem.indexOf(toSearch) !== -1) {
+        if (!itemExists(results, searchData[i])) {
+          results.push(searchData[i])
+        }
+      }
+    }
+  }
+  return results
+}

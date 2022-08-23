@@ -104,5 +104,7 @@ const clearInput = () => {
   display: flex;
   align-items: center;
   padding: 1rem;
+  cursor: pointer;
+  box-shadow: boxShadow(default);
 }
 </style>

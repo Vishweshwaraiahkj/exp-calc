@@ -193,6 +193,7 @@ const changeTheList = (type) => {
     addeddate: addeddate.value
   }
   emits('emitChangeList', changeDetailsObj, type)
+  if (type === 'add') clearForm()
   return true
 }
 

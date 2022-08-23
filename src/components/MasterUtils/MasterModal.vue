@@ -13,7 +13,7 @@
   display: block;
   position: fixed;
   z-index: 200;
-  padding-top: 100px;
+  padding-top: px2rem(100);
   left: 0;
   top: 0;
   width: 100%;
@@ -39,7 +39,7 @@
     background-color: #fefefe;
     margin: auto;
     padding: 0;
-    border: 1px solid #888;
+    border: px2rem(1) solid #888;
     width: 80%;
     -webkit-animation-name: animate-top;
     -webkit-animation-duration: 0.4s;
@@ -48,16 +48,16 @@
   }
 
   &-header {
-    padding: 2px 16px;
+    padding: px2rem(2) 1rem;
     color: white;
   }
 
   &-body {
-    padding: 2px 16px;
+    padding: px2rem(2) 1rem;
   }
 
   &-footer {
-    padding: 2px 16px;
+    padding: px2rem(2) 1rem;
     color: white;
     display: flex;
     justify-content: flex-end;
@@ -67,7 +67,7 @@
 /* Add Animation */
 @-webkit-keyframes animate-top {
   from {
-    top: -300px;
+    top: px2rem(-300);
     opacity: 0;
   }
 
@@ -79,7 +79,7 @@
 
 @keyframes animate-top {
   from {
-    top: -300px;
+    top: px2rem(-300);
     opacity: 0;
   }
 

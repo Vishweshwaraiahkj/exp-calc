@@ -2,5 +2,113 @@
     width: auto;
     color: var(--white);
     padding: 1%;
-    box-shadow: var(--box-shadow);
+    box-shadow: boxShadow(minimal);
+}
+
+@mixin headings($size) {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: $size;
+}
+
+@mixin AmountType {
+    color: var(--white);
+    padding: px2rem(3) px2rem(6);
+    border-radius: 0.25rem;
+    margin: auto;
+    line-height: 1;
+    min-width: px2rem(200);
+}
+
+@mixin formControl {
+    display: block;
+    height: calc(1.5em + 0.75rem + px2rem(2));
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: var(--white);
+    background-clip: padding-box;
+    border: px2rem(1) solid #ced4da;
+    border-radius: 0;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@function boxShadow($type, $variant: black) {
+    $black: var(--black);
+    $white: var(--white);
+    $black-trans: var(--black-trans);
+    $white-trans: var(--white-trans);
+    $success: var(--success);
+    $info: var(--info);
+    $warning: var(--warning);
+    $danger: var(--danger);
+    $primary: var(--primary);
+    $secondary: var(--secondary);
+    $menu: var(--menu-color);
+
+    $default-shadow: var(--default-shadow);
+    $minimal-shadow: var(--minimal-shadow);
+    $light-shadow: var(--light-shadow);
+    $dark-shadow: var(--dark-shadow);
+    $svg-shadow: var(--svg-shadow);
+    $focus-shadow: var(--focus-shadow);
+    $menu-shadow: var(--menu-shadow);
+
+    @if $type ==menu and $variant ==black {
+        @return $menu-shadow $black;
+    }
+
+    @else if $type ==svg and $variant ==black {
+        @return $svg-shadow $black-trans;
+    }
+
+    @else if $type ==focus and $variant ==black {
+        @return $focus-shadow $black;
+    }
+
+    @else if $type ==focus and $variant ==primary {
+        @return $focus-shadow $primary;
+    }
+
+    @else if $type ==focus and $variant ==secondary {
+        @return $focus-shadow $secondary;
+    }
+
+    @else if $type ==focus and $variant ==success {
+        @return $focus-shadow $success;
+    }
+
+    @else if $type ==focus and $variant ==info {
+        @return $focus-shadow $info;
+    }
+
+    @else if $type ==focus and $variant ==warning {
+        @return $focus-shadow $warning;
+    }
+
+    @else if $type ==focus and $variant ==danger {
+        @return $focus-shadow $danger;
+    }
+
+    @else if $type ==light and $variant ==black {
+        @return $light-shadow $black-trans;
+    }
+
+    @else if $type ==dark and $variant ==black {
+        @return $dark-shadow $black-trans;
+    }
+
+    @else if $type ==minimal and $variant ==black {
+        @return $minimal-shadow $black-trans;
+    }
+
+    @return $default-shadow $black-trans;
+}
+
+@function px2rem($size) {
+    $rem-px: 16;
+    $rem-size: calc($size / $rem-px);
+    @return #{$rem-size}rem;
 }

@@ -166,11 +166,11 @@ const selectedCountText = computed(() => {
   }
 
   .menu-btn {
-    font: 300 13.3333px var(--global-font-family);
-    padding: 2px 10px;
+    font: 300 px2rem(13.3333) var(--global-font-family);
+    padding: px2rem(2) px2rem(10);
     background: transparent;
     width: 100%;
-    border-radius: 2px;
+    border-radius: px2rem(2);
     text-align: left;
     color: #757575;
     border: 0;
@@ -180,7 +180,7 @@ const selectedCountText = computed(() => {
     display: block;
     position: fixed;
     z-index: 200;
-    padding-top: 100px;
+    padding-top: px2rem(100);
     left: 0;
     top: 0;
     width: 100%;
@@ -195,13 +195,13 @@ const selectedCountText = computed(() => {
     left: 0;
     top: calc(1.5rem + 0.75rem);
     z-index: 200;
-    margin-top: 4px;
+    margin-top: px2rem(4);
     background-color: white;
     position: absolute;
 
     .menu-option {
       align-items: center;
-      margin: 5px;
+      margin: px2rem(5);
 
       label {
         width: 100%;

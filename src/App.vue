@@ -5,6 +5,7 @@
     :type="toastMsgs.type"
     position="top-center"
     :message="toastMsgs.message"
+    :timeout="3000"
   />
   <AppHeader>
     <nav class="menu">
@@ -28,7 +29,6 @@ const toastMsgs = ref({})
 const toastKey = ref(0)
 
 watchEffect(() => {
-  debugger
   toastMsgs.value = store.getters['utils/getGlobalMsgs']
   toastKey.value = toastKey.value + 1
 })

@@ -15,7 +15,7 @@
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import { onMounted, ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   type: {
     default: 'info',
     type: String
@@ -27,6 +27,10 @@ defineProps({
   position: {
     default: 'top-right',
     type: String
+  },
+  timeout: {
+    default: 5000,
+    type: Number
   }
 })
 
@@ -39,6 +43,6 @@ const hideNotifier = () => {
 onMounted(() => {
   setTimeout(() => {
     isVisible.value = false
-  }, 5000)
+  }, props.timeout)
 })
 </script>

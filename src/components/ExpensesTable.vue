@@ -6,18 +6,14 @@
   align-items: flex-end;
   padding-bottom: 0.625rem;
 
-  .svg-holder {
-    cursor: pointer;
-  }
-
   input {
-    box-shadow: var(--default-shadow);
+    box-shadow: boxShadow(default);
   }
 }
 
 .match-space {
   padding: 1rem 1.5rem;
-  box-shadow: var(--default-shadow);
+  box-shadow: boxShadow(default);
   background-color: var(--white);
 }
 
@@ -57,8 +53,8 @@ table {
 
   .action {
     padding: 0.5rem;
-    margin: 0 3px;
-    border-radius: 3px;
+    margin: 0 px2rem(3);
+    border-radius: px2rem(3);
 
     &.delete {
       background-color: red;
@@ -183,7 +179,7 @@ table {
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { customSort } from '@/utils/globals'
+import { customSort, searchData } from '@/utils/globals'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
@@ -257,50 +253,9 @@ const sortedData = computed(() =>
   customSort(validData(), sortBy.value, sortType.value)
 )
 
-const trimString = (s) => {
-  let l = 0
-  let r = s.length - 1
-  while (l < s.length && s[l] === ' ') l++
-  while (r > l && s[r] === ' ') r -= 1
-  return s.substring(l, r + 1)
-}
-
-const compareObjects = (o1, o2) => {
-  let k = ''
-  for (k in o1) {
-    if (o1[k] !== o2[k]) return false
-  }
-  for (k in o2) {
-    if (o1[k] !== o2[k]) return false
-  }
-  return true
-}
-
-const itemExists = (haystack, needle) => {
-  for (let i = 0; i < haystack.length; i++) {
-    if (compareObjects(haystack[i], needle)) return true
-  }
-  return false
-}
-
-const searchedData = computed(() => {
-  const results = []
-  const toSearch = trimString(searchKey.value).toLowerCase() // trim it
-  for (let i = 0; i < sortedData.value.length; i++) {
-    for (const key in sortedData.value[i]) {
-      let searchItem = sortedData.value[i][key]
-      if (typeof searchItem === 'string') {
-        searchItem = searchItem.toLowerCase()
-      }
-      if (searchItem.indexOf(toSearch) !== -1) {
-        if (!itemExists(results, sortedData.value[i])) {
-          results.push(sortedData.value[i])
-        }
-      }
-    }
-  }
-  return results
-})
+const searchedData = computed(() =>
+  searchData(sortedData.value, searchKey.value)
+)
 
 const totalPages = computed(() => {
   return Math.ceil(finalData.value?.length / perPage.value)

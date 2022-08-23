@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="svg-holder" :class="classes">
     <svg
-      class="svg-shadow"
+      class="shadow-svg"
       :fill="fillColor"
       :width="iconSize"
       :height="iconSize"
