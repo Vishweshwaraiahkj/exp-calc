@@ -106,5 +106,6 @@ const clearInput = () => {
   padding: 1rem;
   cursor: pointer;
   box-shadow: boxShadow(default);
+  width: px2rem(45);
 }
 </style>

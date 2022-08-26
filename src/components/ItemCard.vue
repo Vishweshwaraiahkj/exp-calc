@@ -4,22 +4,13 @@
 
   p {
     position: relative;
-    margin: auto;
     color: v-bind('theme.color');
     background: v-bind('theme.bgColor');
     margin: 0.625rem;
     padding: 0.625rem;
-
-    &:first-child {
-      font-weight: bold;
-      font-size: 1.5rem;
-      margin: 0.5rem 0;
-    }
-
-    &:last-child {
-      font-style: italic;
-      font-size: 1rem;
-    }
+    font-size: 1rem;
+    font-weight: bold;
+    font-style: italic;
   }
 
   .heart-favorite {

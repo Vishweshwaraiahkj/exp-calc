@@ -1,4 +1,25 @@
-<template lang="html">
+<style lang="scss" scoped>
+.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-end;
+
+  &-item {
+    display: inline-block;
+    margin-left: 0.25rem;
+
+    button.btn {
+      min-width: px2rem(45);
+    }
+  }
+
+  .active {
+    background-color: #4aae9b;
+    color: #ffffff;
+  }
+}
+</style>
+<template>
   <ul class="pagination" :class="classes">
     <li class="pagination-item">
       <button
@@ -7,7 +28,7 @@
         @click="onClickFirstPage"
         :disabled="isInFirstPage"
       >
-        First
+        <MasterIcon size="x-small" svg-name="first" fillColor="white" />
       </button>
     </li>
     <li class="pagination-item">
@@ -17,7 +38,7 @@
         @click="onClickPreviousPage"
         :disabled="isInFirstPage"
       >
-        Previous
+        <MasterIcon size="x-small" svg-name="previous" fillColor="white" />
       </button>
     </li>
     <!-- Visible Buttons Start -->
@@ -40,7 +61,7 @@
         @click="onClickNextPage"
         :disabled="isInLastPage"
       >
-        Next
+        <MasterIcon size="x-small" svg-name="next" fillColor="white" />
       </button>
     </li>
     <li class="pagination-item">
@@ -50,13 +71,14 @@
         @click="onClickLastPage"
         :disabled="isInLastPage"
       >
-        Last
+        <MasterIcon size="x-small" svg-name="last" fillColor="white" />
       </button>
     </li>
   </ul>
 </template>
 <script setup>
 import { computed } from 'vue'
+import MasterIcon from './MasterIcon.vue'
 
 const props = defineProps({
   numBtnsCount: {
@@ -144,20 +166,3 @@ const isPageActive = (page) => {
   return props.currentPage === page
 }
 </script>
-<style lang="scss">
-.pagination {
-  list-style-type: none;
-  display: flex;
-  justify-content: flex-end;
-
-  &-item {
-    display: inline-block;
-    margin-left: 0.25rem;
-  }
-
-  .active {
-    background-color: #4aae9b;
-    color: #ffffff;
-  }
-}
-</style>

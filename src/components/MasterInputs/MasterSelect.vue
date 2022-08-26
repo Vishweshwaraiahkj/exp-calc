@@ -1,19 +1,95 @@
+<style lang="scss" scoped>
+.multiselect {
+  position: relative;
+  box-shadow: boxShadow(default);
+
+  &.active {
+    .dropdown-arrow {
+      transform: rotate(180deg);
+      -webkit-transform: rotate(180deg);
+    }
+  }
+  .dropdown-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: px2rem(45);
+  }
+
+  .menu-btn {
+    font: 300 px2rem(13.3333) var(--global-font-family);
+    padding: px2rem(2) px2rem(10);
+    background: transparent;
+    width: 100%;
+    border-radius: px2rem(2);
+    text-align: left;
+    color: #757575;
+    border: 0;
+  }
+
+  .backDrop {
+    display: block;
+    position: fixed;
+    z-index: 200;
+    padding-top: px2rem(100);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0 0 0 / 25%);
+  }
+
+  .optionsBox {
+    width: 100%;
+    padding-top: 0;
+    left: 0;
+    top: calc(1.5rem + 0.75rem);
+    z-index: 200;
+    margin-top: px2rem(4);
+    background-color: white;
+    position: absolute;
+
+    .menu-option {
+      align-items: center;
+      margin: px2rem(5);
+
+      label {
+        width: 100%;
+        text-align: left;
+      }
+    }
+
+    .select-input {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      margin-right: 1rem;
+    }
+  }
+}
+</style>
 <template>
   <div class="">
     <label class="input-label">
       {{ selectLabel }}
     </label>
     <div
-      class="d-flex form-control multiselect-dropdown"
+      class="d-flex form-control multiselect"
       :class="!validInput && isRequired ? 'err' : ''"
       :style="{ width: selectBoxWidth }"
     >
       <button class="menu-btn" type="button" @click="dropDown">
         {{ selectedCountText || selectPlaceholder }}
-        <span class="arrow-down dropdown-arrow">&#9013;</span>
+        <span class="dropdown-arrow">
+          <span class="down-arrow" />
+        </span>
       </button>
       <div v-if="isVisible" class="backDrop" @click="dropDown"></div>
-      <div v-if="isVisible" class="shadow-default optionsBox">
+      <div v-if="isVisible" class="shadow-default optionsBox animate">
         <span
           v-for="opt in options"
           :key="opt.id"
@@ -113,7 +189,7 @@ const options = computed(() => {
 
 const dropDown = (e) => {
   toggleVisibility()
-  const collection = document.querySelectorAll('.multiselect-dropdown')
+  const collection = document.querySelectorAll('.multiselect')
   for (const elm of collection) {
     elm.classList.remove('active')
   }
@@ -158,62 +234,3 @@ const selectedCountText = computed(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.multiselect-dropdown {
-  &.active {
-    z-index: 200;
-  }
-
-  .menu-btn {
-    font: 300 px2rem(13.3333) var(--global-font-family);
-    padding: px2rem(2) px2rem(10);
-    background: transparent;
-    width: 100%;
-    border-radius: px2rem(2);
-    text-align: left;
-    color: #757575;
-    border: 0;
-  }
-
-  .backDrop {
-    display: block;
-    position: fixed;
-    z-index: 200;
-    padding-top: px2rem(100);
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0 0 0 / 25%);
-  }
-
-  .optionsBox {
-    width: 100%;
-    padding-top: 0;
-    left: 0;
-    top: calc(1.5rem + 0.75rem);
-    z-index: 200;
-    margin-top: px2rem(4);
-    background-color: white;
-    position: absolute;
-
-    .menu-option {
-      align-items: center;
-      margin: px2rem(5);
-
-      label {
-        width: 100%;
-        text-align: left;
-      }
-    }
-
-    .select-input {
-      display: inline-block;
-      margin-bottom: 0.5rem;
-      margin-right: 1rem;
-    }
-  }
-}
-</style>

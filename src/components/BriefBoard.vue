@@ -18,14 +18,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
 const balanceMoney = ref(0)
 const expenseValue = ref(0)
 const incomeValue = ref(0)
-const expList = ref(store.state.expenses.list)
+const expList = computed(() => store.state.expenses.list)
 
 const filteredExpenses = expList.value?.filter((i) => {
   return i.type[0]?.optionValue === 'expense'
@@ -44,5 +44,4 @@ incomeValue.value = filteredIncomes?.reduce((acc, item) => {
 }, 0)
 
 balanceMoney.value = incomeValue.value - expenseValue.value
-
 </script>

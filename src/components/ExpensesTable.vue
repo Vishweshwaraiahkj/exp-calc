@@ -106,19 +106,19 @@ table {
           :key="item.id"
           :class="tdClass(item.type)"
         >
-          <td>
+          <td class="type">
             <template v-for="type in item.type" :key="type.id">
               <LoopsRender :item="type" />
             </template>
           </td>
-          <td>{{ item.amount }}</td>
-          <td>
+          <td class="amount">{{ item.amount }}</td>
+          <td class="categories">
             <template v-for="cat in item.category" :key="cat.id">
               <LoopsRender :item="cat" />
             </template>
           </td>
-          <td>{{ item.description }}</td>
-          <td>{{ item.date }}</td>
+          <td class="description">{{ item.description }}</td>
+          <td class="date">{{ item.date }}</td>
           <td>
             <div class="actions">
               <span class="action update" @click="setCurrentItem(item)">
@@ -136,8 +136,8 @@ table {
                   triggerId="deleteItem"
                   modalSize="small"
                   btnClasses="delete-btn"
-                  @footerConfirm="deleteItem"
-                  @footerCancel="deleteCancel"
+                  :footerConfirm="deleteItem"
+                  :footerCancel="deleteCancel"
                   :footerBtns="['confirm', 'cancel']"
                 >
                   <template #trigger>

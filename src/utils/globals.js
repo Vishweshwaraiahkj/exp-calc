@@ -97,7 +97,7 @@ export const customSort = (objectsArray, key, type) => {
     if (!isNaN(itemA)) itemA = Number(itemA)
     if (!isNaN(itemA)) itemA = Number(itemA)
 
-    if (itemA.constructor.name === 'Array') {
+    if (Array.isArray(itemA)) {
       return sortArrayObjects(itemA, itemB, type)
     }
     return sortPrimitives(itemA, itemB, type)
@@ -105,7 +105,7 @@ export const customSort = (objectsArray, key, type) => {
 }
 
 const sortArrayObjects = (a, b, type) => {
-  if (a.constructor.name !== 'Array' || b.constructor.name !== 'Array') {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
     return false
   }
   let modifier = 1
@@ -168,10 +168,14 @@ export const searchData = (searchData, searchKey) => {
   for (let i = 0; i < searchData.length; i++) {
     for (const key in searchData[i]) {
       let searchItem = searchData[i][key]
-      if (typeof searchItem === 'string') {
-        searchItem = searchItem.toLowerCase()
+      if (Array.isArray(searchItem)) {
+        searchItem = searchItem
+          .reduce(function (str, i) {
+            return str + ' ' + i.sortKey
+          }, '')
+          .toLowerCase()
       } else {
-        searchItem = searchItem[0]?.sortKey?.toLowerCase()
+        searchItem = searchItem.toLowerCase()
       }
       if (searchItem.indexOf(toSearch) !== -1) {
         if (!itemExists(results, searchData[i])) {

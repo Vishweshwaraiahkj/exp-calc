@@ -144,12 +144,18 @@ const props = defineProps({
   footerBtns: {
     default: () => [],
     type: Array
+  },
+  footerConfirm: {
+    default: () => {},
+    type: Function
+  },
+  footerCancel: {
+    default: () => {},
+    type: Function
   }
 })
 
 const showAction = (btnName) => props.footerBtns.includes(btnName)
-
-const emits = defineEmits(['footerConfirm', 'footerCancel'])
 
 const slots = useSlots()
 
@@ -172,13 +178,13 @@ const footerSlot = computed(() => {
   return !!slots.footer
 })
 
-const confirmAction = () => {
-  emits('footerConfirm')
-  toggleModal()
+const confirmAction = async () => {
+  const status = await props.footerConfirm()
+  if (status) toggleModal()
 }
 
-const cancelAction = () => {
-  emits('footerCancel')
+const cancelAction = async () => {
+  await props.footerCancel()
   toggleModal()
 }
 </script>

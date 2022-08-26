@@ -1,10 +1,19 @@
+<style lang="scss" scoped>
+.btn-header {
+  padding-bottom: 0;
+}
+.title {
+  display: flex;
+  align-items: center;
+}
+</style>
 <template>
   <div class="dashboard">
     <h1 class="p-3">{{ $store.getters['user/fullName'] }}</h1>
     <div class="container shadow-dark my-2">
       <div class="btn-header">
-        <h3>Categories</h3>
-        <MasterIcon size="medium" svg-name="add" />
+        <h3 class="px-1 title">Categories</h3>
+        <AddSelectable />
       </div>
       <div v-if="categories.length" class="grid-container">
         <div
@@ -22,8 +31,8 @@
     </div>
     <div class="container shadow-dark my-2">
       <div class="btn-header">
-        <h3>Types</h3>
-        <MasterIcon size="medium" svg-name="add" />
+        <h3 class="px-1 title">Types</h3>
+        <AddSelectable />
       </div>
       <div v-if="types.length" class="grid-container">
         <div v-for="type in types" :key="type.id" class="grid-item">
@@ -43,7 +52,7 @@ import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { customSort } from '@/utils/globals'
 import ItemCard from '@/components/ItemCard.vue'
-import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import AddSelectable from '@/components/MasterUtils/AddSelectable.vue'
 
 const categories = computed(() => {
   const unsortedCats = store.getters['utils/getAllCategories']

@@ -3,8 +3,8 @@
     :triggerId="triggerId"
     modalSize="medium"
     btnClasses="add-btn"
-    @footerConfirm="addItem"
-    @footerCancel="addCancel"
+    :footerConfirm="addItem"
+    :footerCancel="addCancel"
     :footerBtns="['confirm', 'cancel']"
   >
     <template #trigger>
@@ -154,8 +154,9 @@ watchEffect(() => {
     description.value = props.defaultsObject.description
     amount.value = props.defaultsObject.amount
     addeddate.value = props.defaultsObject.date
-    defaultCats.value = props.defaultsObject.category
+    const catsSelected = props.defaultsObject.category
     const typeSelected = props.defaultsObject.type
+    defaultCats.value = catsSelected
     defaultTypes.value = typeSelected
   }
 })
@@ -180,7 +181,10 @@ const changeTheList = (type) => {
   ]
 
   if (!allInputs.every((i) => i)) {
-    alert('You need to enter correct details!')
+    store.dispatch('utils/floatingMessages', {
+      message: 'You need to enter correct details!',
+      type: 'error'
+    })
     return false
   }
 

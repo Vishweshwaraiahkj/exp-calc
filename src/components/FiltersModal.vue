@@ -1,10 +1,10 @@
 <style lang="scss" scoped>
-.filters_container {
+.filters {
   display: flex;
 }
 </style>
-<template lang="html">
-  <div class="filters_container">
+<template>
+  <div class="filters">
     <MasterModal
       triggerId="deleteItem"
       modalSize="small"

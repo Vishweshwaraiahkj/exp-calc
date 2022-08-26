@@ -1,4 +1,9 @@
-<template lang="html">
+<style lang="scss">
+.svg-holder {
+  display: inline-flex;
+}
+</style>
+<template>
   <div class="svg-holder" :class="classes">
     <svg
       class="shadow-svg"
@@ -55,8 +60,3 @@ const fullPath = computed(() => {
   return iconsPath.value + '#' + iconName.value
 })
 </script>
-<style lang="scss">
-.svg-holder {
-  display: inline-flex;
-}
-</style>

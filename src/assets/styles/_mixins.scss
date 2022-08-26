@@ -35,6 +35,33 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+@mixin cssArrow($dir) {
+    $rotateBy: 0deg;
+
+    @if $dir ==right {
+        $rotateBy: -45deg
+    }
+
+    @if $dir ==left {
+        $rotateBy: 135deg
+    }
+
+    @if $dir ==up {
+        $rotateBy: -135deg
+    }
+
+    @if $dir ==down {
+        $rotateBy: 45deg
+    }
+
+    border: solid var(--black);
+    border-width: 0 px2rem(3) px2rem(3) 0;
+    display: inline-block;
+    padding: px2rem(3);
+    transform: rotate($rotateBy);
+    -webkit-transform: rotate($rotateBy);
+}
+
 @function boxShadow($type, $variant: black) {
     $black: var(--black);
     $white: var(--white);
@@ -55,17 +82,34 @@
     $svg-shadow: var(--svg-shadow);
     $focus-shadow: var(--focus-shadow);
     $menu-shadow: var(--menu-shadow);
+    $notify-shadow: var(--notify-shadow);
 
-    @if $type ==menu and $variant ==black {
+    @if $type ==menu {
         @return $menu-shadow $black;
     }
 
-    @else if $type ==svg and $variant ==black {
+    @else if $type ==notify {
+        @return $notify-shadow $black;
+    }
+
+    @else if $type ==svg {
         @return $svg-shadow $black-trans;
     }
 
-    @else if $type ==focus and $variant ==black {
+    @else if $type ==focus {
         @return $focus-shadow $black;
+    }
+
+    @else if $type ==light {
+        @return $light-shadow $black-trans;
+    }
+
+    @else if $type ==dark {
+        @return $dark-shadow $black-trans;
+    }
+
+    @else if $type ==minimal {
+        @return $minimal-shadow $black-trans;
     }
 
     @else if $type ==focus and $variant ==primary {
@@ -90,18 +134,6 @@
 
     @else if $type ==focus and $variant ==danger {
         @return $focus-shadow $danger;
-    }
-
-    @else if $type ==light and $variant ==black {
-        @return $light-shadow $black-trans;
-    }
-
-    @else if $type ==dark and $variant ==black {
-        @return $dark-shadow $black-trans;
-    }
-
-    @else if $type ==minimal and $variant ==black {
-        @return $minimal-shadow $black-trans;
     }
 
     @return $default-shadow $black-trans;

@@ -268,6 +268,15 @@ input {
   &[type="month"] {
     -webkit-appearance: listbox;
   }
+
+  &[type="text"],
+  &[type="number"],
+  &[type="date"],
+  &[type="time"],
+  &[type="datetime-local"],
+  &[type="month"] {
+    box-shadow: boxShadow(default);
+  }
 }
 
 textarea {
@@ -934,10 +943,6 @@ pre {
     flex: 0 0 100%;
     max-width: 100%;
   }
-}
-
-.multiselect-dropdown {
-  position: relative;
 }
 
 .form-group {
@@ -1973,17 +1978,25 @@ footer,
 
 }
 
+.left-arrow {
+  @include cssArrow(left);
+}
+
+.right-arrow {
+  @include cssArrow(right);
+}
+
+.up-arrow {
+  @include cssArrow(up);
+}
+
+.down-arrow {
+  @include cssArrow(down);
+}
+
 .expense,
 .income {
   @include AmountType();
-}
-
-.arrow-down {
-  font-weight: 900;
-}
-
-.dropdown-arrow {
-  float: right;
 }
 
 .category {
@@ -2067,7 +2080,7 @@ span.err {
   color: var(--white);
   z-index: 99999;
   border-radius: 0.25rem;
-  box-shadow: boxShadow(minimal);
+  box-shadow: boxShadow(notify);
 
   header,
   .header {
@@ -2108,36 +2121,34 @@ span.err {
   }
 
   &.top-right {
-    top: 0;
+    top: 1rem;
     right: 0;
   }
 
   &.top-left {
+    top: 1rem;
     left: 0;
-    top: 0;
   }
 
   &.bottom-right {
-    bottom: 0;
+    bottom: 1rem;
     right: 0;
   }
 
   &.bottom-left {
-    bottom: 0;
+    bottom: 1rem;
     left: 0;
   }
 
   &.top-center {
-    top: 0;
-    right: 0;
+    top: 1rem;
     width: 20rem;
     left: 50%;
     transform: translate(-50%, 0)
   }
 
   &.bottom-center {
-    bottom: 0;
-    right: 0;
+    bottom: 1rem;
     width: 20rem;
     left: 50%;
     transform: translate(-50%, 0)
@@ -2158,5 +2169,41 @@ span.err {
 
   .btn#addExp {
     padding: 0;
+  }
+}
+
+.animate {
+  animation-name: slide-up;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  z-index: 200;
+}
+
+@keyframes slide-up {
+
+  from {
+    margin-top: 0;
+  }
+
+  50% {
+    margin-top: px2rem(10);
+  }
+
+  to {
+    margin-top: px2rem(5);
+  }
+}
+
+.just-move {
+  animation: move-it 100ms infinite;
+}
+
+@keyframes move-it {
+  from {
+    top: 0px;
+  }
+
+  to {
+    top: px2rem(20);
   }
 }
