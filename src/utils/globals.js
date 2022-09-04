@@ -1,6 +1,6 @@
 import ErrorMessages from '@/constants/Errors'
 
-export const hideBodyOverlay = (event, itemsClass) => {
+export const HideBodyOverlay = (event, itemsClass) => {
   event?.preventDefault()
   if (itemsClass) {
     const items = document.getElementsByClassName(itemsClass)
@@ -11,17 +11,17 @@ export const hideBodyOverlay = (event, itemsClass) => {
   document.getElementById('bodyOverlay').remove()
 }
 
-export const addBodyOverlay = (event, itemsClass, backdropColor) => {
+export const AddBodyOverlay = (event, itemsClass, backdropColor) => {
   event?.preventDefault()
   document.getElementById('bodyOverlay')?.remove()
   const elem = document.createElement('div')
   elem.setAttribute('id', 'bodyOverlay')
   elem.setAttribute('class', backdropColor || 'dark')
-  elem.onclick = () => hideBodyOverlay(event, itemsClass)
+  elem.onclick = () => HideBodyOverlay(event, itemsClass)
   document.body.appendChild(elem)
 }
 
-export const isSimilarObject = (oldObject, newObject) => {
+export const IsSimilarObject = (oldObject, newObject) => {
   const xObject = ParseObject(oldObject)
   const yObject = ParseObject(newObject)
   const ObjOld = xObject?.constructor?.name
@@ -44,7 +44,7 @@ export const isSimilarObject = (oldObject, newObject) => {
   return true
 }
 
-export const pushUniqueObjects = (dataArray, newObj) => {
+export const PushUniqueObjects = (dataArray, newObj) => {
   if (newObj?.constructor.name !== 'Object') {
     alert(ErrorMessages.VALID_OBJECT)
     return false
@@ -56,7 +56,7 @@ export const pushUniqueObjects = (dataArray, newObj) => {
   }
 
   const res = dataArray.map((item) => {
-    return isSimilarObject(item, newObj)
+    return IsSimilarObject(item, newObj)
   })
   const checkIt = res.some((i) => i === true)
   if (dataArray.length && checkIt) {
@@ -75,7 +75,7 @@ export const StringifyObject = (objectData) => {
   return JSON.stringify(objectData)
 }
 
-export const isValidObject = (obj) => {
+export const IsValidObject = (obj) => {
   return (
     typeof obj === 'object' &&
     Object.keys(obj).length !== 0 &&
@@ -84,27 +84,7 @@ export const isValidObject = (obj) => {
   )
 }
 
-export const customSort = (objectsArray, key, type) => {
-  if (!objectsArray) return false
-  if (!key) key = 'sortKey'
-  if (!type) type = 'asc'
-  return objectsArray?.sort((a, b) => {
-    const keyExists = Object.hasOwnProperty.call(a, key)
-    if (!keyExists) return false
-    let itemA = a[key]
-    const itemB = b[key]
-
-    if (!isNaN(itemA)) itemA = Number(itemA)
-    if (!isNaN(itemA)) itemA = Number(itemA)
-
-    if (Array.isArray(itemA)) {
-      return sortArrayObjects(itemA, itemB, type)
-    }
-    return sortPrimitives(itemA, itemB, type)
-  })
-}
-
-const sortArrayObjects = (a, b, type) => {
+const SortArrayObjects = (a, b, type) => {
   if (!Array.isArray(a) || !Array.isArray(b)) {
     return false
   }
@@ -121,7 +101,7 @@ const sortArrayObjects = (a, b, type) => {
   return 0
 }
 
-const sortPrimitives = (a, b, type) => {
+const SortPrimitives = (a, b, type) => {
   let modifier = 1
   if (type === 'desc') {
     modifier = -1
@@ -135,7 +115,27 @@ const sortPrimitives = (a, b, type) => {
   return 0
 }
 
-const trimString = (s) => {
+export const CustomSort = (objectsArray, key, type) => {
+  if (!objectsArray) return false
+  if (!key) key = 'sortKey'
+  if (!type) type = 'asc'
+  return objectsArray?.sort((a, b) => {
+    const keyExists = Object.hasOwnProperty.call(a, key)
+    if (!keyExists) return false
+    let itemA = a[key]
+    const itemB = b[key]
+
+    if (!isNaN(itemA)) itemA = Number(itemA)
+    if (!isNaN(itemA)) itemA = Number(itemA)
+
+    if (Array.isArray(itemA)) {
+      return SortArrayObjects(itemA, itemB, type)
+    }
+    return SortPrimitives(itemA, itemB, type)
+  })
+}
+
+const TrimString = (s) => {
   let l = 0
   let r = s.length - 1
   while (l < s.length && s[l] === ' ') l++
@@ -143,7 +143,7 @@ const trimString = (s) => {
   return s.substring(l, r + 1)
 }
 
-const compareObjects = (o1, o2) => {
+const CompareObjects = (o1, o2) => {
   let k = ''
   for (k in o1) {
     if (o1[k] !== o2[k]) return false
@@ -154,17 +154,17 @@ const compareObjects = (o1, o2) => {
   return true
 }
 
-const itemExists = (haystack, needle) => {
+const ItemExists = (haystack, needle) => {
   for (let i = 0; i < haystack.length; i++) {
-    if (compareObjects(haystack[i], needle)) return true
+    if (CompareObjects(haystack[i], needle)) return true
   }
   return false
 }
 
-export const searchData = (searchData, searchKey) => {
+export const SearchTheData = (searchData, searchKey) => {
   if (!searchData.length || !searchKey) return false
   const results = []
-  const toSearch = trimString(searchKey).toLowerCase() // trim it
+  const toSearch = TrimString(searchKey).toLowerCase() // trim it
   for (let i = 0; i < searchData.length; i++) {
     for (const key in searchData[i]) {
       let searchItem = searchData[i][key]
@@ -178,11 +178,52 @@ export const searchData = (searchData, searchKey) => {
         searchItem = searchItem.toLowerCase()
       }
       if (searchItem.indexOf(toSearch) !== -1) {
-        if (!itemExists(results, searchData[i])) {
+        if (!ItemExists(results, searchData[i])) {
           results.push(searchData[i])
         }
       }
     }
   }
   return results
+}
+
+export const SpaceToUnderscore = (str) => {
+  const lowerStr = str.toLowerCase()
+  const noSpaces = lowerStr.replace(/\s/g, '_')
+  return noSpaces
+}
+
+export const UnderscoreToSpace = (str) => {
+  const withSpaces = str.replace(/_+/g, ' ')
+  const capitalized = withSpaces.Capitalize()
+  return capitalized
+}
+
+export const UpdateArrayByKey = (dataArray, key, item) => {
+  return dataArray?.map((i) => {
+    if (i[key] === item[key]) {
+      return item
+    }
+    return i
+  })
+}
+
+const ExpandAllByKey = (dataArray, key) => {
+  const expanded = dataArray.map((i) => {
+    return i[key].map((j) => ({ ...i, [key]: j }))
+  })
+  return expanded.flat()
+}
+
+export const GroupByKey = (dataArray, key) => {
+  const validData = Array.isArray(dataArray) && dataArray.length
+  if (!validData) return false
+  const expandedData = ExpandAllByKey(dataArray, key)
+
+  const result = expandedData.reduce((r, a) => {
+    r[a[key].optValue] = r[a[key].optValue] || []
+    r[a[key].optValue].push(a)
+    return r
+  }, Object.create(null))
+  return result
 }

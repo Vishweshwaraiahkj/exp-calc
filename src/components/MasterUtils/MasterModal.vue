@@ -40,16 +40,18 @@
     margin: auto;
     padding: 0;
     border: px2rem(1) solid #888;
-    width: 80%;
-    -webkit-animation-name: animate-top;
+    border-radius: px2rem(5);
+    -webkit-animation-name: animateTop;
     -webkit-animation-duration: 0.4s;
-    animation-name: animate-top;
+    animation-name: animateTop;
     animation-duration: 0.4s;
   }
 
   &-header {
-    padding: px2rem(2) 1rem;
-    color: white;
+    background-color: transparent;
+    color: var(--dark);
+    padding: px2rem(10) 1rem;
+    box-shadow: none;
   }
 
   &-body {
@@ -57,35 +59,12 @@
   }
 
   &-footer {
+    background-color: transparent;
+    color: var(--dark);
     padding: px2rem(2) 1rem;
-    color: white;
     display: flex;
     justify-content: flex-end;
-  }
-}
-
-/* Add Animation */
-@-webkit-keyframes animate-top {
-  from {
-    top: px2rem(-300);
-    opacity: 0;
-  }
-
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
-
-@keyframes animate-top {
-  from {
-    top: px2rem(-300);
-    opacity: 0;
-  }
-
-  to {
-    top: 0;
-    opacity: 1;
+    box-shadow: none;
   }
 }
 </style>
@@ -93,7 +72,12 @@
   <button class="btn" :class="btnClasses" :id="triggerId" @click="toggleModal">
     <slot name="trigger"></slot>
   </button>
-  <div id="myModal" :class="`modal ${size}`" v-if="isShow" @click="toggleModal">
+  <div
+    :id="modalId"
+    :class="`modal ${size}`"
+    v-if="isShow"
+    @click="toggleModal"
+  >
     <div class="modal-content shadow-dark" @click.stop="">
       <span class="close medium" @click="toggleModal">
         <MasterIcon fill-color="green" size="x-small" svg-name="close-cross" />
@@ -101,7 +85,7 @@
       <header v-if="headerSlot" class="modal-header">
         <slot name="header"></slot>
       </header>
-      <main v-if="defaultSlot" class="modal-body">
+      <main v-if="defaultSlot" class="modal-body no-gutters">
         <slot></slot>
       </main>
       <footer v-if="footerSlot" class="modal-footer">
@@ -132,6 +116,10 @@ const props = defineProps({
   triggerId: {
     default: 'myBtn',
     type: String
+  },
+  modalId: {
+    type: String,
+    required: true
   },
   modalSize: {
     default: 'medium',

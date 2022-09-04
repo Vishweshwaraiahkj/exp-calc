@@ -5,7 +5,7 @@
         <div class="btn-header">
           <h1>Expenses Table</h1>
           <AddExpenses
-            @emitChangeList="addToList"
+            @emitDataUpdate="addToList"
             triggerId="addExp"
             actionType="add"
           />

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { isValidObject } from '@/utils/globals'
+import { IsValidObject, UpdateArrayByKey } from '@/utils/globals'
 
 export default {
   namespaced: true,
@@ -26,9 +26,9 @@ export default {
     floatingMessages(context, payload) {
       context.commit('UPDATE_MESSAGE', payload)
     },
-    async toggleFavorite(context, { item, key }) {
-      if (!isValidObject(item)) return false
-      const existingData = context.state[key]
+    async toggleFavorite(context, { item, type }) {
+      if (!IsValidObject(item)) return false
+      const existingData = context.state[type]
       const favStatus = item.favorite
       const updatedItem = {
         ...item,
@@ -36,22 +36,17 @@ export default {
       }
       try {
         const res = await axios.patch(
-          process.env.VUE_APP_API_ENDPOINT + `/${key}/${item.id}`,
+          process.env.VUE_APP_API_ENDPOINT + `/${type}/${item.id}`,
           updatedItem
         )
         if (!res.data) return false
 
-        const updatedData = existingData?.map((i) => {
-          if (i.id === item.id) {
-            return updatedItem
-          }
-          return i
-        })
+        const updatedData = UpdateArrayByKey(existingData, 'id', updatedItem)
 
-        if (key === 'categories') {
+        if (type === 'categories') {
           context.commit('UPDATE_CATEGORIES', updatedData)
         }
-        if (key === 'types') {
+        if (type === 'types') {
           context.commit('UPDATE_TYPES', updatedData)
         }
       } catch (error) {
@@ -82,6 +77,90 @@ export default {
           })
       } catch (error) {
         alert('Error getting existing categories!')
+      }
+    },
+    async addToList(context, { dataObj, dataType }) {
+      const existingData = context.state[dataType]
+
+      try {
+        const res = await axios.post(
+          process.env.VUE_APP_API_ENDPOINT + `/${dataType}`,
+          dataObj
+        )
+
+        if (!res.data) return false
+
+        const updatedData = [...existingData, dataObj]
+        if (dataType === 'categories') {
+          context.commit('UPDATE_CATEGORIES', updatedData)
+        }
+        if (dataType === 'types') {
+          context.commit('UPDATE_TYPES', updatedData)
+        }
+      } catch (error) {
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Error adding item!',
+            type: 'error'
+          },
+          { root: true }
+        )
+      }
+    },
+    async updateList(context, { dataObj, dataType }) {
+      const existingData = context.state[dataType]
+      try {
+        const res = await axios.patch(
+          process.env.VUE_APP_API_ENDPOINT + `/${dataType}/${dataObj.id}`,
+          dataObj
+        )
+        if (!res.data) return false
+
+        const updatedData = UpdateArrayByKey(existingData, 'id', dataObj)
+
+        if (dataType === 'categories') {
+          context.commit('UPDATE_CATEGORIES', updatedData)
+        }
+        if (dataType === 'types') {
+          context.commit('UPDATE_TYPES', updatedData)
+        }
+      } catch (error) {
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Error updating item!',
+            type: 'error'
+          },
+          { root: true }
+        )
+      }
+    },
+    async deleteById(context, { dataId, dataType }) {
+      if (!dataId || !dataType) return false
+      try {
+        await axios.delete(
+          process.env.VUE_APP_API_ENDPOINT + `/${dataType}/${dataId}`
+        )
+        const filteredList = context.state[dataType]?.filter(
+          (i) => i.id !== dataId
+        )
+
+        if (dataType === 'categories') {
+          context.commit('UPDATE_CATEGORIES', filteredList)
+        }
+        if (dataType === 'types') {
+          context.commit('UPDATE_TYPES', filteredList)
+        }
+      } catch (error) {
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Error Deleting Item!',
+            type: 'error'
+          },
+          { root: true }
+        )
       }
     }
   },

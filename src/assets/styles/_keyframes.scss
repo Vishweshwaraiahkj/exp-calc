@@ -1,0 +1,94 @@
+/* Animation KeyFrames */
+
+// keyframes mixin
+@mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+
+    @-moz-keyframes #{$name} {
+        @content;
+    }
+
+    @-ms-keyframes #{$name} {
+        @content;
+    }
+
+    @-o-keyframes #{$name} {
+        @content;
+    }
+
+    @keyframes #{$name} {
+        @content;
+    }
+}
+
+// use of keyframes mixin
+@include keyframes(bgColor) {
+    0% {
+        background-color: #ffccf2;
+    }
+
+    50% {
+        background-color: #ccffcc;
+    }
+
+    100% {
+        background-color: #ccffff;
+    }
+}
+
+@include keyframes(slideIn) {
+    0% {
+        opacity: 0;
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@include keyframes(animateTop) {
+    from {
+        top: px2rem(-500);
+        opacity: 0;
+    }
+
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@include keyframes(slideUp) {
+
+    from {
+        margin-top: 0;
+    }
+
+    50% {
+        margin-top: px2rem(10);
+    }
+
+    to {
+        margin-top: px2rem(5);
+    }
+}
+
+@include keyframes(moveIt) {
+    from {
+        top: 0px;
+    }
+
+    50% {
+        top: px2rem(10);
+    }
+
+    to {
+        top: px2rem(20);
+    }
+}

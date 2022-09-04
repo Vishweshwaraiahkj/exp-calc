@@ -2,8 +2,8 @@ export default {
   namespaced: true,
   state: {
     firstName: 'Vishweshwarayya',
-    middleName: 'Kallappa',
-    lastName: 'Janagoud'
+    middleName: 'K',
+    lastName: 'J'
   },
   getters: {
     fullName: (state) => {

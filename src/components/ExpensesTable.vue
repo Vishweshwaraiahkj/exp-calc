@@ -7,13 +7,13 @@
   padding-bottom: 0.625rem;
 
   input {
-    box-shadow: boxShadow(default);
+    box-shadow: boxShadow();
   }
 }
 
 .match-space {
   padding: 1rem 1.5rem;
-  box-shadow: boxShadow(default);
+  box-shadow: boxShadow();
   background-color: var(--white);
 }
 
@@ -78,7 +78,17 @@ table {
         input-width="25%"
         hasIcon="search"
       />
-      <FiltersModal />
+      <div class="flex-center">
+        <MasterSelect
+          @emitSelected="getCheckedTypes"
+          select-placeholder="Select rows per page"
+          :select-options="perPageOptions"
+          :single-select="true"
+          select-width="15rem"
+          :default-selects="defaultCounts"
+        />
+        <FiltersModal :key="Date.now()" />
+      </div>
     </div>
     <table class="table table-striped table-hover shadow-dark">
       <thead class="dark" v-if="tableHeaders.length">
@@ -101,58 +111,41 @@ table {
         </tr>
       </thead>
       <tbody v-if="visibleData.length">
-        <tr
-          v-for="item in visibleData"
-          :key="item.id"
-          :class="tdClass(item.type)"
-        >
-          <td class="type">
+        <tr v-for="item in visibleData" :key="item.id">
+          <td>
             <template v-for="type in item.type" :key="type.id">
-              <LoopsRender :item="type" />
+              <ColoredCard :item="type" classes="type" />
             </template>
           </td>
-          <td class="amount">{{ item.amount }}</td>
+          <td class="amount">
+            {{ Number(item.amount).toLocaleString('en-IN') }}
+          </td>
           <td class="categories">
             <template v-for="cat in item.category" :key="cat.id">
-              <LoopsRender :item="cat" />
+              <ColoredCard :item="cat" classes="category" />
             </template>
           </td>
           <td class="description">{{ item.description }}</td>
           <td class="date">{{ item.date }}</td>
           <td>
             <div class="actions">
-              <span class="action update" @click="setCurrentItem(item)">
+              <span class="action update">
                 <AddExpenses
-                  @emitChangeList="updateList"
-                  :defaultsObject="currentItem"
+                  @emitDataUpdate="updateList"
+                  :defaultsObj="item"
                   actionType="update"
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
                 />
               </span>
-              <span class="action delete" @click="setCurrentItem(item)">
-                <MasterModal
-                  triggerId="deleteItem"
-                  modalSize="small"
-                  btnClasses="delete-btn"
-                  :footerConfirm="deleteItem"
-                  :footerCancel="deleteCancel"
-                  :footerBtns="['confirm', 'cancel']"
-                >
-                  <template #trigger>
-                    <MasterIcon size="x-small" svgName="delete" />
-                  </template>
-                  <template #header>
-                    <h3 class="py-2">Delete this item!</h3>
-                  </template>
-                  <template #default>
-                    <p class="py-2">
-                      Hey, Do you really want to delete this item?
-                    </p>
-                  </template>
-                  <template #footer></template>
-                </MasterModal>
+              <span class="action delete">
+                <DeleteModal
+                  :current-item="item"
+                  title="Delete Expense"
+                  desc="Do you want to proceed with deleting an Expense"
+                  delete-type="expenses"
+                />
               </span>
             </div>
           </td>
@@ -179,14 +172,16 @@ table {
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { customSort, searchData } from '@/utils/globals'
+import { CustomSort, SearchTheData } from '@/utils/globals'
+import { tableHeaders, perPageOptions } from '@/constants/TableConsts.js'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
-import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
 import AddExpenses from '@/components/AddExpenses.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import FiltersModal from '@/components/FiltersModal.vue'
-import LoopsRender from './MasterUtils/LoopsRender.vue'
+import ColoredCard from '@/components/MasterUtils/ColoredCard.vue'
+import DeleteModal from '@/components/DeleteModal.vue'
+import MasterSelect from './MasterInputs/MasterSelect.vue'
 
 const props = defineProps({
   dataArray: {
@@ -198,50 +193,23 @@ const props = defineProps({
 
 const store = useStore()
 const pageNumber = ref(1)
-const perPage = ref(4)
+const perPage = ref(5)
 const sortBy = ref('date')
 const sortType = ref('desc')
 const visibleBtns = ref(5)
-const currentItem = ref({})
 const searchKey = ref('')
 const finalData = ref([])
 
-const tableHeaders = [
-  {
-    name: 'Type',
-    actionType: 'type',
-    sort: true
-  },
-  {
-    name: 'Amount(Rs)',
-    actionType: 'amount',
-    sort: true
-  },
-  {
-    name: 'Category',
-    actionType: 'category',
-    sort: true
-  },
-  {
-    name: 'Description',
-    actionType: 'description',
-    sort: true
-  },
-  {
-    name: 'Date(YYYY-MM-DD)',
-    actionType: 'date',
-    sort: true
-  },
-  {
-    name: 'Actions',
-    actionType: '',
-    sort: false
+const getCheckedTypes = (data) => {
+  const selects = data[0]?.optValue
+  if (selects && selects === 'all') {
+    perPage.value = props.dataArray?.length || 100
+  } else {
+    perPage.value = Number(data[0]?.optValue) || 5
   }
-]
-
-const tdClass = (type) => {
-  return type === 'income' ? 'plus' : 'minus'
 }
+
+const defaultCounts = [perPageOptions[0]]
 
 const validData = () => {
   return props.dataArray?.filter((i) => {
@@ -250,11 +218,11 @@ const validData = () => {
 }
 
 const sortedData = computed(() =>
-  customSort(validData(), sortBy.value, sortType.value)
+  CustomSort(validData(), sortBy.value, sortType.value)
 )
 
 const searchedData = computed(() =>
-  searchData(sortedData.value, searchKey.value)
+  SearchTheData(sortedData.value, searchKey.value)
 )
 
 const totalPages = computed(() => {
@@ -297,17 +265,6 @@ const onPageChange = (currentPage) => {
   pageNumber.value = currentPage
 }
 
-const setCurrentItem = (item) => {
-  currentItem.value = item
-}
-
-const deleteItem = () => {
-  store.dispatch('expenses/deleteById', currentItem.value?.id)
-  return false
-}
-
-const deleteCancel = () => true
-
 const updateList = (dataList, type) => {
   if (type !== 'update') return false
   const updatedObj = {
@@ -319,6 +276,6 @@ const updateList = (dataList, type) => {
     category: dataList.categoryList
   }
 
-  store.dispatch('expenses/updateToExpensesList', updatedObj)
+  store.dispatch('expenses/updateExpensesList', updatedObj)
 }
 </script>

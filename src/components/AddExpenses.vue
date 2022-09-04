@@ -1,6 +1,7 @@
 <template>
-  <MasterModal
+  <master-modal
     :triggerId="triggerId"
+    modalId="expensesModal"
     modalSize="medium"
     btnClasses="add-btn"
     :footerConfirm="addItem"
@@ -8,7 +9,11 @@
     :footerBtns="['confirm', 'cancel']"
   >
     <template #trigger>
-      <MasterIcon :size="triggerIconSize" :svgName="triggerIcon" />
+      <master-icon
+        :size="triggerIconSize"
+        :svg-name="triggerIcon"
+        :fill-color="colorFill"
+      />
     </template>
     <template #header>
       <h3 v-if="actionType === 'add'" class="py-2">Add Expense/Income</h3>
@@ -18,7 +23,7 @@
       <form class="col-12" id="addExpIncForm">
         <div class="row">
           <div class="form-group col-6">
-            <MasterInput
+            <master-input
               input-id="descriptionId"
               input-label="Description"
               input-name="description"
@@ -30,7 +35,7 @@
             />
           </div>
           <div class="form-group col-6">
-            <MasterSelect
+            <master-select
               @emitSelected="getCheckedCats"
               select-width="100%"
               select-label="Categories"
@@ -44,7 +49,7 @@
         </div>
         <div class="row">
           <div class="form-group col-6">
-            <MasterInput
+            <master-input
               input-id="typeofAmount"
               input-label="Amount"
               input-name="amount"
@@ -56,7 +61,7 @@
             />
           </div>
           <div class="form-group col-6">
-            <MasterSelect
+            <master-select
               @emitSelected="getCheckedTypes"
               select-width="100%"
               select-label="Type"
@@ -71,7 +76,7 @@
         </div>
         <div class="row">
           <div class="form-group col-6">
-            <MasterInput
+            <master-input
               input-id="addedDate"
               input-label="Date"
               input-name="addeddate"
@@ -86,21 +91,21 @@
       </form>
     </template>
     <template #footer> </template>
-  </MasterModal>
+  </master-modal>
 </template>
 
 <script setup>
 import { ref, watchEffect, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { v4 as uuids4 } from 'uuid'
-import { isValidObject, customSort } from '@/utils/globals.js'
+import { IsValidObject, CustomSort } from '@/utils/globals.js'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
 const props = defineProps({
-  defaultsObject: {
+  defaultsObj: {
     default: () => {},
     type: Object
   },
@@ -119,19 +124,23 @@ const props = defineProps({
   actionType: {
     default: 'add',
     type: String
+  },
+  colorFill: {
+    default: '#ffffff',
+    type: String
   }
 })
 
-const emits = defineEmits(['emitChangeList'])
+const emits = defineEmits(['emitDataUpdate'])
 const store = useStore()
 
 const listOfCategories = computed(() => {
   const unsortedCategories = store.getters['utils/getAllCategories']
-  return customSort(unsortedCategories, 'sortKey', 'asc')
+  return CustomSort(unsortedCategories, 'sortKey', 'asc')
 })
 const listOfTypes = computed(() => {
   const unsortedTypes = store.getters['utils/getAllTypes']
-  return customSort(unsortedTypes, 'sortKey', 'asc')
+  return CustomSort(unsortedTypes, 'sortKey', 'asc')
 })
 const description = ref(null)
 const amount = ref(null)
@@ -150,19 +159,17 @@ const defaultCats = ref([])
 const defaultTypes = ref([])
 
 watchEffect(() => {
-  if (isValidObject(props.defaultsObject)) {
-    description.value = props.defaultsObject.description
-    amount.value = props.defaultsObject.amount
-    addeddate.value = props.defaultsObject.date
-    const catsSelected = props.defaultsObject.category
-    const typeSelected = props.defaultsObject.type
-    defaultCats.value = catsSelected
-    defaultTypes.value = typeSelected
+  if (IsValidObject(props.defaultsObj)) {
+    description.value = props.defaultsObj.description
+    amount.value = props.defaultsObj.amount
+    addeddate.value = props.defaultsObj.date
+    defaultCats.value = props.defaultsObj.category
+    defaultTypes.value = props.defaultsObj.type
   }
 })
 
 const clearForm = () => {
-  // clear inputs after final object is constructed on submit
+  // clear inputs after object is constructed
   description.value = undefined
   typeList.value = undefined
   categoryList.value = undefined
@@ -171,10 +178,10 @@ const clearForm = () => {
   resetInput.value = true
 }
 
-const changeTheList = (type) => {
+const updateData = (type) => {
   const allInputs = [
-    categoryList.value?.length,
     description.value,
+    categoryList.value?.length,
     typeList.value?.length,
     amount.value,
     addeddate.value
@@ -188,21 +195,21 @@ const changeTheList = (type) => {
     return false
   }
 
-  const changeDetailsObj = {
-    id: type === 'update' ? props.defaultsObject.id : uuids4(),
+  const updateObj = {
+    id: type === 'update' ? props.defaultsObj?.id : uuids4(),
     categoryList: categoryList.value,
     description: description.value,
     typeList: typeList.value,
     amount: amount.value,
     addeddate: addeddate.value
   }
-  emits('emitChangeList', changeDetailsObj, type)
+  emits('emitDataUpdate', updateObj, type)
   if (type === 'add') clearForm()
   return true
 }
 
 const addItem = () => {
-  return changeTheList(props.actionType)
+  return updateData(props.actionType)
 }
 
 const addCancel = () => {

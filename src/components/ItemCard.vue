@@ -1,50 +1,87 @@
-<style scoped lang="scss">
-.item {
+<style lang="scss">
+.items-holder {
   height: 100%;
 
-  p {
+  .items {
     position: relative;
-    color: v-bind('theme.color');
-    background: v-bind('theme.bgColor');
+    color: v-bind('itemColor');
+    background: v-bind('itemBg');
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin: 0.625rem;
-    padding: 0.625rem;
+    padding: 1rem;
     font-size: 1rem;
     font-weight: bold;
-    font-style: italic;
-  }
+    box-shadow: boxShadow(dark);
 
-  .heart-favorite {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 0.5rem;
-    cursor: pointer;
+    .actions-box {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    &:hover {
-      padding-top: 0.625rem;
+      &:hover {
+        fill: var(--red);
+      }
+
+      .delete-btn,
+      > * {
+        margin-left: px2rem(5);
+      }
+
+      button:focus {
+        outline: 0;
+      }
     }
   }
 }
 </style>
 <template>
-  <div class="item">
-    <p class="card">
-      <MasterIcon
-        :key="isFavorite"
-        :svgName="isFavorite"
-        classes="heart-favorite"
-        size="x-small"
-        fillColor="#ffffff"
-        @click="toggleFavorites"
-      />
-      {{ item?.optionName }}
-    </p>
+  <div class="items-holder">
+    <div class="items">
+      <span class="display-name">
+        {{ item?.optName }}
+      </span>
+      <div class="actions-box">
+        <add-selectable
+          :trigger-id="type"
+          :defaults-obj="item"
+          @emit-data-update="updateData"
+          action-type="update"
+          :data-type="type"
+          trigger-icon="edit"
+          trigger-icon-size="x-small"
+        />
+        <delete-modal
+          :current-item="item"
+          :title="modalTitle"
+          desc="Do you want to proceed with deleting an item"
+          :delete-type="type"
+        />
+        <button class="btn p-0" @click="toggleFavorites">
+          <master-icon
+            :key="isFavorite"
+            :svg-name="isFavorite"
+            classes="act-icon favorite"
+            size="x-small"
+            fill-color="#ffffff"
+            @click="toggleFavorites"
+          />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
+import { useStore } from 'vuex'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import AddSelectable from '@/components/MasterUtils/AddSelectable.vue'
+import DeleteModal from '@/components/DeleteModal.vue'
+
+const store = useStore()
 
 const props = defineProps({
   item: {
@@ -61,12 +98,27 @@ const emits = defineEmits(['toggleFavorite'])
 
 const toggleFavorites = () => emits('toggleFavorite', props.item, props.type)
 
+const itemBg = ref('#0d0d0d')
+const itemColor = ref('#fdfdfd')
+
+watchEffect(() => {
+  itemBg.value = props.item?.colorFill
+})
+
+const modalTitle = computed(() => {
+  if (props.type === 'types') {
+    return 'Delete Type'
+  } else {
+    return 'Delete Category'
+  }
+})
+
 const isFavorite = computed(() => {
   return props.item?.favorite ? 'heart-filled' : 'heart-empty'
 })
 
-const theme = {
-  color: '#fdfdfd',
-  bgColor: props.item?.colorFill || '#0d0d0d'
+const updateData = (dataObj, dataType) => {
+  itemBg.value = dataObj?.colorFill
+  store.dispatch('utils/updateList', { dataObj, dataType })
 }
 </script>

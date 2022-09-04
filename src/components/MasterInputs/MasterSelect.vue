@@ -1,14 +1,8 @@
 <style lang="scss" scoped>
 .multiselect {
   position: relative;
-  box-shadow: boxShadow(default);
+  box-shadow: boxShadow();
 
-  &.active {
-    .dropdown-arrow {
-      transform: rotate(180deg);
-      -webkit-transform: rotate(180deg);
-    }
-  }
   .dropdown-arrow {
     position: absolute;
     top: 0;
@@ -20,10 +14,31 @@
     width: px2rem(45);
   }
 
+  &.active,
+  &.err {
+    .dropdown-arrow {
+      transform: rotate(180deg);
+      -webkit-transform: rotate(180deg);
+    }
+  }
+
+  &.active,
+  &.active.err {
+    button.menu-btn {
+      z-index: 200;
+    }
+  }
+
+  &.inactive {
+    .dropdown-arrow {
+      transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+    }
+  }
+
   .menu-btn {
-    font: 300 px2rem(13.3333) var(--global-font-family);
     padding: px2rem(2) px2rem(10);
-    background: transparent;
+    background: #fff;
     width: 100%;
     border-radius: px2rem(2);
     text-align: left;
@@ -34,7 +49,7 @@
   .backDrop {
     display: block;
     position: fixed;
-    z-index: 200;
+    z-index: 100;
     padding-top: px2rem(100);
     left: 0;
     top: 0;
@@ -48,19 +63,29 @@
     width: 100%;
     padding-top: 0;
     left: 0;
-    top: calc(1.5rem + 0.75rem);
+    top: px2rem(30);
     z-index: 200;
     margin-top: px2rem(4);
     background-color: white;
     position: absolute;
-
+    max-height: 20rem;
+    overflow: auto;
+    @include hideScroll();
     .menu-option {
       align-items: center;
       margin: px2rem(5);
 
+      &.gray-bg {
+        background-color: var(--light-gray);
+      }
       label {
         width: 100%;
         text-align: left;
+      }
+
+      label,
+      input {
+        margin-top: 0.5rem;
       }
     }
 
@@ -73,39 +98,51 @@
 }
 </style>
 <template>
-  <div class="">
-    <label class="input-label">
+  <div class="content-holder">
+    <label v-if="selectLabel" class="input-label">
       {{ selectLabel }}
     </label>
     <div
       class="d-flex form-control multiselect"
-      :class="!validInput && isRequired ? 'err' : ''"
+      :class="!validInput && isRequired ? 'err active' : ''"
       :style="{ width: selectBoxWidth }"
     >
-      <button class="menu-btn" type="button" @click="dropDown">
+      <div
+        v-if="isVisible"
+        class="backDrop"
+        @mouseenter="(e) => dropDown(e, 'close')"
+      ></div>
+      <button
+        class="menu-btn"
+        type="button"
+        @click="(e) => dropDown(e, 'open')"
+      >
         {{ selectedCountText || selectPlaceholder }}
         <span class="dropdown-arrow">
           <span class="down-arrow" />
         </span>
       </button>
-      <div v-if="isVisible" class="backDrop" @click="dropDown"></div>
-      <div v-if="isVisible" class="shadow-default optionsBox animate">
+      <div
+        v-if="isVisible"
+        @mouseleave="(e) => dropDown(e, 'open')"
+        class="shadow-default optionsBox animate"
+      >
         <span
-          v-for="opt in options"
+          v-for="opt in propOptions"
           :key="opt.id"
-          class="d-flex form-control menu-option"
+          class="d-flex menu-option"
+          :class="isCheckedItem(opt.optValue) && `gray-bg`"
         >
           <input
-            :id="opt.optionValue"
+            :id="opt.optValue"
             type="checkbox"
             class="select-input"
-            :value="opt.optionValue"
-            :checked="opt.checked"
+            :value="opt.optValue"
             v-model="checkedValues"
             @click="filterData"
           />
-          <label :for="opt.optionValue">
-            {{ opt.optionName }}
+          <label :for="opt.optValue">
+            {{ opt.optName }}
           </label>
         </span>
       </div>
@@ -117,13 +154,13 @@
 </template>
 
 <script setup>
-import { ref, watch, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, onMounted } from 'vue'
 
 const emits = defineEmits(['emitSelected'])
 
 const props = defineProps({
   selectWidth: {
-    default: '',
+    default: '20rem',
     type: String
   },
   selectLabel: {
@@ -136,7 +173,8 @@ const props = defineProps({
   },
   selectOptions: {
     default: () => [],
-    type: Array
+    type: Array,
+    required: true
   },
   singleSelect: {
     default: false,
@@ -167,15 +205,43 @@ const errMessage = ref(props.inputErrMessage)
 const validInput = ref(true)
 const isRequired = ref(props.inputRequired)
 const isVisible = ref(false)
-const propOptions = ref(props.selectOptions)
+const propOptions = computed(() => props.selectOptions)
 
-const toggleVisibility = (e) => {
-  isVisible.value = !isVisible.value
+const toggleVisibility = (action) => {
+  if (action === 'open') {
+    isVisible.value = true
+  } else if (action === 'close') {
+    isVisible.value = false
+  } else {
+    isVisible.value = !isVisible.value
+  }
 }
 
+const getFullObject = (key, values) => {
+  const returnObject = values?.map((value) => {
+    const x = propOptions.value?.find((i) => {
+      return i[key] === value
+    })
+    return x
+  })
+  return returnObject
+}
+
+let renderCount = 0
 watchEffect(() => {
+  renderCount = renderCount + 1
+  const validInputs = checkedValues.value?.length
+  const selectedValues = checkedValues.value
+  const returnObj = getFullObject('optValue', selectedValues)
+  if (validInputs && returnObj) {
+    emits('emitSelected', returnObj)
+  }
+  if (renderCount > 1) validInput.value = validInputs
+})
+
+onMounted(() => {
   if (props.defaultSelects.length) {
-    checkedValues.value = props.defaultSelects.map((i) => i.optionValue)
+    checkedValues.value = props.defaultSelects.map((i) => i.optValue)
   }
   if (props.resetTrue) {
     isRequired.value = false
@@ -183,18 +249,20 @@ watchEffect(() => {
   }
 })
 
-const options = computed(() => {
-  return propOptions.value
-})
+const isCheckedItem = (current) => {
+  return checkedValues.value.includes(current)
+}
 
-const dropDown = (e) => {
-  toggleVisibility()
+const dropDown = (e, action) => {
+  toggleVisibility(action)
   const collection = document.querySelectorAll('.multiselect')
   for (const elm of collection) {
     elm.classList.remove('active')
+    elm.classList.add('inactive')
   }
-  if (isVisible.value) {
+  if (isVisible.value && action === 'open') {
     e.target.parentElement.classList.add('active')
+    e.target.parentElement.classList.remove('inactive')
   }
 }
 
@@ -204,29 +272,10 @@ const filterData = (e) => {
   }
 }
 
-const getFullObject = (key, values) => {
-  const returnObject = values.value?.map((value) => {
-    const x = options.value?.find((i) => {
-      return i[key] === value
-    })
-    return x
-  })
-  return returnObject
-}
-
-watch(
-  () => [...checkedValues.value],
-  (newData, oldData) => {
-    validInput.value = checkedValues.value && checkedValues.value.length
-    if (!validInput.value) return false
-    emits('emitSelected', getFullObject('optionValue', checkedValues))
-  }
-)
-
 const selectedCountText = computed(() => {
-  const optionsObj = getFullObject('optionValue', checkedValues)
+  const optionsObj = getFullObject('optValue', checkedValues.value)
   if (isSingleSelect.value && checkedValues.value.length) {
-    return `${optionsObj[0]?.optionName} is selected.`
+    return `${optionsObj[0]?.optName} is selected.`
   } else if (checkedValues.value.length) {
     return `${optionsObj.length} item(s) are selected.`
   } else {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { pushUniqueObjects, isValidObject } from '@/utils/globals'
+import { PushUniqueObjects, IsValidObject } from '@/utils/globals'
 
 export default {
   namespaced: true,
@@ -12,8 +12,8 @@ export default {
     }
   },
   actions: {
-    async updateToExpensesList(context, payload) {
-      if (!isValidObject(payload)) return false
+    async updateExpensesList(context, payload) {
+      if (!IsValidObject(payload)) return false
       try {
         const res = await axios.patch(
           process.env.VUE_APP_API_ENDPOINT + `/expenses/${payload.id}`,
@@ -51,7 +51,7 @@ export default {
           process.env.VUE_APP_API_ENDPOINT + '/expenses',
           payload
         )
-        const fullList = pushUniqueObjects(context.state.list, res.data)
+        const fullList = PushUniqueObjects(context.state.list, res.data)
         context.commit('UPDATE_EXPENSES', fullList)
         context.dispatch(
           'utils/floatingMessages',
@@ -108,6 +108,17 @@ export default {
   getters: {
     getExpenses: (state) => {
       return state.list
+    },
+    getDataByType: (state) => (type) => {
+      const filteredData = state.list?.filter((i) => {
+        return i.type[0]?.optValue === type
+      })
+
+      const dataValue = filteredData?.reduce((acc, item) => {
+        return Number(acc) + Number(item.amount)
+      }, 0)
+
+      return dataValue
     }
   }
 }
