@@ -34,56 +34,56 @@ export const perPageOptions = [
   {
     id: 111,
     optValue: '5',
-    optName: '5 Pages',
+    optName: 'Show 5 rows',
     sortKey: '5',
     checked: false
   },
   {
     id: 112,
     optValue: '10',
-    optName: '10 Pages',
+    optName: 'Show 10 rows',
     sortKey: '10',
     checked: false
   },
   {
     id: 112,
     optValue: '15',
-    optName: '15 Pages',
+    optName: 'Show 15 rows',
     sortKey: '15',
     checked: false
   },
   {
     id: 113,
     optValue: '20',
-    optName: '20 Pages',
+    optName: 'Show 20 rows',
     sortKey: '20',
     checked: false
   },
   {
     id: 114,
     optValue: '25',
-    optName: '25 Pages',
+    optName: 'Show 25 rows',
     sortKey: '25',
     checked: false
   },
   {
     id: 115,
     optValue: '50',
-    optName: '50 Pages',
+    optName: 'Show 50 rows',
     sortKey: '50',
     checked: false
   },
   {
     id: 116,
     optValue: '100',
-    optName: '100 Pages',
+    optName: 'Show 100 rows',
     sortKey: '100',
     checked: false
   },
   {
     id: 117,
     optValue: 'all',
-    optName: 'All Pages',
+    optName: 'Show all Rows',
     sortKey: 'all',
     checked: false
   }

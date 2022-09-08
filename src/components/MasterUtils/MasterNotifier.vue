@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div v-if="isVisible" :class="`notification ${type} ${position}`">
     <header>
       <h6>{{ type.Capitalize() }}</h6>

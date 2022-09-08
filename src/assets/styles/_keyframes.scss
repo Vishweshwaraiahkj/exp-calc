@@ -71,11 +71,26 @@
     }
 
     50% {
-        margin-top: px2rem(10);
+        margin-top: px2rem(7);
     }
 
     to {
-        margin-top: px2rem(5);
+        margin-top: px2rem(3);
+    }
+}
+
+@include keyframes(slideDown) {
+
+    from {
+        margin-bottom: 0;
+    }
+
+    50% {
+        margin-bottom: px2rem(7);
+    }
+
+    to {
+        margin-bottom: px2rem(3);
     }
 }
 

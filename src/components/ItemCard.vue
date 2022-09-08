@@ -37,7 +37,7 @@
   }
 }
 </style>
-<template>
+<template lang="html">
   <div class="items-holder">
     <div class="items">
       <span class="display-name">

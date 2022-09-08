@@ -10,11 +10,11 @@
 
   .category-card {
     display: inline-flex;
-    box-shadow: boxShadow();
+    box-shadow: boxShadow(bottom);
   }
 }
 </style>
-<template>
+<template lang="html">
   <div class="filters">
     <MasterModal
       triggerId="gridSummary"

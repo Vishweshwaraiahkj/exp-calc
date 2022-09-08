@@ -7,7 +7,7 @@
   align-items: center;
 }
 </style>
-<template>
+<template lang="html">
   <div class="dashboard">
     <h1 class="p-3">Categories and Types</h1>
     <div class="container shadow-dark my-2">

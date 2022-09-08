@@ -8,7 +8,7 @@ module.exports = {
     parser: '@babel/eslint-parser'
   },
   rules: {
-    indent: ['error', 2],
+    indent: ['error', 2, { SwitchCase: 1 }],
     'comma-dangle': ['error', 'never'],
     'object-curly-spacing': [0, 'never'],
     'array-bracket-spacing': [0, 'never'],

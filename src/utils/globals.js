@@ -1,5 +1,69 @@
 import ErrorMessages from '@/constants/Errors'
 
+const TrimString = (s) => {
+  let l = 0
+  let r = s.length - 1
+  while (l < s.length && s[l] === ' ') l++
+  while (r > l && s[r] === ' ') r -= 1
+  return s.substring(l, r + 1)
+}
+
+const CompareObjects = (o1, o2) => {
+  let k = ''
+  for (k in o1) {
+    if (o1[k] !== o2[k]) return false
+  }
+  for (k in o2) {
+    if (o1[k] !== o2[k]) return false
+  }
+  return true
+}
+
+const ItemExists = (haystack, needle) => {
+  for (let i = 0; i < haystack.length; i++) {
+    if (CompareObjects(haystack[i], needle)) return true
+  }
+  return false
+}
+
+const SortArrayObjects = (a, b, type) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
+    return false
+  }
+  let modifier = 1
+  if (type === 'desc') {
+    modifier = -1
+  }
+  if (a[0].sortKey < b[0].sortKey) {
+    return -1 * modifier
+  }
+  if (a[0].sortKey > b[0].sortKey) {
+    return 1 * modifier
+  }
+  return 0
+}
+
+const SortPrimitives = (a, b, type) => {
+  let modifier = 1
+  if (type === 'desc') {
+    modifier = -1
+  }
+  if (a < b) {
+    return -1 * modifier
+  }
+  if (a > b) {
+    return 1 * modifier
+  }
+  return 0
+}
+
+const ExpandAllByKey = (dataArray, key) => {
+  const expanded = dataArray.map((i) => {
+    return i[key].map((j) => ({ ...i, [key]: j }))
+  })
+  return expanded.flat()
+}
+
 export const HideBodyOverlay = (event, itemsClass) => {
   event?.preventDefault()
   if (itemsClass) {
@@ -84,37 +148,6 @@ export const IsValidObject = (obj) => {
   )
 }
 
-const SortArrayObjects = (a, b, type) => {
-  if (!Array.isArray(a) || !Array.isArray(b)) {
-    return false
-  }
-  let modifier = 1
-  if (type === 'desc') {
-    modifier = -1
-  }
-  if (a[0].sortKey < b[0].sortKey) {
-    return -1 * modifier
-  }
-  if (a[0].sortKey > b[0].sortKey) {
-    return 1 * modifier
-  }
-  return 0
-}
-
-const SortPrimitives = (a, b, type) => {
-  let modifier = 1
-  if (type === 'desc') {
-    modifier = -1
-  }
-  if (a < b) {
-    return -1 * modifier
-  }
-  if (a > b) {
-    return 1 * modifier
-  }
-  return 0
-}
-
 export const CustomSort = (objectsArray, key, type) => {
   if (!objectsArray) return false
   if (!key) key = 'sortKey'
@@ -133,32 +166,6 @@ export const CustomSort = (objectsArray, key, type) => {
     }
     return SortPrimitives(itemA, itemB, type)
   })
-}
-
-const TrimString = (s) => {
-  let l = 0
-  let r = s.length - 1
-  while (l < s.length && s[l] === ' ') l++
-  while (r > l && s[r] === ' ') r -= 1
-  return s.substring(l, r + 1)
-}
-
-const CompareObjects = (o1, o2) => {
-  let k = ''
-  for (k in o1) {
-    if (o1[k] !== o2[k]) return false
-  }
-  for (k in o2) {
-    if (o1[k] !== o2[k]) return false
-  }
-  return true
-}
-
-const ItemExists = (haystack, needle) => {
-  for (let i = 0; i < haystack.length; i++) {
-    if (CompareObjects(haystack[i], needle)) return true
-  }
-  return false
 }
 
 export const SearchTheData = (searchData, searchKey) => {
@@ -187,6 +194,10 @@ export const SearchTheData = (searchData, searchKey) => {
   return results
 }
 
+export const RemoveMultiSpaces = (str) => {
+  return str.replace(/\s\s+/g, ' ')
+}
+
 export const SpaceToUnderscore = (str) => {
   const lowerStr = str.toLowerCase()
   const noSpaces = lowerStr.replace(/\s/g, '_')
@@ -208,13 +219,6 @@ export const UpdateArrayByKey = (dataArray, key, item) => {
   })
 }
 
-const ExpandAllByKey = (dataArray, key) => {
-  const expanded = dataArray.map((i) => {
-    return i[key].map((j) => ({ ...i, [key]: j }))
-  })
-  return expanded.flat()
-}
-
 export const GroupByKey = (dataArray, key) => {
   const validData = Array.isArray(dataArray) && dataArray.length
   if (!validData) return false
@@ -226,4 +230,46 @@ export const GroupByKey = (dataArray, key) => {
     return r
   }, Object.create(null))
   return result
+}
+
+export const CustomDates = (format, dateStr) => {
+  let dateObj = new Date()
+  if (dateStr) {
+    dateObj = new Date(dateStr)
+  }
+  let DateFormatted
+  const fullYear = dateObj.getFullYear()
+  const digitsMonth = ('0' + (dateObj.getMonth() + 1)).slice(-2)
+  const digitsDate = ('0' + dateObj.getDate()).slice(-2)
+  // Hours calculations
+  const hours24 = ('0' + dateObj.getHours()).slice(-2)
+  const minutes = ('0' + dateObj.getMinutes()).slice(-2)
+  const amPm = hours24 >= 12 ? 'PM' : 'AM'
+  let hours12 = hours24 % 12
+  hours12 = hours12 || 12
+  const strTime = hours12 + ':' + minutes + ' ' + amPm
+
+  switch (format) {
+    case 'YYYY-MM':
+      DateFormatted = `${fullYear}-${digitsMonth}`
+      break
+
+    case 'YYYY-MM-DD HH:MM':
+      DateFormatted = `${fullYear}-${digitsMonth}-${digitsDate} ${strTime}`
+      break
+
+    default:
+      DateFormatted = `${fullYear}-${digitsMonth}-${digitsDate}`
+      break
+  }
+
+  return DateFormatted
+}
+
+export const FilterByMonth = (itemsArray, filterDate) => {
+  if (!itemsArray?.length) return []
+  if (!filterDate) filterDate = CustomDates('YYYY-MM')
+  return itemsArray?.filter((i) => {
+    return CustomDates('YYYY-MM', i.date) === filterDate
+  })
 }

@@ -3,13 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "electron:build": "vue-cli-service electron:build",
-    "electron-serve": "vue-cli-service electron:serve",
-    "json-server": "json-server --watch .\\src\\data\\db.json",
-    "start-app": "concurrently --kill-others \"npm run electron-serve\" \"npm run json-server\"",
+    "build": "vue-cli-service electron:build",
+    "serve": "vue-cli-service electron:serve",
+    "json-serve": "json-server --watch .\\src\\data\\db.json",
+    "start": "concurrently --kill-others \"npm run serve\" \"npm run json-serve\"",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
   },

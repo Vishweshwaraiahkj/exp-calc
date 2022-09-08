@@ -14,32 +14,62 @@
     --light-gray: #dddddd;
     --gray: #6c757d;
     --gray-dark: #343a40;
+
     --primary: #007bff;
+    --primary-hover: #0069d9;
+    --primary-disabled: #1f88f9;
+    --primary-border: #0062cc;
+
     --secondary: #6c757d;
+    --secondary-hover: #5a6268;
+    --secondary-disabled: #7e858b;
+    --secondary-border: #545b62;
+
     --success: #28a745;
+    --success-hover: #218838;
+    --success-disabled: #35b452;
+    --success-border: #1e7e34;
+
     --info: #17a2b8;
+    --info-hover: #138496;
+    --info-disabled: #24b8cf;
+    --info-border: #117a8b;
+
     --warning: #ffc107;
+    --warning-hover: #e0a800;
+    --warning-disabled: #fcc41c;
+    --warning-border: #d39e00;
+
     --danger: #dc3545;
+    --danger-hover: #c82333;
+    --danger-disabled: #e74e5d;
+    --danger-border: #bd2130;
+
+    --light: #e3e8ec;
+    --light-hover: #eef5fa;
+    --light-disabled: #d7d9da;
+    --light-border: #d8e0e7;
+
+    --dark: #343a40;
+    --dark-hover: #434a51;
+    --dark-disabled: #434e58;
+    --dark-border: #292e32;
+
     --success-trans: #28a745e6;
     --info-trans: #17a2b8e6;
     --warning-trans: #ffc107e6;
     --danger-trans: #dc3545e6;
     --black-trans: #00000026;
     --white-trans: #ffffff26;
-    --light: #f8f9fa;
-    --dark: #343a40;
-    --breakpoint-xs: 0;
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px;
     --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --global-font-family: "Trebuchet MS", sans-serif;
     --minimal-shadow: 0 1px 3px;
     --light-shadow: 0 0.125rem 0.25rem;
     --dark-shadow: 0 1rem 3rem;
-    --default-shadow: 2px 3px 4px;
+    --default-shadow: 0px 0px 10px;
+    --top-shadow: 2px -3px 4px;
+    --bottom-shadow: 2px 3px 4px;
     --svg-shadow: 4px 3px 2px;
     --focus-shadow: 0 0 0 0.2rem;
     --menu-shadow: 3px 3px 5px;

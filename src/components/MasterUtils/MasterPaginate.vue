@@ -3,6 +3,7 @@
   list-style-type: none;
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 0;
 
   &-item {
     display: inline-block;
@@ -19,11 +20,11 @@
   }
 }
 </style>
-<template>
+<template lang="html">
   <ul class="pagination" :class="classes">
     <li class="pagination-item">
       <button
-        class="btn btn-primary"
+        :class="`btn btn-${btnsVariant}`"
         type="button"
         @click="onClickFirstPage"
         :disabled="isInFirstPage"
@@ -33,7 +34,7 @@
     </li>
     <li class="pagination-item">
       <button
-        class="btn btn-primary"
+        :class="`btn btn-${btnsVariant}`"
         type="button"
         @click="onClickPreviousPage"
         :disabled="isInFirstPage"
@@ -42,21 +43,20 @@
       </button>
     </li>
     <!-- Visible Buttons Start -->
-    <li class="pagination-item" v-for="page in pages" :key="page.name">
+    <li class="pagination-item" v-for="p in pages" :key="p.number">
       <button
-        class="btn btn-primary"
+        :class="`btn btn-${btnsVariant} ${isPageActive(p.number)}`"
         type="button"
-        :disabled="page.isDisabled"
-        @click="onClickPage(page.name)"
-        :class="{ active: isPageActive(page.name) }"
+        :disabled="p.disabled"
+        @click="onClickPage(p.number)"
       >
-        {{ page.name }}
+        {{ p.number }}
       </button>
     </li>
     <!-- Visible Buttons End -->
     <li class="pagination-item">
       <button
-        class="btn btn-primary"
+        :class="`btn btn-${btnsVariant}`"
         type="button"
         @click="onClickNextPage"
         :disabled="isInLastPage"
@@ -66,7 +66,7 @@
     </li>
     <li class="pagination-item">
       <button
-        class="btn btn-primary"
+        :class="`btn btn-${btnsVariant}`"
         type="button"
         @click="onClickLastPage"
         :disabled="isInLastPage"
@@ -78,7 +78,7 @@
 </template>
 <script setup>
 import { computed } from 'vue'
-import MasterIcon from './MasterIcon.vue'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
 const props = defineProps({
   numBtnsCount: {
@@ -101,6 +101,10 @@ const props = defineProps({
   classes: {
     type: String,
     default: null
+  },
+  btnsVariant: {
+    type: String,
+    default: 'primary'
   }
 })
 
@@ -125,8 +129,8 @@ const pages = computed(() => {
   const pagesArray = Array.from({ length: maxBtns.value }, (_, i) => {
     const pageName = i + 1 + from
     return {
-      name: pageName,
-      isDisabled: pageName === props.currentPage
+      number: pageName,
+      disabled: pageName === props.currentPage
     }
   })
   return pagesArray
@@ -163,6 +167,10 @@ const onClickLastPage = () => {
 }
 
 const isPageActive = (page) => {
-  return props.currentPage === page
+  if (props.currentPage === page) {
+    return 'active'
+  } else {
+    return ''
+  }
 }
 </script>

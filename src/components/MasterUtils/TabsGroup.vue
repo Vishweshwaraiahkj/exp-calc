@@ -63,7 +63,7 @@ ul {
   }
 }
 </style>
-<template>
+<template lang="html">
   <div :class="{ tabs__light: mode === 'light', tabs__dark: mode === 'dark' }">
     <ul class="tabs__header">
       <li

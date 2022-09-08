@@ -1,12 +1,43 @@
-<template>
-  <label v-if="inputLabel" :for="inputId" class="input-label">
-    {{ inputLabel }}
-  </label>
-  <div :style="{ width: inputWidth }">
-    <span
-      class="d-flex form-control"
-      :class="!validInput && inputRequired ? 'err' : ''"
-    >
+<style lang="scss" scoped>
+.input-group {
+  width: v-bind(inputWidth);
+
+  &.label-left {
+    display: inline-flex;
+    white-space: nowrap;
+    align-items: center;
+    margin-right: 1rem;
+
+    .input-label {
+      margin: auto;
+      margin-right: px2rem(10);
+
+      &:after {
+        content: ':';
+      }
+    }
+  }
+
+  .input-pad {
+    padding: px2rem(5);
+  }
+
+  .input-icon,
+  .clear-icon {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    width: px2rem(45);
+  }
+}
+</style>
+<template lang="html">
+  <div :class="mainWrapper">
+    <label v-if="inputLabel" :for="inputId" class="input-label">
+      {{ inputLabel }}
+    </label>
+    <span :class="inputWrapper">
       <MasterIcon
         v-if="hasIcon"
         size="small"
@@ -25,7 +56,7 @@
       />
       <MasterIcon
         @click="clearInput"
-        v-if="inputValue"
+        v-if="clearTrue"
         size="small"
         svgName="close-filled"
         classes="clear-icon"
@@ -38,8 +69,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import { RemoveMultiSpaces } from '@/utils/globals'
 
 const emits = defineEmits(['update:inputValue'])
 
@@ -61,7 +93,7 @@ const props = defineProps({
     type: String
   },
   inputValue: {
-    type: [String, Date, Number],
+    type: [String, Date, Number, Boolean],
     default: null
   },
   inputName: {
@@ -83,29 +115,55 @@ const props = defineProps({
   hasIcon: {
     default: '',
     type: String
+  },
+  isPadded: {
+    default: false,
+    type: Boolean
+  },
+  labelPos: {
+    default: 'top',
+    type: String
   }
 })
 
 const errMessage = ref(props.inputErrMessage)
 const validInput = ref(true)
-const updateInput = (event) => {
-  const inputData = event.target.value
+
+const clearTrue = computed(() => {
+  const excludeTypes =
+    props.inputType === 'checkbox' || props.inputType === 'radio'
+  return props.inputValue && !excludeTypes
+})
+
+const inputWrapper = computed(() => {
+  const defClasses = 'input-span form-control'
+  const isValid = !validInput.value && props.inputRequired
+  const errClass = isValid ? 'err' : ''
+  const padClass = props.isPadded ? 'input-pad' : ''
+  const combined = `${defClasses} ${errClass} ${padClass}`
+  return RemoveMultiSpaces(combined)
+})
+
+const mainWrapper = computed(() => {
+  const defClasses = 'input-group'
+  const labelPos = `label-${props.labelPos}`
+  const combined = `${defClasses} ${labelPos}`
+  return RemoveMultiSpaces(combined)
+})
+
+const updateInput = (e) => {
+  const inputData = e.target.value
+  const inputType = e.target.type
   validInput.value = inputData
-  emits('update:inputValue', inputData)
+  if (inputType === 'checkbox' || inputType === 'radio') {
+    const checkedStatus = e.target.checked
+    emits('update:inputValue', checkedStatus)
+  } else {
+    emits('update:inputValue', inputData)
+  }
 }
 
 const clearInput = () => {
   emits('update:inputValue', '')
 }
 </script>
-<style lang="scss" scoped>
-.input-icon,
-.clear-icon {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  cursor: pointer;
-  box-shadow: boxShadow();
-  width: px2rem(45);
-}
-</style>

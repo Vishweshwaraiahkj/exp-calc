@@ -108,17 +108,6 @@ export default {
   getters: {
     getExpenses: (state) => {
       return state.list
-    },
-    getDataByType: (state) => (type) => {
-      const filteredData = state.list?.filter((i) => {
-        return i.type[0]?.optValue === type
-      })
-
-      const dataValue = filteredData?.reduce((acc, item) => {
-        return Number(acc) + Number(item.amount)
-      }, 0)
-
-      return dataValue
     }
   }
 }

@@ -4,7 +4,7 @@
   background: v-bind('theme.bgColor');
 }
 </style>
-<template>
+<template lang="html">
   <div class="item-card" :class="classes">
     <div class="flex-center" v-if="titleKey">
       <MasterIcon

@@ -41,7 +41,7 @@
   }
 }
 </style>
-<template>
+<template lang="html">
   <div class="dashboard about pt-3">
     <div class="about-container">
       <div class="name-title">

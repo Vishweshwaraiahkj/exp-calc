@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <div class="tab" v-show="active">
     <slot></slot>
   </div>

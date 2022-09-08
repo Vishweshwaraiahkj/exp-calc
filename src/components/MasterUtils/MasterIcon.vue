@@ -3,7 +3,7 @@
   display: inline-flex;
 }
 </style>
-<template>
+<template lang="html">
   <div class="svg-holder" :class="classes">
     <svg
       class="shadow-svg"

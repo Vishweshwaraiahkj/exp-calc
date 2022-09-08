@@ -5,19 +5,18 @@
   justify-content: space-between;
   align-items: flex-end;
   padding-bottom: 0.625rem;
-
-  input {
-    box-shadow: boxShadow();
-  }
 }
 
 .match-space {
-  padding: 1rem 1.5rem;
-  box-shadow: boxShadow();
-  background-color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
 }
 
-table {
+table.table {
+  margin-bottom: 1rem;
+
   thead tr th {
     min-width: 20%;
     white-space: nowrap;
@@ -65,8 +64,21 @@ table {
     }
   }
 }
+
+.total-rows {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  background: var(--white);
+  color: var(--dark);
+  height: px2rem(38);
+  font-size: px2rem(14);
+  font-weight: 400;
+  line-height: 1.5;
+  box-shadow: boxShadow();
+}
 </style>
-<template>
+<template lang="html">
   <div class="col-12 mt-3">
     <div class="filter-box">
       <MasterInput
@@ -74,18 +86,32 @@ table {
         input-name="search"
         input-placeholder="Search the table!"
         input-type="text"
-        v-model:input-value="searchKey"
         input-width="25%"
         hasIcon="search"
+        v-model:input-value="searchKey"
       />
       <div class="flex-center">
-        <MasterSelect
-          @emitSelected="getCheckedTypes"
-          select-placeholder="Select rows per page"
-          :select-options="perPageOptions"
-          :single-select="true"
-          select-width="15rem"
-          :default-selects="defaultCounts"
+        <master-input
+          input-id="showAll"
+          input-label="Show all"
+          label-pos="left"
+          input-name="all-rows"
+          input-placeholder="Show all data!"
+          input-type="checkbox"
+          input-width="7rem"
+          v-model:input-value="allRows"
+          @change="filterRows"
+        />
+        <MasterInput
+          v-if="!allRows"
+          input-id="monthlyData"
+          input-name="monthly"
+          input-placeholder="Select a month"
+          input-type="month"
+          input-width="15rem"
+          :input-required="true"
+          v-model:input-value="selectedMonth"
+          @change="filterRows"
         />
         <FiltersModal :key="Date.now()" />
       </div>
@@ -126,7 +152,13 @@ table {
             </template>
           </td>
           <td class="description">{{ item.description }}</td>
-          <td class="date">{{ item.date }}</td>
+          <td class="date">
+            <MasterDates
+              format="YYYY-MM-DD HH:MM"
+              :date-str="item.date"
+              :key="item.date"
+            />
+          </td>
           <td>
             <div class="actions">
               <span class="action update">
@@ -153,27 +185,41 @@ table {
       </tbody>
       <tbody v-else>
         <tr>
-          <td colspan="6">No Data!</td>
+          <td colspan="6">No entries for the selected month!</td>
         </tr>
       </tbody>
     </table>
-    <MasterPaginate
-      v-if="visibleData.length"
-      :totalPages="totalPages"
-      :perPage="perPage"
-      :currentPage="pageNumber"
-      :numBtnsCount="visibleBtns"
-      @pageChanged="onPageChange"
-      classes="match-space"
-    />
+    <div class="match-space">
+      <div class="flex-center">
+        <MasterSelect
+          @emitSelected="getCheckedTypes"
+          select-placeholder="Show 5 rows"
+          :select-options="perPageOptions"
+          :single-select="true"
+          select-width="15rem"
+          :default-selects="defaultCounts"
+          :select-text="false"
+        />
+        <span class="total-rows ml-1">Total Rows: {{ dataArray?.length }}</span>
+      </div>
+      <MasterPaginate
+        v-if="visibleData.length"
+        :totalPages="totalPages"
+        :perPage="perPage"
+        :currentPage="pageNumber"
+        :numBtnsCount="visibleBtns"
+        :btns-variant="`dark`"
+        @pageChanged="onPageChange"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { CustomSort, SearchTheData } from '@/utils/globals'
-import { tableHeaders, perPageOptions } from '@/constants/TableConsts.js'
+import { CustomSort, SearchTheData, CustomDates } from '@/utils/globals'
+import { tableHeaders, perPageOptions } from '@/constants/TableConsts'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
 import AddExpenses from '@/components/AddExpenses.vue'
@@ -181,7 +227,8 @@ import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import FiltersModal from '@/components/FiltersModal.vue'
 import ColoredCard from '@/components/MasterUtils/ColoredCard.vue'
 import DeleteModal from '@/components/DeleteModal.vue'
-import MasterSelect from './MasterInputs/MasterSelect.vue'
+import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
+import MasterDates from '@/components/MasterUtils/MasterDates.vue'
 
 const props = defineProps({
   dataArray: {
@@ -191,6 +238,8 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits(['emitDataToShow'])
+
 const store = useStore()
 const pageNumber = ref(1)
 const perPage = ref(5)
@@ -199,6 +248,8 @@ const sortType = ref('desc')
 const visibleBtns = ref(5)
 const searchKey = ref('')
 const finalData = ref([])
+const selectedMonth = ref(CustomDates('YYYY-MM'))
+const allRows = ref(false)
 
 const getCheckedTypes = (data) => {
   const selects = data[0]?.optValue
@@ -240,6 +291,14 @@ watchEffect(() => {
     pageNumber.value = 1
   }
 })
+
+const filterRows = () => {
+  if (allRows.value) {
+    emits('emitDataToShow', 'show_all')
+  } else {
+    emits('emitDataToShow', selectedMonth.value)
+  }
+}
 
 const visibleData = computed(() => {
   const start = (pageNumber.value - 1) * perPage.value || 0

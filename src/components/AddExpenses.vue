@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <master-modal
     :triggerId="triggerId"
     modalId="expensesModal"

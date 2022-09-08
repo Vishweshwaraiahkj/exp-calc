@@ -1,9 +1,11 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
+
+const ipc = ipcMain
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -12,34 +14,71 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-async function createWindow () {
+async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  let win = new BrowserWindow({
+    minHeight: 560,
+    minWidth: 940,
     show: false,
+    frame: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      devTools: !app.isPackaged
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+      devTools: !app.isPackaged,
+      preload: path.join(__dirname, 'preload.js')
     },
-    title: 'Expense Calculator',
-    icon: path.join(__dirname, 'assets/icons/add.svg')
+    icon: path.join(__dirname, 'assets/icons/lion-face.ico')
   })
-  win.webContents.openDevTools({ mode: 'detach', activate: false })
-  win.webContents.closeDevTools()
-  win.maximize()
-  win.show()
+
+  win.on('ready-to-show', () => {
+    win.show()
+    win.maximize()
+    win.focus()
+  })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  // Minimize app
+  ipc.on('MinimizeApp', () => {
+    win.minimize()
+  })
+
+  // Maximize app
+  ipc.on('MaximizeApp', () => {
+    if (win.isMaximized()) {
+      win.restore()
+    } else {
+      win.maximize()
+    }
+  })
+
+  // Close app
+  ipc.on('CloseApp', () => {
+    win.close()
+  })
+
+  win.on('maximize', () => {
+    win.webContents.send('isMaximized')
+  })
+
+  win.on('unmaximize', () => {
+    win.webContents.send('isRestored')
+  })
+
+  // set null to win when app closes
+  win.on('closed', () => {
+    win = null
+  })
 }
 
 // Quit when all windows are closed.
@@ -61,7 +100,7 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDevelopment) {
     // Install Vue Devtools
     try {
       await installExtension(VUEJS3_DEVTOOLS)

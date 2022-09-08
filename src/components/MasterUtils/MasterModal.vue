@@ -68,7 +68,7 @@
   }
 }
 </style>
-<template>
+<template lang="html">
   <button class="btn" :class="btnClasses" :id="triggerId" @click="toggleModal">
     <slot name="trigger"></slot>
   </button>
@@ -78,7 +78,7 @@
     v-if="isShow"
     @click="toggleModal"
   >
-    <div class="modal-content shadow-dark" @click.stop="">
+    <div class="modal-content shadow-dark" @click.stop="stopIt">
       <span class="close medium" @click="toggleModal">
         <MasterIcon fill-color="green" size="x-small" svg-name="close-cross" />
       </span>
@@ -149,6 +149,7 @@ const slots = useSlots()
 
 const isShow = ref(false)
 const size = ref(props.modalSize)
+const stopIt = () => false
 
 const toggleModal = () => {
   isShow.value = !isShow.value

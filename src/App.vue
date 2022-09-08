@@ -1,11 +1,11 @@
-<template>
+<template lang="html">
   <MasterNotifier
     v-if="toastMsgs.message"
     :key="toastKey"
     :type="toastMsgs.type"
-    position="top-center"
+    position="top-right"
     :message="toastMsgs.message"
-    :timeout="3000"
+    :timeout="5000"
   />
   <AppHeader>
     <nav class="menu">

@@ -3,7 +3,7 @@
   color: var(--dark);
 }
 </style>
-<template>
+<template lang="html">
   <MasterModal
     triggerId="deleteItem"
     modalId="deleteModal"

@@ -30,9 +30,9 @@
     color: #495057;
     background-color: var(--white);
     background-clip: padding-box;
-    border: px2rem(1) solid #ced4da;
     border-radius: 0;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out;
+    box-shadow: boxShadow();
 }
 
 @mixin cssArrow($dir) {
@@ -75,6 +75,99 @@
     }
 }
 
+@mixin buttonVariant($variant: primary) {
+
+    $background-color: '';
+    $text-color: '';
+    $hover-color: '';
+    $disabled-color: '';
+    $border-color: '';
+
+    @if $variant ==light {
+        $background-color: var(--light);
+        $text-color: var(--dark);
+        $hover-color: var(--light-hover);
+        $disabled-color: var(--light-disabled);
+        $border-color: var(--light-border);
+    }
+
+    @else if $variant ==dark {
+        $background-color: var(--dark);
+        $text-color: var(--light);
+        $hover-color: var(--dark-hover);
+        $disabled-color: var(--dark-disabled);
+        $border-color: var(--dark-border);
+    }
+
+    @else if $variant ==primary {
+        $background-color: var(--primary);
+        $text-color: var(--white);
+        $hover-color: var(--primary-hover);
+        $disabled-color: var(--primary-disabled);
+        $border-color: var(--primary-border);
+    }
+
+    @else if $variant ==secondary {
+        $background-color: var(--secondary);
+        $text-color: var(--white);
+        $hover-color: var(--secondary-hover);
+        $disabled-color: var(--secondary-disabled);
+        $border-color: var(--secondary-border);
+    }
+
+    @else if $variant ==success {
+        $background-color: var(--success);
+        $text-color: var(--white);
+        $hover-color: var(--success-hover);
+        $disabled-color: var(--success-disabled);
+        $border-color: var(--success-border);
+    }
+
+    @else if $variant ==info {
+        $background-color: var(--info);
+        $text-color: var(--white);
+        $hover-color: var(--info-hover);
+        $disabled-color: var(--info-disabled);
+        $border-color: var(--info-border);
+    }
+
+    @else if $variant ==warning {
+        $background-color: var(--warning);
+        $text-color: var(--white);
+        $hover-color: var(--warning-hover);
+        $disabled-color: var(--warning-disabled);
+        $border-color: var(--warning-border);
+    }
+
+    @else if $variant ==danger {
+        $background-color: var(--danger);
+        $text-color: var(--white);
+        $hover-color: var(--danger-hover);
+        $disabled-color: var(--danger-disabled);
+        $border-color: var(--danger-border);
+    }
+
+    color: $text-color;
+    background-color: $background-color;
+    border-color: $border-color;
+
+    &:hover {
+        color: $text-color;
+        background-color: $hover-color;
+        border-color: $border-color;
+    }
+
+    &:focus {
+        box-shadow: boxShadow(focus, $variant);
+    }
+
+    &:disabled {
+        color: $text-color;
+        background-color: $disabled-color;
+        border-color: $border-color;
+    }
+}
+
 @function boxShadow($type: default, $variant: black) {
     $black: var(--black);
     $white: var(--white);
@@ -88,6 +181,8 @@
     $secondary: var(--secondary);
     $menu: var(--menu-color);
 
+    $top-shadow: var(--top-shadow);
+    $bottom-shadow: var(--bottom-shadow);
     $default-shadow: var(--default-shadow);
     $minimal-shadow: var(--minimal-shadow);
     $light-shadow: var(--light-shadow);
@@ -149,7 +244,17 @@
         @return $focus-shadow $danger;
     }
 
-    @return $default-shadow $black-trans;
+    @else if $type ==top {
+        @return $top-shadow $black-trans;
+    }
+
+    @else if $type ==bottom {
+        @return $bottom-shadow $black-trans;
+    }
+
+    @else {
+        @return $default-shadow $black-trans;
+    }
 }
 
 @function px2rem($size) {

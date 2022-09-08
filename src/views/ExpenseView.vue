@@ -1,11 +1,11 @@
-<template>
-  <ExpenseDashboard />
+<template lang="html">
+  <ExpenseHome />
 </template>
 
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import ExpenseDashboard from '@/components/ExpenseDashboard.vue'
+import ExpenseHome from '@/components/ExpenseHome.vue'
 
 const store = useStore()
 onMounted(() => {

@@ -9,9 +9,9 @@
   "categories": [
     {
       "id": 1,
-      "optValue": "house_expense",
-      "optName": "House Expense",
-      "sortKey": "House Expense",
+      "optValue": "family",
+      "optName": "Family",
+      "sortKey": "Family",
       "checked": false,
       "favorite": true,
       "colorFill": "#0d960d"

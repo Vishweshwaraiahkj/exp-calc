@@ -53,7 +53,7 @@
   background-color: var(--red);
 }
 </style>
-<template>
+<template lang="html">
   <div v-if="expList" class="col-12">
     <div class="exp-container shadow-dark">
       <div class="balance-count">
@@ -95,17 +95,31 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
-const store = useStore()
-const expList = computed(() => store.state.expenses.list)
-const expenseValue = computed(() =>
-  store.getters['expenses/getDataByType']('expense')
-)
-const incomeValue = computed(() =>
-  store.getters['expenses/getDataByType']('income')
-)
+const props = defineProps({
+  dataList: {
+    type: Array,
+    default: () => [],
+    required: true
+  }
+})
+const expList = computed(() => props.dataList)
+
+const getDataByType = (type) => {
+  const filteredData = expList.value?.filter((i) => {
+    return i.type[0]?.optValue === type
+  })
+
+  const dataValue = filteredData?.reduce((acc, item) => {
+    return Number(acc) + Number(item.amount)
+  }, 0)
+
+  return dataValue
+}
+
+const expenseValue = computed(() => getDataByType('expense'))
+const incomeValue = computed(() => getDataByType('income'))
 
 const balanceMoney = computed(() => incomeValue.value - expenseValue.value)
 </script>

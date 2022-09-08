@@ -3,7 +3,7 @@
   display: flex;
 }
 </style>
-<template>
+<template lang="html">
   <div class="selectable">
     <master-modal
       :triggerId="triggerId"
