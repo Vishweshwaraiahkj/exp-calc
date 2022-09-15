@@ -2,8 +2,6 @@
 .exp-container {
   display: flex;
   justify-content: space-between;
-  background-color: var(--white);
-  margin: 1rem auto auto auto;
 
   & > div {
     flex: 1;

@@ -9,7 +9,7 @@
 </style>
 <template lang="html">
   <div class="dashboard">
-    <h1 class="p-3">Categories and Types</h1>
+    <h1 class="p-1"></h1>
     <div class="container shadow-dark my-2">
       <div class="btn-header">
         <h3 class="px-1 title">Categories</h3>
@@ -34,8 +34,7 @@
         </div>
       </div>
       <div v-else class="grid-container"><h3>No data found!</h3></div>
-    </div>
-    <div class="container shadow-dark my-2">
+
       <div class="btn-header">
         <h3 class="px-1 title">Types</h3>
         <add-selectable

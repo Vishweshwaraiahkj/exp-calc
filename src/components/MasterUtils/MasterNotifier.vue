@@ -1,5 +1,9 @@
 <template lang="html">
-  <div v-if="isVisible" :class="`notification ${type} ${position}`">
+  <div
+    v-if="isVisible"
+    :class="`notification ${type} ${position}`"
+    @click="hideNotifier"
+  >
     <header>
       <h6>{{ type.Capitalize() }}</h6>
       <span class="close small" @click="hideNotifier">

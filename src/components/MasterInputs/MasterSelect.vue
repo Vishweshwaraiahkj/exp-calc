@@ -44,7 +44,6 @@
       padding: px2rem(2) px2rem(10);
       background: var(--white);
       width: 100%;
-      border-radius: px2rem(2);
       text-align: left;
       color: var(--dark);
       border: 0;

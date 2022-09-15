@@ -197,55 +197,30 @@ label {
   margin-bottom: 0.5rem;
 }
 
+input,
 button {
+  height: 100%;
   border-radius: 0;
-}
-
-button,
-input {
   overflow: visible;
   padding: px2rem(2) px2rem(10);
-}
-
-input,
-select,
-optgroup,
-textarea {
-  display: block;
-  border: none;
-  height: 100%;
-  width: 100%;
-}
-
-button,
-select {
-  text-transform: none;
-}
-
-select {
-  word-wrap: normal;
-}
-
-button,
-[type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
-}
-
-button:not(:disabled),
-[type="button"]:not(:disabled),
-[type="reset"]:not(:disabled),
-[type="submit"]:not(:disabled) {
   cursor: pointer;
+
+  &:focus {
+    outline: 2px solid var(--dark);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
-button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-  padding: 0;
-  border-style: none;
+button {
+  -webkit-appearance: button;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border-style: none;
+  }
 }
 
 input {
@@ -255,6 +230,7 @@ input {
     width: 100%;
     box-sizing: border-box;
     padding: 0;
+    margin: auto;
 
     &:focus {
       outline: none;
@@ -267,6 +243,16 @@ input {
   &[type="month"] {
     -webkit-appearance: listbox;
   }
+}
+
+input,
+select,
+optgroup,
+textarea {
+  display: block;
+  border: none;
+  height: 100%;
+  width: 100%;
 }
 
 textarea {
@@ -872,10 +858,6 @@ pre {
 .form-control {
   @include formControl();
 
-  input {
-    margin: auto;
-  }
-
   &::-ms-expand {
     background-color: transparent;
     border: 0;
@@ -1021,22 +1003,20 @@ fieldset {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
 nav {
-  padding: 2rem;
-  float: right;
-
   &.menu {
     a {
-      color: #2c3e50;
+      -webkit-app-region: no-drag;
+      color: var(--dark);
       background-color: var(--menu-color);
       box-shadow: boxShadow(menu);
-      padding: 1rem;
       font-weight: bold;
-      -webkit-app-region: no-drag;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 1rem;
+      height: 100%;
 
       &:focus {
         outline: none;
@@ -1053,8 +1033,12 @@ header,
 .header {
   background-color: var(--header-color);
   text-align: left;
-  -webkit-app-region: drag;
+
   @include headerFooters()
+}
+
+header.main {
+  -webkit-app-region: drag;
 }
 
 footer,
@@ -1877,8 +1861,9 @@ span.err {
 }
 
 .dashboard {
+  position: relative;
   margin-bottom: 4rem;
-  margin-top: 5rem;
+  margin-top: 6rem;
 }
 
 .animate {

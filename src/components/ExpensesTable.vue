@@ -75,11 +75,12 @@ table.table {
   font-size: px2rem(14);
   font-weight: 400;
   line-height: 1.5;
+  white-space: nowrap;
   box-shadow: boxShadow();
 }
 </style>
 <template lang="html">
-  <div class="col-12 mt-3">
+  <div class="col-12 mt-2">
     <div class="filter-box">
       <MasterInput
         input-id="searchId"
@@ -109,9 +110,9 @@ table.table {
           input-placeholder="Select a month"
           input-type="month"
           input-width="15rem"
-          :input-required="true"
           v-model:input-value="selectedMonth"
           @change="filterRows"
+          :isClearable="false"
         />
         <FiltersModal :key="Date.now()" />
       </div>

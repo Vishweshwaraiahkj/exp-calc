@@ -1,5 +1,9 @@
-import axios from 'axios'
 import { IsValidObject, UpdateArrayByKey } from '@/utils/globals'
+import fs from 'fs'
+import * as path from 'path'
+
+const categoriesPath = path.join(process.cwd(), 'src/data/categories.json')
+const typesPath = path.join(process.cwd(), 'src/data/types.json')
 
 export default {
   namespaced: true,
@@ -34,134 +38,199 @@ export default {
         ...item,
         favorite: !favStatus
       }
-      try {
-        const res = await axios.patch(
-          process.env.VUE_APP_API_ENDPOINT + `/${type}/${item.id}`,
-          updatedItem
+
+      let dbPath
+      if (type === 'types') {
+        dbPath = typesPath
+      } else {
+        dbPath = categoriesPath
+      }
+
+      const updatedData = UpdateArrayByKey(existingData, 'id', updatedItem)
+
+      fs.writeFile(dbPath, JSON.stringify(updatedData, null, 2), (error) => {
+        if (error) {
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Error updating item!',
+              type: 'error'
+            },
+            { root: true }
+          )
+          return
+        }
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Successfully updated!',
+            type: 'success'
+          },
+          { root: true }
         )
-        if (!res.data) return false
-
-        const updatedData = UpdateArrayByKey(existingData, 'id', updatedItem)
-
         if (type === 'categories') {
           context.commit('UPDATE_CATEGORIES', updatedData)
         }
         if (type === 'types') {
           context.commit('UPDATE_TYPES', updatedData)
         }
-      } catch (error) {
-        alert('Error updating item!')
-      }
+      })
     },
     async fetchAllCategories(context) {
       if (context.state.categories?.length) return false
-      try {
-        await axios
-          .get(process.env.VUE_APP_API_ENDPOINT + '/categories')
-          .then((response) => response.data)
-          .then((items) => {
-            context.commit('UPDATE_CATEGORIES', items)
-          })
-      } catch (error) {
-        alert('Error getting existing categories!')
-      }
+      fs.readFile(categoriesPath, 'utf8', (err, data) => {
+        if (err) {
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Error getting existing categories!',
+              type: 'error'
+            },
+            { root: true }
+          )
+        }
+        const dbData = JSON.parse(data)
+        context.commit('UPDATE_CATEGORIES', dbData)
+      })
     },
     async fetchAllTypes(context) {
       if (context.state.types?.length) return false
-      try {
-        await axios
-          .get(process.env.VUE_APP_API_ENDPOINT + '/types')
-          .then((response) => response.data)
-          .then((items) => {
-            context.commit('UPDATE_TYPES', items)
-          })
-      } catch (error) {
-        alert('Error getting existing categories!')
-      }
+      fs.readFile(typesPath, 'utf8', (err, data) => {
+        if (err) {
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Error getting existing types!',
+              type: 'error'
+            },
+            { root: true }
+          )
+        }
+        const dbData = JSON.parse(data)
+        context.commit('UPDATE_TYPES', dbData)
+      })
     },
     async addToList(context, { dataObj, dataType }) {
       const existingData = context.state[dataType]
 
-      try {
-        const res = await axios.post(
-          process.env.VUE_APP_API_ENDPOINT + `/${dataType}`,
-          dataObj
+      const updatedData = [...existingData, dataObj]
+
+      let dbPath
+      if (dataType === 'types') {
+        dbPath = typesPath
+      } else {
+        dbPath = categoriesPath
+      }
+
+      fs.writeFile(dbPath, JSON.stringify(updatedData, null, 2), (error) => {
+        if (error) {
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Error adding item!',
+              type: 'error'
+            },
+            { root: true }
+          )
+          return
+        }
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Successfully updated!',
+            type: 'success'
+          },
+          { root: true }
         )
-
-        if (!res.data) return false
-
-        const updatedData = [...existingData, dataObj]
         if (dataType === 'categories') {
           context.commit('UPDATE_CATEGORIES', updatedData)
         }
         if (dataType === 'types') {
           context.commit('UPDATE_TYPES', updatedData)
         }
-      } catch (error) {
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Error adding item!',
-            type: 'error'
-          },
-          { root: true }
-        )
-      }
+      })
     },
     async updateList(context, { dataObj, dataType }) {
       const existingData = context.state[dataType]
-      try {
-        const res = await axios.patch(
-          process.env.VUE_APP_API_ENDPOINT + `/${dataType}/${dataObj.id}`,
-          dataObj
+
+      const updatedData = UpdateArrayByKey(existingData, 'id', dataObj)
+
+      let dbPath
+      if (dataType === 'types') {
+        dbPath = typesPath
+      } else {
+        dbPath = categoriesPath
+      }
+
+      fs.writeFile(dbPath, JSON.stringify(updatedData, null, 2), (error) => {
+        if (error) {
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Error updating item!',
+              type: 'error'
+            },
+            { root: true }
+          )
+          return
+        }
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Successfully updated!',
+            type: 'success'
+          },
+          { root: true }
         )
-        if (!res.data) return false
-
-        const updatedData = UpdateArrayByKey(existingData, 'id', dataObj)
-
         if (dataType === 'categories') {
           context.commit('UPDATE_CATEGORIES', updatedData)
         }
         if (dataType === 'types') {
           context.commit('UPDATE_TYPES', updatedData)
         }
-      } catch (error) {
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Error updating item!',
-            type: 'error'
-          },
-          { root: true }
-        )
-      }
+      })
     },
     async deleteById(context, { dataId, dataType }) {
       if (!dataId || !dataType) return false
-      try {
-        await axios.delete(
-          process.env.VUE_APP_API_ENDPOINT + `/${dataType}/${dataId}`
-        )
-        const filteredList = context.state[dataType]?.filter(
-          (i) => i.id !== dataId
-        )
 
+      const filteredList = context.state[dataType]?.filter(
+        (i) => i.id !== dataId
+      )
+
+      let dbPath
+      if (dataType === 'types') {
+        dbPath = typesPath
+      } else {
+        dbPath = categoriesPath
+      }
+
+      fs.writeFile(dbPath, JSON.stringify(filteredList, null, 2), (error) => {
+        if (error) {
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Error deleting item!',
+              type: 'error'
+            },
+            { root: true }
+          )
+          return
+        }
+        context.dispatch(
+          'utils/floatingMessages',
+          {
+            message: 'Successfully updated!',
+            type: 'success'
+          },
+          { root: true }
+        )
         if (dataType === 'categories') {
           context.commit('UPDATE_CATEGORIES', filteredList)
         }
         if (dataType === 'types') {
           context.commit('UPDATE_TYPES', filteredList)
         }
-      } catch (error) {
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Error Deleting Item!',
-            type: 'error'
-          },
-          { root: true }
-        )
-      }
+      })
     }
   },
   getters: {

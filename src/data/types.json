@@ -1,0 +1,29 @@
+[
+  {
+    "id": 11,
+    "optValue": "income",
+    "optName": "Income",
+    "sortKey": "Income",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#008000"
+  },
+  {
+    "id": 12,
+    "optValue": "expense",
+    "optName": "Expense",
+    "sortKey": "Expense",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#ff0000"
+  },
+  {
+    "id": "db1d18aa-2cee-42fa-a760-2f6805be37cd",
+    "optValue": "credits",
+    "optName": "Credits",
+    "sortKey": "Credits",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#e17f7f"
+  }
+]

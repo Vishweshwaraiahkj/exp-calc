@@ -30,41 +30,26 @@ ul {
   border-radius: px2rem(5);
 }
 
+.tabs {
+  text-align: center;
+}
+
 .tabs__light {
-  margin-bottom: 1rem;
-  .tab {
-    background-color: #fff;
-  }
-  li {
-    background-color: #ddd;
-    color: #aaa;
-    &.tab__selected {
-      background-color: #fff;
-      color: #83ffb3;
-    }
-  }
+  @include TabsGroup(var(--light), var(--dark));
 }
 
 .tabs__dark {
-  margin-bottom: 1rem;
-  .tab {
-    background-color: #555;
-    color: #eee;
-  }
-
-  li {
-    background-color: var(--light-gray);
-    color: var(--dark);
-
-    &.tab__selected {
-      background-color: #555;
-      color: white;
-    }
-  }
+  @include TabsGroup(var(--dark), var(--light));
 }
 </style>
 <template lang="html">
-  <div :class="{ tabs__light: mode === 'light', tabs__dark: mode === 'dark' }">
+  <div
+    :class="{
+      tabs: true,
+      tabs__light: mode === 'light',
+      tabs__dark: mode === 'dark'
+    }"
+  >
     <ul class="tabs__header">
       <li
         v-for="tab in tabs"

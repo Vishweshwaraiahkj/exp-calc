@@ -1,0 +1,146 @@
+[
+  {
+    "id": 1,
+    "optValue": "family",
+    "optName": "Family",
+    "sortKey": "Family",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#0d960d"
+  },
+  {
+    "id": 13,
+    "optValue": "entertainment",
+    "optName": "Entertainment",
+    "sortKey": "Entertainment",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#5c5ac5"
+  },
+  {
+    "id": 2,
+    "optValue": "self",
+    "optName": "Self",
+    "sortKey": "Self",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#a1517d"
+  },
+  {
+    "id": 3,
+    "optValue": "credit_card",
+    "optName": "Credit Card",
+    "sortKey": "Credit Card",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#270f2f"
+  },
+  {
+    "id": 4,
+    "optValue": "emi",
+    "optName": "Emi",
+    "sortKey": "Emi",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#1f5eff"
+  },
+  {
+    "id": 6,
+    "optValue": "salary",
+    "optName": "Salary",
+    "sortKey": "Salary",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#72c833"
+  },
+  {
+    "id": 7,
+    "optValue": "house_rent",
+    "optName": "House Rent",
+    "sortKey": "House Rent",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#5e5d14"
+  },
+  {
+    "id": 8,
+    "optValue": "car_expense",
+    "optName": "Car Expense",
+    "sortKey": "Car Expense",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#aba900"
+  },
+  {
+    "id": 9,
+    "optValue": "over_draft",
+    "optName": "Over Draft",
+    "sortKey": "Over Draft",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#d00606"
+  },
+  {
+    "id": 10,
+    "optValue": "others",
+    "optName": "Others",
+    "sortKey": "Others",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#340505"
+  },
+  {
+    "id": "5e225b98-5fc7-489a-a4d1-374d49c816a5",
+    "optValue": "travel",
+    "optName": "Travel",
+    "sortKey": "Travel",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#f52e2e"
+  },
+  {
+    "id": "499dc0fa-67e1-4a36-a28b-c33bbc0057a5",
+    "optValue": "health",
+    "optName": "Health",
+    "sortKey": "Health",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#35c700"
+  },
+  {
+    "id": "90c410d7-f15e-483c-b67c-8e1e80e438fd",
+    "optValue": "car_emi",
+    "optName": "Car Emi",
+    "sortKey": "Car Emi",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#01555b"
+  },
+  {
+    "id": "0e0dc9c2-64f4-4604-a03f-aca3dfa3a91a",
+    "optValue": "construction",
+    "optName": "Construction",
+    "sortKey": "Construction",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#050a99"
+  },
+  {
+    "id": "19d878e2-554c-4409-bac4-f3bfd0bef713",
+    "optValue": "two_wheeler",
+    "optName": "Two wheeler",
+    "sortKey": "Two wheeler",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#df6d6d"
+  },
+  {
+    "id": "77fb1b81-d1f5-4f17-a87d-1bad4a7a6c00",
+    "optValue": "food",
+    "optName": "Food",
+    "sortKey": "Food",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#d75656"
+  }
+]

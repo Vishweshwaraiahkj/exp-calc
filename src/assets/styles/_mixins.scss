@@ -21,6 +21,25 @@
     min-width: px2rem(200);
 }
 
+@mixin TabsGroup($a, $b) {
+    margin-bottom: 1rem;
+
+    .tab {
+        background-color: $a;
+        color: $b;
+    }
+
+    li {
+        background-color: $b;
+        color: $a;
+
+        &.tab__selected {
+            background-color: $a;
+            color: $b;
+        }
+    }
+}
+
 @mixin formControl {
     display: block;
     height: calc(1.5em + 0.75rem + px2rem(2));

@@ -123,6 +123,10 @@ const props = defineProps({
   labelPos: {
     default: 'top',
     type: String
+  },
+  isClearable: {
+    default: true,
+    type: Boolean
   }
 })
 
@@ -132,13 +136,13 @@ const validInput = ref(true)
 const clearTrue = computed(() => {
   const excludeTypes =
     props.inputType === 'checkbox' || props.inputType === 'radio'
-  return props.inputValue && !excludeTypes
+  return props.inputValue && !excludeTypes && props.isClearable
 })
 
 const inputWrapper = computed(() => {
   const defClasses = 'input-span form-control'
-  const isValid = !validInput.value && props.inputRequired
-  const errClass = isValid ? 'err' : ''
+  const isInvalid = !validInput.value && props.inputRequired
+  const errClass = isInvalid ? 'err' : ''
   const padClass = props.isPadded ? 'input-pad' : ''
   const combined = `${defClasses} ${errClass} ${padClass}`
   return RemoveMultiSpaces(combined)

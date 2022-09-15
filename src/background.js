@@ -24,8 +24,8 @@ async function createWindow() {
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: process.env.VUE_APP_NODE_INTEGRATION,
+      contextIsolation: !process.env.VUE_APP_NODE_INTEGRATION,
       enableRemoteModule: true,
       devTools: !app.isPackaged,
       preload: path.join(__dirname, 'preload.js')

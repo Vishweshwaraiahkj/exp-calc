@@ -33,51 +33,37 @@ export const tableHeaders = [
 export const perPageOptions = [
   {
     id: 111,
-    optValue: '5',
-    optName: 'Show 5 rows',
-    sortKey: '5',
+    optValue: '4',
+    optName: 'Show 4 rows',
+    sortKey: '4',
     checked: false
   },
   {
     id: 112,
-    optValue: '10',
-    optName: 'Show 10 rows',
-    sortKey: '10',
+    optValue: '8',
+    optName: 'Show 8 rows',
+    sortKey: '8',
     checked: false
   },
   {
     id: 112,
-    optValue: '15',
-    optName: 'Show 15 rows',
-    sortKey: '15',
+    optValue: '16',
+    optName: 'Show 16 rows',
+    sortKey: '16',
     checked: false
   },
   {
     id: 113,
-    optValue: '20',
-    optName: 'Show 20 rows',
-    sortKey: '20',
+    optValue: '32',
+    optName: 'Show 32 rows',
+    sortKey: '32',
     checked: false
   },
   {
     id: 114,
-    optValue: '25',
-    optName: 'Show 25 rows',
-    sortKey: '25',
-    checked: false
-  },
-  {
-    id: 115,
-    optValue: '50',
-    optName: 'Show 50 rows',
-    sortKey: '50',
-    checked: false
-  },
-  {
-    id: 116,
-    optValue: '100',
-    optName: 'Show 100 rows',
-    sortKey: '100',
+    optValue: '64',
+    optName: 'Show 64 rows',
+    sortKey: '64',
     checked: false
   },
   {

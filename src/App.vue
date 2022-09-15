@@ -1,9 +1,12 @@
+<style lang="scss">
+@import '@/assets/styles/_global.scss';
+</style>
 <template lang="html">
   <MasterNotifier
     v-if="toastMsgs.message"
     :key="toastKey"
     :type="toastMsgs.type"
-    position="top-right"
+    :position="`top-right`"
     :message="toastMsgs.message"
     :timeout="5000"
   />
@@ -18,11 +21,11 @@
   <AppFooter />
 </template>
 <script setup>
+import { ref, watchEffect } from 'vue'
+import { useStore } from 'vuex'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
-import { ref, watchEffect } from 'vue'
-import { useStore } from 'vuex'
 
 const store = useStore()
 const toastMsgs = ref({})
@@ -33,6 +36,3 @@ watchEffect(() => {
   toastKey.value = toastKey.value + 1
 })
 </script>
-<style lang="scss">
-@import '@/assets/styles/_global.scss';
-</style>
