@@ -102,6 +102,7 @@ const dataArray = computed(() => store.state.expenses.list)
 const groupedData = GroupByKey(dataArray.value, 'category')
 
 const FilterData = (dataType) =>
+  groupedData &&
   Object.keys(groupedData)
     ?.map((key) => {
       const computedData = groupedData[key]?.reduce((res, i) => {

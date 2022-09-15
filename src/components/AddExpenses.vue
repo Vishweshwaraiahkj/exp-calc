@@ -197,9 +197,9 @@ const updateData = (type) => {
 
   const updateObj = {
     id: type === 'update' ? props.defaultsObj?.id : uuids4(),
-    categoryList: categoryList.value,
+    categoryList: categoryList.value.filter((i) => i),
+    typeList: typeList.value.filter((i) => i),
     description: description.value,
-    typeList: typeList.value,
     amount: amount.value,
     addeddate: addeddate.value
   }
