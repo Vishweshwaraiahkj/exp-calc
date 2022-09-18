@@ -91,18 +91,27 @@
         &.gray-bg {
           background-color: var(--light-gray);
         }
+
         label {
+          margin-top: 0.5rem;
+          display: flex;
+          justify-content: flex-start;
           width: 100%;
-          text-align: left;
+          align-items: center;
+          cursor: pointer;
+
+          .check-box {
+            margin-right: 1rem;
+            margin-left: 1rem;
+          }
         }
 
-        label,
         input {
-          margin-top: 0.5rem;
+          display: none;
         }
       }
 
-      input.select-input {
+      .select-input {
         display: inline-block;
         margin-bottom: 0.5rem;
         margin-right: 1rem;
@@ -158,6 +167,12 @@
             @click="filterData"
           />
           <label :for="opt.optValue">
+            <MasterIcon
+              :size="`small`"
+              :classes="`check-box`"
+              :key="getSvgName(opt.optValue)"
+              :svgName="getSvgName(opt.optValue)"
+            />
             {{ opt.optName }}
           </label>
         </span>
@@ -172,6 +187,7 @@
 <script setup>
 import { ref, computed, watchEffect, onMounted } from 'vue'
 import { RemoveMultiSpaces } from '@/utils/globals'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
 const emits = defineEmits(['emitSelected'])
 
@@ -220,6 +236,10 @@ const props = defineProps({
   labelPos: {
     default: 'top',
     type: String
+  },
+  allSelectable: {
+    default: false,
+    type: Boolean
   }
 })
 
@@ -230,8 +250,22 @@ const errMessage = ref(props.inputErrMessage)
 const validInput = ref(true)
 const isRequired = ref(props.inputRequired)
 const isVisible = ref(false)
-const propOptions = computed(() => props.selectOptions)
+const isIntermediate = ref(false)
 const alignDropdown = ref('bottom')
+const propOptions = computed(() => {
+  if (props.allSelectable) {
+    return [
+      {
+        id: 'select_all',
+        optValue: 'select_all',
+        optName: 'Select All',
+        checked: false
+      },
+      ...props.selectOptions
+    ]
+  }
+  return props.selectOptions
+})
 
 const toggleVisibility = (action) => {
   if (action === 'open') {
@@ -257,7 +291,7 @@ let renderCount = 0
 watchEffect(() => {
   renderCount = renderCount + 1
   const validInputs = checkedValues.value?.length
-  const selectedValues = checkedValues.value
+  const selectedValues = checkedValues.value?.filter((i) => i !== 'select_all')
   const returnObj = getFullObject('optValue', selectedValues)
   if (validInputs && returnObj) {
     emits('emitSelected', returnObj)
@@ -276,7 +310,26 @@ onMounted(() => {
 })
 
 const isCheckedItem = (current) => {
+  if (current === 'select_all' && checkedValues.value?.length) {
+    return true
+  }
   return checkedValues.value.includes(current)
+}
+
+const getSvgName = (current) => {
+  const opts = propOptions.value?.length
+  const selects = checkedValues.value?.length
+  if (current === 'select_all' && selects) {
+    if (selects === opts) {
+      return 'checked-round'
+    } else {
+      return 'intermediate-round'
+    }
+  } else {
+    return checkedValues.value.includes(current)
+      ? 'checked-round'
+      : 'unchecked-round'
+  }
 }
 
 const dropDown = (e, action) => {
@@ -295,18 +348,27 @@ const dropDown = (e, action) => {
 }
 
 const filterData = (e) => {
+  const targetValue = e?.target?.value
+  const targetChecked = e?.target?.checked
   if (isSingleSelect.value) {
-    checkedValues.value = [e?.target?.value]
+    checkedValues.value = [targetValue]
+  }
+  if (targetValue === 'select_all') {
+    const allValues = propOptions.value?.map((i) => i.optValue)
+    checkedValues.value = targetChecked ? allValues : []
+  } else {
+    isIntermediate.value = true
   }
 }
 
 const selectedCountText = computed(() => {
-  const optionsObj = getFullObject('optValue', checkedValues.value)
-  if (isSingleSelect.value && checkedValues.value.length) {
+  const validData = checkedValues.value?.filter((i) => i !== 'select_all')
+  const optionsObj = getFullObject('optValue', validData)
+  if (isSingleSelect.value && validData.length) {
     return props.selectText
       ? `${optionsObj[0]?.optName} is selected.`
       : optionsObj[0]?.optName
-  } else if (checkedValues.value.length) {
+  } else if (validData.length) {
     return `${optionsObj.length} item(s) are selected.`
   } else {
     return false

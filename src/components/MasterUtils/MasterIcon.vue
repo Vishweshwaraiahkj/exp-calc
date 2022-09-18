@@ -8,8 +8,8 @@
     <svg
       class="shadow-svg"
       :fill="fillColor"
-      :width="iconSize"
-      :height="iconSize"
+      :width="getSize"
+      :height="getSize"
     >
       <use :href="fullPath" />
     </svg>
@@ -38,23 +38,26 @@ const props = defineProps({
 })
 
 const iconName = ref(props.svgName || 'edit')
-const iconSize = ref(null)
 
 const iconsPath = computed(() => {
   return require(`@/assets/icons/${iconName.value}.svg`)
 })
 
-if (props.size === 'x-large') {
-  iconSize.value = '54'
-} else if (props.size === 'large') {
-  iconSize.value = '40'
-} else if (props.size === 'small') {
-  iconSize.value = '20'
-} else if (props.size === 'x-small') {
-  iconSize.value = '16'
-} else {
-  iconSize.value = '32'
-}
+const getSize = computed(() => {
+  if (props.size === 'x-large') {
+    return '54'
+  } else if (props.size === 'large') {
+    return '40'
+  } else if (props.size === 'small') {
+    return '20'
+  } else if (props.size === 'x-small') {
+    return '16'
+  } else if (props.size === 'medium') {
+    return '32'
+  } else {
+    return props.size
+  }
+})
 
 const fullPath = computed(() => {
   return iconsPath.value + '#' + iconName.value

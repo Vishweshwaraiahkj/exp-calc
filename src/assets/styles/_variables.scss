@@ -1,4 +1,13 @@
 :root {
+
+    --body: #fafafa;
+    --text-default: #1d1d1f;
+    --text-secondary: #86868b;
+    --header-color: #00cc00;
+    --footer-color: #373737;
+    --menu-color: #00cc00;
+
+    // colors
     --blue: #007bff;
     --indigo: #6610f2;
     --purple: #6f42c1;
@@ -74,9 +83,6 @@
     --focus-shadow: 0 0 0 0.2rem;
     --menu-shadow: 3px 3px 5px;
     --notify-shadow: 5px 5px 5px;
-    --header-color: #00cc00;
-    --footer-color: #373737;
-    --menu-color: #00cc00;
 }
 
 $table-header-font-weight: 400;

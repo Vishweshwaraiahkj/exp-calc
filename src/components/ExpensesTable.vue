@@ -92,14 +92,13 @@ table.table {
         v-model:input-value="searchKey"
       />
       <div class="flex-center">
-        <master-input
+        <MasterSwitch
           input-id="showAll"
           input-label="Show all"
           label-pos="left"
           input-name="all-rows"
-          input-placeholder="Show all data!"
           input-type="checkbox"
-          input-width="7rem"
+          input-width="9rem"
           v-model:input-value="allRows"
           @change="filterRows"
         />
@@ -114,7 +113,12 @@ table.table {
           @change="filterRows"
           :isClearable="false"
         />
-        <FiltersModal :key="Date.now()" />
+        <FiltersModal
+          :dataArray="finalData"
+          :monthly="selectedMonth"
+          :allRows="allRows"
+          :key="Date.now()"
+        />
       </div>
     </div>
     <table class="table table-striped table-hover shadow-dark">
@@ -186,7 +190,7 @@ table.table {
       </tbody>
       <tbody v-else>
         <tr>
-          <td colspan="6">No entries for the selected month!</td>
+          <td colspan="6">No entries for the Search!</td>
         </tr>
       </tbody>
     </table>
@@ -201,7 +205,7 @@ table.table {
           :default-selects="defaultCounts"
           :select-text="false"
         />
-        <span class="total-rows ml-1">Total Rows: {{ dataArray?.length }}</span>
+        <span class="total-rows">Total Rows: {{ dataArray?.length }}</span>
       </div>
       <MasterPaginate
         v-if="visibleData.length"
@@ -230,12 +234,17 @@ import ColoredCard from '@/components/MasterUtils/ColoredCard.vue'
 import DeleteModal from '@/components/DeleteModal.vue'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterDates from '@/components/MasterUtils/MasterDates.vue'
+import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
 
 const props = defineProps({
   dataArray: {
     type: Array,
     default: () => [],
     required: true
+  },
+  showAll: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -250,7 +259,7 @@ const visibleBtns = ref(5)
 const searchKey = ref('')
 const finalData = ref([])
 const selectedMonth = ref(CustomDates('YYYY-MM'))
-const allRows = ref(false)
+const allRows = ref(props.showAll)
 
 const getCheckedTypes = (data) => {
   const selects = data[0]?.optValue
@@ -295,7 +304,7 @@ watchEffect(() => {
 
 const filterRows = () => {
   if (allRows.value) {
-    emits('emitDataToShow', 'show_all')
+    emits('emitDataToShow', 'ShowAll')
   } else {
     emits('emitDataToShow', selectedMonth.value)
   }

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="dashboard">
-    <div class="container my-3">
+    <div v-if="dataArray" class="container my-3">
       <div class="row details-box relative">
         <div class="btn-header">
           <h1>Expenses Table</h1>
@@ -13,9 +13,14 @@
         <BriefBoard v-if="filteredData.length" :dataList="filteredData" />
       </div>
       <div class="row list-box">
-        <ExpensesTable :dataArray="filteredData" @emitDataToShow="dataToShow" />
+        <ExpensesTable
+          :dataArray="filteredData"
+          :showAll="allRows"
+          @emitDataToShow="dataToShow"
+        />
       </div>
     </div>
+    <div v-else>Loading Data...</div>
   </div>
 </template>
 
@@ -31,13 +36,18 @@ const store = useStore()
 const dataArray = computed(() => store.state.expenses.list)
 
 const filteredData = ref([])
+const allRows = ref(true)
 
 watchEffect(() => {
-  filteredData.value = FilterByMonth(dataArray.value)
+  if (allRows.value) {
+    filteredData.value = dataArray.value
+  } else {
+    filteredData.value = FilterByMonth(dataArray.value)
+  }
 })
 
 const dataToShow = (value) => {
-  if (value === 'show_all') {
+  if (value === 'ShowAll') {
     filteredData.value = dataArray.value
   } else {
     filteredData.value = FilterByMonth(dataArray.value, value)

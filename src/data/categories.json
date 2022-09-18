@@ -5,7 +5,7 @@
     "optName": "Car Expense",
     "sortKey": "Car Expense",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#c75757"
   },
   {
@@ -14,7 +14,7 @@
     "optName": "Car Emi",
     "sortKey": "Car emi",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#c36f6f"
   },
   {
@@ -23,7 +23,7 @@
     "optName": "Construction",
     "sortKey": "Construction",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#130ff5"
   },
   {
@@ -32,8 +32,17 @@
     "optName": "Credit Card",
     "sortKey": "Credit Card",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#030321"
+  },
+  {
+    "id": "a2f41162-46c6-4bc3-9b87-a568bba4865c",
+    "optValue": "drinks",
+    "optName": "Drinks",
+    "sortKey": "Drinks",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#78317d"
   },
   {
     "id": "d762a8a3-9737-40c8-974a-e7ec434c4a8e",
@@ -41,7 +50,7 @@
     "optName": "Entertainment",
     "sortKey": "Entertainment",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#6565e6"
   },
   {
@@ -50,7 +59,7 @@
     "optName": "Family",
     "sortKey": "Family",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#05e131"
   },
   {
@@ -61,6 +70,24 @@
     "checked": false,
     "favorite": true,
     "colorFill": "#d75656"
+  },
+  {
+    "id": "ca8427f6-5075-4992-b119-e62a1d75f48b",
+    "optValue": "for_wife",
+    "optName": "For Wife",
+    "sortKey": "For Wife",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#570000"
+  },
+  {
+    "id": "6c83e672-b97f-42a6-88da-2c6ab47509c1",
+    "optValue": "friends",
+    "optName": "Friends",
+    "sortKey": "Friends",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#bd7de8"
   },
   {
     "id": "499dc0fa-67e1-4a36-a28b-c33bbc0057a5",
@@ -77,7 +104,7 @@
     "optName": "House Rent",
     "sortKey": "House Rent",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#088c22"
   },
   {
@@ -86,7 +113,7 @@
     "optName": "Loan Emi",
     "sortKey": "Loan Emi",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#656581"
   },
   {
@@ -95,7 +122,7 @@
     "optName": "Others",
     "sortKey": "Others",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#573232"
   },
   {
@@ -104,8 +131,8 @@
     "optName": "Over Draft",
     "sortKey": "Over Draft",
     "checked": false,
-    "favorite": false,
-    "colorFill": "#411010"
+    "favorite": true,
+    "colorFill": "#420b0b"
   },
   {
     "id": "b92e7d39-4efd-4e9e-9d0c-e50a09f154fa",
@@ -113,7 +140,7 @@
     "optName": "Salary",
     "sortKey": "Salary",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#58ee3a"
   },
   {
@@ -122,7 +149,7 @@
     "optName": "Self Expense",
     "sortKey": "Self Expense",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#178a00"
   },
   {
@@ -142,5 +169,14 @@
     "checked": false,
     "favorite": true,
     "colorFill": "#df6d6d"
+  },
+  {
+    "id": "6c56fc30-c186-4029-9411-90e3d7f391d1",
+    "optValue": "unnecessary",
+    "optName": "Unnecessary",
+    "sortKey": "Unnecessary",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#330000"
   }
 ]

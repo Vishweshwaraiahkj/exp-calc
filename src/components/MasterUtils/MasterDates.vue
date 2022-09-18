@@ -1,9 +1,20 @@
 <style lang="scss">
 .date-badge {
   background-color: v-bind(bgColor);
+  white-space: nowrap;
 
-  .year,
-  .month,
+  .year {
+    &::after {
+      content: ' - ';
+    }
+  }
+
+  .month {
+    &::after {
+      content: ' ';
+    }
+  }
+
   .hours {
     &::after {
       content: ':';
@@ -30,9 +41,9 @@
       <span class="month">{{ digitsMonth }}</span>
     </span>
     <span v-if="format === 'YYYY-MM-DD HH:MM'">
-      <span class="year">{{ fullYear }}</span>
-      <span class="month">{{ digitsMonth }}</span>
       <span class="date">{{ digitsDate }}</span>
+      <span class="month"> {{ stringMonth.short_name }}</span>
+      <span class="year">{{ fullYear }}</span>
       <span class="hours">{{ hours12 }}</span>
       <span class="minutes">{{ minutes }}</span>
       <sup class="am-pm">{{ amPm }}</sup>
@@ -41,6 +52,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import { monthStrings } from '@/constants/TableConsts'
 
 const props = defineProps({
   format: {
@@ -65,7 +77,10 @@ const month = dateObj.value.getMonth() + 1
 const date = dateObj.value.getDate()
 const hours = dateObj.value.getHours()
 let minutes = dateObj.value.getMinutes()
+
 const digitsMonth = ('0' + month).slice(-2)
+const stringMonth = monthStrings.find((i) => i.id === month)
+
 const digitsDate = ('0' + date).slice(-2)
 const hours24 = ('0' + hours).slice(-2)
 minutes = ('0' + minutes).slice(-2)

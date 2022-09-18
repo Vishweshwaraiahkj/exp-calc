@@ -17,6 +17,7 @@
       flex-direction: column;
 
       h2:first-child {
+        font-size: 4rem;
         align-self: flex-start;
       }
 
@@ -35,8 +36,6 @@
     .profile-pic {
       height: 80%;
       width: auto;
-      border: 2rem solid var(--light);
-      border-radius: 2rem;
     }
   }
 }
@@ -45,16 +44,17 @@
   <div class="dashboard about pt-3">
     <div class="about-container">
       <div class="name-title">
-        <h2>Hello, I'm</h2>
-        <h1>{{ myName }}</h1>
+        <h2>Hello..., I'm</h2>
+        <h1>Mr. {{ myName }}</h1>
         <h2>Working as a Web Developer</h2>
       </div>
-      <img src="@/assets/vish.jpeg" class="profile-pic" />
+      <MasterIcon size="500" svgName="man-vish" classes="profile-pic" />
     </div>
   </div>
 </template>
 <script setup>
 import { useStore } from 'vuex'
+import MasterIcon from '@/components/MasterUtils/MasterIcon'
 const store = useStore()
 const myName = store.getters['user/fullName']
 </script>

@@ -1,5 +1,5 @@
 <template lang="html">
-  <master-modal
+  <MasterModal
     :triggerId="triggerId"
     modalId="expensesModal"
     modalSize="medium"
@@ -9,7 +9,7 @@
     :footerBtns="['confirm', 'cancel']"
   >
     <template #trigger>
-      <master-icon
+      <MasterIcon
         :size="triggerIconSize"
         :svg-name="triggerIcon"
         :fill-color="colorFill"
@@ -23,7 +23,7 @@
       <form class="col-12" id="addExpIncForm">
         <div class="row">
           <div class="form-group col-6">
-            <master-input
+            <MasterInput
               input-id="descriptionId"
               input-label="Description"
               input-name="description"
@@ -35,7 +35,7 @@
             />
           </div>
           <div class="form-group col-6">
-            <master-select
+            <MasterSelect
               @emitSelected="getCheckedCats"
               select-width="100%"
               select-label="Categories"
@@ -44,12 +44,13 @@
               :input-required="true"
               :reset-true="resetInput"
               :default-selects="defaultCats"
+              :allSelectable="true"
             />
           </div>
         </div>
         <div class="row">
           <div class="form-group col-6">
-            <master-input
+            <MasterInput
               input-id="typeofAmount"
               input-label="Amount"
               input-name="amount"
@@ -61,7 +62,7 @@
             />
           </div>
           <div class="form-group col-6">
-            <master-select
+            <MasterSelect
               @emitSelected="getCheckedTypes"
               select-width="100%"
               select-label="Type"
@@ -76,7 +77,7 @@
         </div>
         <div class="row">
           <div class="form-group col-6">
-            <master-input
+            <MasterInput
               input-id="addedDate"
               input-label="Date"
               input-name="addeddate"
@@ -91,7 +92,7 @@
       </form>
     </template>
     <template #footer> </template>
-  </master-modal>
+  </MasterModal>
 </template>
 
 <script setup>

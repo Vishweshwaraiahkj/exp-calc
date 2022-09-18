@@ -9,21 +9,21 @@
     "colorFill": "#e17f7f"
   },
   {
-    "id": "3df32fd0-58ab-4ff5-9af0-3fae713cffc4",
-    "optValue": "income",
-    "optName": "Income",
-    "sortKey": "Income",
-    "checked": false,
-    "favorite": false,
-    "colorFill": "#1da003"
-  },
-  {
     "id": "fa8fc85a-aa95-4700-9919-37bf9d26fcb4",
     "optValue": "expense",
     "optName": "Expense",
     "sortKey": "Expense",
     "checked": false,
-    "favorite": false,
+    "favorite": true,
     "colorFill": "#a01b03"
+  },
+  {
+    "id": "3df32fd0-58ab-4ff5-9af0-3fae713cffc4",
+    "optValue": "income",
+    "optName": "Income",
+    "sortKey": "Income",
+    "checked": false,
+    "favorite": true,
+    "colorFill": "#1da003"
   }
 ]

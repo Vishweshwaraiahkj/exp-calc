@@ -1,7 +1,6 @@
 <style lang="scss">
 .filters {
   display: flex;
-  margin-left: 1rem;
 
   .grid-summary {
     display: inline-flex;
@@ -25,11 +24,16 @@
       <template #trigger>
         <MasterIcon size="medium" svgName="grid-light" />
       </template>
-      <template #header><h1>Summary</h1></template>
+      <template #header>
+        <h1>
+          <span>Summary</span>
+          <span v-if="!allRows && monthly"> for the month {{ monthly }} </span>
+        </h1>
+      </template>
       <template #default>
         <TabsGroup @emitStatus="activeStatus">
           <TabsItem title="Expenses" tabId="tab_one" :isActive="isActive">
-            <div class="content-holder">
+            <div v-if="ExpensesObjects.length" class="content-holder">
               <span
                 v-for="iData in ExpensesObjects"
                 :key="iData.optName"
@@ -44,9 +48,12 @@
                 />
               </span>
             </div>
+            <div v-else class="content-holder">
+              <h3>No items found!</h3>
+            </div>
           </TabsItem>
           <TabsItem title="Incomes" tabId="tab_two" :isActive="isActive">
-            <div class="content-holder">
+            <div v-if="IncomesObjects.length" class="content-holder">
               <span
                 v-for="iData in IncomesObjects"
                 :key="iData.optName"
@@ -61,9 +68,12 @@
                 />
               </span>
             </div>
+            <div v-else class="content-holder">
+              <h3>No items found!</h3>
+            </div>
           </TabsItem>
           <TabsItem title="Credits" tabId="tab_three" :isActive="isActive">
-            <div class="content-holder">
+            <div v-if="CreditsObjects.length" class="content-holder">
               <span
                 v-for="iData in CreditsObjects"
                 :key="iData.optName"
@@ -78,6 +88,9 @@
                 />
               </span>
             </div>
+            <div v-else class="content-holder">
+              <h3>No items found!</h3>
+            </div>
           </TabsItem>
         </TabsGroup>
       </template>
@@ -86,7 +99,6 @@
 </template>
 <script setup>
 import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
 import { GroupByKey, UnderscoreToSpace } from '@/utils/globals'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
@@ -94,10 +106,25 @@ import ColoredCard from '@/components/MasterUtils/ColoredCard.vue'
 import TabsGroup from '@/components/MasterUtils/TabsGroup.vue'
 import TabsItem from '@/components/MasterUtils/TabsItem.vue'
 
-const store = useStore()
+const props = defineProps({
+  dataArray: {
+    default: () => [],
+    type: Array,
+    required: true
+  },
+  monthly: {
+    default: '',
+    type: String
+  },
+  allRows: {
+    default: true,
+    type: Boolean
+  }
+})
+
 const isActive = ref('')
 
-const dataArray = computed(() => store.state.expenses.list)
+const dataArray = computed(() => props.dataArray)
 
 const groupedData = GroupByKey(dataArray.value, 'category')
 

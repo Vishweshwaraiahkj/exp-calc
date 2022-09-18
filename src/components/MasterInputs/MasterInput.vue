@@ -5,8 +5,6 @@
   &.label-left {
     display: inline-flex;
     white-space: nowrap;
-    align-items: center;
-    margin-right: 1rem;
 
     .input-label {
       margin: auto;
@@ -40,19 +38,20 @@
     <span :class="inputWrapper">
       <MasterIcon
         v-if="hasIcon"
-        size="small"
         :svgName="hasIcon"
+        size="small"
         classes="input-icon"
       />
       <input
+        :class="`master-input`"
         :id="inputId"
         :type="inputType"
         :name="inputName"
-        class="master-input"
-        @input="updateInput"
         :value="inputValue"
+        :checked="inputValue"
         :placeholder="inputPlaceholder"
         :required="inputRequired"
+        @input="updateInput"
       />
       <MasterIcon
         @click="clearInput"
