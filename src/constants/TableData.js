@@ -36,7 +36,7 @@ export const perPageOptions = [
     optValue: '4',
     optName: 'Show 4 rows',
     sortKey: '4',
-    checked: false
+    checked: true
   },
   {
     id: 112,
@@ -64,6 +64,13 @@ export const perPageOptions = [
     optValue: '64',
     optName: 'Show 64 rows',
     sortKey: '64',
+    checked: false
+  },
+  {
+    id: 115,
+    optValue: '128',
+    optName: 'Show 128 rows',
+    sortKey: '128',
     checked: false
   },
   {

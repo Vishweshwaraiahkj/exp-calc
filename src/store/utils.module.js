@@ -2,9 +2,6 @@ import { IsValidObject, UpdateArrayByKey } from '@/utils/globals'
 import fs from 'fs'
 import * as path from 'path'
 
-const categoriesPath = path.join(process.cwd(), 'src/data/categories.json')
-const typesPath = path.join(process.cwd(), 'src/data/types.json')
-
 export default {
   namespaced: true,
   state: {
@@ -13,7 +10,8 @@ export default {
       message: ''
     },
     categories: [],
-    types: []
+    types: [],
+    user_path: ''
   },
   mutations: {
     UPDATE_MESSAGE(state, payload) {
@@ -24,6 +22,9 @@ export default {
     },
     UPDATE_TYPES(state, payload) {
       state.types = payload
+    },
+    SET_USER_PATH(state, payload) {
+      state.user_path = payload
     }
   },
   actions: {
@@ -31,6 +32,7 @@ export default {
       context.commit('UPDATE_MESSAGE', payload)
     },
     async toggleFavorite(context, { item, type }) {
+      const udPath = context.rootGetters['utils/getUserPath']
       if (!IsValidObject(item)) return false
       const existingData = context.state[type]
       const favStatus = item.favorite
@@ -38,199 +40,223 @@ export default {
         ...item,
         favorite: !favStatus
       }
-
       let dbPath
       if (type === 'types') {
-        dbPath = typesPath
+        dbPath = path.resolve(udPath + '/data/types.json')
       } else {
-        dbPath = categoriesPath
+        dbPath = path.resolve(udPath + '/data/categories.json')
       }
-
       const updatedData = UpdateArrayByKey(existingData, 'id', updatedItem)
-
-      fs.writeFile(dbPath, JSON.stringify(updatedData, null, 2), (error) => {
-        if (error) {
+      fs.writeFile(
+        dbPath,
+        JSON.stringify(updatedData, null, 2),
+        { flag: 'w+' },
+        (error) => {
+          if (error) {
+            context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error updating item!',
+                type: 'error'
+              },
+              { root: true }
+            )
+            return
+          }
           context.dispatch(
             'utils/floatingMessages',
             {
-              message: 'Error updating item!',
-              type: 'error'
+              message: 'Successfully updated!',
+              type: 'success'
             },
             { root: true }
           )
-          return
+          if (type === 'categories') {
+            context.commit('UPDATE_CATEGORIES', updatedData)
+          }
+          if (type === 'types') {
+            context.commit('UPDATE_TYPES', updatedData)
+          }
         }
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Successfully updated!',
-            type: 'success'
-          },
-          { root: true }
-        )
-        if (type === 'categories') {
-          context.commit('UPDATE_CATEGORIES', updatedData)
-        }
-        if (type === 'types') {
-          context.commit('UPDATE_TYPES', updatedData)
-        }
-      })
+      )
     },
     async fetchAllCategories(context) {
+      const udPath = context.rootGetters['utils/getUserPath']
       if (context.state.categories?.length) return false
-      fs.readFile(categoriesPath, 'utf8', (err, data) => {
-        if (err) {
-          context.dispatch(
-            'utils/floatingMessages',
-            {
-              message: 'Error getting existing categories!',
-              type: 'error'
-            },
-            { root: true }
-          )
-        }
-        const dbData = JSON.parse(data)
-        context.commit('UPDATE_CATEGORIES', dbData)
-      })
+      if (udPath) {
+        const dbPath = path.resolve(udPath + '/data/categories.json')
+        fs.readFile(dbPath, 'utf8', (err, data) => {
+          if (err) {
+            context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error getting existing categories!',
+                type: 'error'
+              },
+              { root: true }
+            )
+          }
+          const dbData = JSON.parse(data)
+          context.commit('UPDATE_CATEGORIES', dbData)
+        })
+      }
     },
     async fetchAllTypes(context) {
+      const udPath = context.rootGetters['utils/getUserPath']
       if (context.state.types?.length) return false
-      fs.readFile(typesPath, 'utf8', (err, data) => {
-        if (err) {
-          context.dispatch(
-            'utils/floatingMessages',
-            {
-              message: 'Error getting existing types!',
-              type: 'error'
-            },
-            { root: true }
-          )
-        }
-        const dbData = JSON.parse(data)
-        context.commit('UPDATE_TYPES', dbData)
-      })
+      const dbPath = path.resolve(udPath + '/data/types.json')
+      if (udPath) {
+        fs.readFile(dbPath, 'utf8', (err, data) => {
+          if (err) {
+            context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error getting existing types!',
+                type: 'error'
+              },
+              { root: true }
+            )
+          }
+          const dbData = JSON.parse(data)
+          context.commit('UPDATE_TYPES', dbData)
+        })
+      }
     },
     async addToList(context, { dataObj, dataType }) {
+      const udPath = context.rootGetters['utils/getUserPath']
       const existingData = context.state[dataType]
-
       const updatedData = [...existingData, dataObj]
-
       let dbPath
       if (dataType === 'types') {
-        dbPath = typesPath
+        dbPath = path.resolve(udPath + '/data/types.json')
       } else {
-        dbPath = categoriesPath
+        dbPath = path.resolve(udPath + '/data/categories.json')
       }
-
-      fs.writeFile(dbPath, JSON.stringify(updatedData, null, 2), (error) => {
-        if (error) {
+      fs.writeFile(
+        dbPath,
+        JSON.stringify(updatedData, null, 2),
+        { flag: 'w+' },
+        (error) => {
+          if (error) {
+            context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error adding item!',
+                type: 'error'
+              },
+              { root: true }
+            )
+            return
+          }
           context.dispatch(
             'utils/floatingMessages',
             {
-              message: 'Error adding item!',
-              type: 'error'
+              message: 'Successfully updated!',
+              type: 'success'
             },
             { root: true }
           )
-          return
+          if (dataType === 'categories') {
+            context.commit('UPDATE_CATEGORIES', updatedData)
+          }
+          if (dataType === 'types') {
+            context.commit('UPDATE_TYPES', updatedData)
+          }
         }
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Successfully updated!',
-            type: 'success'
-          },
-          { root: true }
-        )
-        if (dataType === 'categories') {
-          context.commit('UPDATE_CATEGORIES', updatedData)
-        }
-        if (dataType === 'types') {
-          context.commit('UPDATE_TYPES', updatedData)
-        }
-      })
+      )
     },
     async updateList(context, { dataObj, dataType }) {
+      const udPath = context.rootGetters['utils/getUserPath']
       const existingData = context.state[dataType]
-
       const updatedData = UpdateArrayByKey(existingData, 'id', dataObj)
-
       let dbPath
       if (dataType === 'types') {
-        dbPath = typesPath
+        dbPath = path.resolve(udPath + '/data/types.json')
       } else {
-        dbPath = categoriesPath
+        dbPath = path.resolve(udPath + '/data/categories.json')
       }
-
-      fs.writeFile(dbPath, JSON.stringify(updatedData, null, 2), (error) => {
-        if (error) {
+      fs.writeFile(
+        dbPath,
+        JSON.stringify(updatedData, null, 2),
+        { flag: 'w+' },
+        (error) => {
+          if (error) {
+            context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error updating item!',
+                type: 'error'
+              },
+              { root: true }
+            )
+            return
+          }
           context.dispatch(
             'utils/floatingMessages',
             {
-              message: 'Error updating item!',
-              type: 'error'
+              message: 'Successfully updated!',
+              type: 'success'
             },
             { root: true }
           )
-          return
+          if (dataType === 'categories') {
+            context.commit('UPDATE_CATEGORIES', updatedData)
+          }
+          if (dataType === 'types') {
+            context.commit('UPDATE_TYPES', updatedData)
+          }
         }
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Successfully updated!',
-            type: 'success'
-          },
-          { root: true }
-        )
-        if (dataType === 'categories') {
-          context.commit('UPDATE_CATEGORIES', updatedData)
-        }
-        if (dataType === 'types') {
-          context.commit('UPDATE_TYPES', updatedData)
-        }
-      })
+      )
     },
     async deleteById(context, { dataId, dataType }) {
+      const udPath = context.rootGetters['utils/getUserPath']
       if (!dataId || !dataType) return false
-
       const filteredList = context.state[dataType]?.filter(
         (i) => i.id !== dataId
       )
-
       let dbPath
       if (dataType === 'types') {
-        dbPath = typesPath
+        dbPath = path.resolve(udPath + '/data/types.json')
       } else {
-        dbPath = categoriesPath
+        dbPath = path.resolve(udPath + '/data/categories.json')
       }
-
-      fs.writeFile(dbPath, JSON.stringify(filteredList, null, 2), (error) => {
-        if (error) {
+      fs.writeFile(
+        dbPath,
+        JSON.stringify(filteredList, null, 2),
+        { flag: 'wx' },
+        (error) => {
+          if (error) {
+            context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error deleting item!',
+                type: 'error'
+              },
+              { root: true }
+            )
+            return
+          }
           context.dispatch(
             'utils/floatingMessages',
             {
-              message: 'Error deleting item!',
-              type: 'error'
+              message: 'Successfully updated!',
+              type: 'success'
             },
             { root: true }
           )
-          return
+          if (dataType === 'categories') {
+            context.commit('UPDATE_CATEGORIES', filteredList)
+          }
+          if (dataType === 'types') {
+            context.commit('UPDATE_TYPES', filteredList)
+          }
         }
-        context.dispatch(
-          'utils/floatingMessages',
-          {
-            message: 'Successfully updated!',
-            type: 'success'
-          },
-          { root: true }
-        )
-        if (dataType === 'categories') {
-          context.commit('UPDATE_CATEGORIES', filteredList)
-        }
-        if (dataType === 'types') {
-          context.commit('UPDATE_TYPES', filteredList)
-        }
-      })
+      )
+    },
+    setUserPath(context, payload) {
+      if (payload) {
+        context.commit('SET_USER_PATH', payload)
+      }
     }
   },
   getters: {
@@ -242,6 +268,9 @@ export default {
     },
     getGlobalMsgs: (state) => {
       return state.globalMessage
+    },
+    getUserPath: (state) => {
+      return state.user_path
     }
   }
 }

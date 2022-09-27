@@ -1,3 +1,103 @@
+@function boxShadow($type: default, $variant: black) {
+    $black: var(--black);
+    $white: var(--white);
+    $black-trans: var(--black-trans);
+    $white-trans: var(--white-trans);
+    $success: var(--success);
+    $info: var(--info);
+    $warning: var(--warning);
+    $danger: var(--danger);
+    $primary: var(--primary);
+    $secondary: var(--secondary);
+    $menu: var(--menu-color);
+
+    $top-shadow: var(--top-shadow);
+    $bottom-shadow: var(--bottom-shadow);
+    $default-shadow: var(--default-shadow);
+    $minimal-shadow: var(--minimal-shadow);
+    $light-shadow: var(--light-shadow);
+    $dark-shadow: var(--dark-shadow);
+    $svg-light-shadow: var(--svg-light-shadow);
+    $svg-dark-shadow: var(--svg-dark-shadow);
+    $focus-shadow: var(--focus-shadow);
+    $menu-shadow: var(--menu-shadow);
+    $notify-shadow: var(--notify-shadow);
+
+    @if $type ==menu {
+        @return $menu-shadow $black;
+    }
+
+    @else if $type ==notify {
+        @return $notify-shadow $black;
+    }
+
+    @else if $type ==svg-light {
+        @return $svg-light-shadow $black-trans;
+    }
+
+    @else if $type ==svg-dark {
+        @return $svg-dark-shadow $black-trans;
+    }
+
+    @else if $type ==focus {
+        @return $focus-shadow $black;
+    }
+
+    @else if $type ==light {
+        @return $light-shadow $black-trans;
+    }
+
+    @else if $type ==dark {
+        @return $dark-shadow $black-trans;
+    }
+
+    @else if $type ==minimal {
+        @return $minimal-shadow $black-trans;
+    }
+
+    @else if $type ==focus and $variant ==primary {
+        @return $focus-shadow $primary;
+    }
+
+    @else if $type ==focus and $variant ==secondary {
+        @return $focus-shadow $secondary;
+    }
+
+    @else if $type ==focus and $variant ==success {
+        @return $focus-shadow $success;
+    }
+
+    @else if $type ==focus and $variant ==info {
+        @return $focus-shadow $info;
+    }
+
+    @else if $type ==focus and $variant ==warning {
+        @return $focus-shadow $warning;
+    }
+
+    @else if $type ==focus and $variant ==danger {
+        @return $focus-shadow $danger;
+    }
+
+    @else if $type ==top {
+        @return $top-shadow $black-trans;
+    }
+
+    @else if $type ==bottom {
+        @return $bottom-shadow $black-trans;
+    }
+
+    @else {
+        @return $default-shadow $black-trans;
+    }
+}
+
+@function px2rem($size) {
+    $rem-px: 16;
+    $rem-size: calc($size / $rem-px);
+    @return #{$rem-size}rem;
+}
+
 @mixin headerFooters {
     width: auto;
     color: var(--white);
@@ -185,99 +285,4 @@
         background-color: $disabled-color;
         border-color: $border-color;
     }
-}
-
-@function boxShadow($type: default, $variant: black) {
-    $black: var(--black);
-    $white: var(--white);
-    $black-trans: var(--black-trans);
-    $white-trans: var(--white-trans);
-    $success: var(--success);
-    $info: var(--info);
-    $warning: var(--warning);
-    $danger: var(--danger);
-    $primary: var(--primary);
-    $secondary: var(--secondary);
-    $menu: var(--menu-color);
-
-    $top-shadow: var(--top-shadow);
-    $bottom-shadow: var(--bottom-shadow);
-    $default-shadow: var(--default-shadow);
-    $minimal-shadow: var(--minimal-shadow);
-    $light-shadow: var(--light-shadow);
-    $dark-shadow: var(--dark-shadow);
-    $svg-shadow: var(--svg-shadow);
-    $focus-shadow: var(--focus-shadow);
-    $menu-shadow: var(--menu-shadow);
-    $notify-shadow: var(--notify-shadow);
-
-    @if $type ==menu {
-        @return $menu-shadow $black;
-    }
-
-    @else if $type ==notify {
-        @return $notify-shadow $black;
-    }
-
-    @else if $type ==svg {
-        @return $svg-shadow $black-trans;
-    }
-
-    @else if $type ==focus {
-        @return $focus-shadow $black;
-    }
-
-    @else if $type ==light {
-        @return $light-shadow $black-trans;
-    }
-
-    @else if $type ==dark {
-        @return $dark-shadow $black-trans;
-    }
-
-    @else if $type ==minimal {
-        @return $minimal-shadow $black-trans;
-    }
-
-    @else if $type ==focus and $variant ==primary {
-        @return $focus-shadow $primary;
-    }
-
-    @else if $type ==focus and $variant ==secondary {
-        @return $focus-shadow $secondary;
-    }
-
-    @else if $type ==focus and $variant ==success {
-        @return $focus-shadow $success;
-    }
-
-    @else if $type ==focus and $variant ==info {
-        @return $focus-shadow $info;
-    }
-
-    @else if $type ==focus and $variant ==warning {
-        @return $focus-shadow $warning;
-    }
-
-    @else if $type ==focus and $variant ==danger {
-        @return $focus-shadow $danger;
-    }
-
-    @else if $type ==top {
-        @return $top-shadow $black-trans;
-    }
-
-    @else if $type ==bottom {
-        @return $bottom-shadow $black-trans;
-    }
-
-    @else {
-        @return $default-shadow $black-trans;
-    }
-}
-
-@function px2rem($size) {
-    $rem-px: 16;
-    $rem-size: calc($size / $rem-px);
-    @return #{$rem-size}rem;
 }

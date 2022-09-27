@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    firstName: 'Vishweshwarayya',
+    firstName: 'Vish',
     middleName: 'K',
     lastName: 'J'
   },

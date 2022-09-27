@@ -21,7 +21,21 @@ module.exports = defineConfig({
   pluginOptions: {
     electronBuilder: {
       nodeIntegration: true,
-      preload: 'src/preload.js'
+      preload: 'src/preload.js',
+      builderOptions: {
+        productName: 'Expense Calculator',
+        appId: 'exp-calc',
+        win: {
+          target: ['nsis'],
+          icon: 'public/favicon.ico',
+          requestedExecutionLevel: 'requireAdministrator'
+        },
+        nsis: {
+          installerIcon: 'public/favicon.ico',
+          uninstallerIcon: 'public/favicon.ico',
+          oneClick: false
+        }
+      }
     }
   }
 })

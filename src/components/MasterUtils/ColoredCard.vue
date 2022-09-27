@@ -6,7 +6,7 @@
 </style>
 <template lang="html">
   <div class="item-card" :class="classes">
-    <div class="flex-center" v-if="titleKey">
+    <div class="flex-center no-space" v-if="titleKey">
       <MasterIcon
         v-if="svgName"
         :svgName="svgName"

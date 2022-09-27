@@ -1,4 +1,15 @@
 import ErrorMessages from '@/constants/Errors'
+import fs from 'fs'
+import * as path from 'path'
+
+export const ensureDirExists = (filePath) => {
+  const dirname = path.dirname(filePath)
+  if (fs.existsSync(dirname)) {
+    return true
+  }
+  ensureDirExists(dirname)
+  fs.mkdirSync(dirname)
+}
 
 const TrimString = (s) => {
   let l = 0
@@ -110,13 +121,17 @@ export const IsSimilarObject = (oldObject, newObject) => {
 
 export const PushUniqueObjects = (dataArray, newObj) => {
   if (newObj?.constructor.name !== 'Object') {
-    alert(ErrorMessages.VALID_OBJECT)
-    return false
+    return {
+      type: 'error',
+      message: ErrorMessages.VALID_OBJECT
+    }
   }
 
-  if (!dataArray?.length) {
-    alert(ErrorMessages.VALID_ARRAY)
-    return false
+  if (dataArray?.constructor.name !== 'Array') {
+    return {
+      type: 'error',
+      message: ErrorMessages.VALID_ARRAY
+    }
   }
 
   const res = dataArray.map((item) => {
@@ -254,6 +269,10 @@ export const CustomDates = (format, dateStr) => {
       DateFormatted = `${fullYear}-${digitsMonth}`
       break
 
+    case 'YYYY-MM-DD':
+      DateFormatted = `${fullYear}-${digitsMonth}-${digitsDate}`
+      break
+
     case 'YYYY-MM-DD HH:MM':
       DateFormatted = `${fullYear}-${digitsMonth}-${digitsDate} ${strTime}`
       break
@@ -271,5 +290,13 @@ export const FilterByMonth = (itemsArray, filterDate) => {
   if (!filterDate) filterDate = CustomDates('YYYY-MM')
   return itemsArray?.filter((i) => {
     return CustomDates('YYYY-MM', i.date) === filterDate
+  })
+}
+
+export const FilterByDay = (itemsArray, filterDate) => {
+  if (!itemsArray?.length) return []
+  if (!filterDate) filterDate = CustomDates('YYYY-MM-DD')
+  return itemsArray?.filter((i) => {
+    return CustomDates('YYYY-MM-DD', i.date) === filterDate
   })
 }

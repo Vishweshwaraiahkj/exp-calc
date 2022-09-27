@@ -1,91 +1,155 @@
 <style lang="scss" scoped>
-.exp-container {
-  display: flex;
-  justify-content: space-between;
+.detailsBoard {
+  width: 100%;
 
-  & > div {
-    flex: 1;
-    text-align: center;
-    padding: 0.5rem;
-    border-right: px2rem(1) solid #dedede;
-
-    &:last-of-type {
-      border-right: 0;
-    }
-  }
-
-  .balance-count {
-    background-color: var(--blue);
-    color: var(--white);
-  }
-
-  .money.minus,
-  .money.plus,
-  .balance-amount {
+  .exp-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    justify-content: space-between;
 
-  .money {
-    font-size: px2rem(20);
-    letter-spacing: px2rem(1);
-    margin: px2rem(5) 0;
-    white-space: nowrap;
+    & > div {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      border-right: px2rem(1) solid #dedede;
 
-    &.plus {
+      &:last-of-type {
+        border-right: 0;
+      }
+    }
+
+    .balance-count {
+      background-color: var(--blue);
       color: var(--white);
     }
 
-    &.minus {
-      color: var(--white);
+    .money.minus,
+    .money.plus,
+    .balance-amount {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .money {
+      font-size: px2rem(20);
+      letter-spacing: px2rem(1);
+      margin: px2rem(5) 0;
+      white-space: nowrap;
+
+      &.plus {
+        color: var(--white);
+      }
+
+      &.minus {
+        color: var(--white);
+      }
     }
   }
-}
 
-.income-count {
-  background-color: var(--green);
-}
+  .income-count {
+    background-color: var(--green);
+  }
 
-.expense-count {
-  background-color: var(--red);
+  .expense-count {
+    background-color: var(--red);
+  }
+
+  .day-months {
+    margin-bottom: 1rem;
+    justify-content: space-around;
+
+    .daily-card {
+      padding: 1rem;
+      background: var(--dark);
+      color: var(--light);
+      flex: 1;
+    }
+  }
 }
 </style>
 <template lang="html">
-  <div v-if="expList" class="col-12">
-    <div class="exp-container shadow-dark">
-      <div class="balance-count">
-        <h4 class="balance-amount">Your Balance</h4>
-        <h1 id="balance" class="balance-amount">
-          <MasterIcon
-            svgName="indian-rupees"
-            fill-color="#ffffff"
-            size="large"
-          />
-          {{ balanceMoney.toLocaleString('en-IN') }}
-        </h1>
+  <div class="flex-center">
+    <div class="detailsBoard">
+      <div v-if="totalData" class="day-months flex-center">
+        <div class="card daily-card">
+          <label class="flex-center">Today's Expense:</label>
+          <span class="flex-center">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="small"
+            />
+            {{ todaysExpense.toLocaleString('en-IN') }}
+          </span>
+        </div>
+        <div class="card daily-card">
+          <label class="flex-center">Today's Income:</label>
+          <span class="flex-center">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="small"
+            />
+            {{ todaysIncome.toLocaleString('en-IN') }}
+          </span>
+        </div>
+        <div class="card daily-card">
+          <label class="flex-center">This Month's Expense:</label>
+          <span class="flex-center">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="small"
+            />
+            {{ monthsExpense.toLocaleString('en-IN') }}
+          </span>
+        </div>
+        <div class="card daily-card">
+          <label class="flex-center">This Month's Income:</label>
+          <span class="flex-center">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="small"
+            />
+            {{ monthsIncome.toLocaleString('en-IN') }}
+          </span>
+        </div>
       </div>
-      <div class="income-count">
-        <h4 class="money plus">Income</h4>
-        <h3 id="money-plus" class="money plus">
-          <MasterIcon
-            svgName="indian-rupees"
-            fill-color="#ffffff"
-            size="small"
-          />
-          +{{ incomeValue.toLocaleString('en-IN') }}
-        </h3>
-      </div>
-      <div class="expense-count">
-        <h4 class="money minus">Expense</h4>
-        <h3 id="money-minus" class="money minus">
-          <MasterIcon
-            svgName="indian-rupees"
-            fill-color="#ffffff"
-            size="small"
-          />
-          -{{ expenseValue.toLocaleString('en-IN') }}
-        </h3>
+      <div v-if="expList" class="exp-container shadow-dark">
+        <div class="balance-count">
+          <h4 class="balance-amount">Your Balance</h4>
+          <h1 id="balance" class="balance-amount">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="large"
+            />
+            {{ balanceMoney.toLocaleString('en-IN') }}
+          </h1>
+        </div>
+        <div class="income-count">
+          <h4 class="money plus">Income</h4>
+          <h3 id="money-plus" class="money plus">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="small"
+            />
+            +{{ incomeValue.toLocaleString('en-IN') }}
+          </h3>
+        </div>
+        <div class="expense-count">
+          <h4 class="money minus">Expense</h4>
+          <h3 id="money-minus" class="money minus">
+            <MasterIcon
+              svgName="indian-rupees"
+              fill-color="#ffffff"
+              size="small"
+            />
+            -{{ expenseValue.toLocaleString('en-IN') }}
+          </h3>
+        </div>
       </div>
     </div>
   </div>
@@ -93,6 +157,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { FilterByDay, FilterByMonth } from '@/utils/globals'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
 const props = defineProps({
@@ -100,12 +165,21 @@ const props = defineProps({
     type: Array,
     default: () => [],
     required: true
+  },
+  totalData: {
+    type: Array,
+    default: () => [],
+    required: true
   }
 })
+
 const expList = computed(() => props.dataList)
 
-const getDataByType = (type) => {
-  const filteredData = expList.value?.filter((i) => {
+const todaysData = computed(() => FilterByDay(props.totalData))
+const monthsData = computed(() => FilterByMonth(props.totalData))
+
+const getDataByType = (dataArray, type) => {
+  const filteredData = dataArray?.filter((i) => {
     return i.type[0]?.optValue === type
   })
 
@@ -116,8 +190,14 @@ const getDataByType = (type) => {
   return dataValue
 }
 
-const expenseValue = computed(() => getDataByType('expense'))
-const incomeValue = computed(() => getDataByType('income'))
+const todaysExpense = computed(() => getDataByType(todaysData.value, 'expense'))
+const todaysIncome = computed(() => getDataByType(todaysData.value, 'income'))
+
+const monthsExpense = computed(() => getDataByType(monthsData.value, 'expense'))
+const monthsIncome = computed(() => getDataByType(monthsData.value, 'income'))
+
+const expenseValue = computed(() => getDataByType(expList.value, 'expense'))
+const incomeValue = computed(() => getDataByType(expList.value, 'income'))
 
 const balanceMoney = computed(() => incomeValue.value - expenseValue.value)
 </script>

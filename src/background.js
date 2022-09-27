@@ -4,6 +4,9 @@ import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
+import fs from 'fs'
+
+const udPath = app.getPath('userData')
 
 const ipc = ipcMain
 
@@ -27,16 +30,41 @@ async function createWindow() {
       nodeIntegration: process.env.VUE_APP_NODE_INTEGRATION,
       contextIsolation: !process.env.VUE_APP_NODE_INTEGRATION,
       enableRemoteModule: true,
-      devTools: !app.isPackaged,
+      devTools: true, // !app.isPackaged,
       preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, 'assets/icons/lion-face.ico')
   })
 
+  // creating data files if they doesn't exists already,
+  // if exists those will be used.
+
+  const dataPath = udPath + '/data'
+  if (!fs.existsSync(dataPath)) {
+    fs.mkdirSync(dataPath, { recursive: true })
+
+    const expensesFile = path.resolve(dataPath + '/expenses.json')
+    const categoriesFile = path.resolve(dataPath + '/categories.json')
+    const typesFile = path.resolve(dataPath + '/types.json')
+
+    fs.writeFile(expensesFile, '', { flag: 'w+' }, (err) => {
+      if (err) console.log('Error creating db files!')
+    })
+
+    fs.writeFile(categoriesFile, '', { flag: 'w+' }, (err) => {
+      if (err) console.log('Error creating db files!')
+    })
+
+    fs.writeFile(typesFile, '', { flag: 'w+' }, (err) => {
+      if (err) console.log('Error creating db files!')
+    })
+  }
+
   win.on('ready-to-show', () => {
     win.show()
     win.maximize()
     win.focus()
+    win.webContents.send('isAppReady', udPath)
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

@@ -107,3 +107,14 @@
         top: px2rem(20);
     }
 }
+
+@include keyframes(fillIn) {
+    from {
+        opacity: 0;
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

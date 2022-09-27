@@ -80,8 +80,13 @@ table.table {
 }
 </style>
 <template lang="html">
-  <div class="col-12 mt-2">
-    <div class="filter-box">
+  <div class="col-12">
+    <BriefBoard
+      v-if="totalData.length"
+      :totalData="totalData"
+      :dataList="finalData"
+    />
+    <div class="filter-box mt-2">
       <MasterInput
         input-id="searchId"
         input-name="search"
@@ -92,6 +97,9 @@ table.table {
         v-model:input-value="searchKey"
       />
       <div class="flex-center">
+        <div :key="v4()">
+          <MasterDonut v-if="totalData.length" :donutData="totalData" />
+        </div>
         <MasterSwitch
           input-id="showAll"
           input-label="Show all"
@@ -117,7 +125,7 @@ table.table {
           :dataArray="finalData"
           :monthly="selectedMonth"
           :allRows="allRows"
-          :key="Date.now()"
+          :key="v4()"
         />
       </div>
     </div>
@@ -198,14 +206,14 @@ table.table {
       <div class="flex-center">
         <MasterSelect
           @emitSelected="getCheckedTypes"
-          select-placeholder="Show 5 rows"
-          :select-options="perPageOptions"
+          select-placeholder="Show 4 rows"
+          :select-options="filteredPerPage"
           :single-select="true"
           select-width="15rem"
           :default-selects="defaultCounts"
           :select-text="false"
         />
-        <span class="total-rows">Total Rows: {{ dataArray?.length }}</span>
+        <span class="total-rows">Total Rows: {{ finalData?.length }}</span>
       </div>
       <MasterPaginate
         v-if="visibleData.length"
@@ -223,8 +231,9 @@ table.table {
 <script setup>
 import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
+import { v4 } from 'uuid'
 import { CustomSort, SearchTheData, CustomDates } from '@/utils/globals'
-import { tableHeaders, perPageOptions } from '@/constants/TableConsts'
+import { tableHeaders, perPageOptions } from '@/constants/TableData'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
 import AddExpenses from '@/components/AddExpenses.vue'
@@ -235,8 +244,15 @@ import DeleteModal from '@/components/DeleteModal.vue'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterDates from '@/components/MasterUtils/MasterDates.vue'
 import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
+import BriefBoard from '@/components/BriefBoard.vue'
+import MasterDonut from '@/components/MasterUtils/MasterDonut.vue'
 
 const props = defineProps({
+  totalData: {
+    type: Array,
+    default: () => [],
+    required: true
+  },
   dataArray: {
     type: Array,
     default: () => [],
@@ -252,7 +268,7 @@ const emits = defineEmits(['emitDataToShow'])
 
 const store = useStore()
 const pageNumber = ref(1)
-const perPage = ref(5)
+const perPage = ref(4)
 const sortBy = ref('date')
 const sortType = ref('desc')
 const visibleBtns = ref(5)
@@ -260,13 +276,14 @@ const searchKey = ref('')
 const finalData = ref([])
 const selectedMonth = ref(CustomDates('YYYY-MM'))
 const allRows = ref(props.showAll)
+const filteredPerPage = ref([])
 
 const getCheckedTypes = (data) => {
   const selects = data[0]?.optValue
   if (selects && selects === 'all') {
     perPage.value = props.dataArray?.length || 100
   } else {
-    perPage.value = Number(data[0]?.optValue) || 5
+    perPage.value = Number(data[0]?.optValue) || 4
   }
 }
 
@@ -300,6 +317,16 @@ watchEffect(() => {
   if (pageNumber.value > totalPages.value) {
     pageNumber.value = 1
   }
+
+  const x = perPageOptions?.filter((i) => {
+    const count = Number(i.optValue)
+    const dataCount = finalData.value?.length
+    if (dataCount >= count || isNaN(count)) {
+      return i
+    }
+    return false
+  })
+  filteredPerPage.value = x
 })
 
 const filterRows = () => {

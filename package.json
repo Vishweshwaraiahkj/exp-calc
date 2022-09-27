@@ -41,5 +41,8 @@
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
+  },
+  "win": {
+    "icon": ""
   }
 }

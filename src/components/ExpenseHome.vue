@@ -10,12 +10,12 @@
             actionType="add"
           />
         </div>
-        <BriefBoard v-if="filteredData.length" :dataList="filteredData" />
       </div>
       <div class="row list-box">
         <ExpensesTable
           :dataArray="filteredData"
           :showAll="allRows"
+          :totalData="dataArray"
           @emitDataToShow="dataToShow"
         />
       </div>
@@ -29,7 +29,6 @@ import { ref, computed, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { FilterByMonth } from '@/utils/globals'
 import AddExpenses from '@/components/AddExpenses.vue'
-import BriefBoard from '@/components/BriefBoard.vue'
 import ExpensesTable from '@/components/ExpensesTable.vue'
 
 const store = useStore()

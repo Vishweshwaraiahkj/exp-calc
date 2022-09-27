@@ -3,12 +3,11 @@ ul {
   &.tabs__header {
     display: block;
     list-style: none;
-    margin: 0 0 0 px2rem(10);
+    margin: auto;
     padding: 0;
 
     > li {
       padding: 1rem px2rem(20);
-      border-radius: px2rem(5);
       margin: 0;
       display: inline-block;
       margin-right: px2rem(5);
@@ -16,7 +15,6 @@ ul {
 
       &.tab__selected {
         font-weight: bold;
-        border-radius: px2rem(5) px2rem(5) 0 0;
         border-bottom: px2rem(5) solid transparent;
       }
     }
@@ -27,11 +25,6 @@ ul {
   display: block;
   color: var(--black);
   padding: px2rem(10);
-  border-radius: px2rem(5);
-}
-
-.tabs {
-  text-align: center;
 }
 
 .tabs__light {

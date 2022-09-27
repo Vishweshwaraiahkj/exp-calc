@@ -4,7 +4,7 @@
 }
 </style>
 <template lang="html">
-  <div class="selectable">
+  <div class="selectable px-1">
     <master-modal
       :triggerId="triggerId"
       modalId="selectableModal"

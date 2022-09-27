@@ -52,7 +52,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { monthStrings } from '@/constants/TableConsts'
+import { monthStrings } from '@/constants/TableData'
 
 const props = defineProps({
   format: {
