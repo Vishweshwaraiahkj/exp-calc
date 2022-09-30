@@ -1,0 +1,93 @@
+<style lang="scss" scoped>
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  font-size: 30px;
+  padding: 1em;
+  position: fixed;
+  margin-bottom: 0.25em;
+  transition: 0.3s color, 0.3s border, 0.3s transform, 0.3s opacity;
+  background: v-bind('backDropColor');
+}
+
+.loader {
+  width: v-bind('loaderSize');
+  height: v-bind('loaderSize');
+  color: inherit;
+  pointer-events: none;
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  background-color: transparent;
+
+  &:before,
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    animation: 1s spin linear infinite;
+  }
+  &:before {
+    transform: rotateX(70deg);
+  }
+  &:after {
+    transform: rotateY(70deg);
+    animation-delay: 0.4s;
+  }
+}
+</style>
+<template lang="html">
+  <div class="loader-container">
+    <span class="loader shadow-dark"></span>
+    <label class="mt-2">{{ titleText }}</label>
+  </div>
+</template>
+<script setup>
+import { computed } from 'vue'
+const props = defineProps({
+  titleText: {
+    default: 'Loading...',
+    type: String
+  },
+  size: {
+    default: 'medium',
+    type: String
+  },
+  noBg: {
+    default: false,
+    type: Boolean
+  }
+})
+
+const loaderSize = computed(() => {
+  if (props.size === 'small') {
+    return '2rem'
+  } else if (props.size === 'large') {
+    return '6rem'
+  } else {
+    return '4rem'
+  }
+})
+
+const backDropColor = computed(() => {
+  if (props.noBg) {
+    return '#ffffff'
+  } else {
+    return `radial-gradient(
+      ellipse farthest-corner at center bottom,
+      #69d2fb 0%,
+      #20438e 100%
+    )
+    center bottom / 100% fixed`
+  }
+})
+</script>

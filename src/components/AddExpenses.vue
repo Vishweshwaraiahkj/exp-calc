@@ -111,7 +111,7 @@ const props = defineProps({
     type: Object
   },
   triggerIcon: {
-    default: 'add',
+    default: 'add-square',
     type: String
   },
   triggerId: {
@@ -127,7 +127,7 @@ const props = defineProps({
     type: String
   },
   colorFill: {
-    default: '#ffffff',
+    default: '#000000',
     type: String
   }
 })
@@ -223,4 +223,12 @@ onMounted(() => {
   store.dispatch('utils/fetchAllCategories')
   store.dispatch('utils/fetchAllTypes')
 })
+
+document.onkeydown = function (e) {
+  if (e.key === 'n' && (e.ctrlKey || e.metaKey)) {
+    e.preventDefault()
+
+    document.getElementById('addExp').click()
+  }
+}
 </script>

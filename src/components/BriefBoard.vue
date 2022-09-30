@@ -22,16 +22,35 @@
       color: var(--white);
     }
 
+    .income-count {
+      background-color: var(--green);
+    }
+
+    .expense-count {
+      background-color: var(--red);
+    }
+
+    .price-box {
+      display: inline-flex;
+
+      > *:first-child {
+        flex: 3;
+      }
+
+      > *:last-child {
+        flex: 7;
+      }
+    }
+
     .money.minus,
     .money.plus,
     .balance-amount {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .money {
-      font-size: px2rem(20);
       letter-spacing: px2rem(1);
       margin: px2rem(5) 0;
       white-space: nowrap;
@@ -44,14 +63,6 @@
         color: var(--white);
       }
     }
-  }
-
-  .income-count {
-    background-color: var(--green);
-  }
-
-  .expense-count {
-    background-color: var(--red);
   }
 
   .day-months {
@@ -117,38 +128,62 @@
         </div>
       </div>
       <div v-if="expList" class="exp-container shadow-dark">
-        <div class="balance-count">
-          <h4 class="balance-amount">Your Balance</h4>
-          <h1 id="balance" class="balance-amount">
-            <MasterIcon
-              svgName="indian-rupees"
-              fill-color="#ffffff"
-              size="large"
-            />
-            {{ balanceMoney.toLocaleString('en-IN') }}
-          </h1>
+        <div class="balance-count price-box">
+          <MasterIcon
+            svgName="cash-bag"
+            size="x-large"
+            fillColor="#fff"
+            extraPath="categories"
+          />
+          <div class="details-box">
+            <h4 class="balance-amount">Your Balance</h4>
+            <h1 id="balance" class="balance-amount">
+              <MasterIcon
+                svgName="indian-rupees"
+                fill-color="#ffffff"
+                size="medium"
+              />
+              {{ balanceMoney.toLocaleString('en-IN') }}
+            </h1>
+          </div>
         </div>
-        <div class="income-count">
-          <h4 class="money plus">Income</h4>
-          <h3 id="money-plus" class="money plus">
-            <MasterIcon
-              svgName="indian-rupees"
-              fill-color="#ffffff"
-              size="small"
-            />
-            +{{ incomeValue.toLocaleString('en-IN') }}
-          </h3>
+        <div class="income-count price-box">
+          <MasterIcon
+            svgName="money-plus"
+            size="x-large"
+            fillColor="#fff"
+            extraPath="categories"
+          />
+          <div class="details-box">
+            <h4 class="money plus">Income</h4>
+            <h1 id="money-plus" class="money plus">
+              <MasterIcon
+                svgName="indian-rupees"
+                fill-color="#ffffff"
+                size="medium"
+              />
+              +{{ incomeValue.toLocaleString('en-IN') }}
+            </h1>
+          </div>
         </div>
-        <div class="expense-count">
-          <h4 class="money minus">Expense</h4>
-          <h3 id="money-minus" class="money minus">
-            <MasterIcon
-              svgName="indian-rupees"
-              fill-color="#ffffff"
-              size="small"
-            />
-            -{{ expenseValue.toLocaleString('en-IN') }}
-          </h3>
+        <div class="expense-count price-box">
+          <MasterIcon
+            svgName="money-minus"
+            size="x-large"
+            fillColor="#fff"
+            extraPath="categories"
+          />
+          <div class="details-box">
+            <h4 class="money minus">Expense</h4>
+            <h1 id="money-minus" class="money minus">
+              <MasterIcon
+                svgName="indian-rupees"
+                fill-color="#ffffff"
+                size="medium"
+              />
+              -{{ expenseValue.toLocaleString('en-IN') }}
+            </h1>
+          </div>
         </div>
       </div>
     </div>

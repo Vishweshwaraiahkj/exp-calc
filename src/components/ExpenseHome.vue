@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="dashboard">
-    <div v-if="dataArray" class="container my-3">
+    <div v-if="dataArray.length" class="container my-3">
       <div class="row details-box relative">
         <div class="btn-header">
           <h1>Expenses Table</h1>
@@ -20,36 +20,41 @@
         />
       </div>
     </div>
-    <div v-else>Loading Data...</div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { FilterByMonth } from '@/utils/globals'
 import AddExpenses from '@/components/AddExpenses.vue'
 import ExpensesTable from '@/components/ExpensesTable.vue'
 
+const props = defineProps({
+  dataArray: {
+    default: () => [],
+    type: Array
+  }
+})
+
 const store = useStore()
-const dataArray = computed(() => store.state.expenses.list)
 
 const filteredData = ref([])
 const allRows = ref(true)
 
 watchEffect(() => {
   if (allRows.value) {
-    filteredData.value = dataArray.value
+    filteredData.value = props.dataArray
   } else {
-    filteredData.value = FilterByMonth(dataArray.value)
+    filteredData.value = FilterByMonth(props.dataArray)
   }
 })
 
 const dataToShow = (value) => {
   if (value === 'ShowAll') {
-    filteredData.value = dataArray.value
+    filteredData.value = props.dataArray
   } else {
-    filteredData.value = FilterByMonth(dataArray.value, value)
+    filteredData.value = FilterByMonth(props.dataArray, value)
   }
 }
 

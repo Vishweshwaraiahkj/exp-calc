@@ -1,74 +1,79 @@
-<style lang="scss" scoped>
-.selectable {
-  display: flex;
-}
-</style>
 <template lang="html">
-  <div class="selectable px-1">
-    <master-modal
-      :triggerId="triggerId"
-      modalId="selectableModal"
-      modalSize="small"
-      btnClasses="add-btn p-0"
-      :footerConfirm="addItem"
-      :footerCancel="addCancel"
-      :footerBtns="['confirm', 'cancel']"
-    >
-      <template #trigger>
-        <master-icon
-          :size="triggerIconSize"
-          :svgName="triggerIcon"
-          fillColor="#ffffff"
-        />
-      </template>
-      <template #header>
-        <h3>Add an Item</h3>
-      </template>
-      <template #default>
-        <form class="col-12" id="addExpIncForm">
-          <div class="row">
-            <div class="form-group col-6">
-              <master-input
-                input-id="displayNameId"
-                input-label="Display Name"
-                input-name="displayName"
-                input-placeholder="Add Display Name"
-                input-type="text"
-                v-model:input-value="displayName"
-                input-width="100%"
-                :input-required="true"
-              />
-            </div>
-            <div class="form-group col-6">
-              <master-input
-                input-id="sortKeyId"
-                input-label="Sort Key"
-                input-name="sortKey"
-                input-placeholder="Add Sort Key"
-                input-type="text"
-                v-model:input-value="sortKey"
-                input-width="100%"
-                :input-required="true"
-              />
-            </div>
-            <div class="form-group col-6">
-              <master-input
-                input-id="colorFillId"
-                input-label="Color Fill"
-                input-name="colorFill"
-                input-placeholder="Add a color"
-                input-type="color"
-                v-model:input-value="colorFill"
-                input-width="100%"
-                :input-required="true"
-              />
-            </div>
+  <MasterModal
+    :triggerId="triggerId"
+    modalId="selectableModal"
+    modalSize="small"
+    btnClasses="add-btn p-0"
+    :footerConfirm="addItem"
+    :footerCancel="addCancel"
+    :footerBtns="['confirm', 'cancel']"
+  >
+    <template #trigger>
+      <MasterIcon
+        :size="triggerIconSize"
+        :svgName="triggerIcon"
+        :fillColor="fillColor"
+      />
+    </template>
+    <template #header>
+      <h3>Add an Item</h3>
+    </template>
+    <template #default>
+      <form class="col-12" id="addExpIncForm">
+        <div class="row">
+          <div class="form-group col-6">
+            <MasterInput
+              input-id="displayNameId"
+              input-label="Display Name"
+              input-name="displayName"
+              input-placeholder="Add Display Name"
+              input-type="text"
+              v-model:input-value="displayName"
+              input-width="100%"
+              :input-required="true"
+            />
           </div>
-        </form>
-      </template>
-      <template #footer></template>
-    </master-modal>
-  </div>
+          <div class="form-group col-6">
+            <MasterInput
+              input-id="sortKeyId"
+              input-label="Sort Key"
+              input-name="sortKey"
+              input-placeholder="Add Sort Key"
+              input-type="text"
+              v-model:input-value="sortKey"
+              input-width="100%"
+              :input-required="true"
+            />
+          </div>
+          <div class="form-group col-6">
+            <MasterInput
+              input-id="colorFillId"
+              input-label="Color Fill"
+              input-name="colorFill"
+              input-placeholder="Add a color"
+              input-type="color"
+              v-model:input-value="colorFill"
+              input-width="100%"
+              :input-required="true"
+            />
+          </div>
+          <div class="form-group col-6">
+            <MasterInput
+              input-id="iconId"
+              input-label="Item Icon"
+              input-name="optIcon"
+              input-placeholder="Add an icon"
+              input-type="text"
+              v-model:input-value="optIcon"
+              input-width="100%"
+              :input-required="true"
+            />
+          </div>
+        </div>
+      </form>
+    </template>
+    <template #footer></template>
+  </MasterModal>
 </template>
 <script setup>
 import { ref, watchEffect } from 'vue'
@@ -85,7 +90,7 @@ const props = defineProps({
     type: Object
   },
   triggerIcon: {
-    default: 'add',
+    default: 'add-square',
     type: String
   },
   triggerId: {
@@ -103,6 +108,10 @@ const props = defineProps({
   dataType: {
     type: String,
     required: true
+  },
+  fillColor: {
+    type: String,
+    default: '#000000'
   }
 })
 
@@ -112,6 +121,7 @@ const store = useStore()
 const displayName = ref('')
 const sortKey = ref('')
 const colorFill = ref('#000000')
+const optIcon = ref('')
 const isChecked = ref(false)
 const isFavorite = ref(false)
 
@@ -120,6 +130,7 @@ watchEffect(() => {
     displayName.value = props.defaultsObj.optName
     sortKey.value = props.defaultsObj.sortKey
     colorFill.value = props.defaultsObj.colorFill
+    optIcon.value = props.defaultsObj.optIcon
     isChecked.value = props.defaultsObj.checked
     isFavorite.value = props.defaultsObj.favorite
   }
@@ -129,10 +140,16 @@ const clearForm = () => {
   // clear inputs after object is constructed
   displayName.value = undefined
   sortKey.value = undefined
+  optIcon.value = undefined
 }
 
 const updateData = (type) => {
-  const allInputs = [displayName.value, sortKey.value, colorFill.value]
+  const allInputs = [
+    displayName.value,
+    sortKey.value,
+    colorFill.value,
+    optIcon.value
+  ]
 
   if (!allInputs.every((i) => i)) {
     store.dispatch('utils/floatingMessages', {
@@ -146,6 +163,7 @@ const updateData = (type) => {
     optValue: SpaceToUnderscore(displayName.value),
     optName: displayName.value,
     sortKey: sortKey.value,
+    optIcon: optIcon.value,
     checked: isChecked.value,
     favorite: isFavorite.value,
     colorFill: colorFill.value || '#000000'

@@ -30,7 +30,7 @@ async function createWindow() {
       nodeIntegration: process.env.VUE_APP_NODE_INTEGRATION,
       contextIsolation: !process.env.VUE_APP_NODE_INTEGRATION,
       enableRemoteModule: true,
-      devTools: true, // !app.isPackaged,
+      devTools: !app.isPackaged,
       preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, 'assets/icons/lion-face.ico')
@@ -85,6 +85,7 @@ async function createWindow() {
   ipc.on('MaximizeApp', () => {
     if (win.isMaximized()) {
       win.restore()
+      win.center()
     } else {
       win.maximize()
     }

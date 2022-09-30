@@ -11,7 +11,8 @@ export default {
     },
     categories: [],
     types: [],
-    user_path: ''
+    user_path: '',
+    isLoading: true
   },
   mutations: {
     UPDATE_MESSAGE(state, payload) {
@@ -25,6 +26,9 @@ export default {
     },
     SET_USER_PATH(state, payload) {
       state.user_path = payload
+    },
+    SET_LOADER_STATUS(state, payload) {
+      state.isLoading = payload
     }
   },
   actions: {
@@ -223,7 +227,7 @@ export default {
       fs.writeFile(
         dbPath,
         JSON.stringify(filteredList, null, 2),
-        { flag: 'wx' },
+        { flag: 'w+' },
         (error) => {
           if (error) {
             context.dispatch(
@@ -257,6 +261,9 @@ export default {
       if (payload) {
         context.commit('SET_USER_PATH', payload)
       }
+    },
+    setLoaderStatus(context, payload) {
+      context.commit('SET_LOADER_STATUS', payload)
     }
   },
   getters: {
@@ -271,6 +278,9 @@ export default {
     },
     getUserPath: (state) => {
       return state.user_path
+    },
+    getLoaderStatus: (state) => {
+      return state.isLoading
     }
   }
 }

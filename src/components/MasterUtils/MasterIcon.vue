@@ -8,12 +8,12 @@
 <template lang="html">
   <div class="svg-holder" :class="classes">
     <svg
-      class="shadow-svg"
+      class="shadow-svg-dark"
       :fill="fillColor"
       :width="getSize"
       :height="getSize"
     >
-      <use :href="fullPath" />
+      <use :href="iconsPath" />
     </svg>
   </div>
 </template>
@@ -26,7 +26,7 @@ const props = defineProps({
     type: String
   },
   svgName: {
-    default: 'smiling',
+    default: 'placeholder',
     type: String
   },
   classes: {
@@ -36,13 +36,31 @@ const props = defineProps({
   fillColor: {
     default: '',
     type: String
+  },
+  extraPath: {
+    default: '',
+    type: String
   }
 })
 
-const iconName = ref(props.svgName || 'edit')
+const iconName = ref(props.svgName)
+const extraPath = ref(props.extraPath)
 
 const iconsPath = computed(() => {
-  return require(`@/assets/icons/${iconName.value}.svg`)
+  let svgPath
+  if (extraPath.value) {
+    svgPath = `${extraPath.value}/${iconName.value}`
+  } else {
+    svgPath = `${iconName.value}`
+  }
+  let returnSvg
+  try {
+    returnSvg = require(`@/assets/icons/${svgPath}.svg`) + '#' + iconName.value
+  } catch (e) {
+    console.log('error', e)
+    returnSvg = require(`@/assets/icons/placeholder.svg`) + '#placeholder'
+  }
+  return returnSvg
 })
 
 const getSize = computed(() => {
@@ -59,9 +77,5 @@ const getSize = computed(() => {
   } else {
     return props.size
   }
-})
-
-const fullPath = computed(() => {
-  return iconsPath.value + '#' + iconName.value
 })
 </script>

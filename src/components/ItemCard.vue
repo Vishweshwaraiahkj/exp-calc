@@ -19,13 +19,12 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
 
       &:hover {
         fill: var(--red);
       }
 
-      .delete-btn,
       > * {
         margin-left: px2rem(5);
       }
@@ -39,33 +38,43 @@
 </style>
 <template lang="html">
   <div class="items-holder">
-    <div class="items">
-      <span class="display-name">
-        {{ item?.optName }}
-      </span>
-      <div class="actions-box">
-        <add-selectable
-          :trigger-id="type"
-          :defaults-obj="item"
-          @emit-data-update="updateData"
-          action-type="update"
-          :data-type="type"
-          trigger-icon="edit"
-          trigger-icon-size="x-small"
+    <div class="items card">
+      <div class="card-header noBg">
+        <MasterIcon
+          :svgName="item?.optIcon"
+          :key="item?.optIcon"
+          :extraPath="`categories`"
+          size="x-large"
+          fillColor="#fff"
         />
-        <delete-modal
-          :current-item="item"
+      </div>
+      <div class="card-body">
+        <h5>{{ item?.optName }}</h5>
+      </div>
+      <div class="card-footer noBg actions-box">
+        <AddSelectable
+          :triggerId="type"
+          :defaultsObj="item"
+          @emitDataUpdate="updateData"
+          actionType="update"
+          :dataType="type"
+          triggerIcon="edit"
+          triggerIconSize="x-small"
+          fillColor="#ffffff"
+        />
+        <DeleteModal
+          :currentItem="item"
           :title="modalTitle"
           desc="Do you want to proceed with deleting an item"
-          :delete-type="type"
+          :deleteType="type"
         />
-        <button class="btn p-0" @click="toggleFavorites">
-          <master-icon
+        <button class="btn fav-btn p-0" @click="toggleFavorites">
+          <MasterIcon
             :key="isFavorite"
-            :svg-name="isFavorite"
+            :svgName="isFavorite"
             classes="act-icon favorite"
             size="x-small"
-            fill-color="#ffffff"
+            fillColor="#ffffff"
             @click="toggleFavorites"
           />
         </button>

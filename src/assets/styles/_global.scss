@@ -1077,7 +1077,16 @@ footer,
   background-clip: border-box;
   border: px2rem(1) solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
-  box-shadow: boxShadow();
+  box-shadow: boxShadow(card);
+  white-space: nowrap;
+
+  &:hover {
+    box-shadow: boxShadow(card-hover);
+  }
+
+  >* {
+    width: 100%;
+  }
 
   &>hr {
     margin-right: 0;
@@ -1087,8 +1096,11 @@ footer,
   &-header {
     padding: 0.75rem 1.25rem;
     margin-bottom: 0;
-    background-color: rgba(0, 0, 0, 0.03);
-    border-bottom: px2rem(1) solid rgba(0, 0, 0, 0.125);
+
+    &:not(.noBg) {
+      background-color: rgba(0, 0, 0, 0.03);
+      border-bottom: px2rem(1) solid rgba(0, 0, 0, 0.125);
+    }
 
     &:first-child {
       border-radius: calc(0.25rem - px2rem(1)) calc(0.25rem - px2rem(1)) 0 0;
@@ -1106,11 +1118,6 @@ footer,
     padding: 1.25rem;
   }
 
-  &-subtitle {
-    margin-top: -0.375rem;
-    margin-bottom: 0;
-  }
-
   &-text:last-child {
     margin-bottom: 0;
   }
@@ -1125,8 +1132,11 @@ footer,
 
   &-footer {
     padding: 0.75rem 1.25rem;
-    background-color: rgba(0, 0, 0, 0.03);
-    border-top: px2rem(1) solid rgba(0, 0, 0, 0.125);
+
+    &:not(.noBg) {
+      background-color: rgba(0, 0, 0, 0.03);
+      border-top: px2rem(1) solid rgba(0, 0, 0, 0.125);
+    }
 
     &:last-child {
       border-radius: 0 0 calc(0.25rem - px2rem(1)) calc(0.25rem - px2rem(1));
@@ -1185,8 +1195,12 @@ footer,
     box-shadow: boxShadow(dark);
   }
 
-  &-svg {
+  &-svg-light {
     filter: drop-shadow(boxShadow(svg-light));
+  }
+
+  &-svg-dark {
+    filter: drop-shadow(boxShadow(svg-dark));
   }
 }
 
@@ -1223,9 +1237,9 @@ footer,
 .grid {
   &-container {
     display: grid;
-    gap: 1%;
+    gap: 0% 1%;
     grid-template-columns: repeat(auto-fit, minmax(23.33333%, 2fr));
-    padding: 1rem;
+    padding: 0.625rem;
   }
 
   &-item {

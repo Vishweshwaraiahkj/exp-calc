@@ -2,7 +2,13 @@
 @import '@/assets/styles/_global.scss';
 </style>
 <template lang="html">
-  <div v-if="userPath" :key="userPath">
+  <div v-if="isLoading">
+    <MasterSpinner
+      titleText="Loading page... Please be patient!"
+      size="large"
+    />
+  </div>
+  <div v-else :key="userPath">
     <MasterNotifier
       v-if="toastMsgs.message"
       :key="toastKey"
@@ -21,7 +27,6 @@
     <router-view />
     <AppFooter />
   </div>
-  <div v-else>Loading page... Please be patient!</div>
 </template>
 <script setup>
 import { ref, computed, watchEffect } from 'vue'
@@ -29,6 +34,7 @@ import { useStore } from 'vuex'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
+import MasterSpinner from '@/components/MasterUtils/MasterSpinner.vue'
 
 const store = useStore()
 const toastMsgs = ref({})
@@ -38,13 +44,16 @@ const ipc = window.ipcRenderer
 
 const userPath = ref('')
 
+const isLoading = computed(() => store.getters['utils/getLoaderStatus'])
+
 watchEffect(() => {
   toastMsgs.value = store.getters['utils/getGlobalMsgs']
   toastKey.value = toastKey.value + 1
-  userPath.value = computed(() => store.getters['utils/getUserPath'])
 })
 
 ipc.on('isAppReady', (e, path) => {
   store.dispatch('utils/setUserPath', path)
+  store.dispatch('utils/setLoaderStatus', false)
+  userPath.value = path
 })
 </script>

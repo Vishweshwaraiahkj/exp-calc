@@ -1,4 +1,5 @@
 @function boxShadow($type: default, $variant: black) {
+    // colors goes here
     $black: var(--black);
     $white: var(--white);
     $black-trans: var(--black-trans);
@@ -11,6 +12,7 @@
     $secondary: var(--secondary);
     $menu: var(--menu-color);
 
+    // shadow values goes here
     $top-shadow: var(--top-shadow);
     $bottom-shadow: var(--bottom-shadow);
     $default-shadow: var(--default-shadow);
@@ -22,6 +24,9 @@
     $focus-shadow: var(--focus-shadow);
     $menu-shadow: var(--menu-shadow);
     $notify-shadow: var(--notify-shadow);
+    $card-shadow: var(--card-shadow);
+    $card-hover-shadow: var(--card-hover-shadow);
+
 
     @if $type ==menu {
         @return $menu-shadow $black;
@@ -85,6 +90,14 @@
 
     @else if $type ==bottom {
         @return $bottom-shadow $black-trans;
+    }
+
+    @else if $type ==card {
+        @return $card-shadow $black-trans;
+    }
+
+    @else if $type ==card-hover {
+        @return $card-hover-shadow $black-trans;
     }
 
     @else {

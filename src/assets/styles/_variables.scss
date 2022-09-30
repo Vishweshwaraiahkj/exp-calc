@@ -80,10 +80,12 @@
     --top-shadow: 2px -3px 4px;
     --bottom-shadow: 2px 3px 4px;
     --svg-light-shadow: 3px 3px 3px;
-    --svg-dark-shadow: 2px 4px 6px;
+    --svg-dark-shadow: 6px 3px 1px;
     --focus-shadow: 0 0 0 0.2rem;
     --menu-shadow: 3px 3px 5px;
     --notify-shadow: 5px 5px 5px;
+    --card-shadow: 0 4px 8px 0;
+    --card-hover-shadow: 0 8px 16px 0;
 }
 
 $table-header-font-weight: 400;

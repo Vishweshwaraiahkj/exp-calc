@@ -35,6 +35,10 @@ module.exports = defineConfig({
           uninstallerIcon: 'public/favicon.ico',
           oneClick: false
         }
+      },
+      chainWebpackRendererProcess(config) {
+        config.plugins.delete('workbox')
+        config.plugins.delete('pwa')
       }
     }
   }
