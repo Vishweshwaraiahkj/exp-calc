@@ -10,11 +10,7 @@
       flex: 1;
       text-align: center;
       padding: 0.5rem;
-      border-right: px2rem(1) solid #dedede;
-
-      &:last-of-type {
-        border-right: 0;
-      }
+      border-radius: 1rem;
     }
 
     .balance-count {
@@ -32,6 +28,16 @@
 
     .price-box {
       display: inline-flex;
+      box-shadow: boxShadow(card);
+
+      &:hover {
+        box-shadow: boxShadow(card-hover);
+
+        > .svg-holder {
+          transition: 0.5s;
+          transform: scale(1.5);
+        }
+      }
 
       > *:first-child {
         flex: 3;
@@ -39,6 +45,14 @@
 
       > *:last-child {
         flex: 7;
+      }
+
+      h4 {
+        margin-left: px2rem(5);
+      }
+
+      &:not(:last-child) {
+        margin-right: 1rem;
       }
     }
 
@@ -127,7 +141,7 @@
           </span>
         </div>
       </div>
-      <div v-if="expList" class="exp-container shadow-dark">
+      <div v-if="expList" class="exp-container">
         <div class="balance-count price-box">
           <MasterIcon
             svgName="cash-bag"
@@ -136,7 +150,7 @@
             extraPath="categories"
           />
           <div class="details-box">
-            <h4 class="balance-amount">Your Balance</h4>
+            <h4 class="balance-amount">Balance</h4>
             <h1 id="balance" class="balance-amount">
               <MasterIcon
                 svgName="indian-rupees"

@@ -14,7 +14,11 @@
     :footerBtns="['confirm', 'cancel']"
   >
     <template #trigger>
-      <MasterIcon size="x-small" svgName="delete" :fill-color="colorFill" />
+      <MasterIcon
+        :size="triggerIconSize"
+        svgName="delete"
+        :fill-color="colorFill"
+      />
     </template>
     <template #header>
       <h3 class="py-2">{{ modalTitle }}</h3>
@@ -50,6 +54,10 @@ const props = defineProps({
   },
   colorFill: {
     default: '#ffffff',
+    type: String
+  },
+  triggerIconSize: {
+    default: 'medium',
     type: String
   }
 })

@@ -30,57 +30,6 @@ export const tableHeaders = [
     sort: false
   }
 ]
-export const perPageOptions = [
-  {
-    id: 111,
-    optValue: '4',
-    optName: 'Show 4 rows',
-    sortKey: '4',
-    checked: true
-  },
-  {
-    id: 112,
-    optValue: '8',
-    optName: 'Show 8 rows',
-    sortKey: '8',
-    checked: false
-  },
-  {
-    id: 112,
-    optValue: '16',
-    optName: 'Show 16 rows',
-    sortKey: '16',
-    checked: false
-  },
-  {
-    id: 113,
-    optValue: '32',
-    optName: 'Show 32 rows',
-    sortKey: '32',
-    checked: false
-  },
-  {
-    id: 114,
-    optValue: '64',
-    optName: 'Show 64 rows',
-    sortKey: '64',
-    checked: false
-  },
-  {
-    id: 115,
-    optValue: '128',
-    optName: 'Show 128 rows',
-    sortKey: '128',
-    checked: false
-  },
-  {
-    id: 117,
-    optValue: 'all',
-    optName: 'Show all Rows',
-    sortKey: 'all',
-    checked: false
-  }
-]
 export const monthStrings = [
   {
     id: 1,

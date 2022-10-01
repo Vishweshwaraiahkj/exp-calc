@@ -3,7 +3,7 @@
     :triggerId="triggerId"
     modalId="selectableModal"
     modalSize="small"
-    btnClasses="add-btn p-0"
+    btnClasses="add-btn"
     :footerConfirm="addItem"
     :footerCancel="addCancel"
     :footerBtns="['confirm', 'cancel']"

@@ -16,6 +16,7 @@
           :dataArray="filteredData"
           :showAll="allRows"
           :totalData="dataArray"
+          :defaultRows="5"
           @emitDataToShow="dataToShow"
         />
       </div>

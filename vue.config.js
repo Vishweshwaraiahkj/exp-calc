@@ -27,8 +27,7 @@ module.exports = defineConfig({
         appId: 'exp-calc',
         win: {
           target: ['nsis'],
-          icon: 'public/favicon.ico',
-          requestedExecutionLevel: 'requireAdministrator'
+          icon: 'public/favicon.ico'
         },
         nsis: {
           installerIcon: 'public/favicon.ico',

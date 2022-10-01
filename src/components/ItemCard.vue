@@ -3,23 +3,25 @@
   height: 100%;
 
   .items {
-    position: relative;
-    color: v-bind('itemColor');
-    background: v-bind('itemBg');
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin: 0.625rem;
-    padding: 1rem;
     font-size: 1rem;
     font-weight: bold;
-    box-shadow: boxShadow(dark);
+
+    color: v-bind('itemColor');
+    background: v-bind('itemBg');
+
+    &:hover .topped-icon svg {
+      transition: 0.5s;
+      transform: scale(1.5);
+    }
 
     .actions-box {
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      border-top: px2rem(2) solid var(--white);
+      padding: 0;
 
       &:hover {
         fill: var(--red);
@@ -27,6 +29,13 @@
 
       > * {
         margin-left: px2rem(5);
+        border-right: px2rem(2) solid var(--white);
+        padding: px2rem(20);
+        flex: 1;
+
+        &:last-child {
+          border-right: 0;
+        }
       }
 
       button:focus {
@@ -39,17 +48,18 @@
 <template lang="html">
   <div class="items-holder">
     <div class="items card">
-      <div class="card-header noBg">
+      <div class="card-header noBg topped-icon">
         <MasterIcon
           :svgName="item?.optIcon"
           :key="item?.optIcon"
           :extraPath="`categories`"
-          size="x-large"
+          size="100"
           fillColor="#fff"
         />
       </div>
       <div class="card-body">
-        <h5>{{ item?.optName }}</h5>
+        <label class="item-label">{{ itemType }}</label>
+        <h4 class="item-name">{{ item?.optName }}</h4>
       </div>
       <div class="card-footer noBg actions-box">
         <AddSelectable
@@ -59,21 +69,22 @@
           actionType="update"
           :dataType="type"
           triggerIcon="edit"
-          triggerIconSize="x-small"
+          triggerIconSize="24"
           fillColor="#ffffff"
         />
         <DeleteModal
           :currentItem="item"
-          :title="modalTitle"
+          :title="`Delete ${itemType}`"
           desc="Do you want to proceed with deleting an item"
+          triggerIconSize="24"
           :deleteType="type"
         />
-        <button class="btn fav-btn p-0" @click="toggleFavorites">
+        <button class="btn fav-btn" @click="toggleFavorites">
           <MasterIcon
             :key="isFavorite"
             :svgName="isFavorite"
             classes="act-icon favorite"
-            size="x-small"
+            size="24"
             fillColor="#ffffff"
             @click="toggleFavorites"
           />
@@ -114,11 +125,11 @@ watchEffect(() => {
   itemBg.value = props.item?.colorFill
 })
 
-const modalTitle = computed(() => {
+const itemType = computed(() => {
   if (props.type === 'types') {
-    return 'Delete Type'
+    return 'Type'
   } else {
-    return 'Delete Category'
+    return 'Category'
   }
 })
 

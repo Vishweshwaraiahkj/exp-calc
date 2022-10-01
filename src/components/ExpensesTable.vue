@@ -190,6 +190,7 @@ table.table {
                   title="Delete Expense"
                   desc="Do you want to proceed with deleting an Expense"
                   delete-type="expenses"
+                  triggerIconSize="x-small"
                 />
               </span>
             </div>
@@ -210,7 +211,7 @@ table.table {
           :select-options="filteredPerPage"
           :single-select="true"
           select-width="15rem"
-          :default-selects="defaultCounts"
+          :default-selects="perPageOptions[0]"
           :select-text="false"
         />
         <span class="total-rows">Total Rows: {{ finalData?.length }}</span>
@@ -233,7 +234,7 @@ import { computed, ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { v4 } from 'uuid'
 import { CustomSort, SearchTheData, CustomDates } from '@/utils/globals'
-import { tableHeaders, perPageOptions } from '@/constants/TableData'
+import { tableHeaders } from '@/constants/TableData'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterPaginate from '@/components/MasterUtils/MasterPaginate.vue'
 import AddExpenses from '@/components/AddExpenses.vue'
@@ -261,6 +262,10 @@ const props = defineProps({
   showAll: {
     type: Boolean,
     default: false
+  },
+  defaultRows: {
+    type: Number,
+    default: 10
   }
 })
 
@@ -268,7 +273,7 @@ const emits = defineEmits(['emitDataToShow'])
 
 const store = useStore()
 const pageNumber = ref(1)
-const perPage = ref(4)
+const perPage = ref(props.defaultRows)
 const sortBy = ref('date')
 const sortType = ref('desc')
 const visibleBtns = ref(5)
@@ -281,13 +286,27 @@ const filteredPerPage = ref([])
 const getCheckedTypes = (data) => {
   const selects = data[0]?.optValue
   if (selects && selects === 'all') {
-    perPage.value = props.dataArray?.length || 100
+    perPage.value = props.dataArray?.length
   } else {
-    perPage.value = Number(data[0]?.optValue) || 4
+    const selectedCnt = Number(data[0]?.optValue) || props.defaultRows
+    perPage.value = selectedCnt
   }
 }
 
-const defaultCounts = [perPageOptions[0]]
+const perPageOptions = computed(() => {
+  const objArray = []
+  const pageCnt = props.defaultRows
+  for (let i = 1; i <= 10; i++) {
+    objArray.push({
+      id: `id_${i}`,
+      optValue: `${i * pageCnt}`,
+      optName: `Show ${i * pageCnt} rows`,
+      sortKey: `${i * pageCnt}`,
+      checked: i === 1
+    })
+  }
+  return objArray
+})
 
 const validData = () => {
   return props.dataArray?.filter((i) => {
@@ -318,7 +337,7 @@ watchEffect(() => {
     pageNumber.value = 1
   }
 
-  const x = perPageOptions?.filter((i) => {
+  const x = perPageOptions.value?.filter((i) => {
     const count = Number(i.optValue)
     const dataCount = finalData.value?.length
     if (dataCount >= count || isNaN(count)) {

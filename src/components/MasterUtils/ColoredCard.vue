@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup>
-import MasterIcon from './MasterIcon.vue'
+import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 const props = defineProps({
   item: {
     type: Object,

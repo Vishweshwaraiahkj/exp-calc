@@ -57,7 +57,6 @@ const iconsPath = computed(() => {
   try {
     returnSvg = require(`@/assets/icons/${svgPath}.svg`) + '#' + iconName.value
   } catch (e) {
-    console.log('error', e)
     returnSvg = require(`@/assets/icons/placeholder.svg`) + '#placeholder'
   }
   return returnSvg

@@ -93,11 +93,11 @@
     }
 
     @else if $type ==card {
-        @return $card-shadow $black-trans;
+        @return $card-shadow $black;
     }
 
     @else if $type ==card-hover {
-        @return $card-hover-shadow $black-trans;
+        @return $card-hover-shadow $black;
     }
 
     @else {

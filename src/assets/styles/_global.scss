@@ -203,7 +203,6 @@ button {
   border-radius: 0;
   overflow: visible;
   padding: px2rem(2) px2rem(10);
-  cursor: pointer;
 
   &:focus {
     outline: 2px solid var(--dark);
@@ -216,6 +215,7 @@ button {
 
 button {
   -webkit-appearance: button;
+  cursor: pointer;
 
   &::-moz-focus-inner {
     padding: 0;
@@ -1075,8 +1075,7 @@ footer,
   word-wrap: break-word;
   background-color: var(--white);
   background-clip: border-box;
-  border: px2rem(1) solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  border-radius: 0.625rem;
   box-shadow: boxShadow(card);
   white-space: nowrap;
 
