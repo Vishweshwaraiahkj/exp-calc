@@ -8,6 +8,7 @@
   &-item {
     display: inline-block;
     margin-left: 0.25rem;
+    box-shadow: boxShadow();
 
     button.btn {
       min-width: px2rem(45);

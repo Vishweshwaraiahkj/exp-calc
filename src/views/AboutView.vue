@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
 .dashboard.about {
   height: 90vh;
   width: 100vw;
@@ -36,6 +36,8 @@
     .profile-pic {
       height: 80%;
       width: auto;
+
+      @include hoverTransform(1.2);
     }
   }
 }

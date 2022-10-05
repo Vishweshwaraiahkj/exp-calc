@@ -6,7 +6,7 @@
 }
 </style>
 <template lang="html">
-  <div class="svg-holder" :class="classes">
+  <div :class="`svg-holder ${classes}`">
     <svg
       class="shadow-svg-dark"
       :fill="fillColor"

@@ -17,8 +17,8 @@
     $bottom-shadow: var(--bottom-shadow);
     $default-shadow: var(--default-shadow);
     $minimal-shadow: var(--minimal-shadow);
-    $light-shadow: var(--light-shadow);
-    $dark-shadow: var(--dark-shadow);
+    $light-shadow: var(--default-shadow);
+    $dark-shadow: var(--default-shadow);
     $svg-light-shadow: var(--svg-light-shadow);
     $svg-dark-shadow: var(--svg-dark-shadow);
     $focus-shadow: var(--focus-shadow);
@@ -49,7 +49,7 @@
     }
 
     @else if $type ==light {
-        @return $light-shadow $black-trans;
+        @return $light-shadow $white-trans;
     }
 
     @else if $type ==dark {
@@ -297,5 +297,16 @@
         color: $text-color;
         background-color: $disabled-color;
         border-color: $border-color;
+    }
+}
+
+@mixin hoverTransform($scale: 1.5) {
+    &:hover {
+
+        &>.svg-holder svg,
+        &>svg {
+            transition: 0.5s;
+            transform: scale($scale);
+        }
     }
 }

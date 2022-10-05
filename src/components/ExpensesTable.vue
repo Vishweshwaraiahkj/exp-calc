@@ -16,6 +16,7 @@
 
 table.table {
   margin-bottom: 1rem;
+  padding: 0.625rem;
 
   thead tr th {
     min-width: 20%;
@@ -182,6 +183,7 @@ table.table {
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
+                  colorFill="#ffffff"
                 />
               </span>
               <span class="action delete">
@@ -207,12 +209,11 @@ table.table {
       <div class="flex-center">
         <MasterSelect
           @emitSelected="getCheckedTypes"
-          select-placeholder="Show 4 rows"
-          :select-options="filteredPerPage"
-          :single-select="true"
-          select-width="15rem"
-          :default-selects="perPageOptions[0]"
-          :select-text="false"
+          :selectPlaceholder="perPageOptions[0].optName"
+          :selectOptions="filteredPerPage"
+          :singleSelect="true"
+          :selectWidth="`15rem`"
+          :selectText="false"
         />
         <span class="total-rows">Total Rows: {{ finalData?.length }}</span>
       </div>

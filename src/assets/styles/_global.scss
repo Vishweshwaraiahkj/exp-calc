@@ -1906,3 +1906,7 @@ span.err {
 .just-move {
   animation: moveIt 500ms infinite;
 }
+
+.hover-transform {
+  @include hoverTransform();
+}

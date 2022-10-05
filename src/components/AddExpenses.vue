@@ -127,7 +127,7 @@ const props = defineProps({
     type: String
   },
   colorFill: {
-    default: '#000000',
+    default: '',
     type: String
   }
 })

@@ -10,11 +10,6 @@
     color: v-bind('itemColor');
     background: v-bind('itemBg');
 
-    &:hover .topped-icon svg {
-      transition: 0.5s;
-      transform: scale(1.5);
-    }
-
     .actions-box {
       cursor: pointer;
       display: flex;
@@ -38,8 +33,12 @@
         }
       }
 
-      button:focus {
-        outline: 0;
+      button {
+        &:focus {
+          outline: 0;
+        }
+
+        @include hoverTransform();
       }
     }
   }
@@ -48,7 +47,7 @@
 <template lang="html">
   <div class="items-holder">
     <div class="items card">
-      <div class="card-header noBg topped-icon">
+      <div class="card-header noBg hover-transform">
         <MasterIcon
           :svgName="item?.optIcon"
           :key="item?.optIcon"

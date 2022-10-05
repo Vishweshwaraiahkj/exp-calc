@@ -32,11 +32,6 @@
 
       &:hover {
         box-shadow: boxShadow(card-hover);
-
-        > .svg-holder {
-          transition: 0.5s;
-          transform: scale(1.5);
-        }
       }
 
       > *:first-child {
@@ -142,7 +137,7 @@
         </div>
       </div>
       <div v-if="expList" class="exp-container">
-        <div class="balance-count price-box">
+        <div class="balance-count price-box hover-transform">
           <MasterIcon
             svgName="cash-bag"
             size="x-large"
@@ -161,7 +156,7 @@
             </h1>
           </div>
         </div>
-        <div class="income-count price-box">
+        <div class="income-count price-box hover-transform">
           <MasterIcon
             svgName="money-plus"
             size="x-large"
@@ -180,7 +175,7 @@
             </h1>
           </div>
         </div>
-        <div class="expense-count price-box">
+        <div class="expense-count price-box hover-transform">
           <MasterIcon
             svgName="money-minus"
             size="x-large"
