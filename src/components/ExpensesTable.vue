@@ -169,7 +169,7 @@ table.table {
           <td class="date">
             <MasterDates
               format="YYYY-MM-DD HH:MM"
-              :date-str="item.date"
+              :dateStr="item.date"
               :key="item.date"
             />
           </td>

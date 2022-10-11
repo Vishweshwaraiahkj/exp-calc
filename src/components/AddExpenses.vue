@@ -24,26 +24,26 @@
         <div class="row">
           <div class="form-group col-6">
             <MasterInput
-              input-id="descriptionId"
-              input-label="Description"
-              input-name="description"
-              input-placeholder="Add description"
-              input-type="text"
-              v-model:input-value="description"
-              input-width="100%"
-              :input-required="true"
+              inputId="descriptionId"
+              inputLabel="Description"
+              inputName="description"
+              inputPlaceholder="Add description"
+              inputType="text"
+              v-model:inputValue="description"
+              inputWidth="100%"
+              :inputRequired="true"
             />
           </div>
           <div class="form-group col-6">
             <MasterSelect
               @emitSelected="getCheckedCats"
-              select-width="100%"
-              select-label="Categories"
-              select-placeholder="Select a category"
-              :select-options="listOfCategories"
-              :input-required="true"
-              :reset-true="resetInput"
-              :default-selects="defaultCats"
+              selectWidth="100%"
+              selectLabel="Categories"
+              selectPlaceholder="Select a category"
+              :selectOptions="listOfCategories"
+              :inputRequired="true"
+              :resetTrue="resetInput"
+              :defaultSelects="defaultCats"
               :allSelectable="true"
             />
           </div>
@@ -51,41 +51,35 @@
         <div class="row">
           <div class="form-group col-6">
             <MasterInput
-              input-id="typeofAmount"
-              input-label="Amount"
-              input-name="amount"
-              input-placeholder="Add your amount"
-              input-type="number"
-              v-model:input-value="amount"
-              input-width="100%"
-              :input-required="true"
+              inputId="typeofAmount"
+              inputLabel="Amount"
+              inputName="amount"
+              inputPlaceholder="Add your amount"
+              inputType="number"
+              v-model:inputValue="amount"
+              inputWidth="100%"
+              :inputRequired="true"
             />
           </div>
           <div class="form-group col-6">
             <MasterSelect
               @emitSelected="getCheckedTypes"
-              select-width="100%"
-              select-label="Type"
-              select-placeholder="Select a type"
-              :select-options="listOfTypes"
-              :single-select="true"
-              :input-required="true"
-              :reset-true="resetInput"
-              :default-selects="defaultTypes"
+              selectWidth="100%"
+              selectLabel="Type"
+              selectPlaceholder="Select a type"
+              :selectOptions="listOfTypes"
+              :singleSelect="true"
+              :inputRequired="true"
+              :resetTrue="resetInput"
+              :defaultSelects="defaultTypes"
             />
           </div>
         </div>
         <div class="row">
           <div class="form-group col-6">
-            <MasterInput
-              input-id="addedDate"
-              input-label="Date"
-              input-name="addeddate"
-              input-placeholder="Date of expense/income"
-              input-type="datetime-local"
-              v-model:input-value="addeddate"
-              input-width="100%"
-              :input-required="true"
+            <MasterPicker
+              @emitDateTime="getDateTime"
+              v-model:inputDate="addeddate"
             />
           </div>
         </div>
@@ -104,6 +98,7 @@ import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
 
 const props = defineProps({
   defaultsObj: {
@@ -149,11 +144,16 @@ const typeList = ref([])
 const addeddate = ref(null)
 const categoryList = ref([])
 const resetInput = ref(false)
+
 const getCheckedCats = (data) => {
   categoryList.value = data
 }
 const getCheckedTypes = (data) => {
   typeList.value = data
+}
+
+const getDateTime = (dateTime) => {
+  addeddate.value = dateTime
 }
 
 const defaultCats = ref([])

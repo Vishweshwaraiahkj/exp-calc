@@ -11,6 +11,7 @@
     box-shadow: boxShadow();
 
     button.btn {
+      height: 100%;
       min-width: px2rem(45);
     }
   }

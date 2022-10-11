@@ -42,7 +42,7 @@
     </span>
     <span v-if="format === 'YYYY-MM-DD HH:MM'">
       <span class="date">{{ digitsDate }}</span>
-      <span class="month"> {{ stringMonth.short_name }}</span>
+      <span class="month"> {{ stringMonth.short }}</span>
       <span class="year">{{ fullYear }}</span>
       <span class="hours">{{ hours12 }}</span>
       <span class="minutes">{{ minutes }}</span>
@@ -52,7 +52,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { monthStrings } from '@/constants/TableData'
+import { monthStrings } from '@/constants/DateTime'
 
 const props = defineProps({
   format: {

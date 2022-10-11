@@ -18,7 +18,7 @@
     $default-shadow: var(--default-shadow);
     $minimal-shadow: var(--minimal-shadow);
     $light-shadow: var(--default-shadow);
-    $dark-shadow: var(--default-shadow);
+    $dark-shadow: var(--dark-shadow);
     $svg-light-shadow: var(--svg-light-shadow);
     $svg-dark-shadow: var(--svg-dark-shadow);
     $focus-shadow: var(--focus-shadow);
@@ -154,8 +154,7 @@
 }
 
 @mixin formControl {
-    display: block;
-    height: calc(1.5em + 0.75rem + px2rem(2));
+    height: px2rem(40);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -197,9 +196,10 @@
 @mixin hideScroll {
     /* Hide scrollbar for IE, Edge and Firefox */
     -ms-overflow-style: none;
-    /* IE and Edge */
+    /* for IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
+    /* for Firefox */
+    overflow-y: scroll;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
     &::-webkit-scrollbar {

@@ -68,6 +68,26 @@ const SortPrimitives = (a, b, type) => {
   return 0
 }
 
+const SortByDate = (a, b, type) => {
+  // Turn your strings into dates, and then subtract them
+  // to get a value that is either negative, positive, or zero.
+  let modifier = 1
+  if (type === 'desc') {
+    modifier = -1
+  }
+
+  const newA = new Date(a)
+  const newB = new Date(b)
+
+  if (newA < newB) {
+    return -1 * modifier
+  }
+  if (newA > newB) {
+    return 1 * modifier
+  }
+  return 0
+}
+
 const ExpandAllByKey = (dataArray, key) => {
   const expanded = dataArray.map((i) => {
     return i[key].map((j) => ({ ...i, [key]: j }))
@@ -171,10 +191,14 @@ export const CustomSort = (objectsArray, key, type) => {
     const keyExists = Object.hasOwnProperty.call(a, key)
     if (!keyExists) return false
     let itemA = a[key]
-    const itemB = b[key]
+    let itemB = b[key]
 
     if (!isNaN(itemA)) itemA = Number(itemA)
-    if (!isNaN(itemA)) itemA = Number(itemA)
+    if (!isNaN(itemB)) itemB = Number(itemB)
+
+    if (key === 'date') {
+      return SortByDate(itemA, itemB, type)
+    }
 
     if (Array.isArray(itemA)) {
       return SortArrayObjects(itemA, itemB, type)
