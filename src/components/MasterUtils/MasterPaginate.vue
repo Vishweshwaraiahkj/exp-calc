@@ -8,7 +8,7 @@
   &-item {
     display: inline-block;
     margin-left: 0.25rem;
-    box-shadow: boxShadow();
+    box-shadow: boxShadow(dark);
 
     button.btn {
       height: 100%;

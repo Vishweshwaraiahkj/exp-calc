@@ -6,7 +6,10 @@ import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
 import fs from 'fs'
 
-const udPath = app.getPath('userData')
+let udPath = app.getPath('userData')
+if (!app.isPackaged) {
+  udPath = process.cwd()
+}
 
 const ipc = ipcMain
 

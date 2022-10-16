@@ -40,7 +40,7 @@
     margin: auto;
     padding: 0;
     border: px2rem(1) solid #888;
-    border-radius: px2rem(5);
+    border-radius: var(--radius-default);
     -webkit-animation-name: animateTop;
     -webkit-animation-duration: 0.4s;
     animation-name: animateTop;

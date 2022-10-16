@@ -23,6 +23,7 @@ header.header {
       width: px2rem(50);
       height: px2rem(40);
       outline: 0;
+      margin: px2rem(1);
 
       &:hover {
         background: var(--dark);
@@ -47,13 +48,14 @@ header.header {
     height: px2rem(50);
 
     .master-logo {
+      box-shadow: var(--menu-shadow) var(--black);
+      border-radius: var(--radius-default);
+      background-color: var(--menu-color);
       -webkit-app-region: no-drag;
-      display: flex;
       justify-content: center;
       align-items: center;
-      background-color: var(--menu-color);
-      box-shadow: var(--menu-shadow) var(--black);
       padding: 0 1rem;
+      display: flex;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { IsValidObject, UpdateArrayByKey } from '@/utils/globals'
+import { IsValidObject, UpdateArrayByKey, CustomSort } from '@/utils/globals'
 import fs from 'fs'
 import * as path from 'path'
 
@@ -268,10 +268,10 @@ export default {
   },
   getters: {
     getAllCategories: (state) => {
-      return state.categories
+      return CustomSort(state.categories)
     },
     getAllTypes: (state) => {
-      return state.types
+      return CustomSort(state.types)
     },
     getGlobalMsgs: (state) => {
       return state.globalMessage

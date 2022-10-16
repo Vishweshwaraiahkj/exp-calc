@@ -61,19 +61,17 @@
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { CustomSort } from '@/utils/globals'
 import ItemCard from '@/components/ItemCard.vue'
 import AddSelectable from '@/components/MasterUtils/AddSelectable.vue'
 
+const store = useStore()
+
 const categories = computed(() => {
-  const unsortedCats = store.getters['utils/getAllCategories']
-  return CustomSort(unsortedCats)
+  return store.getters['utils/getAllCategories']
 })
 const types = computed(() => {
-  const unsortedTypes = store.getters['utils/getAllTypes']
-  return CustomSort(unsortedTypes)
+  return store.getters['utils/getAllTypes']
 })
-const store = useStore()
 
 const changeFavorite = (item, key) => {
   store.dispatch('utils/toggleFavorite', {

@@ -15,6 +15,8 @@ $input-size: calc($box-size/2);
     box-shadow: none;
 
     &.input-span {
+      align-items: center;
+
       /* Checkbox Styles */
       input[type='checkbox'] {
         -webkit-appearance: none;
@@ -87,6 +89,7 @@ $input-size: calc($box-size/2);
   }
 
   &.label-left {
+    align-items: center;
     white-space: nowrap;
 
     .input-label {

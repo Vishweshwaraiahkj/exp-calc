@@ -29,7 +29,7 @@
     &.active,
     &.active.err {
       button.menu-btn {
-        z-index: 200;
+        z-index: 201;
       }
     }
 
@@ -49,30 +49,26 @@
       border: 0;
     }
 
-    .backDrop {
-      display: block;
-      position: fixed;
-      z-index: 100;
-      padding-top: px2rem(100);
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0 0 0 / 25%);
-    }
-
     .optionsBox {
+      position: absolute;
       width: 100%;
-      padding-top: 0;
       left: 0;
       z-index: 200;
-      margin-top: px2rem(4);
+      margin-top: 0.25rem;
       background-color: white;
-      position: absolute;
       max-height: 20rem;
       overflow: auto;
+
       @include hideScroll();
+
+      &::before {
+        position: absolute;
+        content: '';
+        top: px2rem(-5);
+        height: px2rem(8);
+        width: 100%;
+        z-index: 200;
+      }
 
       &.top {
         bottom: px2rem(36);
@@ -135,12 +131,12 @@
       <div
         v-if="isVisible"
         class="backDrop"
-        @mouseenter="(e) => dropDown(e, 'close')"
+        @click="(e) => dropDown(e, 'close')"
       ></div>
       <button
         class="menu-btn"
         type="button"
-        @click="(e) => dropDown(e, 'open')"
+        @click="(e) => dropDown(e, 'toggle')"
       >
         {{ selectedCountText || selectPlaceholder }}
         <span class="dropdown-arrow">
@@ -149,7 +145,7 @@
       </button>
       <div
         v-if="isVisible"
-        @mouseleave="(e) => dropDown(e, 'open')"
+        @mouseleave.stop="(e) => dropDown(e, 'close')"
         :class="`optionsBox animate ${alignDropdown}`"
       >
         <span
@@ -252,6 +248,7 @@ const isRequired = ref(props.inputRequired)
 const isVisible = ref(false)
 const isIntermediate = ref(false)
 const alignDropdown = ref('bottom')
+
 const propOptions = computed(() => {
   if (props.allSelectable) {
     return [
@@ -288,6 +285,7 @@ const getFullObject = (key, values) => {
 }
 
 let renderCount = 0
+
 watchEffect(() => {
   renderCount = renderCount + 1
   const validInputs = checkedValues.value?.length
@@ -333,15 +331,16 @@ const getSvgName = (current) => {
 }
 
 const dropDown = (e, action) => {
+  toggleVisibility(action)
+
   const posTop = window.innerHeight - e.clientY
   if (posTop < 150) alignDropdown.value = 'top'
-  toggleVisibility(action)
   const collection = document.querySelectorAll('.multiselect')
   for (const elm of collection) {
     elm.classList.remove('active')
     elm.classList.add('inactive')
   }
-  if (isVisible.value && action === 'open') {
+  if (isVisible.value && (action === 'open' || action === 'toggle')) {
     e.target.parentElement.classList.add('active')
     e.target.parentElement.classList.remove('inactive')
   }
@@ -385,8 +384,9 @@ const mainWrapper = computed(() => {
 const inputWrapper = computed(() => {
   const defClasses = 'input-span form-control multiselect'
   const isValid = !validInput.value && isRequired.value
-  const errClass = isValid ? 'err active' : ''
-  const combined = `${defClasses} ${errClass}`
+  const errClass = isValid ? 'err' : ''
+  const activeClass = isVisible.value ? 'active' : 'inactive'
+  const combined = `${defClasses} ${errClass} ${activeClass}`
   return RemoveMultiSpaces(combined)
 })
 </script>

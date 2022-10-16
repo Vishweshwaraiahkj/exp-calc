@@ -24,8 +24,8 @@
       h1 {
         font-size: 5rem;
         padding: 1rem;
-        border-radius: 1rem;
-        border: 0.625rem solid var(--white);
+        border-radius: var(--radius-default);
+        border: px2rem(10) solid var(--white);
       }
 
       h2:last-child {

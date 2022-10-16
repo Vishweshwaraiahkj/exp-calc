@@ -78,6 +78,8 @@
         <div class="row">
           <div class="form-group col-6">
             <MasterPicker
+              inputPlaceholder="Add date here"
+              inputLabel="Date"
               @emitDateTime="getDateTime"
               v-model:inputDate="addeddate"
             />
@@ -90,10 +92,10 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, computed, onMounted } from 'vue'
+import { ref, watchEffect, computed, inject } from 'vue'
 import { useStore } from 'vuex'
 import { v4 as uuids4 } from 'uuid'
-import { IsValidObject, CustomSort } from '@/utils/globals.js'
+import { IsValidObject } from '@/utils/globals.js'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
@@ -131,13 +133,13 @@ const emits = defineEmits(['emitDataUpdate'])
 const store = useStore()
 
 const listOfCategories = computed(() => {
-  const unsortedCategories = store.getters['utils/getAllCategories']
-  return CustomSort(unsortedCategories, 'sortKey', 'asc')
+  return store.getters['utils/getAllCategories']
 })
+
 const listOfTypes = computed(() => {
-  const unsortedTypes = store.getters['utils/getAllTypes']
-  return CustomSort(unsortedTypes, 'sortKey', 'asc')
+  return store.getters['utils/getAllTypes']
 })
+
 const description = ref(null)
 const amount = ref(null)
 const typeList = ref([])
@@ -156,6 +158,22 @@ const getDateTime = (dateTime) => {
   addeddate.value = dateTime
 }
 
+const getCats = (categoryIds) => {
+  const objList = categoryIds.map((i) => {
+    const catObj = inject('categories').value?.find((k) => k.id === i)
+    return catObj
+  })
+  return objList
+}
+
+const getTypes = (typeIds) => {
+  const objList = typeIds.map((i) => {
+    const typeObj = inject('types').value?.find((k) => k.id === i)
+    return typeObj
+  })
+  return objList
+}
+
 const defaultCats = ref([])
 const defaultTypes = ref([])
 
@@ -164,8 +182,8 @@ watchEffect(() => {
     description.value = props.defaultsObj.description
     amount.value = props.defaultsObj.amount
     addeddate.value = props.defaultsObj.date
-    defaultCats.value = props.defaultsObj.category
-    defaultTypes.value = props.defaultsObj.type
+    defaultCats.value = getCats(props.defaultsObj.category)
+    defaultTypes.value = getTypes(props.defaultsObj.type)
   }
 })
 
@@ -198,12 +216,13 @@ const updateData = (type) => {
 
   const updateObj = {
     id: type === 'update' ? props.defaultsObj?.id : uuids4(),
-    categoryList: categoryList.value.filter((i) => i),
-    typeList: typeList.value.filter((i) => i),
+    categoryList: categoryList.value.map((i) => i.id).filter((i) => i),
+    typeList: typeList.value.map((i) => i.id).filter((i) => i),
     description: description.value,
     amount: amount.value,
     addeddate: addeddate.value
   }
+
   emits('emitDataUpdate', updateObj, type)
   if (type === 'add') clearForm()
   return true
@@ -218,11 +237,6 @@ const addCancel = () => {
     clearForm()
   }
 }
-
-onMounted(() => {
-  store.dispatch('utils/fetchAllCategories')
-  store.dispatch('utils/fetchAllTypes')
-})
 
 document.onkeydown = function (e) {
   if (e.key === 'n' && (e.ctrlKey || e.metaKey)) {

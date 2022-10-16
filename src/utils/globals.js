@@ -1,6 +1,7 @@
 import ErrorMessages from '@/constants/Errors'
 import fs from 'fs'
 import * as path from 'path'
+import { monthStrings } from '@/constants/DateTime'
 
 export const ensureDirExists = (filePath) => {
   const dirname = path.dirname(filePath)
@@ -93,27 +94,6 @@ const ExpandAllByKey = (dataArray, key) => {
     return i[key].map((j) => ({ ...i, [key]: j }))
   })
   return expanded.flat()
-}
-
-export const HideBodyOverlay = (event, itemsClass) => {
-  event?.preventDefault()
-  if (itemsClass) {
-    const items = document.getElementsByClassName(itemsClass)
-    for (let i = 0; i < items.length; i++) {
-      items[i].classList.add('d-none')
-    }
-  }
-  document.getElementById('bodyOverlay').remove()
-}
-
-export const AddBodyOverlay = (event, itemsClass, backdropColor) => {
-  event?.preventDefault()
-  document.getElementById('bodyOverlay')?.remove()
-  const elem = document.createElement('div')
-  elem.setAttribute('id', 'bodyOverlay')
-  elem.setAttribute('class', backdropColor || 'dark')
-  elem.onclick = () => HideBodyOverlay(event, itemsClass)
-  document.body.appendChild(elem)
 }
 
 export const IsSimilarObject = (oldObject, newObject) => {
@@ -264,11 +244,28 @@ export const GroupByKey = (dataArray, key) => {
   const expandedData = ExpandAllByKey(dataArray, key)
 
   const result = expandedData.reduce((r, a) => {
-    r[a[key].optValue] = r[a[key].optValue] || []
-    r[a[key].optValue].push(a)
+    r[a[key]] = r[a[key]] || []
+    r[a[key]].push(a)
     return r
   }, Object.create(null))
   return result
+}
+
+export const fetchMstrMonth = (dateRefStr, type) => {
+  if (!dateRefStr) return monthStrings[0]
+  let monthNum = new Date(dateRefStr).getMonth() + 1
+  if (type === 'next') {
+    monthNum = new Date(dateRefStr).getMonth() + 2
+  } else if (type === 'previous') {
+    monthNum = new Date(dateRefStr).getMonth()
+  }
+  if (monthNum > 12) {
+    monthNum = 1
+  } else if (monthNum < 1) {
+    monthNum = 12
+  }
+  const monthObject = monthStrings.find((i) => i.id === monthNum)
+  return monthObject
 }
 
 export const CustomDates = (format, dateStr) => {
@@ -288,7 +285,14 @@ export const CustomDates = (format, dateStr) => {
   hours12 = hours12 || 12
   const strTime = hours12 + ':' + minutes + ' ' + amPm
 
+  // string format months
+  const fullMonthStr = fetchMstrMonth(`${fullYear}-${digitsMonth}`).long
+
   switch (format) {
+    case 'MMMM YYYY':
+      DateFormatted = `${fullMonthStr} ${fullYear}`
+      break
+
     case 'YYYY-MM':
       DateFormatted = `${fullYear}-${digitsMonth}`
       break
@@ -311,7 +315,11 @@ export const CustomDates = (format, dateStr) => {
 
 export const FilterByMonth = (itemsArray, filterDate) => {
   if (!itemsArray?.length) return []
-  if (!filterDate) filterDate = CustomDates('YYYY-MM')
+  if (!filterDate) {
+    filterDate = CustomDates('YYYY-MM')
+  } else {
+    filterDate = CustomDates('YYYY-MM', filterDate)
+  }
   return itemsArray?.filter((i) => {
     return CustomDates('YYYY-MM', i.date) === filterDate
   })

@@ -20,7 +20,7 @@ export const tableHeaders = [
     sort: true
   },
   {
-    name: 'Date(YYYY-MM-DD)',
+    name: 'Date and Time',
     actionType: 'date',
     sort: true
   },

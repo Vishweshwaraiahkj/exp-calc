@@ -23,27 +23,31 @@
   .input-span {
     position: relative;
 
-    .clear-icon ~ .master-input {
+    .clear-icon ~ .master-input,
+    .right-icon ~ .master-input {
       padding-right: px2rem(45);
     }
 
-    .input-icon ~ .master-input {
+    .left-icon ~ .master-input {
       padding-left: px2rem(45);
     }
 
-    .input-icon,
-    .clear-icon {
+    .left-icon,
+    .clear-icon,
+    .right-icon {
       position: absolute;
       padding: 1rem;
       cursor: pointer;
       width: px2rem(45);
       height: 100%;
+      z-index: 202;
     }
 
-    .input-icon {
+    .left-icon {
       left: 0;
     }
-    .clear-icon {
+    .clear-icon,
+    .right-icon {
       right: 0;
     }
   }
@@ -56,17 +60,23 @@
     </label>
     <span :class="inputWrapper">
       <MasterIcon
-        v-if="hasIcon"
-        :svgName="hasIcon"
+        v-if="leftIcon"
+        :svgName="leftIcon"
         size="small"
-        classes="input-icon"
+        classes="left-icon"
       />
       <MasterIcon
         @click="clearInput"
-        v-if="clearTrue"
+        v-if="clearTrue && inputValue"
         size="small"
         svgName="close-filled"
         classes="clear-icon"
+      />
+      <MasterIcon
+        v-if="rightIcon && !inputValue"
+        :svgName="rightIcon"
+        size="small"
+        classes="right-icon"
       />
       <input
         :class="`master-input`"
@@ -77,9 +87,11 @@
         :checked="inputValue"
         :placeholder="inputPlaceholder"
         :required="inputRequired"
+        :readonly="isReadOnly"
         @input="updateInput"
         @focus="onFocus"
         @blur="onBlur"
+        @keypress="readOnlyInput"
       />
     </span>
     <span class="err" v-if="!validInput && inputRequired">
@@ -137,7 +149,11 @@ const props = defineProps({
     default: 'This is a required field',
     type: String
   },
-  hasIcon: {
+  leftIcon: {
+    default: '',
+    type: String
+  },
+  rightIcon: {
     default: '',
     type: String
   },
@@ -151,6 +167,10 @@ const props = defineProps({
   },
   isClearable: {
     default: true,
+    type: Boolean
+  },
+  isReadOnly: {
+    default: false,
     type: Boolean
   }
 })
@@ -192,10 +212,14 @@ const updateInput = (e) => {
   }
 }
 
-const clearInput = () => {
+const clearInput = (e) => {
+  validInput.value = false
   emits('update:inputValue', '')
-  emits('onInputClear')
+  emits('onInputClear', e)
 }
 const onFocus = (e) => emits('onFocus', e)
 const onBlur = (e) => emits('onBlur', e)
+const readOnlyInput = (e) => {
+  if (props.isReadOnly) e.preventDefault()
+}
 </script>

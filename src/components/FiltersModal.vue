@@ -27,7 +27,7 @@
       <template #header>
         <h1>
           <span>Summary</span>
-          <span v-if="!allRows && monthly"> for the month {{ monthly }} </span>
+          <span v-if="!allRows && monthly"> for {{ monthly }} </span>
         </h1>
       </template>
       <template #default>
@@ -98,7 +98,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, inject } from 'vue'
 import { GroupByKey, UnderscoreToSpace } from '@/utils/globals'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
@@ -133,14 +133,16 @@ const FilterData = (dataType) =>
   Object.keys(groupedData)
     ?.map((key) => {
       const computedData = groupedData[key]?.reduce((res, i) => {
-        if (i.type[0].optValue === dataType) {
+        const typeObj = inject('types').value?.find((k) => k.id === i.type[0])
+        if (typeObj?.optValue === dataType) {
           res = res + Number(i.amount)
         }
         return res
       }, 0)
+      const catObj = inject('categories').value?.find((k) => k.id === key)
       return {
         totalAmount: computedData.toLocaleString('en-IN'),
-        optName: UnderscoreToSpace(key),
+        optName: UnderscoreToSpace(catObj?.optName),
         colorFill: groupedData[key][0]?.category.colorFill
       }
     })

@@ -1,180 +1,224 @@
 <style lang="scss">
-.calendar-box {
+.master-calendar {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   gap: 0.25rem;
-}
 
-.calendar {
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  height: auto;
-  background-color: var(--orange);
-  color: var(--light);
-  box-shadow: boxShadow(dark);
+  .clear-icon {
+    z-index: 202;
+  }
 
-  .visible-month {
+  &.active {
+    .input-group,
+    .calendar-box {
+      z-index: 201;
+    }
+  }
+
+  .date-str.month-year {
+    cursor: pointer;
+  }
+
+  .calendar-box {
+    position: absolute;
     width: 100%;
-    height: 20%;
-    background-color: var(--purple);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    text-align: center;
-    text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+    height: auto;
+    background-color: var(--orange);
+    color: var(--light);
+    box-shadow: boxShadow(dark);
+    margin-top: 0.25rem;
+    overflow: auto;
 
-    h1 {
-      font-size: 1rem;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.2rem;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
+    @include hideScroll();
+
+    &::before {
+      position: absolute;
+      left: 0;
+      right: 0;
+      content: '';
+      top: px2rem(-5);
+      height: px2rem(8);
+      width: 100%;
+      z-index: 202;
     }
 
-    p {
-      font-size: 1rem;
+    &.top {
+      bottom: px2rem(40);
+      box-shadow: boxShadow(top);
     }
 
-    .svg-holder {
-      cursor: pointer;
+    &.bottom {
+      top: 100%;
+      box-shadow: boxShadow(bottom);
+    }
 
-      &:focus {
-        @include hoverTransform(0.8);
+    .selected-details {
+      .actions,
+      .selected-str {
+        width: 100%;
+        height: 20%;
+        display: flex;
+        background-color: var(--purple);
+        align-items: center;
+        padding: 0 0.625rem;
+        text-align: center;
+        text-shadow: boxShadow(text);
+
+        p {
+          font-size: 1rem;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: px2rem(1);
+          margin: 0.625rem auto;
+        }
+
+        .svg-holder {
+          cursor: pointer;
+          margin: 0 px2rem(5);
+
+          &:focus {
+            @include hoverTransform(0.8);
+          }
+        }
+      }
+
+      .actions {
+        justify-content: space-between;
+
+        .prev-actions,
+        .next-actions {
+          display: flex;
+        }
+      }
+
+      .selected-str {
+        justify-content: center;
       }
     }
-  }
 
-  .weekdays,
-  .visible-days {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    padding: 0.2rem;
-
-    div {
-      display: grid;
-      justify-content: center;
-      align-items: center;
-      font-size: 1rem;
-      font-weight: 400;
-      letter-spacing: 0.1rem;
-      text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
-      transition: background-color 0.2s;
-      margin: px2rem(1);
-      padding: px2rem(5) 0;
+    .weekdays,
+    .visible-days {
+      @include pickerGrid(7, 1fr);
     }
-  }
 
-  .weekdays {
-    height: 10%;
-  }
+    .visible-months {
+      @include pickerGrid(4, 1fr);
 
-  .visible-days {
-    height: 70%;
+      div {
+        padding: 1rem 0;
+      }
+    }
 
-    div {
-      &.month-date:hover,
-      &.current-date:hover,
-      &.selected-date:hover {
+    .weekdays {
+      height: 10%;
+    }
+
+    .visible-days,
+    .visible-months {
+      height: 70%;
+    }
+
+    .visible-days,
+    .visible-months,
+    .unselected {
+      div:hover {
         background-color: var(--secondary);
         cursor: pointer;
       }
     }
-  }
 
-  .prev-date,
-  .next-date {
-    opacity: 0.5;
-  }
-
-  .current-date {
-    background-color: var(--secondary);
-  }
-
-  .selected-date {
-    background-color: var(--primary);
-  }
-
-  .picker-container {
-    height: 70%;
-    flex-direction: column;
-
-    span,
-    div {
-      flex: 1;
-      width: 100%;
+    .prev-date,
+    .next-date {
+      opacity: 0.5;
     }
 
-    .selected-time {
-      display: flex;
-      background-color: var(--dark);
-      color: var(--white);
-      cursor: pointer;
-
-      span {
-        height: px2rem(40);
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-      }
+    .current-date {
+      background-color: var(--secondary);
     }
 
-    .time-picker {
-      display: flex;
+    .selected-date,
+    .selected {
+      background-color: var(--primary);
+    }
 
-      span input {
-        background-color: var(--orange);
-      }
+    .picker-container {
+      height: 70%;
+      flex-direction: column;
 
-      .drop-box {
-        height: 15rem;
-        overflow: auto;
-        background-color: var(--orange);
+      span,
+      div {
         flex: 1;
-
-        @include hideScroll();
+        width: 100%;
       }
 
-      .hours-list,
-      .minutes-list,
-      .am-pm,
-      .toggler,
-      .update-data {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        height: px2rem(40);
-        width: 100%;
-        margin: px2rem(1);
-        text-align: center;
-        align-items: center;
-        text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+      .selected-time {
+        display: flex;
+        background-color: var(--dark);
+        color: var(--white);
+        cursor: pointer;
 
-        &:hover {
-          background-color: var(--gray);
+        span {
+          height: px2rem(40);
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: auto;
         }
       }
 
-      label {
-        height: 100%;
-        width: 100%;
+      .time-picker {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        cursor: pointer;
-        color: var(--light);
 
-        &.is-selected {
-          background-color: var(--dark);
-          color: var(--white);
+        span input {
+          background-color: var(--orange);
+        }
+
+        .drop-box {
+          height: 15rem;
+          overflow: auto;
+          background-color: var(--orange);
+          flex: 1;
+
+          @include hideScroll();
+        }
+
+        .hours-list,
+        .minutes-list,
+        .am-pm,
+        .toggler,
+        .update-data {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          height: px2rem(40);
+          width: 75%;
+          margin: px2rem(5) auto;
+          text-align: center;
+          align-items: center;
+          text-shadow: boxShadow(text);
+
+          &:hover {
+            background-color: var(--gray);
+          }
+        }
+
+        label {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: auto;
+          cursor: pointer;
+          color: var(--light);
+
+          &.is-selected {
+            background-color: var(--dark);
+            color: var(--white);
+          }
         }
       }
     }
@@ -182,121 +226,178 @@
 }
 </style>
 <template lang="html">
-  <div class="calendar-box">
+  <div :class="`master-calendar ${pickerType}`">
     <MasterInput
       :inputLabel="inputLabel"
       :inputPlaceholder="inputPlaceholder"
       :inputWidth="inputWidth"
-      :inputRequired="true"
+      :inputRequired="isRequired"
       inputId="datePicker"
       inputName="date-picker"
       inputType="text"
-      v-model:input-value="selectedDate"
-      @click="toggleCalendar()"
+      rightIcon="calendar"
+      v-model:inputValue="selectedDate"
       @onInputClear="onInputClear"
+      :isReadOnly="true"
+      @click.stop="(e) => toggleCalendar(e, 'toggle')"
     />
-    <div v-if="isVisible" class="calendar">
-      <div class="visible-month">
-        <MasterIcon
-          size="x-small"
-          svg-name="previous"
-          fillColor="white"
-          @click="prevMonth"
-          tabIndex="-1"
-        />
-        <div class="date">
-          <h1>{{ selectedMonth }}</h1>
+    <div
+      v-if="isVisible"
+      class="backDrop"
+      @click.stop="(e) => toggleCalendar(e, 'close')"
+    ></div>
+    <div
+      @mouseleave.stop="(e) => toggleCalendar(e, 'close')"
+      v-if="isVisible"
+      :class="`calendar-box animate ${alignDropdown}`"
+    >
+      <div class="selected-details">
+        <div class="actions">
+          <div class="prev-actions">
+            <MasterIcon
+              size="x-small"
+              svg-name="first"
+              fillColor="white"
+              @click="prevYear"
+              tabIndex="-1"
+            />
+            <MasterIcon
+              size="x-small"
+              svg-name="previous"
+              fillColor="white"
+              @click="prevMonth"
+              tabIndex="-1"
+            />
+          </div>
+          <div class="details">
+            <p>{{ `${selectedMonth} ${selectedYear}` }}</p>
+          </div>
+          <div class="next-actions">
+            <MasterIcon
+              size="x-small"
+              svg-name="next"
+              fillColor="white"
+              @click="nextMonth"
+              tabIndex="-1"
+            />
+            <MasterIcon
+              size="x-small"
+              svg-name="last"
+              fillColor="white"
+              @click="nextYear"
+              tabIndex="-1"
+            />
+          </div>
+        </div>
+        <div class="selected-str">
           <p>{{ stringDate }}</p>
         </div>
-        <MasterIcon
-          size="x-small"
-          svg-name="next"
-          fillColor="white"
-          @click="nextMonth"
-          tabIndex="-1"
-        />
       </div>
-      <div class="weekdays" v-if="showDates">
-        <div v-for="day in dayStrings" :key="day">
-          {{ day }}
-        </div>
-      </div>
-      <div class="visible-days" v-if="showDates">
+      <div v-if="isMonthPicker" class="visible-months">
         <div
-          v-for="i in visibleDays"
-          :key="i.key"
-          :class="i.class"
-          @click.stop="selectDate(i)"
+          v-for="month in procMonths"
+          :key="month.id"
+          :class="`date-str ${month.class}`"
+          @click.stop="(e) => selectMonthYear(e, month.id)"
         >
-          {{ i.date }}
+          {{ month.short }}
         </div>
       </div>
-      <div v-if="showTimer" class="picker-container input-group">
-        <div class="selected-time">
-          <span>{{ padZero(selectedTime.hrs) }}</span>
-          <span>{{ padZero(selectedTime.mins) }}</span>
-          <span>{{ selectedTime.type }}</span>
+      <div class="dates-box" v-if="isDatePicker">
+        <div class="weekdays" v-if="showDates">
+          <div v-for="day in dayStrings" :key="day">
+            {{ day }}
+          </div>
         </div>
-        <div class="time-picker">
-          <div class="drop-box">
-            <span
-              class="hours-list"
-              v-for="i in 12"
-              :key="i"
-              @click.stop="selectHours(i)"
-            >
-              <label
-                v-if="selectedTime.hrs === i"
-                class="is-selected"
-                id="selected_hr"
-              >
-                {{ padZero(i) }}
-              </label>
-              <label v-else class="un-selected">
-                {{ padZero(i) }}
-              </label>
-            </span>
+        <div class="visible-days" v-if="showDates">
+          <div
+            v-for="i in visibleDays"
+            :key="i.key"
+            :class="i.class"
+            @click.stop="selectDate(i)"
+          >
+            {{ i.date }}
           </div>
-          <div class="drop-box">
-            <span
-              class="minutes-list"
-              v-for="i in 60"
-              :key="i"
-              @click.stop="selectMinutes(i - 1)"
-            >
-              <label
-                v-if="selectedTime.mins === i - 1"
-                class="is-selected"
-                id="selected_mn"
-              >
-                {{ padZero(i - 1) }}
-              </label>
-              <label v-else class="un-selected">
-                {{ padZero(i - 1) }}
-              </label>
-            </span>
+        </div>
+        <div v-if="showTimer" class="picker-container input-group">
+          <div class="selected-time">
+            <span>{{ padZero(selectedTime.hrs) }}</span>
+            <span>{{ padZero(selectedTime.mins) }}</span>
+            <span>{{ selectedTime.type }}</span>
           </div>
-          <div class="drop-box">
-            <span class="am-pm" @click="selectType('AM')">
-              <label :class="`${selectedTime.type === 'AM' && 'is-selected'}`">
-                AM
-              </label>
-            </span>
-            <span class="am-pm" @click="selectType('PM')">
-              <label :class="`${selectedTime.type === 'PM' && 'is-selected'}`">
-                PM
-              </label>
-            </span>
-            <span class="toggler" @click="showCalendar()">
-              <label class="toggle-cal">
-                <MasterIcon svgName="calendar" fillColor="#fff" size="small" />
-              </label>
-            </span>
-            <span class="update-data" @click="updateInputStr()">
-              <label class="update-date-time">
-                <MasterIcon svgName="check-square" fillColor="#fff" size="28" />
-              </label>
-            </span>
+          <div class="time-picker">
+            <div class="drop-box">
+              <span
+                class="hours-list"
+                v-for="i in 12"
+                :key="i"
+                @click.stop="selectHours(i)"
+              >
+                <label
+                  v-if="selectedTime.hrs === i"
+                  class="is-selected"
+                  id="selected_hr"
+                >
+                  {{ padZero(i) }}
+                </label>
+                <label v-else class="un-selected">
+                  {{ padZero(i) }}
+                </label>
+              </span>
+            </div>
+            <div class="drop-box">
+              <span
+                class="minutes-list"
+                v-for="i in 60"
+                :key="i"
+                @click.stop="selectMinutes(i - 1)"
+              >
+                <label
+                  v-if="selectedTime.mins === i - 1"
+                  class="is-selected"
+                  id="selected_mn"
+                >
+                  {{ padZero(i - 1) }}
+                </label>
+                <label v-else class="un-selected">
+                  {{ padZero(i - 1) }}
+                </label>
+              </span>
+            </div>
+            <div class="drop-box">
+              <span class="am-pm" @click="selectType('AM')">
+                <label
+                  :class="`${selectedTime.type === 'AM' && 'is-selected'}`"
+                >
+                  AM
+                </label>
+              </span>
+              <span class="am-pm" @click="selectType('PM')">
+                <label
+                  :class="`${selectedTime.type === 'PM' && 'is-selected'}`"
+                >
+                  PM
+                </label>
+              </span>
+              <span class="toggler" @click="dateOrTime('date')">
+                <label class="toggle-cal">
+                  <MasterIcon
+                    svgName="calendar"
+                    fillColor="#fff"
+                    size="small"
+                  />
+                </label>
+              </span>
+              <span class="update-data" @click="(e) => updateInputStr(e)">
+                <label class="update-date-time">
+                  <MasterIcon
+                    svgName="check-square"
+                    fillColor="#fff"
+                    size="28"
+                  />
+                </label>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -304,7 +405,8 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { fetchMstrMonth } from '@/utils/globals'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import { monthStrings, dayStrings } from '@/constants/DateTime'
@@ -313,7 +415,7 @@ const emits = defineEmits(['emitDateTime'])
 
 const props = defineProps({
   inputLabel: {
-    default: 'Date',
+    default: '',
     type: String
   },
   inputDate: {
@@ -327,6 +429,14 @@ const props = defineProps({
   inputWidth: {
     default: '100%',
     type: String
+  },
+  pickerType: {
+    default: 'date-picker',
+    type: String
+  },
+  isRequired: {
+    default: false,
+    type: Boolean
   }
 })
 
@@ -337,6 +447,9 @@ const selectedYear = ref()
 const stringDate = ref()
 const defaultSel = ref()
 const dateObj = ref({})
+const alignDropdown = ref('bottom')
+const isDatePicker = ref(true)
+const isMonthPicker = ref(false)
 
 const visibleDays = ref([])
 
@@ -361,27 +474,21 @@ const getDayShortStr = (date) => {
   return new Date(date).toLocaleString('default', { weekday: 'short' })
 }
 
-const getCustomMonth = (dateRefStr, type) => {
-  if (!dateRefStr) return monthStrings[0]
-  let monthNum = new Date(dateRefStr).getMonth() + 1
-  if (type === 'next') {
-    monthNum = new Date(dateRefStr).getMonth() + 2
-  } else if (type === 'previous') {
-    monthNum = new Date(dateRefStr).getMonth()
-  }
-  if (monthNum > 12) {
-    monthNum = 1
-  } else if (monthNum < 1) {
-    monthNum = 12
-  }
-  const monthObject = monthStrings.find((i) => i.id === monthNum)
-  return monthObject
-}
+const procMonths = computed(() => {
+  return monthStrings?.map((i) => {
+    if (i.short === selectedMonth.value) {
+      i.class = 'selected'
+    } else {
+      i.class = 'unselected'
+    }
+    return i
+  })
+})
 
 const processCalendar = () => {
   visibleDays.value = []
 
-  selectedMonth.value = getCustomMonth(dateRef.value, 'current').short
+  selectedMonth.value = fetchMstrMonth(dateRef.value, 'current').short
 
   stringDate.value = dateRef.value.toDateString()
 
@@ -415,16 +522,16 @@ const processCalendar = () => {
     visibleDays.value.push({
       class: 'prev-date',
       date: prevLastDay - x + 1,
-      month: getCustomMonth(dateRef.value, 'previous').short,
+      month: fetchMstrMonth(dateRef.value, 'previous').short,
       key: `prev-date-${prevLastDay - x + 1}`
     })
   }
 
   for (let i = 1; i <= lastDay; i++) {
     if (
-      i === defaultSel.value.getDate() &&
-      defaultSel.value.getMonth() === dateRef.value.getMonth() &&
-      defaultSel.value.getFullYear() === dateRef.value.getFullYear()
+      i === defaultSel.value?.getDate() &&
+      defaultSel.value?.getMonth() === dateRef.value.getMonth() &&
+      defaultSel.value?.getFullYear() === dateRef.value.getFullYear()
     ) {
       visibleDays.value.push({
         class: 'selected-date',
@@ -469,40 +576,83 @@ const processCalendar = () => {
     visibleDays.value.push({
       class: 'next-date',
       date: j,
-      month: getCustomMonth(dateRef.value, 'next').short,
+      month: fetchMstrMonth(dateRef.value, 'next').short,
       key: `next-date-${j}`
     })
   }
 }
 
-const toggleCalendar = () => {
-  showDates.value = true
-  showTimer.value = false
-  isVisible.value = !isVisible.value
+const toggleVisibility = (action) => {
+  if (action === 'open') {
+    isVisible.value = true
+  } else if (action === 'close') {
+    isVisible.value = false
+  } else {
+    isVisible.value = !isVisible.value
+  }
+  dateOrTime('date')
 }
 
-const showCalendar = () => {
-  showDates.value = true
-  showTimer.value = false
+const toggleCalendar = (e, action) => {
+  toggleVisibility(action)
+
+  const posTop = window.innerHeight - e.clientY
+  if (posTop < 150) alignDropdown.value = 'top'
+
+  const collection = document.querySelectorAll('.master-calendar')
+  for (const elm of collection) {
+    elm.classList.remove('active')
+    elm.classList.add('inactive')
+  }
+
+  if (isVisible.value && (action === 'open' || action === 'toggle')) {
+    e.target.closest('.master-calendar')?.classList.add('active')
+    e.target.closest('.master-calendar')?.classList.remove('inactive')
+  }
+}
+
+const dateOrTime = (type) => {
+  if (type === 'date') {
+    showDates.value = true
+    showTimer.value = false
+  } else if (type === 'time') {
+    showDates.value = false
+    showTimer.value = true
+  }
 }
 
 const prevMonth = () => {
   const prevMonthNum = dateRef.value.getMonth() - 1
   dateRef.value.setMonth(prevMonthNum)
   processCalendar()
-  showDates.value = true
-  showTimer.value = false
+  dateOrTime('date')
 }
 
 const nextMonth = () => {
   const nextMonthNum = dateRef.value.getMonth() + 1
   dateRef.value.setMonth(nextMonthNum)
   processCalendar()
-  showDates.value = true
-  showTimer.value = false
+  dateOrTime('date')
+}
+
+const prevYear = () => {
+  const prevYearNum = dateRef.value.getFullYear() - 1
+  dateRef.value.setYear(prevYearNum)
+  processCalendar()
+}
+
+const nextYear = () => {
+  const nextYearNum = dateRef.value.getFullYear() + 1
+  dateRef.value.setYear(nextYearNum)
+  processCalendar()
 }
 
 onMounted(() => {
+  if (props.pickerType === 'month-picker') {
+    isMonthPicker.value = true
+    isDatePicker.value = false
+  }
+
   if (props.inputDate) {
     selectedDate.value = props.inputDate
     dateRef.value = new Date(props.inputDate)
@@ -511,8 +661,11 @@ onMounted(() => {
   processCalendar()
 })
 
-const onInputClear = () => {
+const onInputClear = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
   dateRef.value = new Date()
+  selectedDate.value = ''
   emits('emitDateTime', '')
   processCalendar()
 }
@@ -534,11 +687,10 @@ const selectDate = (date) => {
     return false
   }
   dateObj.value = date
-  showDates.value = false
-  showTimer.value = true
+  dateOrTime('time')
 }
 
-const updateInputStr = () => {
+const updateInputStr = (e) => {
   const hrs = padZero(selectedTime.value.hrs)
   const mins = padZero(selectedTime.value.mins)
   const type = selectedTime.value.type
@@ -548,6 +700,18 @@ const updateInputStr = () => {
   defaultSel.value = new Date(finalDateTime)
   emits('emitDateTime', finalDateTime)
   processCalendar()
-  toggleCalendar()
+  toggleCalendar(e, 'close')
+}
+
+const selectMonthYear = (e, month) => {
+  const fullYear = dateRef.value?.getFullYear()
+  const yearMonth = `${fullYear}-${padZero(month)}`
+  const shortMonth = fetchMstrMonth(yearMonth, 'current').short
+  const longMonth = fetchMstrMonth(yearMonth, 'current').long
+  const finalValue = `${longMonth} ${fullYear}`
+  selectedMonth.value = shortMonth
+  selectedDate.value = finalValue
+  emits('emitDateTime', finalValue)
+  toggleCalendar(e, 'close')
 }
 </script>

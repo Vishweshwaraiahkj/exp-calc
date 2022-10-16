@@ -63,7 +63,7 @@ h6 {
 
 p {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
 }
 
 abbr[title],
@@ -199,7 +199,6 @@ label {
 
 input,
 button {
-  border-radius: 0;
   overflow: visible;
   padding: px2rem(2) px2rem(10);
 
@@ -215,11 +214,21 @@ button {
 button {
   -webkit-appearance: button;
   cursor: pointer;
+  border-radius: var(--radius-default);
 
   &::-moz-focus-inner {
     padding: 0;
     border-style: none;
   }
+}
+
+input,
+textarea {
+  display: block;
+  border: none;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--radius-default);
 }
 
 input {
@@ -242,16 +251,6 @@ input {
   &[type="month"] {
     -webkit-appearance: listbox;
   }
-}
-
-input,
-select,
-optgroup,
-textarea {
-  display: block;
-  border: none;
-  height: 100%;
-  width: 100%;
 }
 
 textarea {
@@ -356,7 +355,7 @@ hr {
 }
 
 small,
-.small {
+.small-text {
   font-size: 80%;
   font-weight: 400;
 }
@@ -370,7 +369,7 @@ small,
   padding: 0.25rem;
   background-color: var(--white);
   border: px2rem(1) solid var(--light);
-  border-radius: 0.25rem;
+  border-radius: var(--radius-default);
   max-width: 100%;
   height: auto;
 }
@@ -937,7 +936,7 @@ pre {
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
-  border-radius: 0;
+  border-radius: var(--radius-default);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   &:hover {
@@ -1025,12 +1024,13 @@ nav {
   &.menu {
     a {
       -webkit-app-region: no-drag;
-      color: var(--dark);
       background-color: var(--menu-color);
+      border-radius: var(--radius-default);
       box-shadow: boxShadow(menu);
-      font-weight: bold;
       display: inline-flex;
       align-items: center;
+      color: var(--dark);
+      font-weight: bold;
       padding: 0 1rem;
       height: 100%;
 
@@ -1074,7 +1074,7 @@ footer,
   word-wrap: break-word;
   background-color: var(--white);
   background-clip: border-box;
-  border-radius: 0.625rem;
+  border-radius: var(--radius-default);
   box-shadow: boxShadow(card);
   white-space: nowrap;
 
@@ -1098,10 +1098,6 @@ footer,
     &:not(.noBg) {
       background-color: rgba(0, 0, 0, 0.03);
       border-bottom: px2rem(1) solid rgba(0, 0, 0, 0.125);
-    }
-
-    &:first-child {
-      border-radius: calc(0.25rem - px2rem(1)) calc(0.25rem - px2rem(1)) 0 0;
     }
 
     &+.list-group .list-group-item:first-child {
@@ -1134,10 +1130,6 @@ footer,
     &:not(.noBg) {
       background-color: rgba(0, 0, 0, 0.03);
       border-top: px2rem(1) solid rgba(0, 0, 0, 0.125);
-    }
-
-    &:last-child {
-      border-radius: 0 0 calc(0.25rem - px2rem(1)) calc(0.25rem - px2rem(1));
     }
   }
 
@@ -1564,6 +1556,7 @@ footer,
   max-width: 100%;
   margin-bottom: 2rem;
   background-color: $table-bg;
+  border-radius: var(--radius-default);
 
   thead,
   tbody,
@@ -1572,19 +1565,20 @@ footer,
 
       th,
       td {
-        text-align: left;
+        border-radius: var(--radius-default);
         padding: $table-cell-padding;
         vertical-align: top;
+        text-align: left;
         border-top: 0;
       }
     }
   }
 
   thead tr th {
+    border-bottom: px2rem(1) solid rgba(0, 0, 0, .12);
     font-weight: $table-header-font-weight;
     color: $table-header-font-color;
     vertical-align: bottom;
-    border-bottom: px2rem(1) solid rgba(0, 0, 0, .12);
   }
 
   thead.dark {
@@ -1632,87 +1626,21 @@ footer,
 
   // Hover effect
   &-hover {
-    tbody tr:hover {
-
-      td,
-      th {
-        background-color: $table-bg-hover;
-        border: 0;
-      }
-    }
-  }
-}
-
-
-@media screen and (max-width: 768px) {
-
-  // Tighten up spacing
-  .table {
-    margin-bottom: 0;
-    background-color: transparent;
-
-    thead,
-    tfoot {
-      display: none;
-    }
-
     tbody {
-      display: block;
+      tr:hover {
 
-      tr {
-        display: block;
-        border: px2rem(1) solid $table-border-color;
-        border-radius: px2rem(2);
-        margin-bottom: $table-cell-padding;
-
-        td {
-          background-color: $table-bg;
-          display: inline-block;
-          vertical-align: middle;
-          text-align: right;
-        }
-
-        td[data-title]:before {
-          content: attr(data-title);
-          float: left;
-          font-size: inherit;
-          font-weight: $table-header-font-weight;
-          color: $table-header-font-color;
-        }
-      }
-    }
-
-    // Special overrides for the striped tables
-    &-striped {
-
-      tbody tr td,
-      tbody tr:nth-child(odd) {
-        background-color: $table-bg;
-      }
-
-      tbody tr td:nth-child(odd) {
-        border: 0;
-        border-bottom: px2rem(1) solid $table-border-color;
-        background-color: $table-bg-accent;
-      }
-    }
-
-    // Special overrides for hover tables
-    &-hover {
-      tbody {
-
-        tr:hover td,
-        tr:hover {
-          background-color: $table-bg;
-        }
-
-        tr td:hover {
+        td,
+        th {
           background-color: $table-bg-hover;
+          border: 0;
         }
+      }
+
+      tr.no-effects:hover td {
+        background-color: transparent;
       }
     }
   }
-
 }
 
 .left-arrow {
@@ -1740,7 +1668,7 @@ footer,
 .type {
   display: inline-block;
   padding: 0 px2rem(5);
-  border-radius: px2rem(3);
+  border-radius: var(--radius-default);
   margin: px2rem(3);
   white-space: nowrap;
 }
@@ -1762,6 +1690,7 @@ span.err {
   width: 100%;
   display: block;
   margin-top: px2rem(3);
+  border-radius: var(--radius-default);
 }
 
 .err.form-control {
@@ -1806,7 +1735,7 @@ span.err {
   min-height: 5rem;
   color: var(--white);
   z-index: 99999;
-  border-radius: 0.25rem;
+  border-radius: var(--radius-default);
   box-shadow: boxShadow(notify);
 
   header,
@@ -1832,19 +1761,19 @@ span.err {
   }
 
   &.success {
-    background-color: var(--success-trans);
+    background-color: var(--success-lt);
   }
 
   &.info {
-    background-color: var(--info-trans);
+    background-color: var(--info-lt);
   }
 
   &.warning {
-    background-color: var(--warning-trans);
+    background-color: var(--warning-lt);
   }
 
   &.error {
-    background-color: var(--danger-trans);
+    background-color: var(--danger-lt);
   }
 
   &.top-right {
@@ -1908,4 +1837,19 @@ span.err {
 
 .hover-transform {
   @include hoverTransform();
+}
+
+.backDrop {
+  display: block;
+  position: fixed;
+  z-index: 100;
+  padding-top: px2rem(100);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0 0 0 / 25%);
+
+  @include hideScroll();
 }

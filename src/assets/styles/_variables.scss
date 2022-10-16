@@ -64,19 +64,26 @@
     --dark-disabled: #434e58;
     --dark-border: #292e32;
 
-    --success-trans: #28a74599;
-    --info-trans: #17a2b899;
-    --warning-trans: #ffc10799;
-    --danger-trans: #dc354599;
-    --black-trans: #00000099;
-    --white-trans: #ffffff99;
+    --success-trans: #28a74538;
+    --info-trans: #17a2b838;
+    --warning-trans: #ffc10738;
+    --danger-trans: #dc354538;
+    --black-trans: #00000038;
+    --white-trans: #ffffff38;
+
+    --success-lt: #28a745ee;
+    --info-lt: #17a2b8ee;
+    --warning-lt: #ffc107ee;
+    --danger-lt: #dc3545ee;
+    --black-lt: #000000ee;
+    --white-lt: #ffffffee;
 
     --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --global-font-family: "Trebuchet MS", sans-serif;
     --minimal-shadow: 0 1px 3px;
     --default-shadow: 1px 1px 5px;
-    --dark-shadow: 0 0.5rem 3rem;
+    --dark-shadow: 0 5px 10px;
     --top-shadow: 2px -3px 4px;
     --bottom-shadow: 2px 3px 4px;
     --svg-light-shadow: 3px 3px 3px;
@@ -86,6 +93,9 @@
     --notify-shadow: 5px 5px 5px;
     --card-shadow: 0 4px 8px 0;
     --card-hover-shadow: 0 8px 16px 0;
+    --text-shadow: 0 0.3rem 0.5rem;
+
+    --radius-default: 0.25rem;
 }
 
 $table-header-font-weight: 400;

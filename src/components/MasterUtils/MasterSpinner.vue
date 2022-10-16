@@ -6,10 +6,10 @@
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  font-size: 30px;
-  padding: 1em;
+  font-size: px2rem(30);
+  padding: px2rem(16);
   position: fixed;
-  margin-bottom: 0.25em;
+  margin-bottom: 0.25rem;
   transition: 0.3s color, 0.3s border, 0.3s transform, 0.3s opacity;
   background: v-bind('backDropColor');
 }
@@ -20,7 +20,7 @@
   color: inherit;
   pointer-events: none;
   transform: rotateZ(45deg);
-  perspective: 1000px;
+  perspective: px2rem(1000);
   border-radius: 50%;
   background-color: transparent;
 
@@ -80,7 +80,7 @@ const loaderSize = computed(() => {
 
 const backDropColor = computed(() => {
   if (props.noBg) {
-    return '#ffffff'
+    return 'transparent'
   } else {
     return `radial-gradient(
       ellipse farthest-corner at center bottom,

@@ -10,7 +10,7 @@
       flex: 1;
       text-align: center;
       padding: 0.5rem;
-      border-radius: 1rem;
+      border-radius: var(--radius-default);
     }
 
     .balance-count {
@@ -200,7 +200,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { FilterByDay, FilterByMonth } from '@/utils/globals'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
@@ -224,7 +224,8 @@ const monthsData = computed(() => FilterByMonth(props.totalData))
 
 const getDataByType = (dataArray, type) => {
   const filteredData = dataArray?.filter((i) => {
-    return i.type[0]?.optValue === type
+    const catObj = inject('types').value?.find((k) => k.id === i.type[0])
+    return catObj?.optValue === type
   })
 
   const dataValue = filteredData?.reduce((acc, item) => {

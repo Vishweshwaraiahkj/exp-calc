@@ -7,16 +7,9 @@
   padding-bottom: 0.625rem;
 }
 
-.match-space {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-
 table.table {
-  margin-bottom: 1rem;
-  padding: 0.625rem;
+  margin-bottom: px2rem(16);
+  padding: px2rem(10);
 
   thead tr th {
     min-width: 20%;
@@ -31,6 +24,7 @@ table.table {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-radius: var(--radius-default);
     }
 
     .sort-icon {
@@ -38,46 +32,67 @@ table.table {
     }
   }
 
-  tbody tr td {
-    min-width: 20%;
-    max-width: 20%;
+  tbody tr {
+    td {
+      min-width: 20%;
+      max-width: 20%;
 
-    &:last-child {
-      text-align: center;
+      &:last-child {
+        text-align: center;
+      }
+    }
+
+    &.table-tools td {
+      padding: 0;
     }
   }
-}
 
-.actions {
-  display: inline-flex;
+  .match-space {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: px2rem(2) solid var(--dark);
+    margin: px2rem(10) 0 0 0;
+    padding: px2rem(10) 0 0 0;
+    box-shadow: boxShadow(top);
 
-  .action {
-    padding: 0.5rem;
-    margin: 0 px2rem(3);
-    border-radius: px2rem(3);
-
-    &.delete {
-      background-color: red;
-    }
-
-    &.update {
-      background-color: green;
+    .flex-center > div {
+      box-shadow: boxShadow(dark);
     }
   }
-}
 
-.total-rows {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.125rem 0.625rem;
-  background: var(--white);
-  color: var(--dark);
-  height: px2rem(38);
-  font-size: px2rem(14);
-  font-weight: 400;
-  line-height: 1.5;
-  white-space: nowrap;
-  box-shadow: boxShadow();
+  .actions {
+    display: inline-flex;
+
+    .action {
+      padding: 0.5rem;
+      margin: 0 px2rem(3);
+      border-radius: var(--radius-default);
+
+      &.delete {
+        background-color: red;
+      }
+
+      &.update {
+        background-color: green;
+      }
+    }
+  }
+
+  .total-rows {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    background: var(--white);
+    color: var(--dark);
+    height: px2rem(40);
+    font-size: px2rem(14);
+    font-weight: 400;
+    line-height: 1.5;
+    white-space: nowrap;
+    box-shadow: boxShadow(dark);
+    border-radius: var(--radius-default);
+  }
 }
 </style>
 <template lang="html">
@@ -94,7 +109,7 @@ table.table {
         input-placeholder="Search the table!"
         input-type="text"
         input-width="25%"
-        hasIcon="search"
+        leftIcon="search"
         v-model:input-value="searchKey"
       />
       <div class="flex-center">
@@ -111,15 +126,14 @@ table.table {
           v-model:input-value="allRows"
           @change="filterRows"
         />
-        <MasterInput
+        <MasterPicker
           v-if="!allRows"
-          input-id="monthlyData"
-          input-name="monthly"
-          input-placeholder="Select a month"
-          input-type="month"
-          input-width="15rem"
-          v-model:input-value="selectedMonth"
-          @change="filterRows"
+          inputPlaceholder="Add date here"
+          pickerType="month-picker"
+          :isRequired="false"
+          v-model:inputDate="selectedMonth"
+          inputWidth="15rem"
+          @emitDateTime="getDateTime"
           :isClearable="false"
         />
         <FiltersModal
@@ -153,7 +167,7 @@ table.table {
       <tbody v-if="visibleData.length">
         <tr v-for="item in visibleData" :key="item.id">
           <td>
-            <template v-for="type in item.type" :key="type.id">
+            <template v-for="type in getTypes(item.type)" :key="type.id">
               <ColoredCard :item="type" classes="type" />
             </template>
           </td>
@@ -161,7 +175,7 @@ table.table {
             {{ Number(item.amount).toLocaleString('en-IN') }}
           </td>
           <td class="categories">
-            <template v-for="cat in item.category" :key="cat.id">
+            <template v-for="cat in getCats(item.category)" :key="cat.id">
               <ColoredCard :item="cat" classes="category" />
             </template>
           </td>
@@ -198,6 +212,34 @@ table.table {
             </div>
           </td>
         </tr>
+        <tr class="table-tools no-effects">
+          <td :colspan="tableHeaders.length">
+            <div class="match-space">
+              <div class="flex-center">
+                <MasterSelect
+                  @emitSelected="getCheckedTypes"
+                  :selectPlaceholder="perPageOptions[0].optName"
+                  :selectOptions="filteredPerPage"
+                  :singleSelect="true"
+                  :selectWidth="`15rem`"
+                  :selectText="false"
+                />
+                <span class="total-rows">
+                  Total Rows: {{ finalData?.length }}
+                </span>
+              </div>
+              <MasterPaginate
+                v-if="visibleData.length"
+                :totalPages="totalPages"
+                :perPage="perPage"
+                :currentPage="pageNumber"
+                :numBtnsCount="visibleBtns"
+                :btns-variant="`dark`"
+                @pageChanged="onPageChange"
+              />
+            </div>
+          </td>
+        </tr>
       </tbody>
       <tbody v-else>
         <tr>
@@ -205,33 +247,11 @@ table.table {
         </tr>
       </tbody>
     </table>
-    <div class="match-space">
-      <div class="flex-center">
-        <MasterSelect
-          @emitSelected="getCheckedTypes"
-          :selectPlaceholder="perPageOptions[0].optName"
-          :selectOptions="filteredPerPage"
-          :singleSelect="true"
-          :selectWidth="`15rem`"
-          :selectText="false"
-        />
-        <span class="total-rows">Total Rows: {{ finalData?.length }}</span>
-      </div>
-      <MasterPaginate
-        v-if="visibleData.length"
-        :totalPages="totalPages"
-        :perPage="perPage"
-        :currentPage="pageNumber"
-        :numBtnsCount="visibleBtns"
-        :btns-variant="`dark`"
-        @pageChanged="onPageChange"
-      />
-    </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, inject, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { v4 } from 'uuid'
 import { CustomSort, SearchTheData, CustomDates } from '@/utils/globals'
@@ -248,6 +268,7 @@ import MasterDates from '@/components/MasterUtils/MasterDates.vue'
 import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
 import BriefBoard from '@/components/BriefBoard.vue'
 import MasterDonut from '@/components/MasterUtils/MasterDonut.vue'
+import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
 
 const props = defineProps({
   totalData: {
@@ -273,6 +294,7 @@ const props = defineProps({
 const emits = defineEmits(['emitDataToShow'])
 
 const store = useStore()
+
 const pageNumber = ref(1)
 const perPage = ref(props.defaultRows)
 const sortBy = ref('date')
@@ -280,7 +302,7 @@ const sortType = ref('desc')
 const visibleBtns = ref(5)
 const searchKey = ref('')
 const finalData = ref([])
-const selectedMonth = ref(CustomDates('YYYY-MM'))
+const selectedMonth = ref(CustomDates('MMMM YYYY'))
 const allRows = ref(props.showAll)
 const filteredPerPage = ref([])
 
@@ -393,5 +415,26 @@ const updateList = (dataList, type) => {
   }
 
   store.dispatch('expenses/updateExpensesList', updatedObj)
+}
+
+const getDateTime = (dateTime) => {
+  selectedMonth.value = dateTime
+  filterRows()
+}
+
+const getCats = (categoryIds) => {
+  const objList = categoryIds.map((i) => {
+    const catObj = inject('categories').value?.find((k) => k.id === i)
+    return catObj
+  })
+  return objList
+}
+
+const getTypes = (typeIds) => {
+  const objList = typeIds.map((i) => {
+    const typeObj = inject('types').value?.find((k) => k.id === i)
+    return typeObj
+  })
+  return objList
 }
 </script>
