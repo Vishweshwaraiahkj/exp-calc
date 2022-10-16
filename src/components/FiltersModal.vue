@@ -128,22 +128,25 @@ const dataArray = computed(() => props.dataArray)
 
 const groupedData = GroupByKey(dataArray.value, 'category')
 
+const masterCategories = inject('categories')?.value
+const masterTypes = inject('types')?.value
+
 const FilterData = (dataType) =>
   groupedData &&
   Object.keys(groupedData)
     ?.map((key) => {
       const computedData = groupedData[key]?.reduce((res, i) => {
-        const typeObj = inject('types').value?.find((k) => k.id === i.type[0])
+        const typeObj = masterTypes?.find((k) => k.id === i.type[0])
         if (typeObj?.optValue === dataType) {
           res = res + Number(i.amount)
         }
         return res
       }, 0)
-      const catObj = inject('categories').value?.find((k) => k.id === key)
+      const catObj = masterCategories?.find((k) => k.id === key)
       return {
         totalAmount: computedData.toLocaleString('en-IN'),
         optName: UnderscoreToSpace(catObj?.optName),
-        colorFill: groupedData[key][0]?.category.colorFill
+        colorFill: catObj?.colorFill
       }
     })
     .filter((i) => i.totalAmount !== '0')

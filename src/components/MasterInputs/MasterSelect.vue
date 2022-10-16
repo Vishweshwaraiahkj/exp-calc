@@ -61,22 +61,13 @@
 
       @include hideScroll();
 
-      &::before {
-        position: absolute;
-        content: '';
-        top: px2rem(-5);
-        height: px2rem(8);
-        width: 100%;
-        z-index: 200;
-      }
-
       &.top {
-        bottom: px2rem(36);
+        bottom: px2rem(34);
         box-shadow: boxShadow(top);
       }
 
       &.bottom {
-        top: px2rem(36);
+        top: px2rem(34);
         box-shadow: boxShadow(bottom);
       }
 
@@ -127,27 +118,23 @@
     <label v-if="selectLabel" class="input-label">
       {{ selectLabel }}
     </label>
-    <div :class="inputWrapper">
-      <div
-        v-if="isVisible"
-        class="backDrop"
-        @click="(e) => dropDown(e, 'close')"
-      ></div>
+    <div
+      v-if="isVisible"
+      class="backDrop"
+      @click.stop="(e) => dropDown(e, 'close')"
+    ></div>
+    <div :class="inputWrapper" @mouseleave.stop="(e) => dropDown(e, 'close')">
       <button
         class="menu-btn"
         type="button"
-        @click="(e) => dropDown(e, 'toggle')"
+        @click.stop="(e) => dropDown(e, 'open')"
       >
         {{ selectedCountText || selectPlaceholder }}
         <span class="dropdown-arrow">
           <span class="down-arrow" />
         </span>
       </button>
-      <div
-        v-if="isVisible"
-        @mouseleave.stop="(e) => dropDown(e, 'close')"
-        :class="`optionsBox animate ${alignDropdown}`"
-      >
+      <div v-if="isVisible" :class="`optionsBox animate ${alignDropdown}`">
         <span
           v-for="opt in propOptions"
           :key="opt.id"
@@ -335,14 +322,16 @@ const dropDown = (e, action) => {
 
   const posTop = window.innerHeight - e.clientY
   if (posTop < 150) alignDropdown.value = 'top'
+
   const collection = document.querySelectorAll('.multiselect')
   for (const elm of collection) {
     elm.classList.remove('active')
     elm.classList.add('inactive')
   }
+
   if (isVisible.value && (action === 'open' || action === 'toggle')) {
-    e.target.parentElement.classList.add('active')
-    e.target.parentElement.classList.remove('inactive')
+    e.target.closest('.multiselect').classList.add('active')
+    e.target.closest('.multiselect').classList.remove('inactive')
   }
 }
 

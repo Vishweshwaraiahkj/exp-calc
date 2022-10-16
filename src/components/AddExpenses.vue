@@ -158,9 +158,12 @@ const getDateTime = (dateTime) => {
   addeddate.value = dateTime
 }
 
+const masterCategories = inject('categories')?.value
+const masterTypes = inject('types')?.value
+
 const getCats = (categoryIds) => {
   const objList = categoryIds.map((i) => {
-    const catObj = inject('categories').value?.find((k) => k.id === i)
+    const catObj = masterCategories?.find((k) => k.id === i)
     return catObj
   })
   return objList
@@ -168,7 +171,7 @@ const getCats = (categoryIds) => {
 
 const getTypes = (typeIds) => {
   const objList = typeIds.map((i) => {
-    const typeObj = inject('types').value?.find((k) => k.id === i)
+    const typeObj = masterTypes?.find((k) => k.id === i)
     return typeObj
   })
   return objList

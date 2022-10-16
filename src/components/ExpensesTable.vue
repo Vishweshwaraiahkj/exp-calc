@@ -167,7 +167,7 @@ table.table {
       <tbody v-if="visibleData.length">
         <tr v-for="item in visibleData" :key="item.id">
           <td>
-            <template v-for="type in getTypes(item.type)" :key="type.id">
+            <template v-for="type in getTypes(item.type)" :key="type?.id">
               <ColoredCard :item="type" classes="type" />
             </template>
           </td>
@@ -175,7 +175,7 @@ table.table {
             {{ Number(item.amount).toLocaleString('en-IN') }}
           </td>
           <td class="categories">
-            <template v-for="cat in getCats(item.category)" :key="cat.id">
+            <template v-for="cat in getCats(item.category)" :key="cat?.id">
               <ColoredCard :item="cat" classes="category" />
             </template>
           </td>
@@ -422,19 +422,26 @@ const getDateTime = (dateTime) => {
   filterRows()
 }
 
+const masterCategories = inject('categories')?.value
+const masterTypes = inject('types')?.value
+
 const getCats = (categoryIds) => {
-  const objList = categoryIds.map((i) => {
-    const catObj = inject('categories').value?.find((k) => k.id === i)
-    return catObj
-  })
+  const objList = categoryIds
+    .map((i) => {
+      const catObj = masterCategories?.find((k) => k.id === i)
+      return catObj
+    })
+    .filter((i) => i)
   return objList
 }
 
 const getTypes = (typeIds) => {
-  const objList = typeIds.map((i) => {
-    const typeObj = inject('types').value?.find((k) => k.id === i)
-    return typeObj
-  })
+  const objList = typeIds
+    .map((i) => {
+      const typeObj = masterTypes?.find((k) => k.id === i)
+      return typeObj
+    })
+    .filter((i) => i)
   return objList
 }
 </script>

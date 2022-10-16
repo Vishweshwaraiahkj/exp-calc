@@ -224,6 +224,7 @@ export const SpaceToUnderscore = (str) => {
 }
 
 export const UnderscoreToSpace = (str) => {
+  if (!str) return false
   const withSpaces = str.replace(/_+/g, ' ')
   const capitalized = withSpaces.Capitalize()
   return capitalized

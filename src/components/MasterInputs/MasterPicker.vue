@@ -14,7 +14,7 @@
   &.active {
     .input-group,
     .calendar-box {
-      z-index: 201;
+      z-index: 202;
     }
   }
 
@@ -33,17 +33,6 @@
     overflow: auto;
 
     @include hideScroll();
-
-    &::before {
-      position: absolute;
-      left: 0;
-      right: 0;
-      content: '';
-      top: px2rem(-5);
-      height: px2rem(8);
-      width: 100%;
-      z-index: 202;
-    }
 
     &.top {
       bottom: px2rem(40);
@@ -226,7 +215,15 @@
 }
 </style>
 <template lang="html">
-  <div :class="`master-calendar ${pickerType}`">
+  <div
+    v-if="isVisible"
+    class="backDrop"
+    @click.stop="(e) => toggleCalendar(e, 'close')"
+  ></div>
+  <div
+    :class="`master-calendar ${pickerType}`"
+    @mouseleave.stop="(e) => toggleCalendar(e, 'close')"
+  >
     <MasterInput
       :inputLabel="inputLabel"
       :inputPlaceholder="inputPlaceholder"
@@ -239,18 +236,9 @@
       v-model:inputValue="selectedDate"
       @onInputClear="onInputClear"
       :isReadOnly="true"
-      @click.stop="(e) => toggleCalendar(e, 'toggle')"
+      @click.stop="(e) => toggleCalendar(e, 'open')"
     />
-    <div
-      v-if="isVisible"
-      class="backDrop"
-      @click.stop="(e) => toggleCalendar(e, 'close')"
-    ></div>
-    <div
-      @mouseleave.stop="(e) => toggleCalendar(e, 'close')"
-      v-if="isVisible"
-      :class="`calendar-box animate ${alignDropdown}`"
-    >
+    <div v-if="isVisible" :class="`calendar-box animate ${alignDropdown}`">
       <div class="selected-details">
         <div class="actions">
           <div class="prev-actions">

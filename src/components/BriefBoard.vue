@@ -222,9 +222,11 @@ const expList = computed(() => props.dataList)
 const todaysData = computed(() => FilterByDay(props.totalData))
 const monthsData = computed(() => FilterByMonth(props.totalData))
 
+const masterTypes = inject('types')?.value
+
 const getDataByType = (dataArray, type) => {
   const filteredData = dataArray?.filter((i) => {
-    const catObj = inject('types').value?.find((k) => k.id === i.type[0])
+    const catObj = masterTypes?.find((k) => k.id === i.type[0])
     return catObj?.optValue === type
   })
 
