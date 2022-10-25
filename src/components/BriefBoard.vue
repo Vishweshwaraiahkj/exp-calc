@@ -80,8 +80,8 @@
 
     .daily-card {
       padding: 1rem;
-      background: var(--dark);
-      color: var(--light);
+      background: var(--item-color);
+      color: var(--bg-color);
       flex: 1;
     }
   }
@@ -96,7 +96,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fillColor="var(--light)"
+              fillColor="var(--bg-color)"
               size="small"
             />
             {{ todaysExpense.toLocaleString('en-IN') }}
@@ -107,7 +107,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fillColor="var(--light)"
+              fillColor="var(--bg-color)"
               size="small"
             />
             {{ todaysIncome.toLocaleString('en-IN') }}
@@ -118,7 +118,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fillColor="var(--light)"
+              fillColor="var(--bg-color)"
               size="small"
             />
             {{ monthsExpense.toLocaleString('en-IN') }}
@@ -129,7 +129,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fillColor="var(--light)"
+              fillColor="var(--bg-color)"
               size="small"
             />
             {{ monthsIncome.toLocaleString('en-IN') }}
@@ -141,7 +141,7 @@
           <MasterIcon
             svgName="cash-bag"
             size="x-large"
-            fillColor="var(--light)"
+            fillColor="var(--glob-light)"
             extraPath="categories"
           />
           <div class="details-box">
@@ -149,7 +149,7 @@
             <h1 id="balance" class="balance-amount">
               <MasterIcon
                 svgName="indian-rupees"
-                fillColor="var(--light)"
+                fillColor="var(--glob-light)"
                 size="medium"
               />
               {{ balanceMoney.toLocaleString('en-IN') }}
@@ -160,7 +160,7 @@
           <MasterIcon
             svgName="money-plus"
             size="x-large"
-            fillColor="var(--light)"
+            fillColor="var(--glob-light)"
             extraPath="categories"
           />
           <div class="details-box">
@@ -168,7 +168,7 @@
             <h1 id="money-plus" class="money plus">
               <MasterIcon
                 svgName="indian-rupees"
-                fillColor="var(--light)"
+                fillColor="var(--glob-light)"
                 size="medium"
               />
               +{{ incomeValue.toLocaleString('en-IN') }}
@@ -179,7 +179,7 @@
           <MasterIcon
             svgName="money-minus"
             size="x-large"
-            fillColor="var(--light)"
+            fillColor="var(--glob-light)"
             extraPath="categories"
           />
           <div class="details-box">
@@ -187,7 +187,7 @@
             <h1 id="money-minus" class="money minus">
               <MasterIcon
                 svgName="indian-rupees"
-                fillColor="var(--light)"
+                fillColor="var(--glob-light)"
                 size="medium"
               />
               -{{ expenseValue.toLocaleString('en-IN') }}

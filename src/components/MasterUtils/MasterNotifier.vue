@@ -10,7 +10,7 @@
         <MasterIcon
           size="x-small"
           svgName="close-filled"
-          fillColor="var(--light)"
+          fillColor="var(--bg-color)"
         />
       </span>
     </header>

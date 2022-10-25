@@ -144,7 +144,7 @@
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: var(--light);
+    background-color: var(--bg-color);
     background-clip: padding-box;
     border-radius: var(--radius-default);
     transition: border-color 0.15s ease-in-out;
@@ -201,19 +201,19 @@
     $border-color: '';
 
     @if $variant ==light {
-        $background-color: var(--light);
-        $text-color: var(--dark);
-        $hover-color: var(--light-hover);
-        $disabled-color: var(--light-disabled);
-        $border-color: var(--light-border);
+        $background-color: var(--bg-color);
+        $text-color: var(--item-color);
+        $hover-color: var(--bg-color-hover);
+        $disabled-color: var(--bg-color-disabled);
+        $border-color: var(--bg-color-border);
     }
 
     @else if $variant ==dark {
-        $background-color: var(--dark);
-        $text-color: var(--light);
-        $hover-color: var(--dark-hover);
-        $disabled-color: var(--dark-disabled);
-        $border-color: var(--dark-border);
+        $background-color: var(--item-color);
+        $text-color: var(--bg-color);
+        $hover-color: var(--item-color-hover);
+        $disabled-color: var(--item-color-disabled);
+        $border-color: var(--item-color-border);
     }
 
     @else if $variant ==primary {

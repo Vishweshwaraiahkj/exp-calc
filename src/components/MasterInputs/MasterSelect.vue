@@ -45,7 +45,7 @@
       background: var(--input-bg-color);
       width: 100%;
       text-align: left;
-      color: var(--dark);
+      color: var(--item-color);
       border: 0;
     }
 
@@ -55,8 +55,8 @@
       left: 0;
       z-index: 200;
       margin-top: 0.25rem;
-      background-color: var(--light);
-      color: var(--dark);
+      background-color: var(--bg-color);
+      color: var(--item-color);
       max-height: 20rem;
       overflow: auto;
 
@@ -156,7 +156,7 @@
               :classes="`check-box`"
               :key="getSvgName(opt.optValue)"
               :svgName="getSvgName(opt.optValue)"
-              fillColor="var(--dark)"
+              fillColor="var(--item-color)"
             />
             {{ opt.optName }}
           </label>

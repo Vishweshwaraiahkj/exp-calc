@@ -29,7 +29,7 @@
         <MasterIcon
           size="medium"
           svgName="grid-light"
-          fillColor="var(--dark)"
+          fillColor="var(--item-color)"
         />
       </template>
       <template #header>

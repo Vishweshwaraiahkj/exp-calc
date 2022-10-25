@@ -18,7 +18,7 @@
           @emit-data-update="updateData"
           action-type="add"
           data-type="categories"
-          fillColor="var(--dark)"
+          fillColor="var(--item-color)"
         />
       </div>
       <div v-if="categories.length" class="grid-container">
@@ -43,7 +43,7 @@
           @emitDataUpdate="updateData"
           actionType="add"
           dataType="types"
-          fillColor="var(--dark)"
+          fillColor="var(--item-color)"
         />
       </div>
       <div v-if="types.length" class="grid-container">

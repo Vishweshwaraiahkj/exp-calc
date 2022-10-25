@@ -1,6 +1,6 @@
 <style lang="scss">
 #deleteModal {
-  color: var(--dark);
+  color: var(--item-color);
 }
 </style>
 <template lang="html">

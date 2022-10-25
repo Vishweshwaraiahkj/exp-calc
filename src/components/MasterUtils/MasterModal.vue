@@ -36,10 +36,10 @@
   /* Modal Content */
   &-content {
     position: relative;
-    background-color: var(--light);
+    background-color: var(--bg-color);
     margin: auto;
     padding: 0;
-    border: px2rem(1) solid var(--dark);
+    border: px2rem(1) solid var(--item-color);
     border-radius: var(--radius-default);
     -webkit-animation-name: animateTop;
     -webkit-animation-duration: 0.4s;
@@ -49,7 +49,7 @@
 
   &-header {
     background-color: transparent;
-    color: var(--dark);
+    color: var(--item-color);
     padding: px2rem(10) 1rem;
     box-shadow: none;
   }
@@ -60,7 +60,7 @@
 
   &-footer {
     background-color: transparent;
-    color: var(--dark);
+    color: var(--item-color);
     padding: px2rem(2) 1rem;
     display: flex;
     justify-content: flex-end;
@@ -81,7 +81,7 @@
     <div class="modal-content shadow-dark" @click.stop="stopIt">
       <span class="close medium" @click="toggleModal">
         <MasterIcon
-          fillColor="var(--dark)"
+          fillColor="var(--item-color)"
           size="x-small"
           svg-name="close-cross"
         />

@@ -14,13 +14,13 @@ ul {
       cursor: pointer;
       border-top-right-radius: var(--radius-default);
       border-top-left-radius: var(--radius-default);
-      background-color: var(--dark);
-      color: var(--light);
-      border: px2rem(10) solid var(--dark);
+      background-color: var(--item-color);
+      color: var(--bg-color);
+      border: px2rem(10) solid var(--item-color);
 
       &.tab__selected {
-        background-color: var(--light);
-        color: var(--dark);
+        background-color: var(--bg-color);
+        color: var(--item-color);
         font-weight: bold;
         border-bottom: px2rem(5) solid transparent;
       }
@@ -32,11 +32,11 @@ ul {
   display: block;
   padding: px2rem(10);
   margin-bottom: 1rem;
-  background-color: var(--dark);
-  color: var(--light);
+  background-color: var(--item-color);
+  color: var(--bg-color);
   border-bottom-right-radius: var(--radius-default);
   border-bottom-left-radius: var(--radius-default);
-  border: px2rem(10) solid var(--dark);
+  border: px2rem(10) solid var(--item-color);
 }
 </style>
 <template lang="html">

@@ -2,8 +2,8 @@
 .dashboard.about {
   height: 90vh;
   width: 100vw;
-  background-color: var(--light);
-  color: var(--dark);
+  background-color: var(--bg-color);
+  color: var(--item-color);
   margin-bottom: 0rem;
   margin-top: 4rem;
   .about-container {
@@ -29,7 +29,7 @@
         size="500"
         svgName="man-vish"
         classes="profile-pic"
-        fillColor="var(--light)"
+        fillColor="var(--bg-color)"
       />
     </div>
   </div>

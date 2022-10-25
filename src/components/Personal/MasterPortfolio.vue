@@ -18,7 +18,7 @@
       font-size: 5rem;
       padding: 1rem;
       border-radius: 2rem;
-      border: px2rem(10) solid var(--dark);
+      border: px2rem(10) solid var(--item-color);
     }
 
     h2:last-child {

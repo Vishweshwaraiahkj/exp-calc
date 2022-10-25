@@ -19,25 +19,26 @@ header.header {
     .top-btn {
       -webkit-app-region: no-drag;
       background: transparent;
-      border: 2px solid transparent;
+      border: px2rem(2) solid transparent;
       width: px2rem(50);
       height: px2rem(40);
       outline: 0;
       margin: px2rem(1);
 
       &:hover {
-        background: var(--dark);
-        border: 2px solid var(--dark);
-      }
-
-      svg:hover {
-        background: var(--dark);
-        fill: var(--light);
+        background: var(--item-color);
+        border: px2rem(2) solid var(--item-color);
       }
 
       &:focus {
         outline: 0;
       }
+    }
+
+    .theme-switcher {
+      -webkit-app-region: no-drag;
+      width: px2rem(50);
+      height: px2rem(40);
     }
   }
 
@@ -63,11 +64,20 @@ header.header {
 <template lang="html">
   <header class="header main">
     <div class="controls-bar">
+      <MasterSwitch
+        labelPos="left"
+        input-width="3rem"
+        v-model:inputValue="darkTheme"
+        @click="toggleTheme"
+        checkIcon="sun-moon"
+        uncheckIcon="sun-moon"
+        class="theme-switcher"
+      />
       <button @click="minApp" class="top-btn app-minimize" title="Minimize">
         <MasterIcon
           size="x-small"
           svgName="minimize"
-          fillColor="var(--light)"
+          fillColor="var(--item-color)"
         />
       </button>
       <button @click="maxApp" :class="`top-btn ${maxClass}`" :title="maxTitle">
@@ -75,43 +85,33 @@ header.header {
           v-if="isMaximized"
           size="x-small"
           svgName="restore"
-          fillColor="var(--light)"
+          fillColor="var(--item-color)"
         />
         <MasterIcon
           v-else
           size="x-small"
           svgName="maximize"
-          fillColor="var(--light)"
+          fillColor="var(--item-color)"
         />
       </button>
       <button @click="closeApp" class="top-btn app-close" title="Close">
         <MasterIcon
           size="x-small"
           svgName="close-filled"
-          fillColor="var(--light)"
+          fillColor="var(--item-color)"
         />
       </button>
     </div>
     <div class="container-fluid logo-menus">
-      <span class="master-logo">
-        <router-link to="/">
-          <MasterIcon
-            size="large"
-            svgName="master-logo"
-            fillColor="var(--dark)"
-          />
-        </router-link>
-      </span>
+      <router-link to="/" class="master-logo">
+        <MasterIcon
+          size="large"
+          svgName="master-logo"
+          fillColor="var(--item-color)"
+        />
+      </router-link>
       <slot></slot>
     </div>
-    <MasterSwitch
-      input-id="showAll"
-      label-pos="left"
-      input-name="all-rows"
-      input-type="checkbox"
-      input-width="9rem"
-      @change="toggleTheme"
-    />
   </header>
 </template>
 
@@ -123,6 +123,7 @@ import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
 const isMaximized = ref(true)
 const maxClass = ref('app-maximize')
 const maxTitle = ref('Maximize')
+const darkTheme = ref(false)
 
 const ipc = window.ipcRenderer
 
@@ -153,8 +154,8 @@ const changeMaxBtn = (isMax) => {
 ipc.on('isMaximized', () => changeMaxBtn(true))
 ipc.on('isRestored', () => changeMaxBtn(false))
 
-const toggleTheme = (e) => {
-  if (e.target.checked) {
+const toggleTheme = (value) => {
+  if (darkTheme.value) {
     document.documentElement.setAttribute('data-theme', 'dark')
   } else {
     document.documentElement.setAttribute('data-theme', 'light')

@@ -53,7 +53,7 @@
           :key="item?.optIcon"
           :extraPath="`categories`"
           size="100"
-          fillColor="var(--light)"
+          fillColor="var(--glob-light)"
         />
       </div>
       <div class="card-body">
@@ -69,7 +69,7 @@
           :dataType="type"
           triggerIcon="edit"
           triggerIconSize="24"
-          fillColor="var(--dark)"
+          fillColor="var(--glob-light)"
         />
         <DeleteModal
           :currentItem="item"
@@ -77,7 +77,7 @@
           desc="Do you want to proceed with deleting an item"
           triggerIconSize="24"
           :deleteType="type"
-          fillColor="var(--dark)"
+          fillColor="var(--glob-light)"
         />
         <button class="btn fav-btn" @click="toggleFavorites">
           <MasterIcon
@@ -85,7 +85,7 @@
             :svgName="isFavorite"
             classes="act-icon favorite"
             size="24"
-            fillColor="var(--dark)"
+            fillColor="var(--glob-light)"
             @click="toggleFavorites"
           />
         </button>

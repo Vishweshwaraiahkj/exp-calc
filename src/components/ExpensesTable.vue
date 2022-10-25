@@ -55,7 +55,7 @@ table.table {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: px2rem(2) solid var(--dark);
+    border-top: px2rem(2) solid var(--item-color);
     margin: px2rem(10) 0 0 0;
     padding: px2rem(10) 0 0 0;
     box-shadow: boxShadow(top);
@@ -88,7 +88,7 @@ table.table {
     align-items: center;
     padding: 0.125rem 0.625rem;
     background: var(--input-bg-color);
-    color: var(--dark);
+    color: var(--item-color);
     height: px2rem(40);
     font-size: px2rem(14);
     font-weight: 400;
@@ -121,14 +121,11 @@ table.table {
           <MasterDonut v-if="finalData.length" :donutData="finalData" />
         </div>
         <MasterSwitch
-          input-id="showAll"
           input-label="Show all"
           label-pos="left"
-          input-name="all-rows"
-          input-type="checkbox"
-          input-width="9rem"
-          v-model:input-value="allRows"
-          @change="filterRows"
+          input-width="3rem"
+          v-model:inputValue="allRows"
+          @click="filterRows"
         />
         <MasterPicker
           v-if="!allRows"
@@ -164,7 +161,7 @@ table.table {
               :svgName="sortType === 'asc' ? 'chevron-up' : 'chevron-down'"
               :key="sortType"
               classes="sort-icon"
-              fillColor="var(--light)"
+              fillColor="var(--bg-color)"
             />
           </th>
         </tr>
@@ -202,7 +199,7 @@ table.table {
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
-                  fillColor="var(--light)"
+                  fillColor="var(--bg-color)"
                 />
               </span>
               <span class="action delete">
@@ -212,7 +209,7 @@ table.table {
                   desc="Do you want to proceed with deleting an Expense"
                   delete-type="expenses"
                   triggerIconSize="x-small"
-                  fillColor="var(--light)"
+                  fillColor="var(--bg-color)"
                 />
               </span>
             </div>

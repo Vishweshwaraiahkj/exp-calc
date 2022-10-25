@@ -10,7 +10,7 @@
       <MasterIcon
         v-if="svgName"
         :svgName="svgName"
-        fillColor="var(--light)"
+        fillColor="var(--bg-color)"
         size="small"
       />
       <h2>{{ item[titleKey] }}</h2>

@@ -166,7 +166,7 @@ const updateData = (type) => {
     optIcon: optIcon.value,
     checked: isChecked.value,
     favorite: isFavorite.value,
-    colorFill: colorFill.value || 'var(--dark)'
+    colorFill: colorFill.value || 'var(--item-color)'
   }
   emits('emitDataUpdate', updateObj, props.dataType)
   if (type === 'add') clearForm()
