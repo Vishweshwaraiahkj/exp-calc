@@ -12,8 +12,9 @@ module.exports = defineConfig({
           indentedSyntax: false
         },
         additionalData: `
-            @import "src/assets/styles/_variables.scss";
-            @import "src/assets/styles/_mixins.scss";
+            @import "src/assets/styles/variables";
+            @import "src/assets/styles/keyframes";
+            @import "src/assets/styles/mixins";
           `
       }
     }

@@ -24,7 +24,7 @@ $input-size: calc($box-size/2);
         position: absolute;
         height: calc($input-size/2);
         width: $input-size;
-        border: px2rem(5) solid var(--body);
+        border: px2rem(5) solid var(--dark);
         border-radius: calc($input-size/2);
         cursor: pointer;
         box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6),
@@ -36,7 +36,7 @@ $input-size: calc($box-size/2);
           content: '';
           height: px2rem(16);
           width: px2rem(16);
-          background-color: var(--body);
+          background-color: var(--dark);
           position: absolute;
           margin: auto;
           top: 0;

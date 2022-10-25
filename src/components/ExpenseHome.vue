@@ -8,6 +8,7 @@
             @emitDataUpdate="addToList"
             triggerId="addExp"
             actionType="add"
+            fillColor="var(--dark)"
           />
         </div>
       </div>

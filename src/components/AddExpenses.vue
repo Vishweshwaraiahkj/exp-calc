@@ -11,8 +11,8 @@
     <template #trigger>
       <MasterIcon
         :size="triggerIconSize"
-        :svg-name="triggerIcon"
-        :fill-color="colorFill"
+        :svgName="triggerIcon"
+        :fillColor="fillColor"
       />
     </template>
     <template #header>
@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect, computed, inject } from 'vue'
+import { ref, watchEffect, computed } from 'vue'
 import { useStore } from 'vuex'
 import { v4 as uuids4 } from 'uuid'
 import { IsValidObject } from '@/utils/globals.js'
@@ -123,7 +123,7 @@ const props = defineProps({
     default: 'add',
     type: String
   },
-  colorFill: {
+  fillColor: {
     default: '',
     type: String
   }
@@ -158,25 +158,6 @@ const getDateTime = (dateTime) => {
   addeddate.value = dateTime
 }
 
-const masterCategories = inject('categories')?.value
-const masterTypes = inject('types')?.value
-
-const getCats = (categoryIds) => {
-  const objList = categoryIds.map((i) => {
-    const catObj = masterCategories?.find((k) => k.id === i)
-    return catObj
-  })
-  return objList
-}
-
-const getTypes = (typeIds) => {
-  const objList = typeIds.map((i) => {
-    const typeObj = masterTypes?.find((k) => k.id === i)
-    return typeObj
-  })
-  return objList
-}
-
 const defaultCats = ref([])
 const defaultTypes = ref([])
 
@@ -185,8 +166,8 @@ watchEffect(() => {
     description.value = props.defaultsObj.description
     amount.value = props.defaultsObj.amount
     addeddate.value = props.defaultsObj.date
-    defaultCats.value = getCats(props.defaultsObj.category)
-    defaultTypes.value = getTypes(props.defaultsObj.type)
+    defaultCats.value = props.defaultsObj.category
+    defaultTypes.value = props.defaultsObj.type
   }
 })
 

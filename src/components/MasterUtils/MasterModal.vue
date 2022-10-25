@@ -19,7 +19,7 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0 0 0 / 25%);
+  background-color: var(--black-trans);
 
   &.small .modal-content {
     width: 30%;
@@ -36,10 +36,10 @@
   /* Modal Content */
   &-content {
     position: relative;
-    background-color: #fefefe;
+    background-color: var(--light);
     margin: auto;
     padding: 0;
-    border: px2rem(1) solid #888;
+    border: px2rem(1) solid var(--dark);
     border-radius: var(--radius-default);
     -webkit-animation-name: animateTop;
     -webkit-animation-duration: 0.4s;
@@ -80,7 +80,11 @@
   >
     <div class="modal-content shadow-dark" @click.stop="stopIt">
       <span class="close medium" @click="toggleModal">
-        <MasterIcon fill-color="green" size="x-small" svg-name="close-cross" />
+        <MasterIcon
+          fillColor="var(--dark)"
+          size="x-small"
+          svg-name="close-cross"
+        />
       </span>
       <header v-if="headerSlot" class="modal-header">
         <slot name="header"></slot>

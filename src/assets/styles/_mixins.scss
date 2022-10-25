@@ -138,32 +138,13 @@
     min-width: px2rem(200);
 }
 
-@mixin TabsGroup($a, $b) {
-    margin-bottom: 1rem;
-
-    .tab {
-        background-color: $a;
-        color: $b;
-    }
-
-    li {
-        background-color: $b;
-        color: $a;
-
-        &.tab__selected {
-            background-color: $a;
-            color: $b;
-        }
-    }
-}
-
 @mixin formControl {
     height: px2rem(40);
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: var(--white);
+    background-color: var(--light);
     background-clip: padding-box;
     border-radius: var(--radius-default);
     transition: border-color 0.15s ease-in-out;

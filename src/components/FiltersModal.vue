@@ -10,6 +10,10 @@
   .category-card {
     display: inline-flex;
     box-shadow: boxShadow(bottom);
+
+    .calc-card {
+      border-radius: var(--radius-default);
+    }
   }
 }
 </style>
@@ -22,7 +26,11 @@
       btnClasses="grid-summary"
     >
       <template #trigger>
-        <MasterIcon size="medium" svgName="grid-light" />
+        <MasterIcon
+          size="medium"
+          svgName="grid-light"
+          fillColor="var(--dark)"
+        />
       </template>
       <template #header>
         <h1>
@@ -98,7 +106,7 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, inject } from 'vue'
+import { computed, ref } from 'vue'
 import { GroupByKey, UnderscoreToSpace } from '@/utils/globals'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
@@ -128,24 +136,21 @@ const dataArray = computed(() => props.dataArray)
 
 const groupedData = GroupByKey(dataArray.value, 'category')
 
-const masterCategories = inject('categories')?.value
-const masterTypes = inject('types')?.value
-
 const FilterData = (dataType) =>
   groupedData &&
   Object.keys(groupedData)
     ?.map((key) => {
       const computedData = groupedData[key]?.reduce((res, i) => {
-        const typeObj = masterTypes?.find((k) => k.id === i.type[0])
-        if (typeObj?.optValue === dataType) {
+        if (i.type[0]?.optValue === dataType) {
           res = res + Number(i.amount)
         }
         return res
       }, 0)
-      const catObj = masterCategories?.find((k) => k.id === key)
+
+      const catObj = groupedData[key][0]?.category
       return {
         totalAmount: computedData.toLocaleString('en-IN'),
-        optName: UnderscoreToSpace(catObj?.optName),
+        optName: UnderscoreToSpace(key),
         colorFill: catObj?.colorFill
       }
     })

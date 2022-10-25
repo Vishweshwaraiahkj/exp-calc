@@ -112,7 +112,7 @@ figure {
     btnClasses="donut-chart"
   >
     <template #trigger>
-      <MasterIcon size="30" svgName="donut-chart" />
+      <MasterIcon size="30" svgName="donut-chart" fillColor="var(--dark)" />
     </template>
     <template #header>
       <h1>

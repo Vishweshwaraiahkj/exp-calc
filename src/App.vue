@@ -1,5 +1,5 @@
 <style lang="scss">
-@import '@/assets/styles/_global.scss';
+@import '@/assets/styles/global';
 </style>
 <template lang="html">
   <div v-if="isLoading">

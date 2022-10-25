@@ -7,13 +7,20 @@ ul {
     padding: 0;
 
     > li {
-      padding: 1rem px2rem(20);
+      padding: px2rem(10);
       margin: 0;
       display: inline-block;
       margin-right: px2rem(5);
       cursor: pointer;
+      border-top-right-radius: var(--radius-default);
+      border-top-left-radius: var(--radius-default);
+      background-color: var(--dark);
+      color: var(--light);
+      border: px2rem(10) solid var(--dark);
 
       &.tab__selected {
+        background-color: var(--light);
+        color: var(--dark);
         font-weight: bold;
         border-bottom: px2rem(5) solid transparent;
       }
@@ -23,26 +30,17 @@ ul {
 
 .tab {
   display: block;
-  color: var(--black);
   padding: px2rem(10);
-}
-
-.tabs__light {
-  @include TabsGroup(var(--light), var(--dark));
-}
-
-.tabs__dark {
-  @include TabsGroup(var(--dark), var(--light));
+  margin-bottom: 1rem;
+  background-color: var(--dark);
+  color: var(--light);
+  border-bottom-right-radius: var(--radius-default);
+  border-bottom-left-radius: var(--radius-default);
+  border: px2rem(10) solid var(--dark);
 }
 </style>
 <template lang="html">
-  <div
-    :class="{
-      tabs: true,
-      tabs__light: mode === 'light',
-      tabs__dark: mode === 'dark'
-    }"
-  >
+  <div>
     <ul class="tabs__header">
       <li
         v-for="tab in tabs"
@@ -59,7 +57,6 @@ ul {
 <script setup>
 import { onMounted, ref, useSlots } from 'vue'
 const selectedId = ref('tab_one')
-const mode = ref('dark')
 
 const slots = useSlots()
 const emits = defineEmits(['emitStatus'])

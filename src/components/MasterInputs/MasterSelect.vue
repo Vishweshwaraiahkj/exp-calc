@@ -42,7 +42,7 @@
 
     .menu-btn {
       padding: px2rem(2) px2rem(10);
-      background: var(--white);
+      background: var(--input-bg-color);
       width: 100%;
       text-align: left;
       color: var(--dark);
@@ -55,7 +55,8 @@
       left: 0;
       z-index: 200;
       margin-top: 0.25rem;
-      background-color: white;
+      background-color: var(--light);
+      color: var(--dark);
       max-height: 20rem;
       overflow: auto;
 
@@ -75,8 +76,8 @@
         align-items: center;
         margin: px2rem(5);
 
-        &.gray-bg {
-          background-color: var(--light-gray);
+        &.selected-bg {
+          background-color: var(--input-selected);
         }
 
         label {
@@ -139,7 +140,7 @@
           v-for="opt in propOptions"
           :key="opt.id"
           class="d-flex menu-option"
-          :class="isCheckedItem(opt.optValue) && `gray-bg`"
+          :class="isCheckedItem(opt.optValue) && `selected-bg`"
         >
           <input
             :id="opt.optValue"
@@ -155,6 +156,7 @@
               :classes="`check-box`"
               :key="getSvgName(opt.optValue)"
               :svgName="getSvgName(opt.optValue)"
+              fillColor="var(--dark)"
             />
             {{ opt.optName }}
           </label>

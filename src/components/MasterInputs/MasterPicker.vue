@@ -5,17 +5,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 0.25rem;
 
-  .clear-icon {
+  .clear-icon,
+  &.active,
+  &.active .input-group {
     z-index: 202;
-  }
-
-  &.active {
-    .input-group,
-    .calendar-box {
-      z-index: 202;
-    }
   }
 
   .date-str.month-year {
@@ -26,31 +20,35 @@
     position: absolute;
     width: 100%;
     height: auto;
-    background-color: var(--orange);
-    color: var(--light);
+    background-color: var(--glob-dark);
+    color: var(--glob-light);
     box-shadow: boxShadow(dark);
     margin-top: 0.25rem;
-    overflow: auto;
+    overflow: visible;
 
     @include hideScroll();
 
     &.top {
-      bottom: px2rem(40);
+      bottom: calc(100% - px2rem(5));
       box-shadow: boxShadow(top);
+      z-index: 201;
     }
 
     &.bottom {
-      top: 100%;
+      top: calc(100% - px2rem(5));
       box-shadow: boxShadow(bottom);
+      z-index: 201;
     }
 
     .selected-details {
+      padding-top: px2rem(5);
+      background-color: var(--glob-dark);
+
       .actions,
       .selected-str {
         width: 100%;
         height: 20%;
         display: flex;
-        background-color: var(--purple);
         align-items: center;
         padding: 0 0.625rem;
         text-align: center;
@@ -133,7 +131,7 @@
       background-color: var(--primary);
     }
 
-    .picker-container {
+    .time-container {
       height: 70%;
       flex-direction: column;
 
@@ -145,8 +143,8 @@
 
       .selected-time {
         display: flex;
-        background-color: var(--dark);
-        color: var(--white);
+        background-color: var(--glob-dark);
+        color: var(--glob-light);
         cursor: pointer;
 
         span {
@@ -163,13 +161,13 @@
         display: flex;
 
         span input {
-          background-color: var(--orange);
+          background-color: var(--glob-dark);
         }
 
         .drop-box {
           height: 15rem;
           overflow: auto;
-          background-color: var(--orange);
+          background-color: var(--glob-dark);
           flex: 1;
 
           @include hideScroll();
@@ -202,11 +200,11 @@
           justify-content: center;
           margin: auto;
           cursor: pointer;
-          color: var(--light);
+          color: var(--glob-light);
 
           &.is-selected {
-            background-color: var(--dark);
-            color: var(--white);
+            background-color: var(--glob-dark);
+            color: var(--glob-light);
           }
         }
       }
@@ -215,176 +213,180 @@
 }
 </style>
 <template lang="html">
-  <div
-    v-if="isVisible"
-    class="backDrop"
-    @click.stop="(e) => toggleCalendar(e, 'close')"
-  ></div>
-  <div
-    :class="`master-calendar ${pickerType}`"
-    @mouseleave.stop="(e) => toggleCalendar(e, 'close')"
-  >
-    <MasterInput
-      :inputLabel="inputLabel"
-      :inputPlaceholder="inputPlaceholder"
-      :inputWidth="inputWidth"
-      :inputRequired="isRequired"
-      inputId="datePicker"
-      inputName="date-picker"
-      inputType="text"
-      rightIcon="calendar"
-      v-model:inputValue="selectedDate"
-      @onInputClear="onInputClear"
-      :isReadOnly="true"
-      @click.stop="(e) => toggleCalendar(e, 'open')"
-    />
-    <div v-if="isVisible" :class="`calendar-box animate ${alignDropdown}`">
-      <div class="selected-details">
-        <div class="actions">
-          <div class="prev-actions">
-            <MasterIcon
-              size="x-small"
-              svg-name="first"
-              fillColor="white"
-              @click="prevYear"
-              tabIndex="-1"
-            />
-            <MasterIcon
-              size="x-small"
-              svg-name="previous"
-              fillColor="white"
-              @click="prevMonth"
-              tabIndex="-1"
-            />
+  <div :class="mainWrapper">
+    <label v-if="inputLabel" class="input-label">
+      {{ inputLabel }}
+    </label>
+    <div
+      v-if="isVisible"
+      class="backDrop"
+      @click.stop="(e) => toggleCalendar(e, 'close')"
+    ></div>
+    <div
+      :class="`master-calendar ${pickerType}`"
+      @mouseleave.stop="(e) => toggleCalendar(e, 'close')"
+    >
+      <MasterInput
+        :inputPlaceholder="inputPlaceholder"
+        :inputWidth="inputWidth"
+        :inputRequired="isRequired"
+        inputId="datePicker"
+        inputName="date-picker"
+        inputType="text"
+        rightIcon="calendar"
+        v-model:inputValue="selectedDate"
+        @onInputClear="onInputClear"
+        :isReadOnly="true"
+        @click.stop="(e) => toggleCalendar(e, 'open')"
+      />
+      <div v-if="isVisible" :class="`calendar-box animate ${alignDropdown}`">
+        <div class="selected-details">
+          <div class="actions">
+            <div class="prev-actions">
+              <MasterIcon
+                size="x-small"
+                svg-name="first"
+                fillColor="var(--glob-light)"
+                @click="prevYear"
+                tabIndex="-1"
+              />
+              <MasterIcon
+                size="x-small"
+                svg-name="previous"
+                fillColor="var(--glob-light)"
+                @click="prevMonth"
+                tabIndex="-1"
+              />
+            </div>
+            <div class="details">
+              <p>{{ `${selectedMonth} ${selectedYear}` }}</p>
+            </div>
+            <div class="next-actions">
+              <MasterIcon
+                size="x-small"
+                svg-name="next"
+                fillColor="var(--glob-light)"
+                @click="nextMonth"
+                tabIndex="-1"
+              />
+              <MasterIcon
+                size="x-small"
+                svg-name="last"
+                fillColor="var(--glob-light)"
+                @click="nextYear"
+                tabIndex="-1"
+              />
+            </div>
           </div>
-          <div class="details">
-            <p>{{ `${selectedMonth} ${selectedYear}` }}</p>
-          </div>
-          <div class="next-actions">
-            <MasterIcon
-              size="x-small"
-              svg-name="next"
-              fillColor="white"
-              @click="nextMonth"
-              tabIndex="-1"
-            />
-            <MasterIcon
-              size="x-small"
-              svg-name="last"
-              fillColor="white"
-              @click="nextYear"
-              tabIndex="-1"
-            />
-          </div>
-        </div>
-        <div class="selected-str">
-          <p>{{ stringDate }}</p>
-        </div>
-      </div>
-      <div v-if="isMonthPicker" class="visible-months">
-        <div
-          v-for="month in procMonths"
-          :key="month.id"
-          :class="`date-str ${month.class}`"
-          @click.stop="(e) => selectMonthYear(e, month.id)"
-        >
-          {{ month.short }}
-        </div>
-      </div>
-      <div class="dates-box" v-if="isDatePicker">
-        <div class="weekdays" v-if="showDates">
-          <div v-for="day in dayStrings" :key="day">
-            {{ day }}
+          <div class="selected-str">
+            <p>{{ stringDate }}</p>
           </div>
         </div>
-        <div class="visible-days" v-if="showDates">
+        <div v-if="isMonthPicker" class="visible-months">
           <div
-            v-for="i in visibleDays"
-            :key="i.key"
-            :class="i.class"
-            @click.stop="selectDate(i)"
+            v-for="month in procMonths"
+            :key="month.id"
+            :class="`date-str ${month.class}`"
+            @click.stop="(e) => selectMonthYear(e, month.id)"
           >
-            {{ i.date }}
+            {{ month.short }}
           </div>
         </div>
-        <div v-if="showTimer" class="picker-container input-group">
-          <div class="selected-time">
-            <span>{{ padZero(selectedTime.hrs) }}</span>
-            <span>{{ padZero(selectedTime.mins) }}</span>
-            <span>{{ selectedTime.type }}</span>
+        <div class="dates-box" v-if="isDatePicker">
+          <div class="weekdays" v-if="showDates">
+            <div v-for="day in dayStrings" :key="day">
+              {{ day }}
+            </div>
           </div>
-          <div class="time-picker">
-            <div class="drop-box">
-              <span
-                class="hours-list"
-                v-for="i in 12"
-                :key="i"
-                @click.stop="selectHours(i)"
-              >
-                <label
-                  v-if="selectedTime.hrs === i"
-                  class="is-selected"
-                  id="selected_hr"
-                >
-                  {{ padZero(i) }}
-                </label>
-                <label v-else class="un-selected">
-                  {{ padZero(i) }}
-                </label>
-              </span>
+          <div class="visible-days" v-if="showDates">
+            <div
+              v-for="i in visibleDays"
+              :key="i.key"
+              :class="i.class"
+              @click.stop="selectDate(i)"
+            >
+              {{ i.date }}
             </div>
-            <div class="drop-box">
-              <span
-                class="minutes-list"
-                v-for="i in 60"
-                :key="i"
-                @click.stop="selectMinutes(i - 1)"
-              >
-                <label
-                  v-if="selectedTime.mins === i - 1"
-                  class="is-selected"
-                  id="selected_mn"
-                >
-                  {{ padZero(i - 1) }}
-                </label>
-                <label v-else class="un-selected">
-                  {{ padZero(i - 1) }}
-                </label>
-              </span>
+          </div>
+          <div v-if="showTimer" class="time-container input-group">
+            <div class="selected-time">
+              <span>{{ padZero(selectedTime.hrs) }}</span>
+              <span>{{ padZero(selectedTime.mins) }}</span>
+              <span>{{ selectedTime.type }}</span>
             </div>
-            <div class="drop-box">
-              <span class="am-pm" @click="selectType('AM')">
-                <label
-                  :class="`${selectedTime.type === 'AM' && 'is-selected'}`"
+            <div class="time-picker">
+              <div class="drop-box">
+                <span
+                  class="hours-list"
+                  v-for="i in 12"
+                  :key="i"
+                  @click.stop="selectHours(i)"
                 >
-                  AM
-                </label>
-              </span>
-              <span class="am-pm" @click="selectType('PM')">
-                <label
-                  :class="`${selectedTime.type === 'PM' && 'is-selected'}`"
+                  <label
+                    v-if="selectedTime.hrs === i"
+                    class="is-selected"
+                    id="selected_hr"
+                  >
+                    {{ padZero(i) }}
+                  </label>
+                  <label v-else class="un-selected">
+                    {{ padZero(i) }}
+                  </label>
+                </span>
+              </div>
+              <div class="drop-box">
+                <span
+                  class="minutes-list"
+                  v-for="i in 60"
+                  :key="i"
+                  @click.stop="selectMinutes(i - 1)"
                 >
-                  PM
-                </label>
-              </span>
-              <span class="toggler" @click="dateOrTime('date')">
-                <label class="toggle-cal">
-                  <MasterIcon
-                    svgName="calendar"
-                    fillColor="#fff"
-                    size="small"
-                  />
-                </label>
-              </span>
-              <span class="update-data" @click="(e) => updateInputStr(e)">
-                <label class="update-date-time">
-                  <MasterIcon
-                    svgName="check-square"
-                    fillColor="#fff"
-                    size="28"
-                  />
-                </label>
-              </span>
+                  <label
+                    v-if="selectedTime.mins === i - 1"
+                    class="is-selected"
+                    id="selected_mn"
+                  >
+                    {{ padZero(i - 1) }}
+                  </label>
+                  <label v-else class="un-selected">
+                    {{ padZero(i - 1) }}
+                  </label>
+                </span>
+              </div>
+              <div class="drop-box">
+                <span class="am-pm" @click="selectType('AM')">
+                  <label
+                    :class="`${selectedTime.type === 'AM' && 'is-selected'}`"
+                  >
+                    AM
+                  </label>
+                </span>
+                <span class="am-pm" @click="selectType('PM')">
+                  <label
+                    :class="`${selectedTime.type === 'PM' && 'is-selected'}`"
+                  >
+                    PM
+                  </label>
+                </span>
+                <span class="toggler" @click="dateOrTime('date')">
+                  <label class="toggle-cal">
+                    <MasterIcon
+                      svgName="calendar"
+                      fillColor="var(--glob-light)"
+                      size="small"
+                    />
+                  </label>
+                </span>
+                <span class="update-data" @click="(e) => updateInputStr(e)">
+                  <label class="update-date-time">
+                    <MasterIcon
+                      svgName="check-square"
+                      fillColor="var(--glob-light)"
+                      size="28"
+                    />
+                  </label>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -702,4 +704,10 @@ const selectMonthYear = (e, month) => {
   emits('emitDateTime', finalValue)
   toggleCalendar(e, 'close')
 }
+
+const mainWrapper = computed(() => {
+  const defClasses = 'picker-container'
+  const combined = `${alignDropdown.value} ${defClasses}`
+  return combined
+})
 </script>

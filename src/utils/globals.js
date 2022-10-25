@@ -245,8 +245,8 @@ export const GroupByKey = (dataArray, key) => {
   const expandedData = ExpandAllByKey(dataArray, key)
 
   const result = expandedData.reduce((r, a) => {
-    r[a[key]] = r[a[key]] || []
-    r[a[key]].push(a)
+    r[a[key].optValue] = r[a[key].optValue] || []
+    r[a[key].optValue].push(a)
     return r
   }, Object.create(null))
   return result
@@ -328,7 +328,11 @@ export const FilterByMonth = (itemsArray, filterDate) => {
 
 export const FilterByDay = (itemsArray, filterDate) => {
   if (!itemsArray?.length) return []
-  if (!filterDate) filterDate = CustomDates('YYYY-MM-DD')
+  if (!filterDate) {
+    filterDate = CustomDates('YYYY-MM-DD')
+  } else {
+    filterDate = CustomDates('YYYY-MM-DD', filterDate)
+  }
   return itemsArray?.filter((i) => {
     return CustomDates('YYYY-MM-DD', i.date) === filterDate
   })

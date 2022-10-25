@@ -45,6 +45,10 @@ table.table {
     &.table-tools td {
       padding: 0;
     }
+
+    .picker-container {
+      text-align: left;
+    }
   }
 
   .match-space {
@@ -83,7 +87,7 @@ table.table {
     display: inline-flex;
     align-items: center;
     padding: 0.125rem 0.625rem;
-    background: var(--white);
+    background: var(--input-bg-color);
     color: var(--dark);
     height: px2rem(40);
     font-size: px2rem(14);
@@ -114,7 +118,7 @@ table.table {
       />
       <div class="flex-center">
         <div :key="v4()">
-          <MasterDonut v-if="totalData.length" :donutData="totalData" />
+          <MasterDonut v-if="finalData.length" :donutData="finalData" />
         </div>
         <MasterSwitch
           input-id="showAll"
@@ -145,7 +149,7 @@ table.table {
       </div>
     </div>
     <table class="table table-striped table-hover shadow-dark">
-      <thead class="dark" v-if="tableHeaders.length">
+      <thead v-if="tableHeaders.length">
         <tr>
           <th
             v-for="item in tableHeaders"
@@ -160,6 +164,7 @@ table.table {
               :svgName="sortType === 'asc' ? 'chevron-up' : 'chevron-down'"
               :key="sortType"
               classes="sort-icon"
+              fillColor="var(--light)"
             />
           </th>
         </tr>
@@ -167,7 +172,7 @@ table.table {
       <tbody v-if="visibleData.length">
         <tr v-for="item in visibleData" :key="item.id">
           <td>
-            <template v-for="type in getTypes(item.type)" :key="type?.id">
+            <template v-for="type in item.type" :key="type?.id">
               <ColoredCard :item="type" classes="type" />
             </template>
           </td>
@@ -175,7 +180,7 @@ table.table {
             {{ Number(item.amount).toLocaleString('en-IN') }}
           </td>
           <td class="categories">
-            <template v-for="cat in getCats(item.category)" :key="cat?.id">
+            <template v-for="cat in item.category" :key="cat?.id">
               <ColoredCard :item="cat" classes="category" />
             </template>
           </td>
@@ -197,7 +202,7 @@ table.table {
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
-                  colorFill="#ffffff"
+                  fillColor="var(--light)"
                 />
               </span>
               <span class="action delete">
@@ -207,6 +212,7 @@ table.table {
                   desc="Do you want to proceed with deleting an Expense"
                   delete-type="expenses"
                   triggerIconSize="x-small"
+                  fillColor="var(--light)"
                 />
               </span>
             </div>
@@ -306,6 +312,27 @@ const selectedMonth = ref(CustomDates('MMMM YYYY'))
 const allRows = ref(props.showAll)
 const filteredPerPage = ref([])
 
+const masterCategories = inject('categories')?.value
+const masterTypes = inject('types')?.value
+
+const getCats = (categoryIds) => {
+  const objList = categoryIds.reduce((acc, i) => {
+    const catObj = masterCategories?.find((k) => k.id === i)
+    if (catObj) acc.push(catObj)
+    return acc
+  }, [])
+  return objList
+}
+
+const getTypes = (typeIds) => {
+  const objList = typeIds.reduce((acc, i) => {
+    const typeObj = masterTypes?.find((k) => k.id === i)
+    if (typeObj) acc.push(typeObj)
+    return acc
+  }, [])
+  return objList
+}
+
 const getCheckedTypes = (data) => {
   const selects = data[0]?.optValue
   if (selects && selects === 'all') {
@@ -332,9 +359,22 @@ const perPageOptions = computed(() => {
 })
 
 const validData = () => {
-  return props.dataArray?.filter((i) => {
+  const validArray = props.dataArray?.filter((i) => {
     return i.id && i.type && i.category && i.amount && i.date
   })
+
+  const objsData = validArray?.map((i) => {
+    const catsObjs = getCats(i.category)
+    const typesObjs = getTypes(i.type)
+    const fullObj = {
+      ...i,
+      category: catsObjs,
+      type: typesObjs
+    }
+    return fullObj
+  })
+
+  return objsData
 }
 
 const sortedData = computed(() =>
@@ -420,28 +460,5 @@ const updateList = (dataList, type) => {
 const getDateTime = (dateTime) => {
   selectedMonth.value = dateTime
   filterRows()
-}
-
-const masterCategories = inject('categories')?.value
-const masterTypes = inject('types')?.value
-
-const getCats = (categoryIds) => {
-  const objList = categoryIds
-    .map((i) => {
-      const catObj = masterCategories?.find((k) => k.id === i)
-      return catObj
-    })
-    .filter((i) => i)
-  return objList
-}
-
-const getTypes = (typeIds) => {
-  const objList = typeIds
-    .map((i) => {
-      const typeObj = masterTypes?.find((k) => k.id === i)
-      return typeObj
-    })
-    .filter((i) => i)
-  return objList
 }
 </script>

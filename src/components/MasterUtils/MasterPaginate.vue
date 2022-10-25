@@ -31,7 +31,7 @@
         @click="onClickFirstPage"
         :disabled="isInFirstPage"
       >
-        <MasterIcon size="x-small" svg-name="first" fillColor="white" />
+        <MasterIcon size="x-small" svgName="first" fillColor="var(--light)" />
       </button>
     </li>
     <li class="pagination-item">
@@ -41,7 +41,11 @@
         @click="onClickPreviousPage"
         :disabled="isInFirstPage"
       >
-        <MasterIcon size="x-small" svg-name="previous" fillColor="white" />
+        <MasterIcon
+          size="x-small"
+          svgName="previous"
+          fillColor="var(--light)"
+        />
       </button>
     </li>
     <!-- Visible Buttons Start -->
@@ -63,7 +67,7 @@
         @click="onClickNextPage"
         :disabled="isInLastPage"
       >
-        <MasterIcon size="x-small" svg-name="next" fillColor="white" />
+        <MasterIcon size="x-small" svgName="next" fillColor="var(--light)" />
       </button>
     </li>
     <li class="pagination-item">
@@ -73,7 +77,7 @@
         @click="onClickLastPage"
         :disabled="isInLastPage"
       >
-        <MasterIcon size="x-small" svg-name="last" fillColor="white" />
+        <MasterIcon size="x-small" svgName="last" fillColor="var(--light)" />
       </button>
     </li>
   </ul>

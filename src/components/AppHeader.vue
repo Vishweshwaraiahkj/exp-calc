@@ -64,40 +64,61 @@ header.header {
   <header class="header main">
     <div class="controls-bar">
       <button @click="minApp" class="top-btn app-minimize" title="Minimize">
-        <MasterIcon size="x-small" svgName="minimize" fill-color="white" />
+        <MasterIcon
+          size="x-small"
+          svgName="minimize"
+          fillColor="var(--light)"
+        />
       </button>
       <button @click="maxApp" :class="`top-btn ${maxClass}`" :title="maxTitle">
         <MasterIcon
           v-if="isMaximized"
           size="x-small"
           svgName="restore"
-          fill-color="white"
+          fillColor="var(--light)"
         />
         <MasterIcon
           v-else
           size="x-small"
           svgName="maximize"
-          fill-color="white"
+          fillColor="var(--light)"
         />
       </button>
       <button @click="closeApp" class="top-btn app-close" title="Close">
-        <MasterIcon size="x-small" svgName="close-filled" fill-color="white" />
+        <MasterIcon
+          size="x-small"
+          svgName="close-filled"
+          fillColor="var(--light)"
+        />
       </button>
     </div>
     <div class="container-fluid logo-menus">
       <span class="master-logo">
         <router-link to="/">
-          <MasterIcon size="large" svgName="master-logo" />
+          <MasterIcon
+            size="large"
+            svgName="master-logo"
+            fillColor="var(--dark)"
+          />
         </router-link>
       </span>
       <slot></slot>
     </div>
+    <MasterSwitch
+      input-id="showAll"
+      label-pos="left"
+      input-name="all-rows"
+      input-type="checkbox"
+      input-width="9rem"
+      @change="toggleTheme"
+    />
   </header>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
 
 const isMaximized = ref(true)
 const maxClass = ref('app-maximize')
@@ -131,4 +152,12 @@ const changeMaxBtn = (isMax) => {
 
 ipc.on('isMaximized', () => changeMaxBtn(true))
 ipc.on('isRestored', () => changeMaxBtn(false))
+
+const toggleTheme = (e) => {
+  if (e.target.checked) {
+    document.documentElement.setAttribute('data-theme', 'dark')
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light')
+  }
+}
 </script>

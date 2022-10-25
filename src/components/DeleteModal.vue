@@ -17,7 +17,7 @@
       <MasterIcon
         :size="triggerIconSize"
         svgName="delete"
-        :fill-color="colorFill"
+        :fillColor="fillColor"
       />
     </template>
     <template #header>
@@ -52,8 +52,8 @@ const props = defineProps({
     default: '',
     type: String
   },
-  colorFill: {
-    default: '#ffffff',
+  fillColor: {
+    default: '',
     type: String
   },
   triggerIconSize: {

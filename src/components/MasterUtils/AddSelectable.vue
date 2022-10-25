@@ -111,7 +111,7 @@ const props = defineProps({
   },
   fillColor: {
     type: String,
-    default: '#000000'
+    default: ''
   }
 })
 
@@ -120,7 +120,7 @@ const store = useStore()
 
 const displayName = ref('')
 const sortKey = ref('')
-const colorFill = ref('#000000')
+const colorFill = ref('')
 const optIcon = ref('')
 const isChecked = ref(false)
 const isFavorite = ref(false)
@@ -166,7 +166,7 @@ const updateData = (type) => {
     optIcon: optIcon.value,
     checked: isChecked.value,
     favorite: isFavorite.value,
-    colorFill: colorFill.value || '#000000'
+    colorFill: colorFill.value || 'var(--dark)'
   }
   emits('emitDataUpdate', updateObj, props.dataType)
   if (type === 'add') clearForm()

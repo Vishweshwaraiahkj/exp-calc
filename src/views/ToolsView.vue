@@ -13,11 +13,12 @@
     <div class="container shadow-dark my-2">
       <div class="btn-header">
         <h3 class="px-1 title">Categories</h3>
-        <add-selectable
+        <AddSelectable
           trigger-id="categories"
           @emit-data-update="updateData"
           action-type="add"
           data-type="categories"
+          fillColor="var(--dark)"
         />
       </div>
       <div v-if="categories.length" class="grid-container">
@@ -26,7 +27,7 @@
           :key="category.id"
           class="grid-item"
         >
-          <item-card
+          <ItemCard
             :item="category"
             @toggleFavorite="changeFavorite"
             type="categories"
@@ -37,16 +38,17 @@
 
       <div class="btn-header">
         <h3 class="px-1 title">Types</h3>
-        <add-selectable
+        <AddSelectable
           trigger-id="types"
           @emitDataUpdate="updateData"
           actionType="add"
           dataType="types"
+          fillColor="var(--dark)"
         />
       </div>
       <div v-if="types.length" class="grid-container">
         <div v-for="type in types" :key="type.id" class="grid-item">
-          <item-card
+          <ItemCard
             :item="type"
             @toggleFavorite="changeFavorite"
             type="types"

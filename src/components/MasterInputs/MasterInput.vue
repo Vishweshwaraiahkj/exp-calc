@@ -64,6 +64,7 @@
         :svgName="leftIcon"
         size="small"
         classes="left-icon"
+        fillColor="var(--dark)"
       />
       <MasterIcon
         @click="clearInput"
@@ -71,12 +72,14 @@
         size="small"
         svgName="close-filled"
         classes="clear-icon"
+        fillColor="var(--dark)"
       />
       <MasterIcon
         v-if="rightIcon && !inputValue"
         :svgName="rightIcon"
         size="small"
         classes="right-icon"
+        fillColor="var(--dark)"
       />
       <input
         :class="`master-input`"

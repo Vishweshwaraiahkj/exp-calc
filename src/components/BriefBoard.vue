@@ -96,7 +96,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fill-color="#ffffff"
+              fillColor="var(--light)"
               size="small"
             />
             {{ todaysExpense.toLocaleString('en-IN') }}
@@ -107,7 +107,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fill-color="#ffffff"
+              fillColor="var(--light)"
               size="small"
             />
             {{ todaysIncome.toLocaleString('en-IN') }}
@@ -118,7 +118,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fill-color="#ffffff"
+              fillColor="var(--light)"
               size="small"
             />
             {{ monthsExpense.toLocaleString('en-IN') }}
@@ -129,7 +129,7 @@
           <span class="flex-center">
             <MasterIcon
               svgName="indian-rupees"
-              fill-color="#ffffff"
+              fillColor="var(--light)"
               size="small"
             />
             {{ monthsIncome.toLocaleString('en-IN') }}
@@ -141,7 +141,7 @@
           <MasterIcon
             svgName="cash-bag"
             size="x-large"
-            fillColor="#fff"
+            fillColor="var(--light)"
             extraPath="categories"
           />
           <div class="details-box">
@@ -149,7 +149,7 @@
             <h1 id="balance" class="balance-amount">
               <MasterIcon
                 svgName="indian-rupees"
-                fill-color="#ffffff"
+                fillColor="var(--light)"
                 size="medium"
               />
               {{ balanceMoney.toLocaleString('en-IN') }}
@@ -160,7 +160,7 @@
           <MasterIcon
             svgName="money-plus"
             size="x-large"
-            fillColor="#fff"
+            fillColor="var(--light)"
             extraPath="categories"
           />
           <div class="details-box">
@@ -168,7 +168,7 @@
             <h1 id="money-plus" class="money plus">
               <MasterIcon
                 svgName="indian-rupees"
-                fill-color="#ffffff"
+                fillColor="var(--light)"
                 size="medium"
               />
               +{{ incomeValue.toLocaleString('en-IN') }}
@@ -179,7 +179,7 @@
           <MasterIcon
             svgName="money-minus"
             size="x-large"
-            fillColor="#fff"
+            fillColor="var(--light)"
             extraPath="categories"
           />
           <div class="details-box">
@@ -187,7 +187,7 @@
             <h1 id="money-minus" class="money minus">
               <MasterIcon
                 svgName="indian-rupees"
-                fill-color="#ffffff"
+                fillColor="var(--light)"
                 size="medium"
               />
               -{{ expenseValue.toLocaleString('en-IN') }}
@@ -200,7 +200,7 @@
 </template>
 
 <script setup>
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { FilterByDay, FilterByMonth } from '@/utils/globals'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
@@ -219,15 +219,12 @@ const props = defineProps({
 
 const expList = computed(() => props.dataList)
 
-const todaysData = computed(() => FilterByDay(props.totalData))
-const monthsData = computed(() => FilterByMonth(props.totalData))
-
-const masterTypes = inject('types')?.value
+const todaysData = computed(() => FilterByDay(props.dataList))
+const monthsData = computed(() => FilterByMonth(props.dataList))
 
 const getDataByType = (dataArray, type) => {
   const filteredData = dataArray?.filter((i) => {
-    const catObj = masterTypes?.find((k) => k.id === i.type[0])
-    return catObj?.optValue === type
+    return i.type[0]?.optValue === type
   })
 
   const dataValue = filteredData?.reduce((acc, item) => {

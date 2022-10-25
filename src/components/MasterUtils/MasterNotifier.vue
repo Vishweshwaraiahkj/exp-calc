@@ -7,7 +7,11 @@
     <header>
       <h6>{{ type.Capitalize() }}</h6>
       <span class="close small" @click="hideNotifier">
-        <MasterIcon size="x-small" svgName="close-filled" />
+        <MasterIcon
+          size="x-small"
+          svgName="close-filled"
+          fillColor="var(--light)"
+        />
       </span>
     </header>
     <main>

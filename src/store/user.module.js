@@ -3,11 +3,15 @@ export default {
   state: {
     firstName: 'Vish',
     middleName: 'K',
-    lastName: 'J'
+    lastName: 'J',
+    designation: 'Web Developer'
   },
   getters: {
-    fullName: (state) => {
-      return `${state.firstName} ${state.middleName} ${state.lastName}`
+    userDetails: (state) => {
+      return {
+        fullName: `${state.firstName} ${state.middleName} ${state.lastName}`,
+        designation: state.designation
+      }
     }
   }
 }
