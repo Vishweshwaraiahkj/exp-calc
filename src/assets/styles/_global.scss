@@ -402,11 +402,19 @@ pre {
 }
 
 .container {
-  width: 100%;
+  width: 90%;
   padding-right: px2rem(15);
   padding-left: px2rem(15);
   margin-right: auto;
   margin-left: auto;
+
+  &-fluid {
+    width: 100%;
+    padding-right: px2rem(15);
+    padding-left: px2rem(15);
+    margin-right: auto;
+    margin-left: auto;
+  }
 }
 
 @media (min-width: 768px) {
@@ -427,12 +435,8 @@ pre {
   }
 }
 
-.container-fluid {
-  width: 100%;
-  padding-right: px2rem(15);
-  padding-left: px2rem(15);
-  margin-right: auto;
-  margin-left: auto;
+.container-bg {
+  background-color: var(--container-color);
 }
 
 .row {
@@ -1018,7 +1022,7 @@ nav {
       box-shadow: boxShadow(menu);
       display: inline-flex;
       align-items: center;
-      color: var(--item-color);
+      color: var(--glob-dark);
       font-weight: bold;
       padding: 0 1rem;
       height: 100%;
@@ -1028,7 +1032,7 @@ nav {
       }
 
       &.router-link-exact-active {
-        color: var(--white);
+        color: var(--glob-light);
       }
     }
   }

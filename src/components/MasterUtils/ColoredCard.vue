@@ -5,7 +5,7 @@
 }
 </style>
 <template lang="html">
-  <div class="item-card" :class="classes">
+  <div :class="cardWrapper">
     <div class="flex-center no-space" v-if="titleKey">
       <MasterIcon
         v-if="svgName"
@@ -19,6 +19,7 @@
   </div>
 </template>
 <script setup>
+import { computed } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 const props = defineProps({
   item: {
@@ -26,7 +27,7 @@ const props = defineProps({
     required: true
   },
   textColor: {
-    default: '#fdfdfd',
+    default: '',
     type: String
   },
   titleKey: {
@@ -37,7 +38,7 @@ const props = defineProps({
     default: 'optName',
     type: String
   },
-  classes: {
+  class: {
     default: '',
     type: String
   },
@@ -47,7 +48,11 @@ const props = defineProps({
   }
 })
 const theme = {
-  color: props.textColor,
-  bgColor: props.item?.colorFill || '#0d0d0d'
+  color: props.textColor || 'var(--bg-color)',
+  bgColor: props.item?.colorFill || 'var(--item-color)'
 }
+
+const cardWrapper = computed(() => {
+  return `item-card ${props.class}`
+})
 </script>

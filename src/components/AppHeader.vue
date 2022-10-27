@@ -67,8 +67,8 @@ header.header {
       <MasterSwitch
         labelPos="left"
         input-width="3rem"
-        v-model:inputValue="darkTheme"
-        @click="toggleTheme"
+        v-model:inputValue="SwitchOn"
+        @click="switchClick"
         checkIcon="sun-moon"
         uncheckIcon="sun-moon"
         class="theme-switcher"
@@ -78,6 +78,7 @@ header.header {
           size="x-small"
           svgName="minimize"
           fillColor="var(--item-color)"
+          hoverInverse
         />
       </button>
       <button @click="maxApp" :class="`top-btn ${maxClass}`" :title="maxTitle">
@@ -86,12 +87,14 @@ header.header {
           size="x-small"
           svgName="restore"
           fillColor="var(--item-color)"
+          hoverInverse
         />
         <MasterIcon
           v-else
           size="x-small"
           svgName="maximize"
           fillColor="var(--item-color)"
+          hoverInverse
         />
       </button>
       <button @click="closeApp" class="top-btn app-close" title="Close">
@@ -99,6 +102,7 @@ header.header {
           size="x-small"
           svgName="close-filled"
           fillColor="var(--item-color)"
+          hoverInverse
         />
       </button>
     </div>
@@ -116,16 +120,53 @@ header.header {
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
+
+const ipc = window.ipcRenderer
+const date = new Date()
 
 const isMaximized = ref(true)
 const maxClass = ref('app-maximize')
 const maxTitle = ref('Maximize')
-const darkTheme = ref(false)
+const SwitchOn = ref()
+const darkTheme = computed(() => {
+  const isDay = date.getHours() >= 6 && date.getHours() <= 18
+  if (!isDay) {
+    return true
+  } else {
+    return false
+  }
+})
 
-const ipc = window.ipcRenderer
+if (darkTheme.value) {
+  SwitchOn.value = true
+} else {
+  SwitchOn.value = false
+}
+
+const toggleTheme = (type = 'isLight') => {
+  if (type === 'isDark') {
+    document.documentElement.setAttribute('data-theme', 'dark')
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light')
+  }
+}
+
+const switchClick = () => {
+  if (SwitchOn.value) {
+    toggleTheme('isDark')
+  } else {
+    toggleTheme('isLight')
+  }
+}
+
+onMounted(() => {
+  if (darkTheme.value) {
+    toggleTheme('isDark')
+  }
+})
 
 const closeApp = () => {
   ipc.send('CloseApp')
@@ -153,12 +194,4 @@ const changeMaxBtn = (isMax) => {
 
 ipc.on('isMaximized', () => changeMaxBtn(true))
 ipc.on('isRestored', () => changeMaxBtn(false))
-
-const toggleTheme = (value) => {
-  if (darkTheme.value) {
-    document.documentElement.setAttribute('data-theme', 'dark')
-  } else {
-    document.documentElement.setAttribute('data-theme', 'light')
-  }
-}
 </script>

@@ -50,7 +50,7 @@
                 <ColoredCard
                   :item="iData"
                   titleKey="totalAmount"
-                  classes="calc-card p-2"
+                  class="calc-card p-2"
                   dataKey="optName"
                   svgName="indian-rupees"
                 />
@@ -70,7 +70,7 @@
                 <ColoredCard
                   :item="iData"
                   titleKey="totalAmount"
-                  classes="calc-card p-2"
+                  class="calc-card p-2"
                   dataKey="optName"
                   svgName="indian-rupees"
                 />
@@ -90,7 +90,7 @@
                 <ColoredCard
                   :item="iData"
                   titleKey="totalAmount"
-                  classes="calc-card p-2"
+                  class="calc-card p-2"
                   dataKey="optName"
                   svgName="indian-rupees"
                 />

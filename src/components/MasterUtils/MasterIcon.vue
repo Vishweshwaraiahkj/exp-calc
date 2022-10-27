@@ -3,10 +3,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &.hover-inverse {
+    &:hover svg {
+      fill: var(--bg-color);
+    }
+  }
 }
 </style>
 <template lang="html">
-  <div :class="`svg-holder ${classes}`">
+  <div :class="svgWrapper">
     <svg
       class="shadow-svg-dark"
       :fill="fillColor"
@@ -29,7 +35,7 @@ const props = defineProps({
     default: 'placeholder',
     type: String
   },
-  classes: {
+  class: {
     default: '',
     type: String
   },
@@ -40,11 +46,24 @@ const props = defineProps({
   extraPath: {
     default: '',
     type: String
+  },
+  hoverInverse: {
+    default: false,
+    type: Boolean
   }
 })
 
 const iconName = ref(props.svgName)
 const extraPath = ref(props.extraPath)
+
+const svgWrapper = computed(() => {
+  const defaults = `svg-holder`
+  let userClasses = props.class
+  if (props.hoverInverse) {
+    userClasses += 'hover-inverse'
+  }
+  return `${defaults} ${userClasses}`
+})
 
 const iconsPath = computed(() => {
   let svgPath

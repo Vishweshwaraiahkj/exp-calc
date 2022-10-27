@@ -63,7 +63,7 @@
         v-if="leftIcon"
         :svgName="leftIcon"
         size="small"
-        classes="left-icon"
+        class="left-icon"
         fillColor="var(--item-color)"
       />
       <MasterIcon
@@ -71,14 +71,14 @@
         v-if="clearTrue && inputValue"
         size="small"
         svgName="close-filled"
-        classes="clear-icon"
+        class="clear-icon"
         fillColor="var(--item-color)"
       />
       <MasterIcon
         v-if="rightIcon && !inputValue"
         :svgName="rightIcon"
         size="small"
-        classes="right-icon"
+        class="right-icon"
         fillColor="var(--item-color)"
       />
       <input

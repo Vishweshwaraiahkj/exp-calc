@@ -153,7 +153,7 @@
           <label :for="opt.optValue">
             <MasterIcon
               :size="`small`"
-              :classes="`check-box`"
+              :class="`check-box`"
               :key="getSvgName(opt.optValue)"
               :svgName="getSvgName(opt.optValue)"
               fillColor="var(--item-color)"

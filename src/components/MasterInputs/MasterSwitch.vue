@@ -2,8 +2,6 @@
 $box-size: v-bind(inputWidth);
 
 .input-group.master-switch {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
 
   .input-span {

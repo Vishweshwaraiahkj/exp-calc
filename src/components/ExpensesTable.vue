@@ -160,7 +160,7 @@ table.table {
               size="small"
               :svgName="sortType === 'asc' ? 'chevron-up' : 'chevron-down'"
               :key="sortType"
-              classes="sort-icon"
+              class="sort-icon"
               fillColor="var(--bg-color)"
             />
           </th>
@@ -170,7 +170,11 @@ table.table {
         <tr v-for="item in visibleData" :key="item.id">
           <td>
             <template v-for="type in item.type" :key="type?.id">
-              <ColoredCard :item="type" classes="type" />
+              <ColoredCard
+                :item="type"
+                class="type"
+                textColor="var(--glob-light)"
+              />
             </template>
           </td>
           <td class="amount">
@@ -178,7 +182,11 @@ table.table {
           </td>
           <td class="categories">
             <template v-for="cat in item.category" :key="cat?.id">
-              <ColoredCard :item="cat" classes="category" />
+              <ColoredCard
+                :item="cat"
+                class="category"
+                textColor="var(--glob-light)"
+              />
             </template>
           </td>
           <td class="description">{{ item.description }}</td>
@@ -199,7 +207,7 @@ table.table {
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
-                  fillColor="var(--bg-color)"
+                  fillColor="var(--glob-light)"
                 />
               </span>
               <span class="action delete">
@@ -209,7 +217,7 @@ table.table {
                   desc="Do you want to proceed with deleting an Expense"
                   delete-type="expenses"
                   triggerIconSize="x-small"
-                  fillColor="var(--bg-color)"
+                  fillColor="var(--glob-light)"
                 />
               </span>
             </div>

@@ -28,7 +28,7 @@
       <MasterIcon
         size="500"
         svgName="man-vish"
-        classes="profile-pic"
+        class="profile-pic"
         fillColor="var(--bg-color)"
       />
     </div>

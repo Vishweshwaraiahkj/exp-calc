@@ -20,7 +20,7 @@
     position: absolute;
     width: 100%;
     height: auto;
-    background-color: var(--glob-dark);
+    background-color: var(--bg-color);
     color: var(--glob-light);
     box-shadow: boxShadow(dark);
     margin-top: 0.25rem;
@@ -42,7 +42,7 @@
 
     .selected-details {
       padding-top: px2rem(5);
-      background-color: var(--glob-dark);
+      background-color: var(--picker-header);
 
       .actions,
       .selected-str {
@@ -86,6 +86,11 @@
       }
     }
 
+    .dates-box,
+    .months-box {
+      border: 0.25rem solid var(--glob-dark);
+    }
+
     .weekdays,
     .visible-days {
       @include pickerGrid(7, 1fr);
@@ -101,11 +106,28 @@
 
     .weekdays {
       height: 10%;
+
+      div {
+        background-color: var(--picker-weekdays);
+      }
     }
 
     .visible-days,
     .visible-months {
       height: 70%;
+
+      div {
+        background-color: var(--picker-items);
+      }
+
+      .current-date {
+        background-color: var(--secondary);
+      }
+
+      .selected-date,
+      .selected {
+        background-color: var(--primary);
+      }
     }
 
     .visible-days,
@@ -120,15 +142,6 @@
     .prev-date,
     .next-date {
       opacity: 0.5;
-    }
-
-    .current-date {
-      background-color: var(--secondary);
-    }
-
-    .selected-date,
-    .selected {
-      background-color: var(--primary);
     }
 
     .time-container {
@@ -282,14 +295,16 @@
             <p>{{ stringDate }}</p>
           </div>
         </div>
-        <div v-if="isMonthPicker" class="visible-months">
-          <div
-            v-for="month in procMonths"
-            :key="month.id"
-            :class="`date-str ${month.class}`"
-            @click.stop="(e) => selectMonthYear(e, month.id)"
-          >
-            {{ month.short }}
+        <div v-if="isMonthPicker" class="months-box">
+          <div class="visible-months">
+            <div
+              v-for="month in procMonths"
+              :key="month.id"
+              :class="`date-str ${month.class}`"
+              @click.stop="(e) => selectMonthYear(e, month.id)"
+            >
+              {{ month.short }}
+            </div>
           </div>
         </div>
         <div class="dates-box" v-if="isDatePicker">

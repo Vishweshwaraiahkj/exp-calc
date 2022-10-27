@@ -17,13 +17,13 @@
   }
 
   .active {
-    background-color: #4aae9b;
-    color: #ffffff;
+    background-color: var(--item-color-active);
+    color: var(--item-color);
   }
 }
 </style>
 <template lang="html">
-  <ul class="pagination" :class="classes">
+  <ul :class="contentWrapper">
     <li class="pagination-item">
       <button
         :class="`btn btn-${btnsVariant}`"
@@ -108,7 +108,7 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  classes: {
+  class: {
     type: String,
     default: null
   },
@@ -183,4 +183,8 @@ const isPageActive = (page) => {
     return ''
   }
 }
+
+const contentWrapper = computed(() => {
+  return `pagination ${props.class}`
+})
 </script>

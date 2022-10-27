@@ -83,7 +83,7 @@
           <MasterIcon
             :key="isFavorite"
             :svgName="isFavorite"
-            classes="act-icon favorite"
+            class="act-icon favorite"
             size="24"
             fillColor="var(--glob-light)"
             @click="toggleFavorites"
@@ -118,8 +118,8 @@ const emits = defineEmits(['toggleFavorite'])
 
 const toggleFavorites = () => emits('toggleFavorite', props.item, props.type)
 
-const itemBg = ref('#0d0d0d')
-const itemColor = ref('#fdfdfd')
+const itemBg = ref()
+const itemColor = ref()
 
 watchEffect(() => {
   itemBg.value = props.item?.colorFill

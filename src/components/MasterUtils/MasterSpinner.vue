@@ -84,8 +84,8 @@ const backDropColor = computed(() => {
   } else {
     return `radial-gradient(
       ellipse farthest-corner at center bottom,
-      #69d2fb 0%,
-      #20438e 100%
+      var(--light-blue) 0%,
+      var(--dark-blue) 100%
     )
     center bottom / 100% fixed`
   }

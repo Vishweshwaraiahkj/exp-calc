@@ -6,7 +6,7 @@ figure {
 
   .chart {
     &-text {
-      fill: #000;
+      fill: var(--item-color);
       -moz-transform: translateY(0.25rem);
       -ms-transform: translateY(0.25rem);
       -webkit-transform: translateY(0.25rem);
@@ -139,7 +139,7 @@ figure {
                 cx="21"
                 cy="21"
                 r="15.91549430918954"
-                fill="#fff"
+                fill="var(--bg-color)"
                 role="presentation"
               ></circle>
               <circle
@@ -148,7 +148,7 @@ figure {
                 cy="21"
                 r="15.91549430918954"
                 fill="transparent"
-                stroke="#d2d3d4"
+                stroke="var(--bg-color)"
                 role="presentation"
               ></circle>
               <circle
@@ -252,9 +252,9 @@ const getPercent = (amount) => {
 }
 
 const colors = {
-  expense: '#a01b03',
-  income: '#1da003',
-  credits: '#e17f7f'
+  expense: 'var(--expense-color)',
+  income: 'var(--income-color)',
+  credits: 'var(--credit-color)'
 }
 
 const donutArray = ref([

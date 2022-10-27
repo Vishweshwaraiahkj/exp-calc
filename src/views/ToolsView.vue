@@ -10,7 +10,7 @@
 <template lang="html">
   <div class="dashboard">
     <h1 class="p-1"></h1>
-    <div class="container shadow-dark my-2">
+    <div class="container container-bg shadow-dark my-2">
       <div class="btn-header">
         <h3 class="px-1 title">Categories</h3>
         <AddSelectable
