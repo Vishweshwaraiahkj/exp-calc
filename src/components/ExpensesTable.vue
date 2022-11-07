@@ -57,7 +57,7 @@ table.table {
     align-items: center;
     border-top: px2rem(2) solid var(--item-color);
     margin: px2rem(10) 0 0 0;
-    padding: px2rem(10) 0 0 0;
+    padding: px2rem(10);
     box-shadow: boxShadow(top);
 
     .flex-center > div {
@@ -65,13 +65,25 @@ table.table {
     }
   }
 
+  .description {
+    cursor: pointer;
+  }
+
   .actions {
     display: inline-flex;
 
     .action {
-      padding: 0.5rem;
       margin: 0 px2rem(3);
       border-radius: var(--radius-default);
+
+      &.delete,
+      &.update {
+        width: px2rem(25);
+        height: px2rem(25);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
       &.delete {
         background-color: red;
@@ -189,7 +201,12 @@ table.table {
               />
             </template>
           </td>
-          <td class="description">{{ item.description }}</td>
+          <td class="description">
+            <MasterPopover
+              :trigger="descSubstr(item)"
+              :description="item.description"
+            />
+          </td>
           <td class="date">
             <MasterDates
               format="YYYY-MM-DD HH:MM"
@@ -280,6 +297,7 @@ import MasterSwitch from '@/components/MasterInputs/MasterSwitch.vue'
 import BriefBoard from '@/components/BriefBoard.vue'
 import MasterDonut from '@/components/MasterUtils/MasterDonut.vue'
 import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
+import MasterPopover from '@/components/MasterUtils/MasterPopover.vue'
 
 const props = defineProps({
   totalData: {
@@ -362,6 +380,15 @@ const perPageOptions = computed(() => {
   }
   return objArray
 })
+
+const descSubstr = (item) => {
+  const descStr = item.description
+  if (descStr.length > 30) {
+    return descStr.substr(0, 31) + '...'
+  } else {
+    return descStr
+  }
+}
 
 const validData = () => {
   const validArray = props.dataArray?.filter((i) => {
@@ -459,6 +486,7 @@ const updateList = (dataList, type) => {
     category: dataList.categoryList
   }
 
+  emits('emitDataToShow', selectedMonth.value)
   store.dispatch('expenses/updateExpensesList', updatedObj)
 }
 

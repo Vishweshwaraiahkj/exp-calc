@@ -1,16 +1,12 @@
-@function boxShadow($type: default, $variant: black) {
+@function boxShadow($type: default, $variant: dark) {
     // colors goes here
-    $black: var(--black);
-    $white: var(--white);
-    $black-trans: var(--black-trans);
-    $white-trans: var(--white-trans);
-    $success: var(--success);
-    $info: var(--info);
-    $warning: var(--warning);
-    $danger: var(--danger);
-    $primary: var(--primary);
-    $secondary: var(--secondary);
-    $menu: var(--menu-color);
+    $default-color: var(--shadow-color);
+    $success-color: var(--success);
+    $info-color: var(--info);
+    $warning-color: var(--warning);
+    $danger-color: var(--danger);
+    $primary-color: var(--primary);
+    $secondary-color: var(--secondary);
 
     // shadow values goes here
     $top-shadow: var(--top-shadow);
@@ -29,83 +25,79 @@
 
 
     @if $type ==menu {
-        @return $menu-shadow $black;
+        @return $menu-shadow $default-color;
     }
 
     @else if $type ==notify {
-        @return $notify-shadow $black;
+        @return $notify-shadow $default-color;
     }
 
     @else if $type ==svg-light {
-        @return $svg-light-shadow $black-trans;
+        @return $svg-light-shadow $secondary-color;
     }
 
     @else if $type ==svg-dark {
-        @return $svg-dark-shadow $black-trans;
-    }
-
-    @else if $type ==focus {
-        @return $focus-shadow $black;
-    }
-
-    @else if $type ==light {
-        @return $default-shadow $white-trans;
+        @return $svg-dark-shadow $secondary-color;
     }
 
     @else if $type ==dark {
-        @return $dark-shadow $black-trans;
+        @return $dark-shadow $default-color;
     }
 
     @else if $type ==minimal {
-        @return $minimal-shadow $black-trans;
+        @return $minimal-shadow $default-color;
+    }
+
+    @else if $type ==focus {
+        @return $focus-shadow $default-color;
     }
 
     @else if $type ==focus and $variant ==primary {
-        @return $focus-shadow $primary;
+        @return $focus-shadow $primary-color;
     }
 
     @else if $type ==focus and $variant ==secondary {
-        @return $focus-shadow $secondary;
+        @return $focus-shadow $secondary-color;
     }
 
     @else if $type ==focus and $variant ==success {
-        @return $focus-shadow $success;
+        @return $focus-shadow $success-color;
     }
 
     @else if $type ==focus and $variant ==info {
-        @return $focus-shadow $info;
+        @return $focus-shadow $info-color;
     }
 
     @else if $type ==focus and $variant ==warning {
-        @return $focus-shadow $warning;
+        @return $focus-shadow $warning-color;
     }
 
     @else if $type ==focus and $variant ==danger {
-        @return $focus-shadow $danger;
+        @return $focus-shadow $danger-color;
     }
 
     @else if $type ==top {
-        @return $top-shadow $black-trans;
+        @return $top-shadow $default-color;
     }
 
     @else if $type ==bottom {
-        @return $bottom-shadow $black-trans;
+        @return $bottom-shadow $default-color;
     }
 
     @else if $type ==card {
-        @return $card-shadow $black;
+        @return $card-shadow $default-color;
     }
 
     @else if $type ==card-hover {
-        @return $card-hover-shadow $black;
+        @return $card-hover-shadow $default-color;
     }
 
     @else if $type ==text {
-        @return $text-shadow $black;
+        @return $text-shadow $default-color;
     }
 
     @else {
-        @return $default-shadow $black-trans;
+        @return $default-shadow $default-color;
     }
 }
 
@@ -115,11 +107,18 @@
     @return #{$rem-size}rem;
 }
 
-@mixin headerFooters {
+@mixin headerFooters($type) {
     width: auto;
     color: var(--white);
     padding: 1%;
-    box-shadow: boxShadow(minimal);
+
+    @if $type ==header {
+        box-shadow: boxShadow(bottom);
+    }
+
+    @else {
+        box-shadow: boxShadow(top);
+    }
 }
 
 @mixin headings($size) {
@@ -170,7 +169,7 @@
         $rotateBy: 45deg
     }
 
-    border: solid var(--black);
+    border: solid var(--item-color);
     border-width: 0 px2rem(3) px2rem(3) 0;
     display: inline-block;
     padding: px2rem(3);
@@ -285,7 +284,7 @@
     }
 }
 
-@mixin hoverTransform($scale: 1.5) {
+@mixin transformSvg($scale: 1.5) {
     &:hover {
 
         &>.svg-holder svg,
@@ -293,6 +292,14 @@
             transition: 0.5s;
             transform: scale($scale);
         }
+    }
+}
+
+@mixin transformContainer($scale: 1.5) {
+    &:hover {
+        transition: 0.5s;
+        transform: scale($scale);
+        background-color: var(--snow-bg);
     }
 }
 

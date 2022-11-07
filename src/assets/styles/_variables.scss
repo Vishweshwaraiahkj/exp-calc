@@ -21,7 +21,7 @@
 
     --expense-color: #a01b03;
     --income-color: #1da003;
-    --credit-color: #e17f7f;
+    --credits-color: #e17f7f;
 
     --glob-light: #e3e8ec;
     --glob-dark: #343a40;
@@ -74,16 +74,16 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --global-font-family: "Trebuchet MS", sans-serif;
     --minimal-shadow: 0 1px 3px;
-    --default-shadow: 1px 1px 5px;
+    --default-shadow: 0 0 5px;
     --dark-shadow: 0 5px 10px;
     --top-shadow: 2px -3px 4px;
     --bottom-shadow: 2px 3px 4px;
     --svg-light-shadow: 3px 3px 3px;
-    --svg-dark-shadow: 6px 3px 1px;
+    --svg-dark-shadow: 3px 2px 1px;
     --focus-shadow: 0 0 0 0.2rem;
     --menu-shadow: 3px 3px 5px;
     --notify-shadow: 5px 5px 5px;
-    --card-shadow: 0 4px 8px 0;
+    --card-shadow: 0 4px 12px 0;
     --card-hover-shadow: 0 8px 16px 0;
     --text-shadow: 0 0.3rem 0.5rem;
 
@@ -97,6 +97,7 @@
     --header-color: #e59e1b;
     --footer-color: #373737;
     --menu-color: #e59e1b;
+    --shadow-color: #00000037;
 
     --bg-color: #e3e8ec;
     --bg-color-hover: #eef5fa;
@@ -127,6 +128,9 @@
     --picker-weekdays: #252525;
     --picker-items: #012345;
     --picker-header: #000145;
+    --picker-selected: #292929;
+
+    --snow-bg: #fffafa;
 }
 
 :root[data-theme="dark"] {
@@ -135,6 +139,7 @@
     --header-color: #e59e1b;
     --footer-color: #373737;
     --menu-color: #e59e1b;
+    --shadow-color: #ffffff30;
 
     --bg-color: #343a40;
     --bg-color-hover: #434a51;
@@ -165,4 +170,7 @@
     --picker-weekdays: #252525;
     --picker-items: #012345;
     --picker-header: #000145;
+    --picker-selected: #300000;
+
+    --snow-bg: #000a0a;
 }

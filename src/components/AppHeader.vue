@@ -1,5 +1,5 @@
 <style lang="scss">
-header.header {
+.main-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -23,15 +23,22 @@ header.header {
       width: px2rem(50);
       height: px2rem(40);
       outline: 0;
+      padding: px2rem(1);
       margin: px2rem(1);
 
-      &:hover {
-        background: var(--item-color);
-        border: px2rem(2) solid var(--item-color);
-      }
+      > * {
+        width: 100%;
+        height: 100%;
+        border-radius: var(--radius-default);
 
-      &:focus {
-        outline: 0;
+        &:hover {
+          background: var(--item-color);
+          border: px2rem(2) solid var(--item-color);
+        }
+
+        &:focus {
+          outline: 0;
+        }
       }
     }
 
@@ -62,7 +69,7 @@ header.header {
 }
 </style>
 <template lang="html">
-  <header class="header main">
+  <header class="main-header">
     <div class="controls-bar">
       <MasterSwitch
         labelPos="left"

@@ -8,7 +8,7 @@
       <h6>{{ type.Capitalize() }}</h6>
       <span class="close small" @click="hideNotifier">
         <MasterIcon
-          size="x-small"
+          size="small"
           svgName="close-filled"
           fillColor="var(--bg-color)"
         />
@@ -20,37 +20,56 @@
   </div>
 </template>
 <script setup>
+import { ref, watchEffect, onMounted } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
-import { onMounted, ref } from 'vue'
 
 const props = defineProps({
-  type: {
-    default: 'info',
-    type: String
-  },
-  message: {
-    default: 'Information',
-    type: String
-  },
-  position: {
-    default: 'top-right',
-    type: String
-  },
-  timeout: {
-    default: 5000,
-    type: Number
+  dataObj: {
+    default: () => {},
+    type: Object
   }
 })
 
 const isVisible = ref(true)
+const type = ref('info')
+const message = ref('Information')
+const position = ref('top-right')
+const timeout = ref(5000)
+const filePath = ref('')
 
 const hideNotifier = () => {
   isVisible.value = false
 }
 
-onMounted(() => {
+watchEffect(() => {
+  if (props.dataObj.type) {
+    type.value = props.dataObj.type
+  }
+
+  if (props.dataObj.message) {
+    message.value = props.dataObj.message
+  }
+
+  if (props.dataObj.position) {
+    position.value = props.dataObj.position
+  }
+
+  if (props.dataObj.timeout) {
+    timeout.value = props.dataObj.timeout
+  }
+
+  if (props.dataObj.path) {
+    filePath.value = props.dataObj.path
+  }
+})
+
+const closeToast = () => {
   setTimeout(() => {
     isVisible.value = false
-  }, props.timeout)
+  }, timeout.value)
+}
+
+onMounted(() => {
+  closeToast()
 })
 </script>

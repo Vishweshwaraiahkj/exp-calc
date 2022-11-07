@@ -1,10 +1,14 @@
 <template lang="html">
-  <ExpenseHome
-    v-if="ExpenseData?.length && Categories?.length && Types?.length"
-    :dataArray="ExpenseData"
-  />
-  <div v-else>
-    <MasterSpinner titleText="loading table data...!" size="large" noBg />
+  <div class="dashboard pt-3">
+    <div class="container container-bg">
+      <ExpenseHome
+        v-if="ExpenseData?.length && Categories?.length && Types?.length"
+        :dataArray="ExpenseData"
+      />
+      <div v-else>
+        <MasterSpinner titleText="loading table data...!" size="large" noBg />
+      </div>
+    </div>
   </div>
 </template>
 

@@ -5,11 +5,15 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
 import fs from 'fs'
+import Os from 'os'
 
 let udPath = app.getPath('userData')
 if (!app.isPackaged) {
   udPath = process.cwd()
 }
+
+const homeDir = Os.homedir()
+const docsDir = `${homeDir}/Documents`
 
 const ipc = ipcMain
 
@@ -97,6 +101,33 @@ async function createWindow() {
   // Close app
   ipc.on('CloseApp', () => {
     win.close()
+  })
+
+  // Create PDF
+  ipc.on('print-to-pdf', (event) => {
+    const date = new Date()
+    const pdfPath = path.join(docsDir, `/${date.getTime()}.pdf`)
+    win.webContents
+      .printToPDF({
+        printBackground: true,
+        landscape: true,
+        displayHeaderFooter: true
+      })
+      .then((data) => {
+        fs.writeFile(pdfPath, data, { flag: 'wx' }, (error) => {
+          if (error) throw error
+          win.webContents.send('execPdf', {
+            message: 'Successfully wrote to PDF',
+            path: pdfPath
+          })
+        })
+      })
+      .catch((error) => {
+        win.webContents.send('execPdf', {
+          message: 'Failed to write PDF: ' + error.message,
+          path: pdfPath
+        })
+      })
   })
 
   win.on('maximize', () => {

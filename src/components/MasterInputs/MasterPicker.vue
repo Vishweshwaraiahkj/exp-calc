@@ -67,7 +67,7 @@
           margin: 0 px2rem(5);
 
           &:focus {
-            @include hoverTransform(0.8);
+            @include transformSvg(0.8);
           }
         }
       }
@@ -156,17 +156,21 @@
 
       .selected-time {
         display: flex;
-        background-color: var(--glob-dark);
-        color: var(--glob-light);
         cursor: pointer;
 
         span {
+          background-color: var(--picker-selected);
+          color: var(--glob-light);
           height: px2rem(40);
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin: auto;
+          margin-right: px2rem(2);
+
+          &:last-child {
+            margin: 0;
+          }
         }
       }
 
@@ -216,7 +220,7 @@
           color: var(--glob-light);
 
           &.is-selected {
-            background-color: var(--glob-dark);
+            background-color: var(--picker-selected);
             color: var(--glob-light);
           }
         }

@@ -1,6 +1,6 @@
 <style lang="scss">
 .svg-holder {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 

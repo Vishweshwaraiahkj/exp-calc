@@ -12,15 +12,13 @@
     <MasterNotifier
       v-if="toastMsgs.message"
       :key="toastKey"
-      :type="toastMsgs.type"
-      :position="`top-right`"
-      :message="toastMsgs.message"
-      :timeout="5000"
+      :dataObj="toastMsgs"
     />
     <AppHeader>
       <nav class="menu">
         <router-link to="/">Home</router-link> |
         <router-link to="/tools">Tools</router-link> |
+        <router-link to="/icons">Icons</router-link> |
         <router-link to="/about">About</router-link>
       </nav>
     </AppHeader>

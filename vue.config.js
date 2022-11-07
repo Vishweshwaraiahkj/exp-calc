@@ -34,7 +34,8 @@ module.exports = defineConfig({
           installerIcon: 'public/favicon.ico',
           uninstallerIcon: 'public/favicon.ico',
           oneClick: false
-        }
+        },
+        extraResources: ['src/assets/icons/**']
       },
       chainWebpackRendererProcess(config) {
         config.plugins.delete('workbox')

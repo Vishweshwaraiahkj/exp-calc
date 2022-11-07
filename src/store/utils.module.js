@@ -1,6 +1,6 @@
-import { IsValidObject, UpdateArrayByKey, CustomSort } from '@/utils/globals'
 import fs from 'fs'
 import * as path from 'path'
+import { IsValidObject, UpdateArrayByKey, CustomSort } from '@/utils/globals'
 
 export default {
   namespaced: true,

@@ -1,5 +1,7 @@
 {
   "name": "exp-calc",
+  "description": "This is a simple yet very useful Expense calculator app",
+  "author": "Vish_Master",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -12,6 +12,23 @@ export const ensureDirExists = (filePath) => {
   fs.mkdirSync(dirname)
 }
 
+export const GetDirFiles = async (filesPath, fileList = [], subDir = '') => {
+  const files = await fs.readdirSync(filesPath)
+
+  for (const fileName of files) {
+    const filePath = path.join(filesPath, fileName)
+    const stat = await fs.statSync(filePath)
+    const fileStr = path.basename(filePath, '.svg')
+    if (stat.isDirectory()) {
+      fileList = await GetDirFiles(filePath, fileList, fileStr)
+    } else {
+      fileList.push({ filePath, fileName, fileStr, subDir })
+    }
+  }
+
+  return fileList
+}
+
 const TrimString = (s) => {
   let l = 0
   let r = s.length - 1

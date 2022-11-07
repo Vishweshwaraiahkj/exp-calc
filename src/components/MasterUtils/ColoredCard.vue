@@ -10,7 +10,7 @@
       <MasterIcon
         v-if="svgName"
         :svgName="svgName"
-        fillColor="var(--bg-color)"
+        fillColor="var(--glob-light)"
         size="small"
       />
       <h2>{{ item[titleKey] }}</h2>
@@ -47,9 +47,10 @@ const props = defineProps({
     type: String
   }
 })
+
 const theme = {
-  color: props.textColor || 'var(--bg-color)',
-  bgColor: props.item?.colorFill || 'var(--item-color)'
+  color: props.textColor || 'var(--glob-light)',
+  bgColor: props.item?.colorFill || 'var(--bg-color)'
 }
 
 const cardWrapper = computed(() => {

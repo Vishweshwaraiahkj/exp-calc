@@ -254,7 +254,7 @@ const getPercent = (amount) => {
 const colors = {
   expense: 'var(--expense-color)',
   income: 'var(--income-color)',
-  credits: 'var(--credit-color)'
+  credits: 'var(--credits-color)'
 }
 
 const donutArray = ref([

@@ -9,6 +9,10 @@
     display: flex;
     flex-direction: column;
 
+    * {
+      text-shadow: boxShadow(text);
+    }
+
     h2:first-child {
       font-size: 4rem;
       align-self: flex-start;

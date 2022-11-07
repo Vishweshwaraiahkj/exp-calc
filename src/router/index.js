@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import ToolsView from '@/views/ToolsView.vue'
 import ExpenseView from '@/views/ExpenseView.vue'
+import IconsView from '@/views/IconsView.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/tools',
     name: 'Tools',
     component: ToolsView
+  },
+  {
+    path: '/icons',
+    name: 'Icons',
+    component: IconsView
   },
   {
     path: '/about',

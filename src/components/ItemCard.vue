@@ -6,9 +6,14 @@
     margin: 0.625rem;
     font-size: 1rem;
     font-weight: bold;
-
+    border: px2rem(5) solid var(--item-color);
     color: v-bind('itemColor');
     background: v-bind('itemBg');
+
+    .card-body .item-label,
+    .card-body .item-name {
+      color: var(--glob-light);
+    }
 
     .actions-box {
       cursor: pointer;
@@ -38,7 +43,7 @@
           outline: 0;
         }
 
-        @include hoverTransform();
+        @include transformSvg();
       }
     }
   }
