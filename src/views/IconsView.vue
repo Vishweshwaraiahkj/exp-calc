@@ -11,11 +11,13 @@
       <div v-else class="p-3">No icon files found in directory!</div>
     </div>
   </div>
+  <MasterScrollto />
 </template>
 <script setup>
 import { ref } from 'vue'
 import { GetDirFiles, CustomSort } from '@/utils/globals'
 import IconsLibrary from '@/components/IconsLibrary.vue'
+import MasterScrollto from '@/components/MasterUtils/MasterScrollto.vue'
 
 const iconsList = ref([])
 

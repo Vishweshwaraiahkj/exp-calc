@@ -28,7 +28,7 @@ async function createWindow() {
   // Create the browser window.
   let win = new BrowserWindow({
     minHeight: 560,
-    minWidth: 940,
+    minWidth: 768,
     show: false,
     frame: false,
     webPreferences: {
@@ -114,6 +114,10 @@ async function createWindow() {
         displayHeaderFooter: true
       })
       .then((data) => {
+        if (!fs.existsSync(docsDir)) {
+          fs.mkdirSync(docsDir, { recursive: true })
+        }
+
         fs.writeFile(pdfPath, data, { flag: 'wx' }, (error) => {
           if (error) throw error
           win.webContents.send('execPdf', {

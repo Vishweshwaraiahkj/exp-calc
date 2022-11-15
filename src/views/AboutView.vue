@@ -4,12 +4,14 @@
   width: px2rem(60);
   height: px2rem(60);
   bottom: px2rem(40);
-  right: px2rem(40);
-  background-color: var(--success-lt);
+  left: px2rem(40);
+  background-color: var(--bg-color);
   border-radius: px2rem(50);
   text-align: center;
   box-shadow: boxShadow();
   z-index: 100;
+
+  @include transformContainer(1.1);
 }
 
 .is-hidden {
@@ -32,9 +34,10 @@
 
     .profile-pic {
       height: 80%;
-      width: auto;
+      width: 30%;
+      padding: px2rem(16);
 
-      @include transformSvg(1.2);
+      @include transformSvg(0.9);
     }
   }
 }
@@ -49,7 +52,7 @@
     <MasterIcon
       svgName="download"
       size="medium"
-      fillColor="var(--glob-light)"
+      fillColor="var(--item-color)"
     />
   </button>
   <div class="dashboard about pt-3">
@@ -57,7 +60,7 @@
       <MasterPortfolio />
       <MasterIcon
         size="500"
-        svgName="man-vish"
+        svgName="developer"
         class="profile-pic"
         fillColor="var(--bg-color)"
       />

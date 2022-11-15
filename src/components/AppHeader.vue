@@ -56,7 +56,7 @@
     height: px2rem(50);
 
     .master-logo {
-      box-shadow: var(--menu-shadow) var(--black);
+      box-shadow: boxShadow(menu);
       border-radius: var(--radius-default);
       background-color: var(--menu-color);
       -webkit-app-region: no-drag;
@@ -71,6 +71,14 @@
 <template lang="html">
   <header class="main-header">
     <div class="controls-bar">
+      <MasterSwitch
+        labelPos="left"
+        input-width="2rem"
+        @click="reloadPage"
+        checkIcon="reload"
+        uncheckIcon="reload"
+        class="theme-switcher"
+      />
       <MasterSwitch
         labelPos="left"
         input-width="3rem"
@@ -151,6 +159,10 @@ if (darkTheme.value) {
   SwitchOn.value = true
 } else {
   SwitchOn.value = false
+}
+
+const reloadPage = () => {
+  window.location.reload()
 }
 
 const toggleTheme = (type = 'isLight') => {

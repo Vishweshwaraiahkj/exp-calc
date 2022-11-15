@@ -74,18 +74,20 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --global-font-family: "Trebuchet MS", sans-serif;
     --minimal-shadow: 0 1px 3px;
-    --default-shadow: 0 0 5px;
+    --default-shadow: 0 3px 8px;
     --dark-shadow: 0 5px 10px;
     --top-shadow: 2px -3px 4px;
     --bottom-shadow: 2px 3px 4px;
     --svg-light-shadow: 3px 3px 3px;
     --svg-dark-shadow: 3px 2px 1px;
     --focus-shadow: 0 0 0 0.2rem;
-    --menu-shadow: 3px 3px 5px;
     --notify-shadow: 5px 5px 5px;
     --card-shadow: 0 4px 12px 0;
     --card-hover-shadow: 0 8px 16px 0;
     --text-shadow: 0 0.3rem 0.5rem;
+    --menu-shadow: 0px 50px 100px -20px #32325d40,
+        0px 30px 60px -30px #0000004d,
+        0px -2px 6px 0px #0a254059 inset;
 
     --radius-default: 0.25rem;
     --table-cell-padding: 1rem;
@@ -94,9 +96,9 @@
 :root[data-theme="light"] {
     --text-default: #1d1d1f;
     --text-secondary: #86868b;
-    --header-color: #e59e1b;
+    --header-color: #7bd115;
     --footer-color: #373737;
-    --menu-color: #e59e1b;
+    --menu-color: #7bd115;
     --shadow-color: #00000037;
 
     --bg-color: #e3e8ec;
@@ -108,7 +110,7 @@
     --item-color-hover: #434a51;
     --item-color-disabled: #434e58;
     --item-color-border: #292e32;
-    --item-color-active: #5FDBA7;
+    --item-color-active: #5fdba7;
 
     --container-color: #ffffff;
 
@@ -134,23 +136,23 @@
 }
 
 :root[data-theme="dark"] {
-    --text-default: #fafafa;
-    --text-secondary: #86868b;
-    --header-color: #e59e1b;
+    --text-default: #e2e2e0;
+    --text-secondary: #797974;
+    --header-color: #7bd115;
     --footer-color: #373737;
-    --menu-color: #e59e1b;
-    --shadow-color: #ffffff30;
+    --menu-color: #7bd115;
+    --shadow-color: #ffffff37;
 
-    --bg-color: #343a40;
-    --bg-color-hover: #434a51;
-    --bg-color-disabled: #434e58;
-    --bg-color-border: #292e32;
+    --bg-color: #1c1713;
+    --bg-color-hover: #110a05;
+    --bg-color-disabled: #282625;
+    --bg-color-border: #271f18;
 
-    --item-color: #e3e8ec;
-    --item-color-hover: #eef5fa;
-    --item-color-disabled: #d7d9da;
-    --item-color-border: #d8e0e7;
-    --item-color-active: #5FDBA7;
+    --item-color: #cbc5bf;
+    --item-color-hover: #bcb5ae;
+    --item-color-disabled: #bcb1a7;
+    --item-color-border: #d6d1cd;
+    --item-color-active: #a02458;
 
     --container-color: #000000;
 

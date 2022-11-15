@@ -1,42 +1,45 @@
 <style lang="scss">
 .master-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 1rem;
 
   .name-title {
-    display: flex;
-    flex-direction: column;
-
     * {
       text-shadow: boxShadow(text);
     }
 
-    h2:first-child {
+    h2 {
       font-size: 4rem;
-      align-self: flex-start;
-    }
 
-    h1 {
-      font-size: 5rem;
-      padding: 1rem;
-      border-radius: 2rem;
-      border: px2rem(10) solid var(--item-color);
-    }
+      &:first-child {
+        align-self: flex-start;
+      }
 
-    h2:last-child {
-      align-self: flex-end;
+      &:last-child {
+        font-size: 3rem;
+        align-self: flex-end;
+      }
     }
+  }
+
+  .experience-details {
   }
 }
 </style>
 <template lang="html">
   <div class="master-container">
     <div class="name-title">
-      <h2>Hello..., I'm</h2>
-      <h1>Mr. {{ userDetails.fullName }}</h1>
-      <h2>Working as a {{ userDetails.designation }}</h2>
+      <h2>Hi There! I'm Mr. {{ userDetails.fullName }}</h2>
+      <h2>A {{ userDetails.designation }}</h2>
+    </div>
+    <div class="experience-details">
+      More than 8 years of experience in software development. Created real-time
+      web applications, complex back-end management systems including content
+      management, e-commerce. The projects based on Node and React JS in
+      conjunction with various other web development technologies. JavaScript
+      (generic JavaScript, jQuery, AJAX, React JS, Vue JS, D3 JS), HTML, CSS,
+      Java (HIBERNATE and Spring MVC), Node JS (Express JS), SQL (Oracle DB,
+      MySQL, DB2) are used. Designed layouts and templates for various small
+      companies and individuals.
     </div>
   </div>
 </template>

@@ -352,6 +352,39 @@ h6,
   @include headings(1rem);
 }
 
+@media only screen and (min-width: 768px) and (max-width: 960px) {
+
+  h1,
+  .h1 {
+    @include headings(1.25rem);
+  }
+
+  h2,
+  .h2 {
+    @include headings(1);
+  }
+
+  h3,
+  .h3 {
+    @include headings(1rem);
+  }
+
+  h4,
+  .h4 {
+    @include headings(1rem);
+  }
+
+  h5,
+  .h5 {
+    @include headings(0.625rem);
+  }
+
+  h6,
+  .h6 {
+    @include headings(0.5rem);
+  }
+}
+
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -417,21 +450,21 @@ pre {
   }
 }
 
-@media (min-width: 768px) {
-  .container {
-    max-width: px2rem(832);
-  }
-}
-
-@media (min-width: 992px) {
+@media only screen and (min-width: 768px) and (max-width: 960px) {
   .container {
     max-width: px2rem(960);
   }
 }
 
-@media (min-width: 1200px) {
+@media only screen and (min-width: 960px) and (max-width: 1200) {
   .container {
-    max-width: px2rem(1140);
+    max-width: px2rem(960);
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .container {
+    max-width: px2rem(1200);
   }
 }
 
@@ -566,7 +599,7 @@ pre {
   max-width: 100%;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 960px) {
   .col {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
@@ -655,7 +688,7 @@ pre {
   }
 }
 
-@media (min-width: 992px) {
+@media only screen and (min-width: 960px) and (max-width: 1200px) {
   .col {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
@@ -744,7 +777,7 @@ pre {
   }
 }
 
-@media (min-width: 1200px) {
+@media only screen and (min-width: 1200px) {
   .col {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
@@ -916,7 +949,9 @@ pre {
 }
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 400;
   text-align: center;
   vertical-align: middle;
@@ -1022,17 +1057,18 @@ nav {
       box-shadow: boxShadow(menu);
       display: inline-flex;
       align-items: center;
-      color: var(--glob-dark);
+      color: var(--item-color);
       font-weight: bold;
       padding: 0 1rem;
       height: 100%;
+      gap: px2rem(10);
 
       &:focus {
         outline: none;
       }
 
       &.router-link-exact-active {
-        color: var(--glob-light);
+        color: var(--bg-color);
       }
     }
   }
@@ -1225,6 +1261,12 @@ footer,
     font-size: 1.25rem;
     text-align: center;
     grid-column: span 1;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 960px) {
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(32.33333%, 2fr));
   }
 }
 

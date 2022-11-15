@@ -25,7 +25,7 @@
 
 
     @if $type ==menu {
-        @return $menu-shadow $default-color;
+        @return $menu-shadow;
     }
 
     @else if $type ==notify {
@@ -122,9 +122,9 @@
 }
 
 @mixin headings($size) {
-    margin-bottom: 0.5rem;
+    margin-bottom: calc($size/4);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1;
     font-size: $size;
 }
 
@@ -300,6 +300,7 @@
         transition: 0.5s;
         transform: scale($scale);
         background-color: var(--snow-bg);
+        color: var(--item-color);
     }
 }
 

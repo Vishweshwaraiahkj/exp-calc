@@ -6,9 +6,10 @@
     margin: 0.625rem;
     font-size: 1rem;
     font-weight: bold;
-    border: px2rem(5) solid var(--item-color);
+    border: px2rem(2) solid var(--item-color);
     color: v-bind('itemColor');
     background: v-bind('itemBg');
+    box-shadow: boxShadow(dark);
 
     .card-body .item-label,
     .card-body .item-name {
@@ -28,9 +29,8 @@
       }
 
       > * {
-        margin-left: px2rem(5);
         border-right: px2rem(2) solid var(--white);
-        padding: px2rem(20);
+        padding: px2rem(20) 0;
         flex: 1;
 
         &:last-child {
@@ -39,6 +39,11 @@
       }
 
       button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+
         &:focus {
           outline: 0;
         }

@@ -59,10 +59,6 @@ table.table {
     margin: px2rem(10) 0 0 0;
     padding: px2rem(10);
     box-shadow: boxShadow(top);
-
-    .flex-center > div {
-      box-shadow: boxShadow(dark);
-    }
   }
 
   .description {
@@ -83,14 +79,6 @@ table.table {
         display: flex;
         justify-content: center;
         align-items: center;
-      }
-
-      &.delete {
-        background-color: red;
-      }
-
-      &.update {
-        background-color: green;
       }
     }
   }
@@ -224,7 +212,7 @@ table.table {
                   triggerIcon="edit"
                   triggerIconSize="x-small"
                   triggerId="triggerEdit"
-                  fillColor="var(--glob-light)"
+                  fillColor="var(--item-color)"
                 />
               </span>
               <span class="action delete">
@@ -234,7 +222,7 @@ table.table {
                   desc="Do you want to proceed with deleting an Expense"
                   delete-type="expenses"
                   triggerIconSize="x-small"
-                  fillColor="var(--glob-light)"
+                  fillColor="var(--item-color)"
                 />
               </span>
             </div>
@@ -486,7 +474,7 @@ const updateList = (dataList, type) => {
     category: dataList.categoryList
   }
 
-  emits('emitDataToShow', selectedMonth.value)
+  if (!allRows.value) emits('emitDataToShow', selectedMonth.value)
   store.dispatch('expenses/updateExpensesList', updatedObj)
 }
 

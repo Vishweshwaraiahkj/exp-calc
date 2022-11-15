@@ -4,7 +4,7 @@ export default {
     firstName: 'Vish',
     middleName: 'K',
     lastName: 'J',
-    designation: 'Web Developer'
+    designation: 'Senior Software Engineer'
   },
   getters: {
     userDetails: (state) => {

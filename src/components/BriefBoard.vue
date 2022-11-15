@@ -13,13 +13,13 @@
 
   .price-box {
     display: inline-flex;
-    box-shadow: boxShadow(card);
+    box-shadow: boxShadow(menu);
     align-items: center;
     justify-content: flex-start;
     width: 100%;
 
     &:hover {
-      box-shadow: boxShadow(card-hover);
+      box-shadow: boxShadow(menu);
     }
 
     h4 {
@@ -72,7 +72,6 @@
   .balance-amount,
   .money.equal {
     letter-spacing: px2rem(1);
-    margin: px2rem(5) 0;
     white-space: nowrap;
     color: var(--white);
   }
@@ -87,6 +86,15 @@
     background: var(--item-color);
     color: var(--bg-color);
     flex: 1;
+    border-radius: var(--radius-default);
+    box-shadow: boxShadow(menu);
+    white-space: nowrap;
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 960px) {
+    .daily-card {
+      padding: 0.625rem;
+    }
   }
 }
 </style>
@@ -174,7 +182,7 @@
     </div>
   </div>
   <div v-if="totalData" class="day-months flex-center">
-    <div class="card daily-card">
+    <div class="daily-card">
       <label class="flex-center">Today's Expense:</label>
       <span class="flex-center">
         <MasterIcon
@@ -185,7 +193,7 @@
         {{ todaysExpense.toLocaleString('en-IN') }}
       </span>
     </div>
-    <div class="card daily-card">
+    <div class="daily-card">
       <label class="flex-center">Today's Income:</label>
       <span class="flex-center">
         <MasterIcon
@@ -196,7 +204,7 @@
         {{ todaysIncome.toLocaleString('en-IN') }}
       </span>
     </div>
-    <div class="card daily-card">
+    <div class="daily-card">
       <label class="flex-center">This Month's Expense:</label>
       <span class="flex-center">
         <MasterIcon
@@ -207,7 +215,7 @@
         {{ monthsExpense.toLocaleString('en-IN') }}
       </span>
     </div>
-    <div class="card daily-card">
+    <div class="daily-card">
       <label class="flex-center">This Month's Income:</label>
       <span class="flex-center">
         <MasterIcon

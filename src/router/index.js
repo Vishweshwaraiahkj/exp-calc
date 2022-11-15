@@ -11,12 +11,12 @@ const routes = [
   },
   {
     path: '/tools',
-    name: 'Tools',
+    name: 'tools',
     component: ToolsView
   },
   {
     path: '/icons',
-    name: 'Icons',
+    name: 'icons',
     component: IconsView
   },
   {
