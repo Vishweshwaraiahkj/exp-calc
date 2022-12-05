@@ -32,6 +32,17 @@
       padding-left: px2rem(45);
     }
 
+    &.textarea {
+      .clear-icon {
+        height: auto;
+      }
+
+      textarea {
+        resize: none;
+        @include hideScroll;
+      }
+    }
+
     .left-icon,
     .clear-icon,
     .right-icon {
@@ -81,7 +92,24 @@
         class="right-icon"
         fillColor="var(--item-color)"
       />
+      <textarea
+        v-if="inputType === 'textarea'"
+        :class="`master-input`"
+        :id="inputId"
+        :name="inputName"
+        :rows="inputRows"
+        :placeholder="inputPlaceholder"
+        :value="inputValue"
+        :required="inputRequired"
+        :readonly="isReadOnly"
+        @input="updateInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @keypress="readOnlyInput"
+      >
+      </textarea>
       <input
+        v-else
         :class="`master-input`"
         :id="inputId"
         :type="inputType"
@@ -175,6 +203,10 @@ const props = defineProps({
   isReadOnly: {
     default: false,
     type: Boolean
+  },
+  inputRows: {
+    default: 5,
+    type: Number
   }
 })
 
@@ -188,7 +220,7 @@ const clearTrue = computed(() => {
 })
 
 const inputWrapper = computed(() => {
-  const defClasses = 'input-span form-control'
+  const defClasses = `input-span form-control ${props.inputType}`
   const isInvalid = !validInput.value && props.inputRequired
   const errClass = isInvalid ? 'err' : ''
   const padClass = props.isPadded ? 'input-pad' : ''

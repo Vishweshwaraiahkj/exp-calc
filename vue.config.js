@@ -12,6 +12,7 @@ module.exports = defineConfig({
           indentedSyntax: false
         },
         additionalData: `
+            @import "src/assets/styles/fonts";
             @import "src/assets/styles/variables";
             @import "src/assets/styles/keyframes";
             @import "src/assets/styles/mixins";
@@ -24,7 +25,7 @@ module.exports = defineConfig({
       nodeIntegration: true,
       preload: 'src/preload.js',
       builderOptions: {
-        productName: 'Expense Calculator',
+        productName: 'My Expenses',
         appId: 'exp-calc',
         win: {
           target: ['nsis'],

@@ -7,44 +7,82 @@
       text-shadow: boxShadow(text);
     }
 
+    h1 {
+      font-size: 5rem;
+    }
+
     h2 {
       font-size: 4rem;
+    }
 
-      &:first-child {
-        align-self: flex-start;
-      }
-
-      &:last-child {
-        font-size: 3rem;
-        align-self: flex-end;
-      }
+    h3 {
+      font-size: 3rem;
     }
   }
 
+  #triggerUpdate {
+    padding: 0;
+  }
+
   .experience-details {
+    margin-top: 2rem;
   }
 }
 </style>
 <template lang="html">
   <div class="master-container">
-    <div class="name-title">
-      <h2>Hi There! I'm Mr. {{ userDetails.fullName }}</h2>
-      <h2>A {{ userDetails.designation }}</h2>
+    <MasterUserUpdater
+      :defaultsObj="userDetails"
+      :actionType="actionType"
+      triggerId="triggerUpdate"
+      @emitDataUpdate="updateUserData"
+      btnClasses="editBtn"
+      triggerIcon="edit-feather"
+      title="Update user details"
+    />
+    <div v-if="userDetails.id" class="user_container">
+      <div class="name-title">
+        <h2>Hi There!</h2>
+        <h1>I'm Mr. {{ userDetails.fullName }}</h1>
+        <h3>A {{ userDetails.designation }}</h3>
+      </div>
+      <div class="experience-details">
+        {{ userDetails.description }}
+      </div>
     </div>
-    <div class="experience-details">
-      More than 8 years of experience in software development. Created real-time
-      web applications, complex back-end management systems including content
-      management, e-commerce. The projects based on Node and React JS in
-      conjunction with various other web development technologies. JavaScript
-      (generic JavaScript, jQuery, AJAX, React JS, Vue JS, D3 JS), HTML, CSS,
-      Java (HIBERNATE and Spring MVC), Node JS (Express JS), SQL (Oracle DB,
-      MySQL, DB2) are used. Designed layouts and templates for various small
-      companies and individuals.
-    </div>
+    <div v-else>No data exists! Please add.</div>
   </div>
 </template>
 <script setup>
+import { ref, computed, watchEffect } from 'vue'
 import { useStore } from 'vuex'
+import { IsValidObject } from '@/utils/globals'
+import MasterUserUpdater from '@/components/Personal/MasterUserUpdater.vue'
+
 const store = useStore()
-const userDetails = store.getters['user/userDetails']
+const actionType = ref('')
+
+const userDetails = computed(() => store.getters['user/userDetails'])
+
+watchEffect(() => {
+  if (!IsValidObject(userDetails.value)) {
+    actionType.value = 'add'
+    store.dispatch('user/fetchUserDetails')
+  } else {
+    actionType.value = 'update'
+  }
+})
+
+const updateUserData = (userData, type) => {
+  const updatedObj = {
+    id: userData.id,
+    description: userData.description,
+    fullName: userData.fullName,
+    designation: userData.designation,
+    selectedGender: userData.selectedGender,
+    birthDate: userData.birthDate
+  }
+
+  store.dispatch('user/updateUserData', updatedObj)
+}
 </script>

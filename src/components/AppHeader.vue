@@ -75,8 +75,8 @@
         labelPos="left"
         input-width="2rem"
         @click="reloadPage"
-        checkIcon="reload"
-        uncheckIcon="reload"
+        trueIcon="reload"
+        falseIcon="reload"
         class="theme-switcher"
       />
       <MasterSwitch
@@ -84,8 +84,8 @@
         input-width="3rem"
         v-model:inputValue="SwitchOn"
         @click="switchClick"
-        checkIcon="sun-moon"
-        uncheckIcon="sun-moon"
+        trueIcon="sun-moon"
+        falseIcon="sun-moon"
         class="theme-switcher"
       />
       <button @click="minApp" class="top-btn app-minimize" title="Minimize">

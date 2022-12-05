@@ -159,3 +159,17 @@
         box-shadow: 0.2em -0.2em 0 0 currentcolor;
     }
 }
+
+@include keyframes(floatAnim) {
+    0% {
+        transform: translate(0, 10%);
+    }
+
+    50% {
+        transform: translate(0, -5%);
+    }
+
+    100% {
+        transform: translate(0, 10%);
+    }
+}

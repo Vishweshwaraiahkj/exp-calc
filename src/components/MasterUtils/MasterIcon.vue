@@ -3,6 +3,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: v-bind('bgColor');
 
   &.hover-inverse {
     &:hover svg {
@@ -50,6 +51,10 @@ const props = defineProps({
   hoverInverse: {
     default: false,
     type: Boolean
+  },
+  bgColor: {
+    default: '',
+    type: String
   }
 })
 
@@ -86,12 +91,12 @@ const getSize = computed(() => {
     return '54'
   } else if (props.size === 'large') {
     return '40'
+  } else if (props.size === 'medium') {
+    return '32'
   } else if (props.size === 'small') {
     return '20'
   } else if (props.size === 'x-small') {
     return '16'
-  } else if (props.size === 'medium') {
-    return '32'
   } else {
     return props.size
   }

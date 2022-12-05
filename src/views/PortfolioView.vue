@@ -1,10 +1,10 @@
 <style lang="scss">
-#printBtn {
+.printBtn,
+.editBtn {
   position: fixed;
   width: px2rem(60);
   height: px2rem(60);
   bottom: px2rem(40);
-  left: px2rem(40);
   background-color: var(--bg-color);
   border-radius: px2rem(50);
   text-align: center;
@@ -12,6 +12,14 @@
   z-index: 100;
 
   @include transformContainer(1.1);
+}
+
+.printBtn {
+  left: px2rem(40);
+}
+
+.editBtn {
+  left: px2rem(120);
 }
 
 .is-hidden {
@@ -41,6 +49,10 @@
     }
   }
 }
+
+.floating-dev {
+  animation: floatAnim 6s ease-in-out infinite;
+}
 </style>
 <template lang="html">
   <MasterNotifier
@@ -48,9 +60,9 @@
     :key="toastKey"
     :dataObj="toastMsgs"
   />
-  <button id="printBtn" class="btn btn-primary" @click="createPdf">
+  <button class="btn printBtn" @click="createPdf" title="Download as PDF">
     <MasterIcon
-      svgName="download"
+      svgName="download-styled"
       size="medium"
       fillColor="var(--item-color)"
     />
@@ -61,7 +73,7 @@
       <MasterIcon
         size="500"
         svgName="developer"
-        class="profile-pic"
+        class="profile-pic floating-dev"
         fillColor="var(--bg-color)"
       />
     </div>
@@ -80,7 +92,8 @@ const toastKey = ref(0)
 const createPdf = (event) => {
   document.querySelector('.main-header').classList.add('is-hidden')
   document.querySelector('.main-footer').classList.add('is-hidden')
-  document.getElementById('printBtn').classList.add('is-hidden')
+  document.querySelector('.printBtn').classList.add('is-hidden')
+  document.querySelector('.editBtn').classList.add('is-hidden')
   ipc.send('print-to-pdf')
 }
 
@@ -94,6 +107,7 @@ ipc.on('execPdf', (event, pdfResponse) => {
   toastKey.value = toastKey.value + 1
   document.querySelector('.main-header').classList.remove('is-hidden')
   document.querySelector('.main-footer').classList.remove('is-hidden')
-  document.getElementById('printBtn').classList.remove('is-hidden')
+  document.querySelector('.printBtn').classList.remove('is-hidden')
+  document.querySelector('.editBtn').classList.remove('is-hidden')
 })
 </script>

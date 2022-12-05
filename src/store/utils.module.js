@@ -91,11 +91,21 @@ export default {
         const dbPath = path.resolve(udPath + '/data/categories.json')
         fs.readFile(dbPath, 'utf8', (err, data) => {
           if (err) {
-            context.dispatch(
+            return context.dispatch(
               'utils/floatingMessages',
               {
                 message: 'Error getting existing categories!',
                 type: 'error'
+              },
+              { root: true }
+            )
+          }
+          if (!data) {
+            return context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'No categories! Please add one.',
+                type: 'info'
               },
               { root: true }
             )
@@ -112,11 +122,21 @@ export default {
       if (udPath) {
         fs.readFile(dbPath, 'utf8', (err, data) => {
           if (err) {
-            context.dispatch(
+            return context.dispatch(
               'utils/floatingMessages',
               {
                 message: 'Error getting existing types!',
                 type: 'error'
+              },
+              { root: true }
+            )
+          }
+          if (!data) {
+            return context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'No types! Please add one.',
+                type: 'info'
               },
               { root: true }
             )
@@ -142,7 +162,7 @@ export default {
         { flag: 'w+' },
         (error) => {
           if (error) {
-            context.dispatch(
+            return context.dispatch(
               'utils/floatingMessages',
               {
                 message: 'Error adding item!',
@@ -150,7 +170,6 @@ export default {
               },
               { root: true }
             )
-            return
           }
           context.dispatch(
             'utils/floatingMessages',
@@ -185,7 +204,7 @@ export default {
         { flag: 'w+' },
         (error) => {
           if (error) {
-            context.dispatch(
+            return context.dispatch(
               'utils/floatingMessages',
               {
                 message: 'Error updating item!',
@@ -193,7 +212,6 @@ export default {
               },
               { root: true }
             )
-            return
           }
           context.dispatch(
             'utils/floatingMessages',
@@ -230,7 +248,7 @@ export default {
         { flag: 'w+' },
         (error) => {
           if (error) {
-            context.dispatch(
+            return context.dispatch(
               'utils/floatingMessages',
               {
                 message: 'Error deleting item!',
@@ -238,7 +256,6 @@ export default {
               },
               { root: true }
             )
-            return
           }
           context.dispatch(
             'utils/floatingMessages',

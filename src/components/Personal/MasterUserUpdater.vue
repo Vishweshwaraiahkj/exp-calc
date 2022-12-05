@@ -1,9 +1,14 @@
+<style lang="scss" scoped>
+#userUpdater {
+  display: flex;
+}
+</style>
 <template lang="html">
   <MasterModal
     :triggerId="triggerId"
-    modalId="expensesModal"
+    modalId="userUpdater"
     modalSize="medium"
-    btnClasses="add-btn"
+    :btnClasses="btnClasses"
     :footerConfirm="addItem"
     :footerCancel="addCancel"
     :footerBtns="['confirm', 'cancel']"
@@ -13,86 +18,85 @@
         :size="triggerIconSize"
         :svgName="triggerIcon"
         :fillColor="fillColor"
+        :title="title"
       />
     </template>
     <template #header>
-      <h3 v-if="actionType === 'add'" class="py-2">Add Expense/Income</h3>
-      <h3 v-if="actionType === 'update'" class="py-2">Update Expense/Income</h3>
+      <h3 v-if="actionType === 'add'" class="py-2">Add user details</h3>
+      <h3 v-if="actionType === 'update'" class="py-2">Update user details</h3>
     </template>
     <template #default>
-      <form class="col-12" id="addExpIncForm">
+      <form class="col-12" id="updateForm">
         <div class="row">
           <div class="form-group col-6">
             <MasterInput
-              inputId="descriptionId"
-              inputLabel="Description"
-              inputName="description"
-              inputPlaceholder="Add description"
+              inputId="userFullName"
+              inputLabel="Full Name"
+              inputName="fullName"
+              inputPlaceholder="Add your full name"
               inputType="text"
-              v-model:inputValue="description"
+              v-model:inputValue="fullName"
               inputWidth="100%"
               :inputRequired="true"
             />
           </div>
-          <div class="form-group col-6">
-            <MasterSelect
-              @emitSelected="getCheckedCats"
-              selectWidth="100%"
-              selectLabel="Categories"
-              selectPlaceholder="Select a category"
-              :selectOptions="listOfCategories"
-              :inputRequired="true"
-              :resetTrue="resetInput"
-              :defaultSelects="defaultCats"
-              :allSelectable="true"
-            />
-          </div>
-        </div>
-        <div class="row">
           <div class="form-group col-6">
             <MasterInput
-              inputId="typeofAmount"
-              inputLabel="Amount"
-              inputName="amount"
-              inputPlaceholder="Add your amount"
-              inputType="number"
-              v-model:inputValue="amount"
+              inputId="userDesignation"
+              inputLabel="Designation"
+              inputName="designation"
+              inputPlaceholder="Add your Designation"
+              inputType="text"
+              v-model:inputValue="designation"
               inputWidth="100%"
               :inputRequired="true"
-            />
-          </div>
-          <div class="form-group col-6">
-            <MasterSelect
-              @emitSelected="getCheckedTypes"
-              selectWidth="100%"
-              selectLabel="Type"
-              selectPlaceholder="Select a type"
-              :selectOptions="listOfTypes"
-              :singleSelect="true"
-              :inputRequired="true"
-              :resetTrue="resetInput"
-              :defaultSelects="defaultTypes"
             />
           </div>
         </div>
         <div class="row">
           <div class="form-group col-6">
             <MasterPicker
-              inputPlaceholder="Add date here"
-              inputLabel="Date"
+              inputPlaceholder="Add date of birth"
+              inputLabel="Date of birth"
               @emitDateTime="getDateTime"
-              v-model:inputDate="addeddate"
+              v-model:inputDate="birthDate"
+            />
+          </div>
+          <div class="form-group col-6">
+            <MasterSelect
+              @emitSelected="getSelectedGender"
+              selectWidth="100%"
+              selectLabel="Gender"
+              selectPlaceholder="Select your gender"
+              :selectOptions="genders"
+              :singleSelect="true"
+              :inputRequired="true"
+              :resetTrue="resetInput"
+              :defaultSelects="selectedGender"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <MasterInput
+              inputId="descriptionId"
+              inputLabel="Description"
+              inputName="description"
+              inputPlaceholder="Add description"
+              inputType="textarea"
+              v-model:inputValue="description"
+              inputWidth="100%"
+              :inputRequired="true"
             />
           </div>
         </div>
       </form>
     </template>
-    <template #footer> </template>
+    <template #footer></template>
   </MasterModal>
 </template>
-
 <script setup>
-import { ref, watchEffect, computed } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import { v4 as uuids4 } from 'uuid'
 import { IsValidObject } from '@/utils/globals.js'
@@ -101,6 +105,7 @@ import MasterInput from '@/components/MasterInputs/MasterInput.vue'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
+import { genders } from '@/constants/Genders.js'
 
 const props = defineProps({
   defaultsObj: {
@@ -108,7 +113,7 @@ const props = defineProps({
     type: Object
   },
   triggerIcon: {
-    default: 'add-square',
+    default: 'update-user',
     type: String
   },
   triggerId: {
@@ -124,6 +129,14 @@ const props = defineProps({
     type: String
   },
   fillColor: {
+    default: 'var(--item-color)',
+    type: String
+  },
+  btnClasses: {
+    default: '',
+    type: String
+  },
+  title: {
     default: '',
     type: String
   }
@@ -132,63 +145,48 @@ const props = defineProps({
 const emits = defineEmits(['emitDataUpdate'])
 const store = useStore()
 
-const listOfCategories = computed(() => {
-  return store.getters['utils/getAllCategories']
-})
-
-const listOfTypes = computed(() => {
-  return store.getters['utils/getAllTypes']
-})
-
+const fullName = ref(null)
 const description = ref(null)
-const amount = ref(null)
-const typeList = ref([])
-const addeddate = ref(null)
-const categoryList = ref([])
+const designation = ref(null)
+const birthDate = ref(null)
+const selectedGender = ref(null)
 const resetInput = ref(false)
 
-const getCheckedCats = (data) => {
-  categoryList.value = data
-}
-
-const getCheckedTypes = (data) => {
-  typeList.value = data
-}
-
 const getDateTime = (dateTime) => {
-  addeddate.value = dateTime
+  birthDate.value = dateTime
 }
 
-const defaultCats = ref([])
-const defaultTypes = ref([])
+const getSelectedGender = (data) => {
+  selectedGender.value = data
+}
 
 watchEffect(() => {
   if (IsValidObject(props.defaultsObj)) {
     description.value = props.defaultsObj.description
-    amount.value = props.defaultsObj.amount
-    addeddate.value = props.defaultsObj.date
-    defaultCats.value = props.defaultsObj.category
-    defaultTypes.value = props.defaultsObj.type
+    fullName.value = props.defaultsObj.fullName
+    designation.value = props.defaultsObj.designation
+    selectedGender.value = props.defaultsObj.selectedGender
+    birthDate.value = props.defaultsObj.birthDate
   }
 })
 
 const clearForm = () => {
   // clear inputs after object is constructed
   description.value = undefined
-  typeList.value = undefined
-  categoryList.value = undefined
-  amount.value = undefined
-  addeddate.value = undefined
+  fullName.value = undefined
+  designation.value = undefined
+  selectedGender.value = undefined
+  birthDate.value = undefined
   resetInput.value = true
 }
 
 const updateData = (type) => {
   const allInputs = [
     description.value,
-    categoryList.value?.length,
-    typeList.value?.length,
-    amount.value,
-    addeddate.value
+    fullName.value,
+    designation.value,
+    selectedGender.value,
+    birthDate.value
   ]
 
   if (!allInputs.every((i) => i)) {
@@ -201,11 +199,11 @@ const updateData = (type) => {
 
   const updateObj = {
     id: type === 'update' ? props.defaultsObj?.id : uuids4(),
-    categoryList: categoryList.value.map((i) => i.id).filter((i) => i),
-    typeList: typeList.value.map((i) => i.id).filter((i) => i),
     description: description.value,
-    amount: amount.value,
-    addeddate: addeddate.value
+    fullName: fullName.value,
+    designation: designation.value,
+    selectedGender: selectedGender.value,
+    birthDate: birthDate.value
   }
 
   emits('emitDataUpdate', updateObj, type)
@@ -224,10 +222,10 @@ const addCancel = () => {
 }
 
 document.onkeydown = function (e) {
-  if (e.key === 'n' && (e.ctrlKey || e.metaKey)) {
+  if (e.key === 'u' && (e.ctrlKey || e.metaKey)) {
     e.preventDefault()
 
-    document.getElementById('addExp').click()
+    document.getElementById(props.triggerId).click()
   }
 }
 </script>

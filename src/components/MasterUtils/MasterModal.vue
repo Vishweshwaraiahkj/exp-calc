@@ -72,45 +72,47 @@
   <button class="btn" :class="btnClasses" :id="triggerId" @click="toggleModal">
     <slot name="trigger"></slot>
   </button>
-  <div
-    :id="modalId"
-    :class="`modal ${size}`"
-    v-if="isShow"
-    @click="toggleModal"
-  >
-    <div class="modal-content shadow-dark" @click.stop="stopIt">
-      <span class="close medium" @click="toggleModal">
-        <MasterIcon
-          fillColor="var(--item-color)"
-          size="x-small"
-          svg-name="close-cross"
-        />
-      </span>
-      <header v-if="headerSlot" class="modal-header">
-        <slot name="header"></slot>
-      </header>
-      <main v-if="defaultSlot" class="modal-body no-gutters">
-        <slot></slot>
-      </main>
-      <footer v-if="footerSlot" class="modal-footer">
-        <slot name="footer"></slot>
-        <button
-          v-if="showAction('confirm')"
-          class="btn btn-primary my-2 mr-2"
-          @click="confirmAction"
-        >
-          Confirm
-        </button>
-        <button
-          v-if="showAction('cancel')"
-          class="btn btn-danger my-2"
-          @click="cancelAction"
-        >
-          Cancel
-        </button>
-      </footer>
+  <Teleport to="body">
+    <div
+      :id="modalId"
+      :class="`modal ${size}`"
+      v-if="isShow"
+      @click="toggleModal"
+    >
+      <div class="modal-content shadow-dark" @click.stop="stopIt">
+        <span class="close medium" @click="toggleModal">
+          <MasterIcon
+            fillColor="var(--item-color)"
+            size="x-small"
+            svg-name="close-cross"
+          />
+        </span>
+        <header v-if="headerSlot" class="modal-header">
+          <slot name="header"></slot>
+        </header>
+        <main v-if="defaultSlot" class="modal-body no-gutters">
+          <slot></slot>
+        </main>
+        <footer v-if="footerSlot" class="modal-footer">
+          <slot name="footer"></slot>
+          <button
+            v-if="showAction('confirm')"
+            class="btn btn-primary my-2 mr-2"
+            @click="confirmAction"
+          >
+            Confirm
+          </button>
+          <button
+            v-if="showAction('cancel')"
+            class="btn btn-danger my-2"
+            @click="cancelAction"
+          >
+            Cancel
+          </button>
+        </footer>
+      </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 <script setup>
 import { computed, ref, useSlots } from 'vue'

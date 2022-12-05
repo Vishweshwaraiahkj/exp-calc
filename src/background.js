@@ -19,6 +19,20 @@ const ipc = ipcMain
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+const consoleError = (err, type) => {
+  let message
+  switch (err.code) {
+    case 'EEXIST':
+      message = `${type} file already exists`
+      break
+
+    default:
+      message = `Error creating ${type.toLowerCase()} file!`
+      break
+  }
+  console.log(message)
+}
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -49,23 +63,28 @@ async function createWindow() {
   const dataPath = udPath + '/data'
   if (!fs.existsSync(dataPath)) {
     fs.mkdirSync(dataPath, { recursive: true })
-
-    const expensesFile = path.resolve(dataPath + '/expenses.json')
-    const categoriesFile = path.resolve(dataPath + '/categories.json')
-    const typesFile = path.resolve(dataPath + '/types.json')
-
-    fs.writeFile(expensesFile, '', { flag: 'w+' }, (err) => {
-      if (err) console.log('Error creating db files!')
-    })
-
-    fs.writeFile(categoriesFile, '', { flag: 'w+' }, (err) => {
-      if (err) console.log('Error creating db files!')
-    })
-
-    fs.writeFile(typesFile, '', { flag: 'w+' }, (err) => {
-      if (err) console.log('Error creating db files!')
-    })
   }
+
+  const expensesFile = path.resolve(dataPath + '/expenses.json')
+  const categoriesFile = path.resolve(dataPath + '/categories.json')
+  const typesFile = path.resolve(dataPath + '/types.json')
+  const usersFile = path.resolve(dataPath + '/users.json')
+
+  fs.writeFile(expensesFile, '', { flag: 'wx+' }, (err) => {
+    if (err) consoleError(err, 'Expenses')
+  })
+
+  fs.writeFile(categoriesFile, '', { flag: 'wx+' }, (err) => {
+    if (err) consoleError(err, 'Categories')
+  })
+
+  fs.writeFile(typesFile, '', { flag: 'wx+' }, (err) => {
+    if (err) consoleError(err, 'Types')
+  })
+
+  fs.writeFile(usersFile, '', { flag: 'wx+' }, (err) => {
+    if (err) consoleError(err, 'Users')
+  })
 
   win.on('ready-to-show', () => {
     win.show()

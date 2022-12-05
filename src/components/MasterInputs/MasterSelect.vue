@@ -287,7 +287,7 @@ watchEffect(() => {
 })
 
 onMounted(() => {
-  if (props.defaultSelects.length) {
+  if (props.defaultSelects?.length) {
     checkedValues.value = props.defaultSelects.map((i) => i.optValue)
   }
   if (props.resetTrue) {

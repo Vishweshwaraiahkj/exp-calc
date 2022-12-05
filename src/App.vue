@@ -2,12 +2,11 @@
 @import '@/assets/styles/global';
 </style>
 <template lang="html">
-  <div v-if="isLoading">
-    <MasterSpinner
-      titleText="Loading page... Please be patient!"
-      size="large"
-    />
-  </div>
+  <MasterSpinner
+    v-if="isLoading"
+    titleText="Loading page... Please be patient!"
+    size="large"
+  />
   <div v-else :key="userPath">
     <MasterNotifier
       v-if="toastMsgs.message"
@@ -43,22 +42,23 @@
           Icons
         </router-link>
         <span class="menu-separator">|</span>
-        <router-link to="/about">
+        <router-link to="/portfolio">
           <MasterIcon
             svgName="user"
             size="x-small"
-            :fillColor="getFillColor('about')"
+            :fillColor="getFillColor('portfolio')"
           />
-          About
+          Portfolio
         </router-link>
       </nav>
     </AppHeader>
     <router-view />
     <AppFooter />
+    <MasterScrollto />
   </div>
 </template>
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
@@ -66,6 +66,7 @@ import AppFooter from '@/components/AppFooter.vue'
 import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
 import MasterSpinner from '@/components/MasterUtils/MasterSpinner.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import MasterScrollto from '@/components/MasterUtils/MasterScrollto.vue'
 
 const store = useStore()
 const { currentRoute } = useRouter()
@@ -92,7 +93,11 @@ ipc.on('isAppReady', (e, path) => {
 
 const getFillColor = (routeName) => {
   return currentRoute.value.name === routeName
-    ? 'var(--bg-color)'
-    : 'var(--item-color)'
+    ? 'var(--glob-light)'
+    : 'var(--glob-dark)'
 }
+
+onMounted(() => {
+  document.title = 'Expenses Calculator'
+})
 </script>

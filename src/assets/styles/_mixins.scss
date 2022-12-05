@@ -9,6 +9,7 @@
     $secondary-color: var(--secondary);
 
     // shadow values goes here
+    $linear-shadow: var(--linear-shadow);
     $top-shadow: var(--top-shadow);
     $bottom-shadow: var(--bottom-shadow);
     $default-shadow: var(--default-shadow);
@@ -24,7 +25,11 @@
     $text-shadow: var(--text-shadow);
 
 
-    @if $type ==menu {
+    @if $type ==linear {
+        @return $linear-shadow $default-color;
+    }
+
+    @else if $type ==menu {
         @return $menu-shadow;
     }
 
@@ -137,17 +142,25 @@
     min-width: px2rem(200);
 }
 
-@mixin formControl {
-    height: px2rem(40);
+@mixin formControl($height: 40) {
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.5;
     color: var(--item-color);
     background-color: var(--bg-color);
     background-clip: padding-box;
     border-radius: var(--radius-default);
     transition: border-color 0.15s ease-in-out;
     box-shadow: boxShadow();
+    height: px2rem($height);
+    min-height: px2rem($height);
+
+    &.textarea {
+        height: auto;
+    }
+
+    * {
+        line-height: 1.5;
+    }
 }
 
 @mixin cssArrow($dir) {

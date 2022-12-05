@@ -1,5 +1,5 @@
 <style lang="scss">
-.filters {
+#filtersModal {
   display: flex;
 
   .grid-summary {
@@ -47,7 +47,7 @@
                 :key="iData.optName"
                 class="category-card m-1"
               >
-                <ColoredCard
+                <MasterBadge
                   :item="iData"
                   titleKey="totalAmount"
                   class="calc-card p-2"
@@ -67,7 +67,7 @@
                 :key="iData.optName"
                 class="category-card m-1"
               >
-                <ColoredCard
+                <MasterBadge
                   :item="iData"
                   titleKey="totalAmount"
                   class="calc-card p-2"
@@ -87,7 +87,7 @@
                 :key="iData.optName"
                 class="category-card m-1"
               >
-                <ColoredCard
+                <MasterBadge
                   :item="iData"
                   titleKey="totalAmount"
                   class="calc-card p-2"
@@ -110,7 +110,7 @@ import { computed, ref } from 'vue'
 import { GroupByKey, UnderscoreToSpace } from '@/utils/globals'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
-import ColoredCard from '@/components/MasterUtils/ColoredCard.vue'
+import MasterBadge from '@/components/MasterUtils/MasterBadge.vue'
 import TabsGroup from '@/components/MasterUtils/TabsGroup.vue'
 import TabsItem from '@/components/MasterUtils/TabsItem.vue'
 

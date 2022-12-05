@@ -63,11 +63,11 @@ import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 const emits = defineEmits(['update:inputValue'])
 
 const props = defineProps({
-  checkIcon: {
+  trueIcon: {
     default: 'switch-on',
     type: String
   },
-  uncheckIcon: {
+  falseIcon: {
     default: 'switch-off',
     type: String
   },
@@ -131,6 +131,6 @@ const updateStatus = (e) => {
 }
 
 const iconSvg = computed(() => {
-  return switchStatus.value ? props.checkIcon : props.uncheckIcon
+  return switchStatus.value ? props.trueIcon : props.falseIcon
 })
 </script>

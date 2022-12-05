@@ -1,6 +1,6 @@
-import { PushUniqueObjects, IsValidObject } from '@/utils/globals'
 import fs from 'fs'
 import * as path from 'path'
+import { PushUniqueObjects, IsValidObject } from '@/utils/globals'
 
 export default {
   namespaced: true,
@@ -103,6 +103,7 @@ export default {
       })
       readStream.on('data', (chunk) => (data += chunk))
       readStream.on('end', () => {
+        if (!data) return
         const dbData = JSON.parse(data)
         context.commit('UPDATE_EXPENSES', dbData)
       })

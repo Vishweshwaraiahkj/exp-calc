@@ -19,10 +19,11 @@ export const GetDirFiles = async (filesPath, fileList = [], subDir = '') => {
     const filePath = path.join(filesPath, fileName)
     const stat = await fs.statSync(filePath)
     const fileStr = path.basename(filePath, '.svg')
+    const searchKey = fileStr
     if (stat.isDirectory()) {
       fileList = await GetDirFiles(filePath, fileList, fileStr)
     } else {
-      fileList.push({ filePath, fileName, fileStr, subDir })
+      fileList.push({ filePath, fileName, fileStr, subDir, searchKey })
     }
   }
 
@@ -204,25 +205,39 @@ export const CustomSort = (objectsArray, key, type) => {
   })
 }
 
-export const SearchTheData = (searchData, searchKey) => {
-  if (!searchData.length || !searchKey) return false
+const getSearchStr = (Obj) => {
+  if (Array.isArray(Obj)) {
+    Obj = Obj
+      .reduce(function (str, i) {
+        return str + ' ' + i.sortKey
+      }, '')
+      .toLowerCase()
+  } else {
+    Obj = Obj.toLowerCase()
+  }
+
+  return Obj
+}
+
+export const SearchObjectsArray = (searchData, searchStr, searchBy = '') => {
+  if (!searchData.length || !searchStr) return false
   const results = []
-  const toSearch = TrimString(searchKey).toLowerCase() // trim it
+  const toSearch = TrimString(searchStr).toLowerCase() // trim it
   for (let i = 0; i < searchData.length; i++) {
-    for (const key in searchData[i]) {
-      let searchItem = searchData[i][key]
-      if (Array.isArray(searchItem)) {
-        searchItem = searchItem
-          .reduce(function (str, i) {
-            return str + ' ' + i.sortKey
-          }, '')
-          .toLowerCase()
-      } else {
-        searchItem = searchItem.toLowerCase()
-      }
+    if (searchBy !== '') {
+      const searchItem = getSearchStr(searchData[i][searchBy])
       if (searchItem.indexOf(toSearch) !== -1) {
         if (!ItemExists(results, searchData[i])) {
           results.push(searchData[i])
+        }
+      }
+    } else {
+      for (const key in searchData[i]) {
+        const searchItem = getSearchStr(searchData[i][key])
+        if (searchItem.indexOf(toSearch) !== -1) {
+          if (!ItemExists(results, searchData[i])) {
+            results.push(searchData[i])
+          }
         }
       }
     }
@@ -353,4 +368,13 @@ export const FilterByDay = (itemsArray, filterDate) => {
   return itemsArray?.filter((i) => {
     return CustomDates('YYYY-MM-DD', i.date) === filterDate
   })
+}
+
+export const descSubstr = (item, max) => {
+  const descStr = item.description
+  if (descStr.length > max) {
+    return descStr.substr(0, max) + '...'
+  } else {
+    return descStr
+  }
 }
