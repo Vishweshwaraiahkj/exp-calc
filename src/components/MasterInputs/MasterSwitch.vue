@@ -53,6 +53,9 @@ $box-size: v-bind(inputWidth);
     <span class="err" v-if="!validInput && inputRequired">
       {{ errMessage }}
     </span>
+    <div @click="updateStatus">
+      <slot />
+    </div>
   </div>
 </template>
 <script setup>

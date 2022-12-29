@@ -72,7 +72,6 @@
       </div>
       <div class="card-footer noBg actions-box">
         <AddSelectable
-          :triggerId="type"
           :defaultsObj="item"
           @emitDataUpdate="updateData"
           actionType="update"
@@ -80,6 +79,7 @@
           triggerIcon="edit"
           triggerIconSize="24"
           fillColor="var(--glob-light)"
+          btnClasses="update_item"
         />
         <DeleteModal
           :currentItem="item"

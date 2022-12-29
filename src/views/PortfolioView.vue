@@ -1,38 +1,8 @@
 <style lang="scss">
-.printBtn,
-.editBtn {
-  position: fixed;
-  width: px2rem(60);
-  height: px2rem(60);
-  bottom: px2rem(40);
-  background-color: var(--bg-color);
-  border-radius: px2rem(50);
-  text-align: center;
-  box-shadow: boxShadow();
-  z-index: 100;
-
-  @include transformContainer(1.1);
-}
-
-.printBtn {
-  left: px2rem(40);
-}
-
-.editBtn {
-  left: px2rem(120);
-}
-
-.is-hidden {
-  display: none;
-}
-
-.dashboard.about {
-  height: 90vh;
+.main-container.about {
   width: 100vw;
   background-color: var(--bg-color);
   color: var(--item-color);
-  margin-bottom: 0rem;
-  margin-top: 4rem;
 
   .about-container {
     display: flex;
@@ -53,29 +23,38 @@
 .floating-dev {
   animation: floatAnim 6s ease-in-out infinite;
 }
+
+.job_card {
+  position: relative;
+  min-width: 0;
+
+  .grid-item {
+    background-color: var(--bg-color);
+    word-wrap: break-word;
+    background-clip: border-box;
+    border-radius: var(--radius-default);
+    box-shadow: boxShadow(card);
+    padding: 1rem;
+  }
+}
 </style>
 <template lang="html">
-  <MasterNotifier
-    v-if="toastMsgs.message"
-    :key="toastKey"
-    :dataObj="toastMsgs"
-  />
-  <button class="btn printBtn" @click="createPdf" title="Download as PDF">
+  <div class="about">
+    <MasterNotifier
+      v-if="toastMsgs.message"
+      :key="toastKey"
+      :dataObj="toastMsgs"
+    />
     <MasterIcon
       svgName="download-styled"
       size="medium"
       fillColor="var(--item-color)"
+      class="add_item"
+      @click="createPdf"
+      title="Download as PDF"
     />
-  </button>
-  <div class="dashboard about pt-3">
     <div class="about-container">
       <MasterPortfolio />
-      <MasterIcon
-        size="500"
-        svgName="developer"
-        class="profile-pic floating-dev"
-        fillColor="var(--bg-color)"
-      />
     </div>
   </div>
 </template>
@@ -90,10 +69,12 @@ const toastMsgs = ref({})
 const toastKey = ref(0)
 
 const createPdf = (event) => {
-  document.querySelector('.main-header').classList.add('is-hidden')
-  document.querySelector('.main-footer').classList.add('is-hidden')
-  document.querySelector('.printBtn').classList.add('is-hidden')
-  document.querySelector('.editBtn').classList.add('is-hidden')
+  document.querySelector('.main-header').classList.add('d-none')
+  document.querySelector('.main-footer').classList.add('d-none')
+  document.querySelector('.add_item').classList.add('d-none')
+  document.querySelector('.edit_item').classList.add('d-none')
+  document.querySelector('.jobs_add').classList.add('d-none')
+  document.querySelector('.job_actions').classList.add('d-none')
   ipc.send('print-to-pdf')
 }
 
@@ -105,9 +86,11 @@ ipc.on('execPdf', (event, pdfResponse) => {
     timeout: 5000
   }
   toastKey.value = toastKey.value + 1
-  document.querySelector('.main-header').classList.remove('is-hidden')
-  document.querySelector('.main-footer').classList.remove('is-hidden')
-  document.querySelector('.printBtn').classList.remove('is-hidden')
-  document.querySelector('.editBtn').classList.remove('is-hidden')
+  document.querySelector('.main-header').classList.remove('d-none')
+  document.querySelector('.main-footer').classList.remove('d-none')
+  document.querySelector('.add_item').classList.remove('d-none')
+  document.querySelector('.edit_item').classList.remove('d-none')
+  document.querySelector('.jobs_add').classList.remove('d-none')
+  document.querySelector('.job_actions').classList.remove('d-none')
 })
 </script>

@@ -145,10 +145,6 @@
       border-radius: var(--radius-default);
       margin-right: px2rem(10);
     }
-
-    &__more {
-      cursor: pointer;
-    }
   }
 }
 
@@ -290,13 +286,7 @@
               {{ Number(item.amount).toLocaleString('en-IN') }}
             </td>
             <td class="categories">
-              <template v-for="cat in item.category" :key="cat?.id">
-                <MasterBadge
-                  :item="cat"
-                  class="category"
-                  textColor="var(--glob-light)"
-                />
-              </template>
+              <CategoryList :catList="item.category" />
             </td>
             <td class="description">
               <MasterPopover
@@ -320,7 +310,6 @@
                     actionType="update"
                     triggerIcon="edit"
                     triggerIconSize="x-small"
-                    triggerId="triggerEdit"
                     fillColor="var(--item-color)"
                   />
                 </span>
@@ -399,23 +388,7 @@
           class="item-row flex-center"
         >
           <div class="left-box">
-            <MasterIcon
-              v-for="cat in catsToShow(item)"
-              size="x-small"
-              :svgName="cat.optIcon"
-              extraPath="categories"
-              :key="cat.id"
-              class="item-row__category"
-              fillColor="var(--glob-light)"
-              :bgColor="cat.colorFill"
-            />
-            <MasterIcon
-              size="x-small"
-              svgName="more"
-              class="item-row__more"
-              :fillColor="getFillColor(item)"
-              @click="toggleMore"
-            />
+            <CategoryList :catList="item.category" listType="icons" />
             <div class="desc-box">
               <span class="description">
                 <MasterPopover
@@ -451,7 +424,6 @@
                   actionType="update"
                   triggerIcon="edit"
                   triggerIconSize="x-small"
-                  triggerId="triggerEdit"
                   fillColor="var(--glob-light)"
                 />
               </span>
@@ -516,6 +488,7 @@ import BriefBoard from '@/components/BriefBoard.vue'
 import MasterDonut from '@/components/MasterUtils/MasterDonut.vue'
 import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
 import MasterPopover from '@/components/MasterUtils/MasterPopover.vue'
+import CategoryList from '@/components/MasterUtils/CategoryList.vue'
 
 const props = defineProps({
   totalData: {
@@ -553,7 +526,6 @@ const selectedMonth = ref(CustomDates('MMMM YYYY'))
 const allRows = ref(props.showAll)
 const filteredPerPage = ref([])
 const viewTable = ref(false)
-const showMore = ref(false)
 
 const masterCategories = inject('categories')?.value
 const masterTypes = inject('types')?.value
@@ -718,18 +690,4 @@ const getDateTime = (dateTime) => {
 const sortableHeaders = computed(() => {
   return tableHeaders.filter((i) => i.sort)
 })
-
-const getFillColor = (item) => {
-  return item.category?.length > 1 ? 'green' : 'lightgray'
-}
-
-const catsToShow = (item) => {
-  if (showMore.value) {
-    return item.category
-  } else {
-    return item.category.slice(0, 1)
-  }
-}
-
-const toggleMore = () => (showMore.value = !showMore.value)
 </script>

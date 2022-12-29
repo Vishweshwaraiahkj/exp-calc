@@ -10,16 +10,15 @@
 
 /* The Modal (background) */
 .modal {
-  display: block;
   position: fixed;
   z-index: 200;
-  padding-top: px2rem(100);
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
   background-color: var(--black-trans);
+  @include hideScroll();
 
   &.small .modal-content {
     width: 30%;
@@ -35,16 +34,17 @@
 
   /* Modal Content */
   &-content {
-    position: relative;
+    position: fixed;
     background-color: var(--bg-color);
     margin: auto;
     padding: 0;
     border: px2rem(1) solid var(--item-color);
     border-radius: var(--radius-default);
-    -webkit-animation-name: animateTop;
-    -webkit-animation-duration: 0.4s;
     animation-name: animateTop;
-    animation-duration: 0.4s;
+    animation-duration: 0.5s;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   &-header {
@@ -69,7 +69,7 @@
 }
 </style>
 <template lang="html">
-  <button class="btn" :class="btnClasses" :id="triggerId" @click="toggleModal">
+  <button class="btn" :id="triggerId" :class="btnClasses" @click="toggleModal">
     <slot name="trigger"></slot>
   </button>
   <Teleport to="body">

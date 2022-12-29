@@ -1,5 +1,11 @@
 <style lang="scss">
 @import '@/assets/styles/global';
+
+.main-container {
+  position: relative;
+  margin-bottom: px2rem(120);
+  margin-top: px2rem(120);
+}
 </style>
 <template lang="html">
   <MasterSpinner
@@ -7,7 +13,7 @@
     titleText="Loading page... Please be patient!"
     size="large"
   />
-  <div v-else :key="userPath">
+  <div class="parent-container" v-else :key="userPath">
     <MasterNotifier
       v-if="toastMsgs.message"
       :key="toastKey"
@@ -33,6 +39,15 @@
           Tools
         </router-link>
         <span class="menu-separator">|</span>
+        <router-link to="/tasks">
+          <MasterIcon
+            svgName="tasks-light"
+            size="x-small"
+            :fillColor="getFillColor('tasks')"
+          />
+          Tasks
+        </router-link>
+        <span class="menu-separator">|</span>
         <router-link to="/icons">
           <MasterIcon
             svgName="pointer"
@@ -52,7 +67,7 @@
         </router-link>
       </nav>
     </AppHeader>
-    <router-view />
+    <router-view class="main-container p-2" />
     <AppFooter />
     <MasterScrollto />
   </div>

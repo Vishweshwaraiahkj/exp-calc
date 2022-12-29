@@ -1,15 +1,7 @@
 <template lang="html">
-  <div v-if="dataArray.length">
+  <template v-if="dataArray.length">
     <div class="row details-box relative">
-      <div class="btn-header">
-        <h1>Expenses Table</h1>
-        <AddExpenses
-          @emitDataUpdate="addToList"
-          triggerId="addExp"
-          actionType="add"
-          fillColor="var(--item-color)"
-        />
-      </div>
+      <h1 class="btn-header">Expenses Table</h1>
     </div>
     <div class="row list-box">
       <ExpensesTable
@@ -20,7 +12,13 @@
         @emitDataToShow="dataToShow"
       />
     </div>
-  </div>
+  </template>
+  <AddExpenses
+    @emitDataUpdate="addToList"
+    actionType="add"
+    fillColor="var(--item-color)"
+    triggerId="addExp"
+  />
 </template>
 
 <script setup>

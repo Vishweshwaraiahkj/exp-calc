@@ -3,6 +3,7 @@
   background: transparent;
 
   .icon-holder {
+    position: relative;
     padding: px2rem(48) px2rem(16);
     box-shadow: boxShadow();
     display: flex;
@@ -17,12 +18,13 @@
 }
 </style>
 <template lang="html">
-  <div class="grid-container icons-grid">
+  <div class="grid-container grids_5 icons-grid">
     <div
       v-for="icon in iconsList"
       :key="icon.fileName"
       class="grid-item icon-holder"
     >
+      <MasterCopy :copyStr="icon.fileStr" />
       <MasterIcon
         :svgName="icon.fileStr"
         :extraPath="icon.subDir"
@@ -35,6 +37,7 @@
 </template>
 <script setup>
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
+import MasterCopy from '@/components/MasterUtils/MasterCopy.vue'
 defineProps({
   iconsList: {
     default: () => [],

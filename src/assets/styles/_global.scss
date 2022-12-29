@@ -10,7 +10,7 @@
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: #00000000;
 }
 
 article,
@@ -109,7 +109,8 @@ blockquote {
 }
 
 b,
-strong {
+strong,
+.strong {
   font-weight: bolder;
 }
 
@@ -201,7 +202,7 @@ button {
   padding: px2rem(2) px2rem(10);
 
   &:focus {
-    outline: 2px solid var(--item-color);
+    outline: px2rem(2) solid var(--item-color);
   }
 
   &:disabled {
@@ -241,7 +242,7 @@ textarea {
   padding: px2rem(10) px2rem(10);
 
   &:focus {
-    outline: 2px solid var(--item-color);
+    outline: px2rem(2) solid var(--item-color);
   }
 }
 
@@ -316,10 +317,6 @@ output {
 summary {
   display: list-item;
   cursor: pointer;
-}
-
-template {
-  display: none;
 }
 
 [hidden] {
@@ -417,7 +414,7 @@ small,
 }
 
 code {
-  font-size: 87.5%;
+  font-size: 85%;
   color: var(--light-gray);
   word-break: break-word;
 }
@@ -988,13 +985,9 @@ pre {
   &-header {
     position: relative;
     width: 100%;
-    padding: 0.9375rem;
+    padding: 0.625rem 0;
     display: flex;
     justify-content: space-between;
-
-    .btn#addExp {
-      padding: 0;
-    }
   }
 
   &-primary {
@@ -1087,10 +1080,6 @@ header,
   @include headerFooters(header)
 }
 
-.main-header {
-  -webkit-app-region: drag;
-}
-
 footer,
 .footer {
   @include headerFooters(footer);
@@ -1098,17 +1087,13 @@ footer,
 
 .card {
   position: relative;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
   flex-direction: column;
   min-width: 0;
-  word-wrap: break-word;
   background-color: var(--white);
   background-clip: border-box;
   border-radius: var(--radius-default);
   box-shadow: boxShadow(card);
-  white-space: nowrap;
 
   &:hover {
     box-shadow: boxShadow(card-hover);
@@ -1226,29 +1211,12 @@ footer,
 .d- {
 
   &none {
-    display: none;
-  }
-
-  &inline {
-    display: inline;
-  }
-
-  &inline-block {
-    display: inline-block;
-  }
-
-  &block {
-    display: block;
+    display: none !important;
   }
 
   &flex {
     display: -ms-flexbox;
     display: flex;
-  }
-
-  &inline-flex {
-    display: -ms-inline-flexbox;
-    display: inline-flex;
   }
 
 }
@@ -1257,16 +1225,30 @@ footer,
   &-container {
     display: grid;
     gap: px2rem(10) 1%;
-    grid-template-columns: repeat(auto-fit, minmax(23.33333%, 2fr));
-    padding: 0.625rem;
+    padding: 0.625rem 0;
   }
 
   &-item {
     background-color: transparent;
-    font-size: 1.25rem;
     text-align: center;
     grid-column: span 1;
   }
+}
+
+.grids_2 {
+  grid-template-columns: repeat(auto-fit, minmax(49.50%, 2fr));
+}
+
+.grids_3 {
+  grid-template-columns: repeat(auto-fit, minmax(32.66%, 2fr));
+}
+
+.grids_4 {
+  grid-template-columns: repeat(auto-fit, minmax(24.25%, 2fr));
+}
+
+.grids_5 {
+  grid-template-columns: repeat(auto-fit, minmax(19.20%, 2fr));
 }
 
 @media only screen and (min-width: 768px) and (max-width: 960px) {
@@ -1688,22 +1670,42 @@ footer,
   white-space: nowrap;
 }
 
-.delete-btn,
-.update-btn,
-#triggerEdit {
+.delete_item,
+.update_item {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
 }
 
+.add_item,
+.add_categories {
+  @include floatinAddBtn();
+}
+
+.add_types,
+.edit_item {
+  @include floatinAddBtn(120);
+}
+
+.jobs_add {
+  @include floatinAddBtn(200);
+}
+
+.delete,
+.edit {
+  display: block;
+  cursor: pointer;
+}
+
 .details-box {
   min-height: 3rem;
+  padding: 0 0.625rem;
 }
 
 span.err {
-  color: white;
-  background: darkred;
+  color: var(--white);
+  background: var(--danger);
   padding: 0.25rem;
   width: 100%;
   display: block;
@@ -1831,12 +1833,6 @@ span.err {
     left: 50%;
     transform: translate(-50%, 0)
   }
-}
-
-.dashboard {
-  position: relative;
-  margin-bottom: 4rem;
-  margin-top: 6rem;
 }
 
 .animate {

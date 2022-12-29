@@ -1,9 +1,8 @@
 <template lang="html">
   <MasterModal
-    :triggerId="triggerId"
     modalId="selectableModal"
     modalSize="small"
-    btnClasses="add-btn"
+    :btnClasses="btnClasses"
     :footerConfirm="addItem"
     :footerCancel="addCancel"
     :footerBtns="['confirm', 'cancel']"
@@ -13,6 +12,7 @@
         :size="triggerIconSize"
         :svgName="triggerIcon"
         :fillColor="fillColor"
+        :title="`Add ${dataType}`"
       />
     </template>
     <template #header>
@@ -78,7 +78,7 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { v4 as uuids4 } from 'uuid'
+import { v4 } from 'uuid'
 import { SpaceToUnderscore, IsValidObject } from '@/utils/globals'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
@@ -90,12 +90,8 @@ const props = defineProps({
     type: Object
   },
   triggerIcon: {
-    default: 'add-square',
+    default: 'add-round',
     type: String
-  },
-  triggerId: {
-    type: String,
-    required: true
   },
   triggerIconSize: {
     default: 'medium',
@@ -110,6 +106,10 @@ const props = defineProps({
     required: true
   },
   fillColor: {
+    type: String,
+    default: ''
+  },
+  btnClasses: {
     type: String,
     default: ''
   }
@@ -159,7 +159,7 @@ const updateData = (type) => {
     return false
   }
   const updateObj = {
-    id: type === 'update' ? props.defaultsObj?.id : uuids4(),
+    id: type === 'update' ? props.defaultsObj?.id : v4(),
     optValue: SpaceToUnderscore(displayName.value),
     optName: displayName.value,
     sortKey: sortKey.value,

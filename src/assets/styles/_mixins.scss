@@ -336,3 +336,29 @@
         padding: px2rem(5) 0;
     }
 }
+
+@mixin floatinAddBtn($left: 40) {
+    position: fixed;
+    width: px2rem(60);
+    height: px2rem(60);
+    bottom: px2rem(40);
+    background-color: var(--bg-color);
+    border-radius: px2rem(50);
+    text-align: center;
+    box-shadow: boxShadow();
+    z-index: 100;
+    left: px2rem($left);
+    padding: 0;
+
+    @include transformContainer(1.1);
+}
+
+@mixin textEllipsis($numLines : 1, $lineHeight: 1) {
+    overflow: hidden;
+    text-overflow: -o-ellipsis-lastline;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $numLines;
+    -webkit-box-orient: vertical;
+    line-height: $lineHeight;
+}

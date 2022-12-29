@@ -19,8 +19,8 @@
 }
 </style>
 <template lang="html">
-  <div class="dashboard pt-3">
-    <div class="container icon-search">
+  <div class="container container-bg icons-holder shadow-dark">
+    <div class="icon-search">
       <MasterInput
         input-id="iconSearchId"
         input-name="icon-search"
@@ -31,10 +31,8 @@
         v-model:input-value="searchStr"
       />
     </div>
-    <div class="container container-bg icons-holder">
-      <IconsLibrary v-if="iconsList.length" :iconsList="searchedIcons" />
-      <div v-else class="p-3">No icon files found in directory!</div>
-    </div>
+    <IconsLibrary v-if="searchedIcons.length" :iconsList="searchedIcons" />
+    <div v-else class="p-3">No icon files found in directory!</div>
   </div>
 </template>
 <script setup>

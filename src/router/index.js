@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import ToolsView from '@/views/ToolsView.vue'
 import ExpenseView from '@/views/ExpenseView.vue'
 import IconsView from '@/views/IconsView.vue'
+import TasksView from '@/views/TasksView.vue'
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     path: '/tools',
     name: 'tools',
     component: ToolsView
+  },
+  {
+    path: '/tasks',
+    name: 'tasks',
+    component: TasksView
   },
   {
     path: '/icons',

@@ -1,14 +1,13 @@
 <style lang="scss">
-#deleteModal {
+.delete_item {
   color: var(--item-color);
 }
 </style>
 <template lang="html">
   <MasterModal
-    triggerId="deleteItem"
     modalId="deleteModal"
     modalSize="small"
-    btnClasses="delete-btn"
+    btnClasses="delete_item"
     :footerConfirm="deleteItem"
     :footerCancel="deleteCancel"
     :footerBtns="['confirm', 'cancel']"
@@ -69,6 +68,8 @@ const deleteDesc = ref(props.desc)
 const deleteItem = () => {
   if (props.deleteType === 'expenses') {
     store.dispatch(`expenses/deleteById`, props.currentItem?.id)
+  } else if (props.deleteType === 'jobs') {
+    store.dispatch(`user/deleteById`, props.currentItem?.id)
   } else {
     const dataObj = {
       dataId: props.currentItem?.id,

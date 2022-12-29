@@ -12,6 +12,7 @@ export default {
     categories: [],
     types: [],
     user_path: '',
+    tasks: [],
     isLoading: true
   },
   mutations: {
@@ -26,6 +27,9 @@ export default {
     },
     SET_USER_PATH(state, payload) {
       state.user_path = payload
+    },
+    UPDATE_TASKS(state, payload) {
+      state.tasks = payload
     },
     SET_LOADER_STATUS(state, payload) {
       state.isLoading = payload
@@ -188,6 +192,76 @@ export default {
         }
       )
     },
+    async fetchAllTasks(context) {
+      const udPath = context.rootGetters['utils/getUserPath']
+      if (context.state.tasks?.length) return false
+      if (udPath) {
+        const dbPath = path.resolve(udPath + '/data/tasks.json')
+        fs.readFile(dbPath, 'utf8', (err, data) => {
+          if (err) {
+            return context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error getting existing tasks!',
+                type: 'error'
+              },
+              { root: true }
+            )
+          }
+          if (!data) {
+            return context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'No tasks! Please add one.',
+                type: 'info'
+              },
+              { root: true }
+            )
+          }
+          const dbData = JSON.parse(data)
+          context.commit('UPDATE_TASKS', dbData)
+        })
+      }
+    },
+    async updateTasks(context, { dataObj, type }) {
+      const udPath = context.rootGetters['utils/getUserPath']
+      const existingData = context.state.tasks
+      let updatedData = []
+      if (type === 'update') {
+        updatedData = UpdateArrayByKey(existingData, 'id', dataObj)
+      } else {
+        updatedData = [...existingData, dataObj]
+      }
+
+      const dbPath = path.resolve(udPath + '/data/tasks.json')
+      fs.writeFile(
+        dbPath,
+        JSON.stringify(updatedData, null, 2),
+        { flag: 'w+' },
+        (error) => {
+          if (error) {
+            return context.dispatch(
+              'utils/floatingMessages',
+              {
+                message: 'Error adding item!',
+                type: 'error'
+              },
+              { root: true }
+            )
+          }
+          context.dispatch(
+            'utils/floatingMessages',
+            {
+              message: 'Successfully added/updated!',
+              type: 'success'
+            },
+            { root: true }
+          )
+
+          context.commit('UPDATE_TASKS', updatedData)
+        }
+      )
+    },
     async updateList(context, { dataObj, dataType }) {
       const udPath = context.rootGetters['utils/getUserPath']
       const existingData = context.state[dataType]
@@ -236,12 +310,16 @@ export default {
       const filteredList = context.state[dataType]?.filter(
         (i) => i.id !== dataId
       )
+
       let dbPath
       if (dataType === 'types') {
         dbPath = path.resolve(udPath + '/data/types.json')
-      } else {
+      } else if (dataType === 'categories') {
         dbPath = path.resolve(udPath + '/data/categories.json')
+      } else if (dataType === 'tasks') {
+        dbPath = path.resolve(udPath + '/data/tasks.json')
       }
+
       fs.writeFile(
         dbPath,
         JSON.stringify(filteredList, null, 2),
@@ -271,6 +349,9 @@ export default {
           if (dataType === 'types') {
             context.commit('UPDATE_TYPES', filteredList)
           }
+          if (dataType === 'tasks') {
+            context.commit('UPDATE_TASKS', filteredList)
+          }
         }
       )
     },
@@ -298,6 +379,9 @@ export default {
     },
     getLoaderStatus: (state) => {
       return state.isLoading
+    },
+    getAllTasks: (state) => {
+      return state.tasks
     }
   }
 }

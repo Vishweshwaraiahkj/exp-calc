@@ -3,7 +3,7 @@
     :triggerId="triggerId"
     modalId="expensesModal"
     modalSize="medium"
-    btnClasses="add-btn"
+    :btnClasses="btnClasses"
     :footerConfirm="addItem"
     :footerCancel="addCancel"
     :footerBtns="['confirm', 'cancel']"
@@ -103,16 +103,16 @@ import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
 
 const props = defineProps({
+  triggerId: {
+    default: '',
+    type: String
+  },
   defaultsObj: {
     default: () => {},
     type: Object
   },
   triggerIcon: {
-    default: 'add-square',
-    type: String
-  },
-  triggerId: {
-    default: '',
+    default: 'add-round',
     type: String
   },
   triggerIconSize: {
@@ -138,6 +138,14 @@ const listOfCategories = computed(() => {
 
 const listOfTypes = computed(() => {
   return store.getters['utils/getAllTypes']
+})
+
+const btnClasses = computed(() => {
+  if (props.actionType === 'update') {
+    return 'update_item'
+  } else {
+    return 'add_item'
+  }
 })
 
 const description = ref(null)

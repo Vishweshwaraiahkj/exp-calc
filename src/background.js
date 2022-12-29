@@ -69,6 +69,7 @@ async function createWindow() {
   const categoriesFile = path.resolve(dataPath + '/categories.json')
   const typesFile = path.resolve(dataPath + '/types.json')
   const usersFile = path.resolve(dataPath + '/users.json')
+  const tasksFile = path.resolve(dataPath + '/tasks.json')
 
   fs.writeFile(expensesFile, '', { flag: 'wx+' }, (err) => {
     if (err) consoleError(err, 'Expenses')
@@ -84,6 +85,10 @@ async function createWindow() {
 
   fs.writeFile(usersFile, '', { flag: 'wx+' }, (err) => {
     if (err) consoleError(err, 'Users')
+  })
+
+  fs.writeFile(tasksFile, '', { flag: 'wx+' }, (err) => {
+    if (err) consoleError(err, 'Tasks')
   })
 
   win.on('ready-to-show', () => {
@@ -130,7 +135,8 @@ async function createWindow() {
       .printToPDF({
         printBackground: true,
         landscape: true,
-        displayHeaderFooter: true
+        displayHeaderFooter: true,
+        preferCSSPageSize: true
       })
       .then((data) => {
         if (!fs.existsSync(docsDir)) {

@@ -20,7 +20,6 @@
 <template lang="html">
   <div class="filters">
     <MasterModal
-      triggerId="gridSummary"
       modalId="filtersModal"
       modalSize="medium"
       btnClasses="grid-summary"

@@ -1,12 +1,10 @@
 <template lang="html">
-  <div class="dashboard pt-3">
-    <div class="container container-bg">
-      <ExpenseHome
-        v-if="ExpenseData?.length && Categories?.length && Types?.length"
-        :dataArray="ExpenseData"
-      />
-      <MasterSpinner v-else :titleText="loaderTxt" size="large" noBg />
-    </div>
+  <div class="container container-bg shadow-dark">
+    <ExpenseHome
+      v-if="ExpenseData?.length && Categories?.length && Types?.length"
+      :dataArray="ExpenseData"
+    />
+    <MasterSpinner v-else :titleText="loaderTxt" size="large" noBg />
   </div>
 </template>
 

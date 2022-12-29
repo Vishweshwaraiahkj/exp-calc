@@ -75,18 +75,6 @@ figure {
       -moz-border-radius: 50%;
       border-radius: 50%;
     }
-
-    &-expense {
-      background-color: v-bind('colors.expense');
-    }
-
-    &-income {
-      background-color: v-bind('colors.income');
-    }
-
-    &-credits {
-      background-color: v-bind('colors.credits');
-    }
   }
 
   .donut-segment {
@@ -106,7 +94,6 @@ figure {
 </style>
 <template lang="html">
   <MasterModal
-    triggerId="donutChart"
     modalId="donutChartModal"
     modalSize="medium"
     btnClasses="donut-chart"
@@ -175,7 +162,10 @@ figure {
         <figcaption class="figure-key">
           <ul class="figure-key-list" aria-hidden="true" role="presentation">
             <li>
-              <span class="shape-circle shape-expense"></span>
+              <span
+                class="shape-circle"
+                :style="{ backgroundColor: colors.expense }"
+              ></span>
               <span>
                 <label>Expense:</label>
                 {{ expenseAmount.toLocaleString('en-IN') }}
@@ -183,7 +173,10 @@ figure {
               </span>
             </li>
             <li>
-              <span class="shape-circle shape-income"></span>
+              <span
+                class="shape-circle"
+                :style="{ backgroundColor: colors.income }"
+              ></span>
               <span>
                 <label>Income:</label>
                 {{ incomeAmount.toLocaleString('en-IN') }}
@@ -191,7 +184,10 @@ figure {
               </span>
             </li>
             <li>
-              <span class="shape-circle shape-credits"></span>
+              <span
+                class="shape-circle"
+                :style="{ backgroundColor: colors.credits }"
+              ></span>
               <span>
                 <label>Credits:</label>
                 {{ creditAmount.toLocaleString('en-IN') }}

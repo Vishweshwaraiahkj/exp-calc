@@ -399,7 +399,7 @@
                 <span class="update-data" @click="(e) => updateInputStr(e)">
                   <label class="update-date-time">
                     <MasterIcon
-                      svgName="check-square"
+                      svgName="checked-square"
                       fillColor="var(--glob-light)"
                       size="28"
                     />

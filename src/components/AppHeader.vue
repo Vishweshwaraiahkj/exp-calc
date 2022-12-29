@@ -8,6 +8,7 @@
   height: 4rem;
   z-index: 9;
   padding: 0;
+  -webkit-app-region: drag;
 
   .controls-bar {
     width: 100%;

@@ -1,11 +1,5 @@
-<style lang="scss" scoped>
-#userUpdater {
-  display: flex;
-}
-</style>
 <template lang="html">
   <MasterModal
-    :triggerId="triggerId"
     modalId="userUpdater"
     modalSize="medium"
     :btnClasses="btnClasses"
@@ -90,6 +84,58 @@
             />
           </div>
         </div>
+        <div class="row">
+          <div class="form-group col-6">
+            <MasterInput
+              inputId="userFacebook"
+              inputLabel="Facebook"
+              inputName="fb_link"
+              inputPlaceholder="Add your Facebook url"
+              inputType="text"
+              v-model:inputValue="fbLink"
+              inputWidth="100%"
+              :inputRequired="true"
+            />
+          </div>
+          <div class="form-group col-6">
+            <MasterInput
+              inputId="userLinkedIn"
+              inputLabel="LinkedIn"
+              inputName="lkdIn_link"
+              inputPlaceholder="Add your LinkedIn url"
+              inputType="text"
+              v-model:inputValue="lkdInLink"
+              inputWidth="100%"
+              :inputRequired="true"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-6">
+            <MasterInput
+              inputId="userInstagram"
+              inputLabel="Instagram"
+              inputName="insta_link"
+              inputPlaceholder="Add your Instagram url"
+              inputType="text"
+              v-model:inputValue="instaLink"
+              inputWidth="100%"
+              :inputRequired="true"
+            />
+          </div>
+          <div class="form-group col-6">
+            <MasterInput
+              inputId="userTwitter"
+              inputLabel="Twitter"
+              inputName="tweet_link"
+              inputPlaceholder="Add your Twitter url"
+              inputType="text"
+              v-model:inputValue="tweetLink"
+              inputWidth="100%"
+              :inputRequired="true"
+            />
+          </div>
+        </div>
       </form>
     </template>
     <template #footer></template>
@@ -98,7 +144,7 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 import { useStore } from 'vuex'
-import { v4 as uuids4 } from 'uuid'
+import { v4 } from 'uuid'
 import { IsValidObject } from '@/utils/globals.js'
 import MasterSelect from '@/components/MasterInputs/MasterSelect.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
@@ -114,10 +160,6 @@ const props = defineProps({
   },
   triggerIcon: {
     default: 'update-user',
-    type: String
-  },
-  triggerId: {
-    default: '',
     type: String
   },
   triggerIconSize: {
@@ -150,6 +192,11 @@ const description = ref(null)
 const designation = ref(null)
 const birthDate = ref(null)
 const selectedGender = ref(null)
+const fbLink = ref('')
+const lkdInLink = ref('')
+const instaLink = ref('')
+const tweetLink = ref('')
+
 const resetInput = ref(false)
 
 const getDateTime = (dateTime) => {
@@ -167,6 +214,10 @@ watchEffect(() => {
     designation.value = props.defaultsObj.designation
     selectedGender.value = props.defaultsObj.selectedGender
     birthDate.value = props.defaultsObj.birthDate
+    fbLink.value = props.defaultsObj.fbLink
+    lkdInLink.value = props.defaultsObj.lkdInLink
+    instaLink.value = props.defaultsObj.instaLink
+    tweetLink.value = props.defaultsObj.tweetLink
   }
 })
 
@@ -177,6 +228,11 @@ const clearForm = () => {
   designation.value = undefined
   selectedGender.value = undefined
   birthDate.value = undefined
+  fbLink.value = undefined
+  lkdInLink.value = undefined
+  instaLink.value = undefined
+  tweetLink.value = undefined
+
   resetInput.value = true
 }
 
@@ -186,7 +242,11 @@ const updateData = (type) => {
     fullName.value,
     designation.value,
     selectedGender.value,
-    birthDate.value
+    birthDate.value,
+    fbLink.value,
+    lkdInLink.value,
+    instaLink.value,
+    tweetLink.value
   ]
 
   if (!allInputs.every((i) => i)) {
@@ -198,12 +258,16 @@ const updateData = (type) => {
   }
 
   const updateObj = {
-    id: type === 'update' ? props.defaultsObj?.id : uuids4(),
+    id: type === 'update' ? props.defaultsObj?.id : v4(),
     description: description.value,
     fullName: fullName.value,
     designation: designation.value,
     selectedGender: selectedGender.value,
-    birthDate: birthDate.value
+    birthDate: birthDate.value,
+    fbLink: fbLink.value,
+    lkdInLink: lkdInLink.value,
+    instaLink: instaLink.value,
+    tweetLink: tweetLink.value
   }
 
   emits('emitDataUpdate', updateObj, type)
@@ -218,14 +282,6 @@ const addItem = () => {
 const addCancel = () => {
   if (props.actionType === 'add') {
     clearForm()
-  }
-}
-
-document.onkeydown = function (e) {
-  if (e.key === 'u' && (e.ctrlKey || e.metaKey)) {
-    e.preventDefault()
-
-    document.getElementById(props.triggerId).click()
   }
 }
 </script>
