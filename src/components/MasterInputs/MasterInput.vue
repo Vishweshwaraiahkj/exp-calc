@@ -206,7 +206,7 @@ const props = defineProps({
   },
   inputRows: {
     default: 5,
-    type: Number
+    type: [String, Number]
   }
 })
 

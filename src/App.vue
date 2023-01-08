@@ -73,7 +73,7 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, watchEffect, onMounted } from 'vue'
+import { ref, computed, watchEffect, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
@@ -114,5 +114,13 @@ const getFillColor = (routeName) => {
 
 onMounted(() => {
   document.title = 'Expenses Calculator'
+  window.addEventListener('resize', () => {
+    store.dispatch('utils/setWindowSize', window.innerWidth)
+  })
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {
+    store.dispatch('utils/setWindowSize', window.innerWidth)
+  })
 })
 </script>

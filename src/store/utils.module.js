@@ -13,7 +13,8 @@ export default {
     types: [],
     user_path: '',
     tasks: [],
-    isLoading: true
+    isLoading: true,
+    windowSize: window.innerWidth
   },
   mutations: {
     UPDATE_MESSAGE(state, payload) {
@@ -33,6 +34,9 @@ export default {
     },
     SET_LOADER_STATUS(state, payload) {
       state.isLoading = payload
+    },
+    SET_WINDOW_SIZE(state, payload) {
+      state.windowSize = payload
     }
   },
   actions: {
@@ -362,6 +366,9 @@ export default {
     },
     setLoaderStatus(context, payload) {
       context.commit('SET_LOADER_STATUS', payload)
+    },
+    setWindowSize(context, payload) {
+      context.commit('SET_WINDOW_SIZE', payload)
     }
   },
   getters: {
@@ -382,6 +389,9 @@ export default {
     },
     getAllTasks: (state) => {
       return state.tasks
+    },
+    getWindowSize: (state) => {
+      return state.windowSize
     }
   }
 }

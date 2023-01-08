@@ -69,7 +69,7 @@
 }
 </style>
 <template lang="html">
-  <button class="btn" :id="triggerId" :class="btnClasses" @click="toggleModal">
+  <button :id="triggerId" :class="triggerBtnClasses" @click="toggleModal">
     <slot name="trigger"></slot>
   </button>
   <Teleport to="body">
@@ -171,6 +171,14 @@ const defaultSlot = computed(() => {
 
 const footerSlot = computed(() => {
   return !!slots.footer
+})
+
+const triggerBtnClasses = computed(() => {
+  let defClass = 'btn'
+  if (props.btnClasses) {
+    defClass = `${defClass} ${props.btnClasses}`
+  }
+  return defClass
 })
 
 const confirmAction = async () => {

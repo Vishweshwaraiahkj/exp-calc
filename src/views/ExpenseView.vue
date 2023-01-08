@@ -1,11 +1,11 @@
 <template lang="html">
-  <div class="container container-bg shadow-dark">
-    <ExpenseHome
-      v-if="ExpenseData?.length && Categories?.length && Types?.length"
-      :dataArray="ExpenseData"
-    />
-    <MasterSpinner v-else :titleText="loaderTxt" size="large" noBg />
+  <div
+    class="container container-bg shadow-dark"
+    v-if="ExpenseData?.length && Categories?.length && Types?.length"
+  >
+    <ExpenseHome :dataArray="ExpenseData" />
   </div>
+  <MasterSpinner v-else :titleText="loaderTxt" size="large" noBg />
 </template>
 
 <script setup>

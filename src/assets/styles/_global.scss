@@ -602,20 +602,6 @@ pre {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 960px) {
-  .col {
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
-  }
-
-  .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 100%;
-  }
 
   .col-1 {
     -ms-flex: 0 0 8.333333%;
@@ -691,20 +677,6 @@ pre {
 }
 
 @media only screen and (min-width: 960px) and (max-width: 1200px) {
-  .col {
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
-  }
-
-  .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 100%;
-  }
 
   .col-1 {
     -ms-flex: 0 0 8.333333%;
@@ -780,20 +752,6 @@ pre {
 }
 
 @media only screen and (min-width: 1200px) {
-  .col {
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
-  }
-
-  .col-auto {
-    -ms-flex: 0 0 auto;
-    flex: 0 0 auto;
-    width: auto;
-    max-width: 100%;
-  }
 
   .col-1 {
     -ms-flex: 0 0 8.333333%;
@@ -884,6 +842,17 @@ pre {
 
   &.no-space>* {
     margin: auto;
+  }
+}
+
+.flex-start {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  align-self: flex-start;
+
+  >* {
+    margin-bottom: 1rem;
   }
 }
 
@@ -1235,20 +1204,22 @@ footer,
   }
 }
 
-.grids_2 {
-  grid-template-columns: repeat(auto-fit, minmax(49.50%, 2fr));
-}
+.grids {
+  &_2 {
+    grid-template-columns: repeat(auto-fit, minmax(49.50%, 2fr));
+  }
 
-.grids_3 {
-  grid-template-columns: repeat(auto-fit, minmax(32.66%, 2fr));
-}
+  &_3 {
+    grid-template-columns: repeat(auto-fit, minmax(32.66%, 2fr));
+  }
 
-.grids_4 {
-  grid-template-columns: repeat(auto-fit, minmax(24.25%, 2fr));
-}
+  &_4 {
+    grid-template-columns: repeat(auto-fit, minmax(24.25%, 2fr));
+  }
 
-.grids_5 {
-  grid-template-columns: repeat(auto-fit, minmax(19.20%, 2fr));
+  &_5 {
+    grid-template-columns: repeat(auto-fit, minmax(19.20%, 2fr));
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 960px) {

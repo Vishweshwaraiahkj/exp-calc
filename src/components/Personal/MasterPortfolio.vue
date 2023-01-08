@@ -45,7 +45,6 @@
   .job_to {
     text-align: left;
     padding: px2rem(5);
-    background: var(--light-gray);
     border-radius: var(--radius-default);
     margin: px2rem(5);
   }
@@ -127,7 +126,7 @@
         />
       </div>
       <MasterPrintBreak />
-      <h2 v-if="userDetails.workHistory.length" class="mt-2">Work History</h2>
+      <h2 v-if="workHistoryData" class="mt-2">Work History</h2>
       <div class="grid-container grids_4 job_card mt-2">
         <div
           v-for="item in userDetails.workHistory"
@@ -185,7 +184,7 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { IsValidObject } from '@/utils/globals'
 import MasterUserModal from '@/components/Personal/MasterUserModal.vue'
@@ -202,7 +201,6 @@ const userDetails = computed(() => store.getters['user/userDetails'])
 watchEffect(() => {
   if (!IsValidObject(userDetails.value)) {
     actionType.value = 'add'
-    store.dispatch('user/fetchUserDetails')
   } else {
     actionType.value = 'update'
   }
@@ -219,4 +217,14 @@ const updateWork = (workData, type) => {
 const openLink = (link) => {
   window.open(link, '_blank')
 }
+
+const workHistoryData = computed(() => {
+  return userDetails.value.workHistory?.length
+})
+
+onMounted(() => {
+  if (!userDetails.value.length) {
+    store.dispatch('user/fetchUserDetails')
+  }
+})
 </script>

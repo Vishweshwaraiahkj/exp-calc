@@ -172,8 +172,18 @@
   align-items: center;
   border-top: px2rem(2) solid var(--item-color);
   margin: px2rem(10) 0 0 0;
-  padding: px2rem(10);
-  box-shadow: boxShadow(top);
+  padding-top: px2rem(10);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 960px) {
+  .match-space {
+    flex-direction: row;
+
+    div,
+    ul {
+      width: 50%;
+    }
+  }
 }
 
 .total-rows {
@@ -242,7 +252,7 @@
         <MasterSwitch
           labelPos="left"
           inputWidth="1.75rem"
-          v-model:inputValue="viewTable"
+          v-model:inputValue="toggleView"
           trueIcon="list-header"
           falseIcon="table-header"
           class="view__switcher"
@@ -525,7 +535,12 @@ const finalData = ref([])
 const selectedMonth = ref(CustomDates('MMMM YYYY'))
 const allRows = ref(props.showAll)
 const filteredPerPage = ref([])
-const viewTable = ref(false)
+const toggleView = ref(false)
+const windowSize = computed(() => store.getters['utils/getWindowSize'])
+
+const viewTable = computed(() => {
+  return windowSize.value > 960 && toggleView.value
+})
 
 const masterCategories = inject('categories')?.value
 const masterTypes = inject('types')?.value

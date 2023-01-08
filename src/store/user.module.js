@@ -5,7 +5,9 @@ import { IsValidObject } from '@/utils/globals'
 export default {
   namespaced: true,
   state: {
-    user: {}
+    user: {
+      workHistory: []
+    }
   },
   mutations: {
     GET_USER_DETAILS(state, payload) {
@@ -54,9 +56,9 @@ export default {
       if (!type) return false
       const dbPath = path.resolve(udPath + '/data/users.json')
       const userDetails = context.state.user
-      let { workHistory } = userDetails
+      let workHistory = userDetails.workHistory || []
       if (type === 'update') {
-        workHistory = workHistory.map((i) => {
+        workHistory = workHistory?.map((i) => {
           if (i.id === workData.id) {
             return workData
           }

@@ -24,6 +24,13 @@
   .edit {
     margin-left: 1rem;
   }
+
+  .date {
+    display: block;
+    font-size: px2rem(12);
+    color: var(--secondary);
+    margin-left: 1rem;
+  }
 }
 </style>
 <template lang="html">
@@ -38,6 +45,7 @@
       class="theme-switcher"
     >
       <span :class="stateClass">{{ taskItem.description }}</span>
+      <span class="date">{{ taskItem.updateDate }}</span>
     </MasterSwitch>
     <div class="actions">
       <TaskModal

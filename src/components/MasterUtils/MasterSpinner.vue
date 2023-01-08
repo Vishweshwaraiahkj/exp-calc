@@ -5,7 +5,7 @@
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   font-size: px2rem(30);
   padding: px2rem(16);
   position: fixed;

@@ -23,10 +23,19 @@
               inputLabel="Description"
               inputName="description"
               inputPlaceholder="Add description"
-              inputType="text"
+              inputType="textarea"
               v-model:inputValue="description"
               inputWidth="100%"
               :inputRequired="true"
+              inputRows="3"
+            />
+          </div>
+          <div class="form-group col-12">
+            <MasterPicker
+              inputPlaceholder="Add date here"
+              inputLabel="Date"
+              @emitDateTime="getDateTime"
+              v-model:inputDate="updateDate"
             />
           </div>
         </div>
@@ -42,6 +51,7 @@ import { v4 } from 'uuid'
 import { IsValidObject } from '@/utils/globals.js'
 import MasterModal from '@/components/MasterUtils/MasterModal.vue'
 import MasterInput from '@/components/MasterInputs/MasterInput.vue'
+import MasterPicker from '@/components/MasterInputs/MasterPicker.vue'
 
 const props = defineProps({
   actionType: {
@@ -62,11 +72,13 @@ const emits = defineEmits(['emitDataUpdate'])
 const store = useStore()
 
 const description = ref('')
+const updateDate = ref(null)
 const status = ref('incomplete')
 
 watchEffect(() => {
   if (IsValidObject(props.defaultsObj)) {
     description.value = props.defaultsObj.description
+    updateDate.value = props.defaultsObj.updateDate
   }
 })
 
@@ -75,7 +87,9 @@ const clearForm = () => {
 }
 
 const updateData = (type) => {
-  if (!description.value) {
+  const allInputs = [description.value, updateDate.value]
+
+  if (!allInputs.every((i) => i)) {
     store.dispatch('utils/floatingMessages', {
       message: 'You need to enter correct details!',
       type: 'error'
@@ -86,12 +100,17 @@ const updateData = (type) => {
   const updateObj = {
     id: type === 'update' ? props.defaultsObj?.id : v4(),
     description: description.value,
+    updateDate: updateDate.value,
     status: status.value
   }
 
   emits('emitDataUpdate', updateObj, type)
   if (type === 'add') clearForm()
   return true
+}
+
+const getDateTime = (dateTime) => {
+  updateDate.value = dateTime
 }
 
 const addItem = () => {

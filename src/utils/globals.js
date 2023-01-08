@@ -3,33 +3,6 @@ import fs from 'fs'
 import * as path from 'path'
 import { monthStrings } from '@/constants/DateTime'
 
-export const ensureDirExists = (filePath) => {
-  const dirname = path.dirname(filePath)
-  if (fs.existsSync(dirname)) {
-    return true
-  }
-  ensureDirExists(dirname)
-  fs.mkdirSync(dirname)
-}
-
-export const GetDirFiles = async (filesPath, fileList = [], subDir = '') => {
-  const files = await fs.readdirSync(filesPath)
-
-  for (const fileName of files) {
-    const filePath = path.join(filesPath, fileName)
-    const stat = await fs.statSync(filePath)
-    const fileStr = path.basename(filePath, '.svg')
-    const searchKey = fileStr
-    if (stat.isDirectory()) {
-      fileList = await GetDirFiles(filePath, fileList, fileStr)
-    } else {
-      fileList.push({ filePath, fileName, fileStr, subDir, searchKey })
-    }
-  }
-
-  return fileList
-}
-
 const TrimString = (s) => {
   let l = 0
   let r = s.length - 1
@@ -114,6 +87,61 @@ const ExpandAllByKey = (dataArray, key) => {
   return expanded.flat()
 }
 
+const getSearchStr = (Obj) => {
+  if (Array.isArray(Obj)) {
+    Obj = Obj.reduce(function (str, i) {
+      return str + ' ' + i.sortKey
+    }, '').toLowerCase()
+  } else {
+    Obj = Obj.toLowerCase()
+  }
+
+  return Obj
+}
+
+const isValidData = (value) => {
+  let status = true
+  const valueType = typeof value
+  if (valueType === 'object') {
+    if (!Object.keys(value).length) {
+      status = false
+    }
+  } else {
+    if (value === null || value === undefined) {
+      status = false
+    }
+  }
+
+  return status
+}
+
+export const ensureDirExists = (filePath) => {
+  const dirname = path.dirname(filePath)
+  if (fs.existsSync(dirname)) {
+    return true
+  }
+  fs.mkdirSync(dirname)
+  ensureDirExists(dirname)
+}
+
+export const GetDirFiles = async (filesPath, fileList = [], subDir = '') => {
+  const files = await fs.readdirSync(filesPath)
+
+  for (const fileName of files) {
+    const filePath = path.join(filesPath, fileName)
+    const stat = await fs.statSync(filePath)
+    const fileStr = path.basename(filePath, '.svg')
+    const searchKey = fileStr
+    if (stat.isDirectory()) {
+      fileList = await GetDirFiles(filePath, fileList, fileStr)
+    } else {
+      fileList.push({ filePath, fileName, fileStr, subDir, searchKey })
+    }
+  }
+
+  return fileList
+}
+
 export const IsSimilarObject = (oldObject, newObject) => {
   const xObject = ParseObject(oldObject)
   const yObject = ParseObject(newObject)
@@ -172,13 +200,26 @@ export const StringifyObject = (objectData) => {
   return JSON.stringify(objectData)
 }
 
-export const IsValidObject = (obj) => {
-  return (
-    typeof obj === 'object' &&
-    Object.keys(obj).length !== 0 &&
-    !Array.isArray(obj) &&
-    obj !== null
-  )
+export const IsValidObject = (dataObj) => {
+  let objCnt = 0
+  if (!dataObj || Array.isArray(dataObj)) {
+    objCnt = 0
+  } else {
+    const objKeys = Object.keys(dataObj)
+    const objValues = Object.values(dataObj)
+
+    if (typeof dataObj === 'object' && objKeys.length) {
+      objValues.forEach((elm) => {
+        if (isValidData(elm)) {
+          objCnt++
+        }
+      })
+    } else {
+      objCnt = 0
+    }
+  }
+
+  return Boolean(objCnt)
 }
 
 export const CustomSort = (objectsArray, key, type) => {
@@ -203,20 +244,6 @@ export const CustomSort = (objectsArray, key, type) => {
     }
     return SortPrimitives(itemA, itemB, type)
   })
-}
-
-const getSearchStr = (Obj) => {
-  if (Array.isArray(Obj)) {
-    Obj = Obj
-      .reduce(function (str, i) {
-        return str + ' ' + i.sortKey
-      }, '')
-      .toLowerCase()
-  } else {
-    Obj = Obj.toLowerCase()
-  }
-
-  return Obj
 }
 
 export const SearchObjectsArray = (searchData, searchStr, searchBy = '') => {
