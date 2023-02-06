@@ -90,6 +90,8 @@
 import { computed } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 
+const emit = defineEmits(['pageChanged'])
+
 const props = defineProps({
   numBtnsCount: {
     type: Number,
@@ -110,7 +112,7 @@ const props = defineProps({
   },
   class: {
     type: String,
-    default: null
+    default: ''
   },
   btnsVariant: {
     type: String,
@@ -153,8 +155,6 @@ const isInFirstPage = computed(() => {
 const isInLastPage = computed(() => {
   return props.currentPage === props.totalPages
 })
-
-const emit = defineEmits(['pageChanged'])
 
 const onClickFirstPage = () => {
   emit('pageChanged', 1)

@@ -177,11 +177,23 @@
 
 @media only screen and (min-width: 768px) and (max-width: 960px) {
   .match-space {
-    flex-direction: row;
+    //flex-direction: column;
+    gap: 1rem;
 
     div,
     ul {
-      width: 50%;
+      width: 100%;
+    }
+
+    .pagination {
+      justify-content: space-between;
+      width: 100%;
+      padding: 0;
+
+      .pagination-item,
+      .pagination-item > button.btn {
+        width: 100%;
+      }
     }
   }
 }

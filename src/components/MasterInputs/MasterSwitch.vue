@@ -90,6 +90,10 @@ const props = defineProps({
     default: false,
     type: Boolean
   },
+  inputDisabled: {
+    default: false,
+    type: Boolean
+  },
   inputErrMessage: {
     default: 'This is a required field',
     type: String
@@ -129,7 +133,11 @@ const mainWrapper = computed(() => {
 
 const updateStatus = (e) => {
   const checkedStatus = !switchStatus.value
-  switchStatus.value = checkedStatus
+  if (props.inputDisabled) {
+    switchStatus.value = false
+  } else {
+    switchStatus.value = checkedStatus
+  }
   emits('update:inputValue', checkedStatus)
 }
 

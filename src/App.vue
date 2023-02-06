@@ -30,13 +30,13 @@
           Home
         </router-link>
         <span class="menu-separator">|</span>
-        <router-link to="/tools">
+        <router-link to="/settings">
           <MasterIcon
             svgName="settings"
             size="x-small"
-            :fillColor="getFillColor('tools')"
+            :fillColor="getFillColor('settings')"
           />
-          Tools
+          Settings
         </router-link>
         <span class="menu-separator">|</span>
         <router-link to="/tasks">
@@ -46,6 +46,16 @@
             :fillColor="getFillColor('tasks')"
           />
           Tasks
+        </router-link>
+        <span class="menu-separator">|</span>
+        <router-link to="/tools">
+          <MasterIcon
+            svgName="house-rent"
+            size="x-small"
+            :fillColor="getFillColor('tools')"
+            extraPath="categories"
+          />
+          Tools
         </router-link>
         <span class="menu-separator">|</span>
         <router-link to="/icons">

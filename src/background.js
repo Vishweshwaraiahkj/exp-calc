@@ -23,7 +23,7 @@ const consoleError = (err, type) => {
   let message
   switch (err.code) {
     case 'EEXIST':
-      message = `${type} file already exists`
+      message = `Previous ${type} file exists, no further action needed!`
       break
 
     default:
@@ -135,7 +135,7 @@ async function createWindow() {
       .printToPDF({
         printBackground: true,
         landscape: true,
-        displayHeaderFooter: true,
+        displayHeaderFooter: false,
         preferCSSPageSize: true
       })
       .then((data) => {
