@@ -69,12 +69,12 @@ const toastMsgs = ref({})
 const toastKey = ref(0)
 
 const createPdf = (event) => {
-  document.querySelector('.main-header').classList.add('d-none')
-  document.querySelector('.main-footer').classList.add('d-none')
-  document.querySelector('.add_item').classList.add('d-none')
-  document.querySelector('.edit_item').classList.add('d-none')
-  document.querySelector('.jobs_add').classList.add('d-none')
-  document.querySelector('.job_actions').classList.add('d-none')
+  document.querySelector('.main-header')?.classList?.add('d-none')
+  document.querySelector('.main-footer')?.classList?.add('d-none')
+  document.querySelector('.add_item')?.classList?.add('d-none')
+  document.querySelector('.edit_item')?.classList?.add('d-none')
+  document.querySelector('.jobs_add')?.classList?.add('d-none')
+  document.querySelector('.job_actions')?.classList?.add('d-none')
   ipc.send('print-to-pdf')
 }
 
@@ -86,11 +86,11 @@ ipc.on('execPdf', (event, pdfResponse) => {
     timeout: 5000
   }
   toastKey.value = toastKey.value + 1
-  document.querySelector('.main-header').classList.remove('d-none')
-  document.querySelector('.main-footer').classList.remove('d-none')
-  document.querySelector('.add_item').classList.remove('d-none')
-  document.querySelector('.edit_item').classList.remove('d-none')
-  document.querySelector('.jobs_add').classList.remove('d-none')
-  document.querySelector('.job_actions').classList.remove('d-none')
+  document.querySelector('.main-header')?.classList?.remove('d-none')
+  document.querySelector('.main-footer')?.classList?.remove('d-none')
+  document.querySelector('.add_item')?.classList?.remove('d-none')
+  document.querySelector('.edit_item')?.classList?.remove('d-none')
+  document.querySelector('.jobs_add')?.classList?.remove('d-none')
+  document.querySelector('.job_actions')?.classList?.remove('d-none')
 })
 </script>

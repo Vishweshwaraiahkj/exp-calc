@@ -13,7 +13,7 @@ if (!app.isPackaged) {
 }
 
 const homeDir = Os.homedir()
-const docsDir = `${homeDir}/Documents`
+const docsDir = `${homeDir}/Downloads/Documents`
 
 const ipc = ipcMain
 
