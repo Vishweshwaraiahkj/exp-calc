@@ -118,6 +118,7 @@ import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
 import MasterPrintBreak from '@/components/MasterUtils/MasterPrintBreak.vue'
 import TabsGroup from '@/components/MasterUtils/TabsGroup.vue'
 import TabsItem from '@/components/MasterUtils/TabsItem.vue'
+import { hideShowElement } from '@/utils/globals'
 
 const ipc = window.ipcRenderer
 const toastMsgs = ref({})
@@ -125,9 +126,14 @@ const toastKey = ref(0)
 const isActive = ref('')
 
 const downloadReciepts = (event) => {
-  document.querySelector('.main-header').classList.add('d-none')
-  document.querySelector('.main-footer').classList.add('d-none')
-  document.querySelector('.add_item').classList.add('d-none')
+  const classNames = [
+    '.main-header',
+    '.main-footer',
+    '.add_item',
+    '.tabs__header'
+  ]
+  hideShowElement(classNames, 'add')
+
   document.querySelector('.main-container').style.margin = 'auto'
   ipc.send('print-to-pdf')
 }
@@ -140,9 +146,15 @@ ipc.on('execPdf', (event, pdfResponse) => {
     timeout: 5000
   }
   toastKey.value = toastKey.value + 1
-  document.querySelector('.main-header').classList.remove('d-none')
-  document.querySelector('.main-footer').classList.remove('d-none')
-  document.querySelector('.add_item').classList.remove('d-none')
+
+  const classNames = [
+    '.main-header',
+    '.main-footer',
+    '.add_item',
+    '.tabs__header'
+  ]
+  hideShowElement(classNames, 'remove')
+
   document.querySelector('.main-container').style.margin = ''
 })
 

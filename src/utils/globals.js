@@ -405,3 +405,21 @@ export const descSubstr = (item, max) => {
     return descStr
   }
 }
+
+export const hideShowElement = (classes, action) => {
+  if (!Array.isArray(classes)) {
+    return false
+  }
+
+  classes.forEach((className) => {
+    if (action === 'add') {
+      document
+        .querySelectorAll(className)
+        .forEach((el) => el.classList.add('d-none'))
+    } else {
+      document
+        .querySelectorAll(className)
+        .forEach((el) => el.classList.remove('d-none'))
+    }
+  })
+}

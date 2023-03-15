@@ -63,18 +63,23 @@ import { ref } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon'
 import MasterPortfolio from '@/components/Personal/MasterPortfolio'
 import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
+import { hideShowElement } from '@/utils/globals'
 
 const ipc = window.ipcRenderer
 const toastMsgs = ref({})
 const toastKey = ref(0)
 
 const createPdf = (event) => {
-  document.querySelector('.main-header')?.classList?.add('d-none')
-  document.querySelector('.main-footer')?.classList?.add('d-none')
-  document.querySelector('.add_item')?.classList?.add('d-none')
-  document.querySelector('.edit_item')?.classList?.add('d-none')
-  document.querySelector('.jobs_add')?.classList?.add('d-none')
-  document.querySelector('.job_actions')?.classList?.add('d-none')
+  const classNames = [
+    '.main-header',
+    '.main-footer',
+    '.add_item',
+    '.edit_item',
+    '.jobs_add',
+    '.job_actions'
+  ]
+  hideShowElement(classNames, 'add')
+
   ipc.send('print-to-pdf')
 }
 
@@ -85,12 +90,17 @@ ipc.on('execPdf', (event, pdfResponse) => {
     path: pdfResponse.path,
     timeout: 5000
   }
+
   toastKey.value = toastKey.value + 1
-  document.querySelector('.main-header')?.classList?.remove('d-none')
-  document.querySelector('.main-footer')?.classList?.remove('d-none')
-  document.querySelector('.add_item')?.classList?.remove('d-none')
-  document.querySelector('.edit_item')?.classList?.remove('d-none')
-  document.querySelector('.jobs_add')?.classList?.remove('d-none')
-  document.querySelector('.job_actions')?.classList?.remove('d-none')
+
+  const classNames = [
+    '.main-header',
+    '.main-footer',
+    '.add_item',
+    '.edit_item',
+    '.jobs_add',
+    '.job_actions'
+  ]
+  hideShowElement(classNames, 'remove')
 })
 </script>
