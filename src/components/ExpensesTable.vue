@@ -175,20 +175,19 @@
   padding-top: px2rem(10);
 }
 
-@media only screen and (min-width: 768px) and (max-width: 960px) {
+@include mediaQuery(mobile, tablet, laptop) {
   .match-space {
-    //flex-direction: column;
+    flex-direction: column;
     gap: 1rem;
 
     div,
     ul {
       width: 100%;
+      flex-grow: 1;
     }
 
     .pagination {
       justify-content: space-between;
-      width: 100%;
-      padding: 0;
 
       .pagination-item,
       .pagination-item > button.btn {
@@ -268,6 +267,7 @@
           trueIcon="list-header"
           falseIcon="table-header"
           class="view__switcher"
+          :inputDisabled="smallScreen"
         />
       </div>
     </div>
@@ -549,9 +549,10 @@ const allRows = ref(props.showAll)
 const filteredPerPage = ref([])
 const toggleView = ref(false)
 const windowSize = computed(() => store.getters['utils/getWindowSize'])
+const smallScreen = computed(() => windowSize.value <= 960)
 
 const viewTable = computed(() => {
-  return windowSize.value > 960 && toggleView.value
+  return windowSize.value >= 961 && toggleView.value
 })
 
 const masterCategories = inject('categories')?.value

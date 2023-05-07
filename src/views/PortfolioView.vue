@@ -63,13 +63,13 @@ import { ref } from 'vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon'
 import MasterPortfolio from '@/components/Personal/MasterPortfolio'
 import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
-import { hideShowElement } from '@/utils/globals'
+import { toggleElementView } from '@/utils/globals'
 
 const ipc = window.ipcRenderer
 const toastMsgs = ref({})
 const toastKey = ref(0)
 
-const createPdf = (event) => {
+const createPdf = () => {
   const classNames = [
     '.main-header',
     '.main-footer',
@@ -78,9 +78,9 @@ const createPdf = (event) => {
     '.jobs_add',
     '.job_actions'
   ]
-  hideShowElement(classNames, 'add')
+  toggleElementView(classNames, 'hide')
 
-  ipc.send('print-to-pdf')
+  ipc.send('PrintToPdf')
 }
 
 ipc.on('execPdf', (event, pdfResponse) => {
@@ -101,6 +101,6 @@ ipc.on('execPdf', (event, pdfResponse) => {
     '.jobs_add',
     '.job_actions'
   ]
-  hideShowElement(classNames, 'remove')
+  toggleElementView(classNames)
 })
 </script>

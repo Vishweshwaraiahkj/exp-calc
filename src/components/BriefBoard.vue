@@ -91,7 +91,7 @@
     white-space: nowrap;
   }
 
-  @media only screen and (min-width: 768px) and (max-width: 960px) {
+  @include mediaQuery(laptop) {
     .daily-card {
       padding: 0.625rem;
     }
@@ -110,14 +110,14 @@
       />
       <div class="details-box">
         <h4 class="balance-amount details-label">Balance</h4>
-        <h1 id="balance" class="balance-amount">
-          <MasterIcon
-            svgName="indian-rupees"
-            fillColor="var(--glob-light)"
-            size="medium"
-          />
-          {{ balanceMoney.toLocaleString('en-IN') }}
-        </h1>
+        <MasterIcon
+          id="balance"
+          class="balance-amount"
+          svgName="indian-rupees"
+          fillColor="var(--glob-light)"
+          :labelAfter="balanceMoney.toLocaleString('en-IN')"
+          size="medium"
+        />
       </div>
     </div>
     <div class="income-count price-box hover-transform">
@@ -130,14 +130,14 @@
       />
       <div class="details-box">
         <h4 class="money plus details-label">Income</h4>
-        <h1 id="money-plus" class="money plus">
-          <MasterIcon
-            svgName="indian-rupees"
-            fillColor="var(--glob-light)"
-            size="medium"
-          />
-          +{{ incomeValue.toLocaleString('en-IN') }}
-        </h1>
+        <MasterIcon
+          id="money-plus"
+          class="money plus"
+          svgName="indian-rupees"
+          fillColor="var(--glob-light)"
+          :labelAfter="incomeValue.toLocaleString('en-IN')"
+          size="medium"
+        />
       </div>
     </div>
     <div class="expense-count price-box hover-transform">
@@ -150,14 +150,14 @@
       />
       <div class="details-box">
         <h4 class="money minus details-label">Expense</h4>
-        <h1 id="money-minus" class="money minus">
-          <MasterIcon
-            svgName="indian-rupees"
-            fillColor="var(--glob-light)"
-            size="medium"
-          />
-          -{{ expenseValue.toLocaleString('en-IN') }}
-        </h1>
+        <MasterIcon
+          id="money-minus"
+          class="money minus"
+          svgName="indian-rupees"
+          fillColor="var(--glob-light)"
+          :labelAfter="expenseValue.toLocaleString('en-IN')"
+          size="medium"
+        />
       </div>
     </div>
     <div class="credits-count price-box hover-transform">
@@ -170,61 +170,57 @@
       />
       <div class="details-box">
         <h4 class="money minus details-label">Credits</h4>
-        <h1 id="money-minus" class="money minus">
-          <MasterIcon
-            svgName="indian-rupees"
-            fillColor="var(--glob-light)"
-            size="medium"
-          />
-          {{ creditsValue.toLocaleString('en-IN') }}
-        </h1>
+        <MasterIcon
+          id="money-minus"
+          class="money minus"
+          svgName="indian-rupees"
+          fillColor="var(--glob-light)"
+          :labelAfter="creditsValue.toLocaleString('en-IN')"
+          size="medium"
+        />
       </div>
     </div>
   </div>
   <div v-if="totalData" class="day-months flex-center">
     <div class="daily-card">
       <label class="flex-center">Today's Expense:</label>
-      <span class="flex-center">
-        <MasterIcon
-          svgName="indian-rupees"
-          fillColor="var(--bg-color)"
-          size="small"
-        />
-        {{ todaysExpense.toLocaleString('en-IN') }}
-      </span>
+      <MasterIcon
+        class="flex-center"
+        svgName="indian-rupees"
+        fillColor="var(--bg-color)"
+        :labelAfter="todaysExpense.toLocaleString('en-IN')"
+        size="small"
+      />
     </div>
     <div class="daily-card">
       <label class="flex-center">Today's Income:</label>
-      <span class="flex-center">
-        <MasterIcon
-          svgName="indian-rupees"
-          fillColor="var(--bg-color)"
-          size="small"
-        />
-        {{ todaysIncome.toLocaleString('en-IN') }}
-      </span>
+      <MasterIcon
+        class="flex-center"
+        svgName="indian-rupees"
+        fillColor="var(--bg-color)"
+        :labelAfter="todaysIncome.toLocaleString('en-IN')"
+        size="small"
+      />
     </div>
     <div class="daily-card">
       <label class="flex-center">This Month's Expense:</label>
-      <span class="flex-center">
-        <MasterIcon
-          svgName="indian-rupees"
-          fillColor="var(--bg-color)"
-          size="small"
-        />
-        {{ monthsExpense.toLocaleString('en-IN') }}
-      </span>
+      <MasterIcon
+        class="flex-center"
+        svgName="indian-rupees"
+        fillColor="var(--bg-color)"
+        :labelAfter="monthsExpense.toLocaleString('en-IN')"
+        size="small"
+      />
     </div>
     <div class="daily-card">
       <label class="flex-center">This Month's Income:</label>
-      <span class="flex-center">
-        <MasterIcon
-          svgName="indian-rupees"
-          fillColor="var(--bg-color)"
-          size="small"
-        />
-        {{ monthsIncome.toLocaleString('en-IN') }}
-      </span>
+      <MasterIcon
+        class="flex-center"
+        svgName="indian-rupees"
+        fillColor="var(--bg-color)"
+        :labelAfter="monthsIncome.toLocaleString('en-IN')"
+        size="small"
+      />
     </div>
   </div>
 </template>

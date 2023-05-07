@@ -10,19 +10,30 @@
       fill: var(--bg-color);
     }
   }
+
+  .label-before,
+  .label-after {
+    margin: auto;
+  }
 }
 </style>
 <template lang="html">
-  <div :class="svgWrapper">
+  <span :class="svgWrapper">
+    <label v-if="labelBefore" :class="`label-before ${size}`">{{
+      labelBefore
+    }}</label>
     <svg
       class="shadow-svg-dark"
       :fill="fillColor"
-      :width="getSize"
       :height="getSize"
+      :width="getSize"
     >
       <use :href="iconsPath" />
     </svg>
-  </div>
+    <label v-if="labelAfter" :class="`label-after ${size}`">{{
+      labelAfter
+    }}</label>
+  </span>
 </template>
 <script setup>
 import { ref, computed } from 'vue'
@@ -53,6 +64,14 @@ const props = defineProps({
     type: Boolean
   },
   bgColor: {
+    default: '',
+    type: String
+  },
+  labelAfter: {
+    default: '',
+    type: String
+  },
+  labelBefore: {
     default: '',
     type: String
   }

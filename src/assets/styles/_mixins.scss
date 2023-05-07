@@ -1,3 +1,49 @@
+@mixin mediaQuery($keys...) {
+    // map holding breakpoint values
+    $mobileMin : 320px;
+    $mobileMax : 599px;
+    $tabletMin : 600px;
+    $tabletMax : 768px;
+    $laptopMin : 769px;
+    $laptopMax : 960px;
+    $desktopMin : 961px;
+    $desktopMax : 1200px;
+    $monitorMin : 1201px;
+    $monitorMax : 1800px;
+
+    @each $key in $keys {
+        @if ($key ==mobile) {
+            @media only screen and (min-width: $mobileMin) and (max-width: $mobileMax) {
+                @content;
+            }
+        }
+
+        @if ($key ==tablet) {
+            @media only screen and (min-width: $tabletMin) and (max-width: $tabletMax) {
+                @content;
+            }
+        }
+
+        @if ($key ==laptop) {
+            @media only screen and (min-width: $laptopMin) and (max-width: $laptopMax) {
+                @content;
+            }
+        }
+
+        @if ($key ==desktop) {
+            @media only screen and (min-width: $desktopMin) and (max-width: $desktopMax) {
+                @content;
+            }
+        }
+
+        @if ($key ==monitor) {
+            @media only screen and (min-width: $monitorMin) and (max-width: $monitorMax) {
+                @content;
+            }
+        }
+    }
+}
+
 @function boxShadow($type: default, $variant: dark) {
     // colors goes here
     $default-color: var(--shadow-color);

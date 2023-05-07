@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, shell } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
@@ -128,7 +128,7 @@ async function createWindow() {
   })
 
   // Create PDF
-  ipc.on('print-to-pdf', (event) => {
+  ipc.on('PrintToPdf', () => {
     const date = new Date()
     const pdfPath = path.join(docsDir, `/${date.getTime()}.pdf`)
     win.webContents
@@ -157,6 +157,11 @@ async function createWindow() {
           path: pdfPath
         })
       })
+  })
+
+  // Open external link from the app
+  ipc.on('OpenLinks', (e, link) => {
+    shell.openExternal(link)
   })
 
   win.on('maximize', () => {

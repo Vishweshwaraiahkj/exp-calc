@@ -195,6 +195,7 @@ import DeleteModal from '@/components/DeleteModal.vue'
 
 const store = useStore()
 const actionType = ref('')
+const ipc = window.ipcRenderer
 
 const userDetails = computed(() => store.getters['user/userDetails'])
 
@@ -215,7 +216,7 @@ const updateWork = (workData, type) => {
 }
 
 const openLink = (link) => {
-  window.open(link, '_blank')
+  ipc.send('OpenLinks', link)
 }
 
 const workHistoryData = computed(() => {

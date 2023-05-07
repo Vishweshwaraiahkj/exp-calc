@@ -138,7 +138,10 @@ const updateStatus = (e) => {
   } else {
     switchStatus.value = checkedStatus
   }
-  emits('update:inputValue', checkedStatus)
+
+  if (!props.inputDisabled) {
+    emits('update:inputValue', checkedStatus)
+  }
 }
 
 const iconSvg = computed(() => {

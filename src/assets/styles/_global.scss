@@ -29,7 +29,7 @@ section {
 body {
   margin: 0;
   font-family: var(--global-font-family);
-  font-size: 1rem;
+  font-size: 1vw;
   font-weight: 400;
   line-height: 1.5;
   color: var(--item-color);
@@ -37,6 +37,12 @@ body {
   background-color: var(--bg-color);
 
   @include hideScroll();
+}
+
+@include mediaQuery(mobile, tablet, laptop) {
+  body {
+    font-size: 1.5vw;
+  }
 }
 
 [tabindex="-1"]:focus {
@@ -325,65 +331,32 @@ summary {
 
 h1,
 .h1 {
-  @include headings(2.5rem);
+  @include headings(3vw);
 }
 
 h2,
 .h2 {
-  @include headings(2rem);
+  @include headings(2.5vw);
 }
 
 h3,
 .h3 {
-  @include headings(1.75rem);
+  @include headings(2vw);
 }
 
 h4,
 .h4 {
-  @include headings(1.5rem);
+  @include headings(1.5vw);
 }
 
 h5,
 .h5 {
-  @include headings(1.25rem);
+  @include headings(1vw);
 }
 
 h6,
 .h6 {
-  @include headings(1rem);
-}
-
-@media only screen and (min-width: 768px) and (max-width: 960px) {
-
-  h1,
-  .h1 {
-    @include headings(1.25rem);
-  }
-
-  h2,
-  .h2 {
-    @include headings(1);
-  }
-
-  h3,
-  .h3 {
-    @include headings(1rem);
-  }
-
-  h4,
-  .h4 {
-    @include headings(1rem);
-  }
-
-  h5,
-  .h5 {
-    @include headings(0.625rem);
-  }
-
-  h6,
-  .h6 {
-    @include headings(0.5rem);
-  }
+  @include headings(0.5vw);
 }
 
 hr {
@@ -391,12 +364,6 @@ hr {
   margin-bottom: 1rem;
   border: 0;
   border-top: px2rem(1) solid rgba(0, 0, 0, 0.1);
-}
-
-small,
-.small-text {
-  font-size: 80%;
-  font-weight: 400;
 }
 
 .img-fluid {
@@ -456,19 +423,13 @@ pre {
   }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 960px) {
+@include mediaQuery(laptop, desktop) {
   .container {
     max-width: px2rem(960);
   }
 }
 
-@media only screen and (min-width: 960px) and (max-width: 1200) {
-  .container {
-    max-width: px2rem(960);
-  }
-}
-
-@media only screen and (min-width: 1200px) {
+@include mediaQuery(monitor) {
   .container {
     max-width: px2rem(1200);
   }
@@ -601,7 +562,7 @@ pre {
   max-width: 100%;
 }
 
-@media only screen and (min-width: 768px) and (max-width: 960px) {
+@include mediaQuery(laptop) {
 
   .col-1 {
     -ms-flex: 0 0 8.333333%;
@@ -676,7 +637,7 @@ pre {
   }
 }
 
-@media only screen and (min-width: 960px) and (max-width: 1200px) {
+@include mediaQuery(desktop) {
 
   .col-1 {
     -ms-flex: 0 0 8.333333%;
@@ -751,7 +712,7 @@ pre {
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@include mediaQuery(monitor) {
 
   .col-1 {
     -ms-flex: 0 0 8.333333%;
@@ -1222,7 +1183,7 @@ footer,
   }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 960px) {
+@include mediaQuery(laptop) {
   .grid-container {
     grid-template-columns: repeat(auto-fit, minmax(32.33333%, 2fr));
   }
@@ -1845,4 +1806,25 @@ span.err {
 
 .dark_text {
   color: var(--item-color);
+}
+
+// Font sizes classes
+.x-large {
+  font-size: var(--x-large);
+}
+
+.large {
+  font-size: var(--large);
+}
+
+.medium {
+  font-size: var(--medium);
+}
+
+.small {
+  font-size: var(--small);
+}
+
+.x-small {
+  font-size: var(--x-small);
 }

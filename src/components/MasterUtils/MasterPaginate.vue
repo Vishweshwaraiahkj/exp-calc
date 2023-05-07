@@ -4,11 +4,14 @@
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0;
+  padding: 0;
 
   &-item {
-    display: inline-block;
-    margin-left: 0.25rem;
-    box-shadow: boxShadow(dark);
+    &:not(:first-child) {
+      display: inline-block;
+      margin-left: 0.25rem;
+      box-shadow: boxShadow(dark);
+    }
 
     button.btn {
       height: 100%;

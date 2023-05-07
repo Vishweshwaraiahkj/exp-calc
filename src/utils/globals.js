@@ -406,13 +406,13 @@ export const descSubstr = (item, max) => {
   }
 }
 
-export const hideShowElement = (classes, action) => {
+export const toggleElementView = (classes, action = 'show') => {
   if (!Array.isArray(classes)) {
     return false
   }
 
   classes.forEach((className) => {
-    if (action === 'add') {
+    if (action === 'hide') {
       document
         .querySelectorAll(className)
         .forEach((el) => el.classList.add('d-none'))

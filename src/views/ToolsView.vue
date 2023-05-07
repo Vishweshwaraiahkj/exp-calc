@@ -118,7 +118,7 @@ import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
 import MasterPrintBreak from '@/components/MasterUtils/MasterPrintBreak.vue'
 import TabsGroup from '@/components/MasterUtils/TabsGroup.vue'
 import TabsItem from '@/components/MasterUtils/TabsItem.vue'
-import { hideShowElement } from '@/utils/globals'
+import { toggleElementView } from '@/utils/globals'
 
 const ipc = window.ipcRenderer
 const toastMsgs = ref({})
@@ -132,10 +132,10 @@ const downloadReciepts = (event) => {
     '.add_item',
     '.tabs__header'
   ]
-  hideShowElement(classNames, 'add')
+  toggleElementView(classNames, 'hide')
 
   document.querySelector('.main-container').style.margin = 'auto'
-  ipc.send('print-to-pdf')
+  ipc.send('PrintToPdf')
 }
 
 ipc.on('execPdf', (event, pdfResponse) => {
@@ -153,7 +153,7 @@ ipc.on('execPdf', (event, pdfResponse) => {
     '.add_item',
     '.tabs__header'
   ]
-  hideShowElement(classNames, 'remove')
+  toggleElementView(classNames)
 
   document.querySelector('.main-container').style.margin = ''
 })
