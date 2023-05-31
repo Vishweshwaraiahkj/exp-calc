@@ -186,7 +186,7 @@
 <script setup>
 import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { IsValidObject } from '@/utils/globals'
+import { IsValidObject, openLink } from '@/utils/globals'
 import MasterUserModal from '@/components/Personal/MasterUserModal.vue'
 import WorkHistoryModal from '@/components/Personal/WorkHistoryModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
@@ -195,7 +195,6 @@ import DeleteModal from '@/components/DeleteModal.vue'
 
 const store = useStore()
 const actionType = ref('')
-const ipc = window.ipcRenderer
 
 const userDetails = computed(() => store.getters['user/userDetails'])
 
@@ -213,10 +212,6 @@ const updateUserData = (userData, type) => {
 
 const updateWork = (workData, type) => {
   store.dispatch('user/updateWorkData', { workData, type })
-}
-
-const openLink = (link) => {
-  ipc.send('OpenLinks', link)
 }
 
 const workHistoryData = computed(() => {

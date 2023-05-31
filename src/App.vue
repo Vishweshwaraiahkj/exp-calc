@@ -123,7 +123,7 @@ const getFillColor = (routeName) => {
 }
 
 onMounted(() => {
-  document.title = 'Expenses Calculator'
+  document.title = 'Master Utils'
   window.addEventListener('resize', () => {
     store.dispatch('utils/setWindowSize', window.innerWidth)
   })

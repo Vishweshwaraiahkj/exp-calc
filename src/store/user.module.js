@@ -23,6 +23,9 @@ export default {
       if (!IsValidObject(userData)) return false
       if (!type) return false
       const dbPath = path.resolve(udPath + '/data/users.json')
+      const userDetails = context.state.user
+      const workHistory = userDetails?.workHistory || []
+      userData = { ...userData, workHistory }
       fs.writeFile(
         dbPath,
         JSON.stringify(userData, null, 2),

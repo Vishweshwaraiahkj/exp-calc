@@ -15,8 +15,6 @@ if (!app.isPackaged) {
 const homeDir = Os.homedir()
 const docsDir = `${homeDir}/Downloads/Documents`
 
-const ipc = ipcMain
-
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const consoleError = (err, type) => {
@@ -51,7 +49,7 @@ async function createWindow() {
       nodeIntegration: process.env.VUE_APP_NODE_INTEGRATION,
       contextIsolation: !process.env.VUE_APP_NODE_INTEGRATION,
       enableRemoteModule: true,
-      devTools: !app.isPackaged,
+      devTools: true, // !app.isPackaged,
       preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, 'assets/icons/lion-face.ico')
@@ -108,12 +106,12 @@ async function createWindow() {
   }
 
   // Minimize app
-  ipc.on('MinimizeApp', () => {
+  ipcMain.on('MinimizeApp', () => {
     win.minimize()
   })
 
   // Maximize app
-  ipc.on('MaximizeApp', () => {
+  ipcMain.on('MaximizeApp', () => {
     if (win.isMaximized()) {
       win.restore()
       win.center()
@@ -123,12 +121,12 @@ async function createWindow() {
   })
 
   // Close app
-  ipc.on('CloseApp', () => {
+  ipcMain.on('CloseApp', () => {
     win.close()
   })
 
   // Create PDF
-  ipc.on('PrintToPdf', () => {
+  ipcMain.on('PrintToPdf', () => {
     const date = new Date()
     const pdfPath = path.join(docsDir, `/${date.getTime()}.pdf`)
     win.webContents
@@ -159,9 +157,9 @@ async function createWindow() {
       })
   })
 
-  // Open external link from the app
-  ipc.on('OpenLinks', (e, link) => {
-    shell.openExternal(link)
+  win.webContents.setWindowOpenHandler((args) => {
+    handleUrl(args.url)
+    return { action: 'deny' }
   })
 
   win.on('maximize', () => {
@@ -176,6 +174,36 @@ async function createWindow() {
   win.on('closed', () => {
     win = null
   })
+}
+
+async function handleUrl(url) {
+  const parsedUrl = maybeParseUrl(url)
+  if (!parsedUrl) {
+    return
+  }
+
+  const { protocol } = parsedUrl
+
+  // We could handle all possible link cases here, not only http/https
+  if (protocol === 'http:' || protocol === 'https:') {
+    try {
+      await shell.openExternal(url)
+    } catch (error) {
+      console.log(`Failed to open url: ${error}`)
+    }
+  }
+}
+
+function maybeParseUrl(value) {
+  if (typeof value === 'string') {
+    try {
+      return new URL(value)
+    } catch (err) {
+      return false
+    }
+  }
+
+  return false
 }
 
 // Quit when all windows are closed.

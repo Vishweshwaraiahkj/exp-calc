@@ -423,3 +423,10 @@ export const toggleElementView = (classes, action = 'show') => {
     }
   })
 }
+
+export const openLink = (link) => {
+  if (!/^https?:\/\//i.test(link)) {
+    link = 'http://' + link
+  }
+  window.open(link, '_blank')
+}

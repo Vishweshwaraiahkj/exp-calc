@@ -25,8 +25,8 @@ module.exports = defineConfig({
       nodeIntegration: true,
       preload: 'src/preload.js',
       builderOptions: {
-        productName: 'My Expenses',
-        appId: 'exp-calc',
+        productName: 'Master Utils',
+        appId: 'master-utils',
         win: {
           target: ['nsis'],
           icon: 'public/favicon.ico'

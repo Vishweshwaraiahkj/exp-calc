@@ -13,19 +13,11 @@
       />
     </div>
   </template>
-  <AddExpenses
-    @emitDataUpdate="addToList"
-    actionType="add"
-    fillColor="var(--item-color)"
-    triggerId="addExp"
-  />
 </template>
 
 <script setup>
 import { ref, watchEffect, onMounted } from 'vue'
-import { useStore } from 'vuex'
 import { FilterByMonth } from '@/utils/globals'
-import AddExpenses from '@/components/AddExpenses.vue'
 import ExpensesTable from '@/components/ExpensesTable.vue'
 
 const props = defineProps({
@@ -34,8 +26,6 @@ const props = defineProps({
     type: Array
   }
 })
-
-const store = useStore()
 
 const filteredData = ref([])
 const filterValue = ref('ShowAll')
@@ -57,20 +47,6 @@ const dataToShow = (value) => {
     allRows.value = false
     filterValue.value = value
   }
-}
-
-const addToList = (dataList, type) => {
-  if (type !== 'add') return false
-  const newObj = {
-    id: dataList.id,
-    description: dataList.description,
-    type: dataList.typeList,
-    amount: dataList.amount,
-    date: dataList.addeddate,
-    category: dataList.categoryList
-  }
-
-  store.dispatch('expenses/addToExpensesList', newObj)
 }
 
 onMounted(() => {

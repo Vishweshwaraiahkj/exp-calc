@@ -6,6 +6,12 @@
     <ExpenseHome :dataArray="ExpenseData" />
   </div>
   <MasterSpinner v-else :titleText="loaderTxt" size="large" noBg />
+  <AddExpenses
+    @emitDataUpdate="addToList"
+    actionType="add"
+    fillColor="var(--item-color)"
+    triggerId="addExp"
+  />
 </template>
 
 <script setup>
@@ -13,6 +19,7 @@ import { ref, onMounted, computed, provide, watchEffect } from 'vue'
 import { useStore } from 'vuex'
 import ExpenseHome from '@/components/ExpenseHome.vue'
 import MasterSpinner from '@/components/MasterUtils/MasterSpinner.vue'
+import AddExpenses from '@/components/AddExpenses.vue'
 
 const store = useStore()
 const loaderTxt = ref('Loading table data...!')
@@ -41,4 +48,18 @@ onMounted(() => {
     store.dispatch('utils/fetchAllTypes')
   }
 })
+
+const addToList = (dataList, type) => {
+  if (type !== 'add') return false
+  const newObj = {
+    id: dataList.id,
+    description: dataList.description,
+    type: dataList.typeList,
+    amount: dataList.amount,
+    date: dataList.addeddate,
+    category: dataList.categoryList
+  }
+
+  store.dispatch('expenses/addToExpensesList', newObj)
+}
 </script>
