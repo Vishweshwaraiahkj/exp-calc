@@ -5,7 +5,7 @@
     @click="hideNotifier"
   >
     <header>
-      <h6>{{ type.Capitalize() }}</h6>
+      <h5>{{ type.Capitalize() }}</h5>
       <span class="close small" @click="hideNotifier">
         <MasterIcon
           size="small"

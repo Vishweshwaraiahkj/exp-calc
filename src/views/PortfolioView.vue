@@ -9,6 +9,8 @@
     align-items: center;
     justify-content: space-around;
     height: 100%;
+    width: 90%;
+    margin: auto;
 
     .profile-pic {
       height: 80%;
@@ -35,6 +37,7 @@
     border-radius: var(--radius-default);
     box-shadow: boxShadow(card);
     padding: 1rem;
+    position: relative;
   }
 }
 </style>

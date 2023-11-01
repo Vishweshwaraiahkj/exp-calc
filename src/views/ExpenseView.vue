@@ -1,17 +1,23 @@
 <template lang="html">
-  <div
-    class="container container-bg shadow-dark"
-    v-if="ExpenseData?.length && Categories?.length && Types?.length"
-  >
-    <ExpenseHome :dataArray="ExpenseData" />
+  <div class="container container-bg shadow-dark">
+    <ExpenseHome
+      v-if="ExpenseData?.length && Categories?.length && Types?.length"
+      :dataArray="ExpenseData"
+    />
+    <MasterSpinner
+      v-else
+      :titleText="loaderTxt"
+      size="large"
+      noBg
+      :isFixed='false'
+    />
+    <AddExpenses
+      @emitDataUpdate="addToList"
+      actionType="add"
+      fillColor="var(--item-color)"
+      triggerId="addExp"
+    />
   </div>
-  <MasterSpinner v-else :titleText="loaderTxt" size="large" noBg />
-  <AddExpenses
-    @emitDataUpdate="addToList"
-    actionType="add"
-    fillColor="var(--item-color)"
-    triggerId="addExp"
-  />
 </template>
 
 <script setup>

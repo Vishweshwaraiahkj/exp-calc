@@ -72,7 +72,7 @@
         class="rentals-box"
       >
         <div
-          v-for="(receipt, i) in jsonData"
+          v-for="(receipt, i) in RentData"
           :key="i"
           class="rent-receipt container-bg shadow-dark"
         >
@@ -105,14 +105,15 @@
             <span>(Landlord)</span>
             <span> Pan: {{ receipt.owner_pan }} </span>
           </div>
-          <MasterPrintBreak v-if="i + 1 < jsonData.length" />
+          <MasterPrintBreak v-if="i + 1 < RentData.length" />
         </div>
       </TabsItem>
     </TabsGroup>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
 import MasterIcon from '@/components/MasterUtils/MasterIcon'
 import MasterNotifier from '@/components/MasterUtils/MasterNotifier.vue'
 import MasterPrintBreak from '@/components/MasterUtils/MasterPrintBreak.vue'
@@ -124,6 +125,10 @@ const ipc = window.ipcRenderer
 const toastMsgs = ref({})
 const toastKey = ref(0)
 const isActive = ref('')
+
+const store = useStore()
+
+const RentData = computed(() => store.getters['tools/getRentData'])
 
 const downloadReciepts = (event) => {
   const classNames = [
@@ -158,59 +163,11 @@ ipc.on('execPdf', (event, pdfResponse) => {
   document.querySelector('.main-container').style.margin = ''
 })
 
-const jsonData = [
-  {
-    tenant_name: 'Vishweshwarayya K Janagoud',
-    tenant_pan: 'AZIPJ0782H',
-    owner_name: 'Savithri S J',
-    owner_pan: 'EFAPS5088M',
-    rent_amount: '30000',
-    rent_month: 'November',
-    house_number: '#8/1',
-    house_name: 'Hema Nilaya',
-    address_line:
-      'Vidyanagar, Dombarahalli, Dasanapura Hobli, Lakshmipura Post',
-    city: 'Bengaluru',
-    pincode: '562123',
-    start_date: '01-November-2022',
-    end_date: '01-December-2022',
-    signed_date: '01-January-2023'
-  },
-  {
-    tenant_name: 'Vishweshwarayya K Janagoud',
-    tenant_pan: 'AZIPJ0782H',
-    owner_name: 'Savithri S J',
-    owner_pan: 'EFAPS5088M',
-    rent_amount: '30000',
-    rent_month: 'December',
-    house_number: '#8/1',
-    house_name: 'Hema Nilaya',
-    address_line:
-      'Vidyanagar, Dombarahalli, Dasanapura Hobli, Lakshmipura Post',
-    city: 'Bengaluru',
-    pincode: '562123',
-    start_date: '01-December-2022',
-    end_date: '01-January-2023',
-    signed_date: '01-January-2023'
-  },
-  {
-    tenant_name: 'Vishweshwarayya K Janagoud',
-    tenant_pan: 'AZIPJ0782H',
-    owner_name: 'Savithri S J',
-    owner_pan: 'EFAPS5088M',
-    rent_amount: '30000',
-    rent_month: 'January',
-    house_number: '#8/1',
-    house_name: 'Hema Nilaya',
-    address_line:
-      'Vidyanagar, Dombarahalli, Dasanapura Hobli, Lakshmipura Post',
-    city: 'Bengaluru',
-    pincode: '562123',
-    start_date: '01-January-2023',
-    end_date: '01-February-2023',
-    signed_date: '01-January-2023'
+onMounted(() => {
+  if (!RentData.value?.length) {
+    store.dispatch('tools/fetchRentData')
   }
-]
+})
 
 const activeStatus = (status) => {
   isActive.value = status

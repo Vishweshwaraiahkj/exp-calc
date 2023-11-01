@@ -30,6 +30,7 @@
     --primary-hover: #0069d9;
     --primary-disabled: #1f88f9;
     --primary-border: #0062cc;
+    --primary-text: #ffffff;
 
     --secondary: #6c757d;
     --secondary-hover: #5a6268;
@@ -92,6 +93,7 @@
     --menu-shadow: 0px 50px 100px -20px #32325d40,
         0px 30px 60px -30px #0000004d,
         0px -2px 6px 0px #0a254059 inset;
+    --button-shadow: 5px 5px 2px -2px #a5a5a5;
 
     // Sizes and Shapes
     --radius-default: 0.25rem;
@@ -100,11 +102,16 @@
     --table-cell-padding: 1rem;
 
     // Font sizes
-    --x-large: 4vw;
-    --large: 3vw;
-    --medium: 2vw;
+    --x-large: 3vw;
+    --large: 2vw;
+    --medium: 1.5vw;
     --small: 1vw;
     --x-small: 0.5vw;
+
+    // Button text sizes
+    --btn-large: 1.5rem;
+    --btn-medium: 1rem;
+    --btn-small: 0.75rem;
 }
 
 :root[data-theme="light"] {

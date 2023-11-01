@@ -6,6 +6,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .hire_btn {
+      margin: 1rem 0;
+    }
   }
 
   .name-title {
@@ -42,7 +46,8 @@
   h5.job_company,
   .job_desc,
   .job_from,
-  .job_to {
+  .job_to,
+  .job_skills {
     text-align: left;
     padding: px2rem(5);
     border-radius: var(--radius-default);
@@ -58,6 +63,29 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+  }
+
+  .simple-badge {
+    background-color: green;
+    padding: px2rem(5);
+    border-radius: var(--radius-default);
+    color: var(--bg-color);
+  }
+
+  span.jobcount-badge {
+    padding: 0.625rem;
+    background: black;
+    color: white;
+    border-radius: 0.625rem;
+    font-family: fantasy;
+    font-size: 2rem;
+    width: 4rem;
+    display: block;
+    text-align: center;
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 </style>
@@ -117,19 +145,31 @@
           <div class="experience-details">
             {{ userDetails.description }}
           </div>
+          <MasterButton
+            class='hire_btn'
+            :onClick='hireMe'
+            variant='success'
+            width='8rem'
+            size='medium'
+          >
+            Hire Me!
+          </MasterButton>
+          <div v-for="item in commonSkills" :key='item'>
+            <span class="simple-badge">{{ item }}</span>
+          </div>
         </div>
         <MasterIcon
           size="350"
-          svgName="developer"
+          svgName="technologist"
           class="profile-pic floating-dev"
-          fillColor="var(--bg-color)"
+          fillColor="var(--item-color)"
         />
       </div>
       <MasterPrintBreak />
-      <h2 v-if="workHistoryData" class="mt-2">Work History</h2>
+      <h2 v-if="workHistory.length" class="mt-2">Work History</h2>
       <div class="grid-container grids_4 job_card mt-2">
         <div
-          v-for="item in userDetails.workHistory"
+          v-for="(item, idx) in workHistory"
           :key="item.id"
           class="grid-item"
         >
@@ -150,13 +190,24 @@
             {{ item.jobCompany }}
           </h5>
           <div class="job_details">
-            <div class="job_desc">{{ item.jobDesc }}</div>
+            <div class="job_desc">
+              <span class="simple-badge">Summary</span>
+              {{ item.jobDesc }}
+            </div>
             <div class="job_from">
-              <span class="strong">From</span> {{ item.jobFrom }}
+              <span class="strong">
+                <span class="simple-badge">From</span>
+                </span> {{ item.jobFrom }}
             </div>
             <div class="job_to">
-              <span class="strong">To</span> {{ item.jobTo }}
+              <span class="strong">
+                <span class="simple-badge">To</span>
+              </span> {{ item.jobTo }}
             </div>
+          </div>
+          <div class='job_skills'>
+            <span class="simple-badge">Skills</span>
+            {{ item.jobSkills }}
           </div>
           <div class="job_actions actions">
             <WorkHistoryModal
@@ -177,6 +228,9 @@
               fillColor="var(--item-color)"
             />
           </div>
+          <span class='jobcount-badge'>
+            {{ String(idx+1).padStart(2, '0') }}
+          </span>
         </div>
       </div>
     </div>
@@ -186,12 +240,13 @@
 <script setup>
 import { ref, computed, watchEffect, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { IsValidObject, openLink } from '@/utils/globals'
+import { IsValidObject, openLink, CustomSort } from '@/utils/globals'
 import MasterUserModal from '@/components/Personal/MasterUserModal.vue'
 import WorkHistoryModal from '@/components/Personal/WorkHistoryModal.vue'
 import MasterIcon from '@/components/MasterUtils/MasterIcon.vue'
 import MasterPrintBreak from '@/components/MasterUtils/MasterPrintBreak.vue'
 import DeleteModal from '@/components/DeleteModal.vue'
+import MasterButton from '@/components/MasterInputs/MasterButton.vue'
 
 const store = useStore()
 const actionType = ref('')
@@ -214,8 +269,18 @@ const updateWork = (workData, type) => {
   store.dispatch('user/updateWorkData', { workData, type })
 }
 
-const workHistoryData = computed(() => {
-  return userDetails.value.workHistory?.length
+const workHistory = computed(() => {
+  const workData = userDetails.value.workHistory
+  return CustomSort(workData, 'jobFrom', 'asc')
+})
+
+const commonSkills = computed(() => {
+  let skillsList = []
+  workHistory.value.forEach((item, idx) => {
+    const itemList = item.jobSkills?.split(',')
+    skillsList = [...skillsList, ...itemList]
+  })
+  return [...new Set(skillsList)]
 })
 
 onMounted(() => {
@@ -223,4 +288,8 @@ onMounted(() => {
     store.dispatch('user/fetchUserDetails')
   }
 })
+
+const hireMe = () => {
+  alert('Call me on: +917353333573')
+}
 </script>

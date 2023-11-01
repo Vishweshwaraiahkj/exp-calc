@@ -163,7 +163,7 @@
         </span>
       </div>
     </div>
-    <span class="err" v-if="!validInput && isRequired">
+    <span class="err small" v-if="!validInput && isRequired">
       {{ errMessage }}
     </span>
   </div>

@@ -8,14 +8,17 @@
   height: 100%;
   font-size: px2rem(30);
   padding: px2rem(16);
-  position: fixed;
   margin-bottom: 0.25rem;
   transition: 0.3s color, 0.3s border, 0.3s transform, 0.3s opacity;
   background: v-bind('backDropColor');
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+
+  &.fixed-true {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 .loader {
@@ -50,13 +53,14 @@
 }
 </style>
 <template lang="html">
-  <div class="loader-container">
+  <div :class="mainWrapper">
     <span class="loader shadow-dark"></span>
     <label class="mt-2">{{ titleText }}</label>
   </div>
 </template>
 <script setup>
 import { computed } from 'vue'
+import { RemoveMultiSpaces } from '@/utils/globals'
 const props = defineProps({
   titleText: {
     default: 'Loading...',
@@ -68,6 +72,10 @@ const props = defineProps({
   },
   noBg: {
     default: false,
+    type: Boolean
+  },
+  isFixed: {
+    default: true,
     type: Boolean
   }
 })
@@ -93,5 +101,12 @@ const backDropColor = computed(() => {
     )
     center bottom / 100% fixed`
   }
+})
+
+const mainWrapper = computed(() => {
+  const defClasses = 'loader-container'
+  const fixedClass = `fixed-${props.isFixed}`
+  const combined = `${defClasses} ${fixedClass}`
+  return RemoveMultiSpaces(combined)
 })
 </script>

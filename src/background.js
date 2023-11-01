@@ -2,7 +2,6 @@
 
 import { app, protocol, BrowserWindow, ipcMain, shell } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
 import fs from 'fs'
 import Os from 'os'
@@ -132,9 +131,16 @@ async function createWindow() {
     win.webContents
       .printToPDF({
         printBackground: true,
-        landscape: true,
+        landscape: false,
         displayHeaderFooter: false,
-        preferCSSPageSize: true
+        preferCSSPageSize: false,
+        pageSize: 'Ledger',
+        margins: {
+          top: 1,
+          bottom: 1,
+          left: 1,
+          right: 1
+        }
       })
       .then((data) => {
         if (!fs.existsSync(docsDir)) {
@@ -225,14 +231,6 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS3_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
-  }
   createWindow()
 })
 

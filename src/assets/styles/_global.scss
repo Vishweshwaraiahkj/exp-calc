@@ -356,7 +356,7 @@ h5,
 
 h6,
 .h6 {
-  @include headings(0.5vw);
+  @include headings(0.8vw);
 }
 
 hr {
@@ -950,6 +950,18 @@ pre {
 
   &-dark {
     @include buttonVariant(dark)
+  }
+
+  &-large {
+    font-size: var(--btn-large);
+  }
+
+  &-medium {
+    font-size: var(--btn-medium);
+  }
+
+  &-small {
+    font-size: var(--btn-small);
   }
 }
 

@@ -76,6 +76,20 @@
         <div class="row">
           <div class="form-group col-12">
             <MasterInput
+              v-model:inputValue="jobSkills"
+              inputId="jobSkills"
+              inputLabel="Skills used"
+              inputName="jobSkills"
+              inputPlaceholder="Add skills used, seperated by comma"
+              inputType="text"
+              inputWidth="100%"
+              :inputRequired="true"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-12">
+            <MasterInput
               v-model:inputValue="jobDesc"
               inputId="jobDesc"
               inputLabel="Job Description"
@@ -141,6 +155,7 @@ const jobCompany = ref('')
 const jobFrom = ref('')
 const jobTo = ref('')
 const jobDesc = ref('')
+const jobSkills = ref('')
 
 const resetInput = ref(false)
 
@@ -151,6 +166,7 @@ watchEffect(() => {
     jobFrom.value = props.defaultsObj.jobFrom
     jobTo.value = props.defaultsObj.jobTo
     jobDesc.value = props.defaultsObj.jobDesc
+    jobSkills.value = props.defaultsObj.jobSkills
   }
 })
 
@@ -161,6 +177,7 @@ const clearForm = () => {
   jobFrom.value = undefined
   jobTo.value = undefined
   jobDesc.value = undefined
+  jobSkills.value = undefined
 
   resetInput.value = true
 }
@@ -171,7 +188,8 @@ const updateData = (type) => {
     jobCompany.value,
     jobFrom.value,
     jobTo.value,
-    jobDesc.value
+    jobDesc.value,
+    jobSkills.value
   ]
 
   if (!allInputs.every((i) => i)) {
@@ -188,7 +206,8 @@ const updateData = (type) => {
     jobCompany: jobCompany.value,
     jobFrom: jobFrom.value,
     jobTo: jobTo.value,
-    jobDesc: jobDesc.value
+    jobDesc: jobDesc.value,
+    jobSkills: jobSkills.value
   }
 
   emits('emitDataUpdate', updateObj, type)

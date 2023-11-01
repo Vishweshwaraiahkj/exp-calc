@@ -125,7 +125,7 @@
         @keypress="readOnlyInput"
       />
     </span>
-    <span class="err" v-if="!validInput && inputRequired">
+    <span class="err small" v-if="!validInput && inputRequired">
       {{ errMessage }}
     </span>
   </div>

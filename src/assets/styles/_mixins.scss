@@ -325,6 +325,7 @@
     color: $text-color;
     background-color: $background-color;
     border-color: $border-color;
+    box-shadow: var(--button-shadow);
 
     &:hover {
         color: $text-color;
